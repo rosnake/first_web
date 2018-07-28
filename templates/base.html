@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ escape(handler.settings["web_title"]) }}</title>
+    <link rel="stylesheet" href="{{ static_url("css/style.css") }}" type="text/css">
+    <link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings["web_title"]) }}">
+    {% block head %}{% end %}
+  </head>
+  <body>
+    <script src="{{static_url("js_lib/jquery.min.js")}}"></script>
+    <script src="{{static_url("js/script.js")}}"></script>
+    <div id="body">
+      <div id="header">
+        <div style="float:right">
+            {% raw _('<a href="%(url)s">回到首页</a>') % {"url": "/"} %}
+            {% raw _('<a href="%(url)s">登录</a>') % {"url": "/login"} %}
+            {% raw _('<a href="%(url)s">注册</a>') % {"url": "/register"} %}
+            
+        </div>
+        <h1><a href="/">{{ escape(handler.settings["web_title"]) }}</a></h1>
+      </div>
+       {% block header %}{% end %}
+      <div id="content">{% block body %}{% end %}</div>
+    </div>
+    {% block bottom %}{% end %}
+  </body>
+</html>

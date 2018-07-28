@@ -1,0 +1,15 @@
+<div class="person">
+    {% if person["name"] != "" %}
+        <img src="{{ static_url(person["image"]) }}" class="person_image"/>
+        <h4 class="person_name">姓名：{{ person["name"] }}</h4>
+        <div class="person_details">
+        <div class="person_remnants">上月剩余分值: {{ person["remnants"]}}</div>
+        <div class="person_sub">本月扣分值: {{ person["sub"]}}</div>
+        <div class="person_add">本月加分值: {{ person["add"]}}</div>
+        <div class="person_current">当前分数: {{ person["remnants"]+person["sub"]+person["add"]}}</div>
+        <h3>个性签名:</h3>
+        <div class="person_description">{% raw person["description"] %}</div>
+        </div>
+    {% end %}
+
+</div>

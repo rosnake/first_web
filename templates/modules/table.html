@@ -1,0 +1,19 @@
+<div class="table">
+    <table border="2" cellspacing="2">
+        <tr>
+        <th>姓名</th>
+        <th>迟到</th>
+        <th>早退</th>
+        <th>旷会</th>
+        <th>未出席</th>
+        <th>当前分数</th>
+        </tr>
+        {% for columns in tables %}
+        <tr>
+            {% for lines in columns %}
+            <td>{{lines}}</td>
+            {% end %}
+        </tr>
+        {% end %}
+    </table>
+</div>

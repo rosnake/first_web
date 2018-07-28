@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block header %}
+    <h2>请登录</h2>
+{% end %}
+{% block body %}
+    <form method="POST">
+        {% raw xsrf_form_html() %}
+        <p><span>账号:</span><input type="text" id="username"/></p>
+        <p><span>密码:</span><input type="password" id="password" /></p>
+        <p><input type="BUTTON" value="登录" id="login" /></p>
+    </form>
+{% end %}

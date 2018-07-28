@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+<!--自动转义-->
+{% autoescape None %}
+{% block header %}
+    <h2>欢迎使用</h2>
+{% end %}
+{% block body %}
+
+    <p> 您好 </p>
+     {{ modules.Table(tables) }}
+
+
+    <a href="http://www.w3school.com.cn"> HTML学习 </a>
+{% end %}

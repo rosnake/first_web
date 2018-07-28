@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h2>登录错误</h2>
+    <p>用用户名为：{{user}}登录</p> 
+{% end %}
+{% block body %}
+    <form method="POST">
+        {% raw xsrf_form_html() %}
+        <p><input type="BUTTON" value="回到首页" id="backhome" /></p>
+    </form>
+{% end %}
