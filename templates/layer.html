@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <script src="{{static_url("js_lib/jquery.min.js")}}"></script>
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/popup.js")}}"></script>
+</head>
+<body>
+    {% if username.strip() %}
+        <div class="layui-input-inline">
+          <select name="quiz3">
+            <option value="default">0</option>
+            <option value="sub">-1</option>
+            <option value="add">+1</option>
+          </select>
+        </div>
+    {% end %}
+ <p><input type="BUTTON" value="关闭窗口" id="pop_close" /></p>
+
+</body>
+</html>

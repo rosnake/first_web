@@ -6,11 +6,17 @@
     <title>{{ escape(handler.settings["web_title"]) }}</title>
     <link rel="stylesheet" href="{{ static_url("css/style.css") }}" type="text/css">
     <link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings["web_title"]) }}">
-    {% block head %}{% end %}
-  </head>
-  <body>
+    <!-- 引入js库-->
     <script src="{{static_url("js_lib/jquery.min.js")}}"></script>
     <script src="{{static_url("js/script.js")}}"></script>
+     <!-- 引入第三方js库-->
+    {% block external_lib %}{% end %}
+    <!-- 头部信息-->
+    {% block head %}{% end %}
+    <!-- 网页内嵌js脚本区域-->
+    {% block script %}{% end %}
+  </head>
+  <body>
     <div id="body">
       <div id="header">
         <div style="float:right">
@@ -21,9 +27,24 @@
         </div>
         <h1><a href="/">{{ escape(handler.settings["web_title"]) }}</a></h1>
       </div>
+      <!-- 网页头部区域-->
        {% block header %}{% end %}
-      <div id="content">{% block body %}{% end %}</div>
+      <div id="content">
+        <!-- 网页内嵌j正常内容区域-->
+        {% block body %}{% end %}
+      </div>
+      <div id="bottom">
+      {% block bottom %}
+      <p class="owner">网站所有者信息.</p>
+      {% end %}
+      </div>
+
+      <footer>
+        {% block footer %}
+        <p>请联系我们:<a href="mailto:raoyuanqin@qq.com">raoyuanqin@qq.com</a>.</p>
+        <p class="small">友情链接： {% raw linkify("http://www.w3school.com.cn", extra_params='ref=website') %}.</p>
+        {% end %}
+      </footer>
     </div>
-    {% block bottom %}{% end %}
   </body>
 </html>

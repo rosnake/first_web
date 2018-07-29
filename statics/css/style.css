@@ -107,8 +107,13 @@ a code {
   margin-right: 10px;
 }
 
-#footer {
-  margin-top: 3em;
+footer{
+    width: 100%;
+    height:100px;   /* footer的高度一定要是固定值*/
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    background: #FAEBD7;
 }
 
 .entry h1 a {
@@ -162,3 +167,20 @@ a code {
   height: 500px;
   line-height: 16pt;
 }
+
+div#bottom
+{
+    background: #b0e0e6;
+    width: 100%;
+    height:20px;
+    position:absolute;
+    margin-bottom:auto;
+    bottom:100px;
+    padding: 20px;
+    left:0px;
+}
+
+p.owner {
+    margin:auto;
+	color: #f60;
+	}

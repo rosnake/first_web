@@ -14,7 +14,7 @@ from handlers.index import ErrorHandler
 from handlers.register import RegisterHandler
 from handlers.login import LoginHandler
 from handlers.home import HomeHandler
-
+from handlers.layer import LayerHandler
 url = [
     (r'/', IndexHandler),
     (r'/user', UserHandler),
@@ -22,4 +22,5 @@ url = [
     (r'/register', RegisterHandler),
     (r'/login', LoginHandler),
     (r'/home', HomeHandler),
+    (r'/layer', LayerHandler),
 ]

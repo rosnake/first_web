@@ -1,14 +1,28 @@
 {% extends "base.html" %}
 <!--自动转义-->
 {% autoescape None %}
+<!-- 引入第三方js库-->
+{% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/popup.js")}}"></script>
+{% end %}
+
+<!-- 网页内嵌js代码实现-->
+{% block script %}
+    <script>
+
+    </script>
+{% end %}
+
 {% block header %}
     <h2>欢迎使用</h2>
 {% end %}
+
 {% block body %}
 
     <p> 您好 </p>
      {{ modules.Table(tables) }}
+    <p><span>用户名:</span><input type="text" id="username"/></p>
+    <p><input type="BUTTON" value="弹出一个窗口" id="popup" /></p>
 
-
-    <a href="http://www.w3school.com.cn"> HTML学习 </a>
 {% end %}
