@@ -4,7 +4,11 @@
 import tornado.web
 import methods.readdb as orm
 class BaseHandler(tornado.web.RequestHandler):
-
+    """
+    该类为用户提供web请求处理的基本处理操作，主要包括以下操作：
+    1、数据库操作
+    2、安全认证操作
+    """
 
     def get_current_user(self):
         user_id = self.get_secure_cookie("user")

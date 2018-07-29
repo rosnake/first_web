@@ -4,8 +4,11 @@
 import tornado.escape
 import methods.readdb as mrd
 from base import BaseHandler
-
-class IndexHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
+#继承 base.py 中的类 BaseHandler
+class IndexHandler(BaseHandler):
+    """
+    用户首页处理，显示一些客户不需要登陆也可查看的信息
+    """
     def get(self):
         usernames = mrd.select_columns(table="users",column="username")
         one_user = usernames[0][0]
@@ -46,7 +49,3 @@ class IndexHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
                 self.write("-1")
         else:
             self.write("-1")
-
-class ErrorHandler(BaseHandler):    #增加了一个专门用来显示错误的页面
-    def get(self):                                        #但是后面不单独讲述，读者可以从源码中理解
-        self.render("error.html")

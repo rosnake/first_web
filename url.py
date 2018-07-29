@@ -7,14 +7,16 @@ the url structure of website
 import sys     #utf-8，兼容汉字
 reload(sys)
 sys.setdefaultencoding("utf-8")
-
-from handlers.index import IndexHandler    #假设已经有了
+#从相关文件中导入相关处理的类
+from handlers.index import IndexHandler
 from handlers.user import UserHandler
-from handlers.index import ErrorHandler
 from handlers.register import RegisterHandler
 from handlers.login import LoginHandler
 from handlers.home import HomeHandler
 from handlers.layer import LayerHandler
+from handlers.error import ErrorHandler
+
+#一个URL列表
 url = [
     (r'/', IndexHandler),
     (r'/user', UserHandler),

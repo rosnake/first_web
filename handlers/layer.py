@@ -9,7 +9,12 @@ import methods.debug as dbg
 import sys
 
 
-class LayerHandler(BaseHandler):  # 继承 base.py 中的类 BaseHandler
+class LayerHandler(BaseHandler):
+    """
+    该类主要用户处理弹出页面以及弹出页面相关操作。
+    1、根据用户提供的信息在数据库查询后显示相应的编辑窗口
+    2、根据用户编辑后的提交信息，写如数据库，并返回相关状态
+    """
     def get(self):
         user = "hello world"
         user = self.get_argument("user")

@@ -5,11 +5,19 @@ import tornado.escape
 import methods.readdb as mrd
 from base import BaseHandler
 
-class HomeHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
+#继承 base.py 中的类 BaseHandler
+
+class HomeHandler(BaseHandler):
+    """
+    该类处理的主要是登陆后显示的主页和基于主页的操作
+    该类只有在登陆成功后才会显示主页页面，登陆失败，不显示该页面
+    """
     def get(self):
         usernames = mrd.select_columns(table="users",column="username")
         one_user = usernames[0][0]
         #print ("one user name:%s" % one_user)
+        #用户渲染表格模板的数据接口
+        #后续该接口需要从数据库读取
         person_li=[["raoyuanqin","-1","0","0","0","10分"], ["chenmeijing","-1","0","0","0","11分"],["raohaha","-1","0","0","0","9分"],["chenhaha","-1","0","0","0","9分"]]
         self.render("home.html", tables=person_li)
 
@@ -21,7 +29,8 @@ class HomeHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
             db_pwd = user_infos[0][2]
             if db_pwd == password:
                 print("username:%s pwd:%s db_pwd %s" % (username, password, db_pwd))
-                self.set_current_user(username)    #将当前用户名写入 cookie，方法见下面
+                # 将当前用户名写入 cookie，方法见下面
+                self.set_current_user(username)
                 self.write(username)
             else:
                 print("username:%s pwd:%s " % (username, password))
