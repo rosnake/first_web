@@ -18,8 +18,14 @@ class HomeHandler(BaseHandler):
         #print ("one user name:%s" % one_user)
         #用户渲染表格模板的数据接口
         #后续该接口需要从数据库读取
-        person_li=[["raoyuanqin","-1","0","0","0","10分"], ["chenmeijing","-1","0","0","0","11分"],["raohaha","-1","0","0","0","9分"],["chenhaha","-1","0","0","0","9分"]]
-        self.render("home.html", tables=person_li)
+
+        score_tables= [
+                {"name": "raoyuanqin","late": -1,"retreat": 0,"absenteeism": 0,"un_present": 0,"total": 10 },
+                {"name": "chenmeijing","late": -1,"retreat": 0,"absenteeism": 0,"un_present": 0,"total": 11 },
+                {"name": "chenxiaojie","late": -1,"retreat": 0,"absenteeism": -1,"un_present": 0,"total": 9 },
+                {"name": "raoxiansheng","late": -1,"retreat": -1,"absenteeism": 0,"un_present": 0,"total": 12 },
+            ]
+        self.render("home.html", tables=score_tables)
 
     def post(self):
         username = self.get_argument("username")

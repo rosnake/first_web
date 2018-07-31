@@ -1,11 +1,11 @@
 <table class="layui-table">
   <colgroup>
-    <col width="120">
+    <col width="60">
     <col width="100">
     <col width="100">
     <col width="100">
     <col width="100">
-    <col width="100">
+    <col width=50">
     <col>
   </colgroup>
   <thead>
@@ -20,14 +20,20 @@
     </tr>
   </thead>
   <tbody>
-    {% for columns in tables %}
+    {% for lines in tables %}
     <tr>
-        {% for lines in columns %}
-        <td>{{lines}}</td>
-        {% end %}
-        <td class="table_check" id="tcheck">查看 </td>
-        <td class="table_edit" id="tedit">编辑 </td>
-        <td class="table_del" id="tdelete">删除</td>
+
+        <td id="name">{{lines["name"]}}</td>
+        <td id="late">{{lines["late"]}}</td>
+        <td id="retreat">{{lines["retreat"]}}</td>
+        <td id="absenteeism">{{lines["absenteeism"]}}</td>
+        <td id="un_present">{{lines["un_present"]}}</td>
+        <td id="total">{{lines["total"]}}</td>
+        <td>
+        <input class="table_check" id="tcheck" type="button" value="查看" >
+        <input class="table_edit" id="tedit" type="button" value="编辑" >
+        <input class="table_del" id="tdelete" type="button" value="删除" >
+        </td>
     </tr>
     {% end %}
   </tbody>
