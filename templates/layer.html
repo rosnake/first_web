@@ -7,15 +7,63 @@
     <script src="{{static_url("js/popup.js")}}"></script>
 </head>
 <body>
-    {% if username.strip() %}
-        <div class="layui-input-inline">
-          <select name="quiz3">
-            <option value="default">0</option>
-            <option value="sub">-1</option>
-            <option value="add">+1</option>
-          </select>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder={{userscore["name"]}} class="layui-input">
+            </div>
         </div>
-    {% end %}
+        <div class="layui-inline">
+            <label class="layui-form-label">迟到</label>
+            <div class="layui-input-inline">
+                <select name="quiz3">
+                    <option value="default">{{userscore["late"]}}</option>
+                    <option value="sub">-1</option>
+                    <option value="add">+1</option>
+                </select>
+            </div>
+        </div>
+
+         <div class="layui-inline">
+            <label class="layui-form-label">早退</label>
+            <div class="layui-input-inline">
+                <select name="quiz3">
+                    <option value="default">{{userscore["retreat"]}}</option>
+                    <option value="sub">-1</option>
+                    <option value="add">+1</option>
+                </select>
+            </div>
+        </div>
+
+         <div class="layui-inline">
+            <label class="layui-form-label">旷会</label>
+            <div class="layui-input-inline">
+                <select name="quiz3">
+                    <option value="default">{{userscore["absenteeism"]}}</option>
+                    <option value="sub">-1</option>
+                    <option value="add">+1</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">未出席</label>
+            <div class="layui-input-inline">
+                <select name="quiz3">
+                    <option value="default">{{userscore["un_present"]}}</option>
+                    <option value="sub">-1</option>
+                    <option value="add">+1</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">当前分数</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder={{userscore["total"]}} class="layui-input">
+            </div>
+        </div>
+
  <p><input type="BUTTON" value="关闭窗口" id="pop_close" /></p>
 
 </body>

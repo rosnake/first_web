@@ -5,9 +5,9 @@ import tornado.escape
 import methods.readdb as mrd
 from base import BaseHandler
 import json
-import methods.debug as dbg
+from  methods.debug import debug_msg
 import sys
-
+from  methods.utils import  UserDataUtils
 
 class LayerHandler(BaseHandler):
     """
@@ -15,11 +15,20 @@ class LayerHandler(BaseHandler):
     1、根据用户提供的信息在数据库查询后显示相应的编辑窗口
     2、根据用户编辑后的提交信息，写如数据库，并返回相关状态
     """
+
     def get(self):
-        user = "hello world"
-        user = self.get_argument("user")
-        print("====username:"+user)
-        self.render("layer.html", username=user)
+        username = "hello world"
+        username = self.get_argument("user")
+        operation = self.get_argument("operation")
+        debug_msg(LayerHandler, sys._getframe().f_lineno,"====username:"+username)
+        debug_msg(LayerHandler, sys._getframe().f_lineno, "====operation:" + operation)
+        user_score = UserDataUtils.get_user_score_by_name(username)
+        print(user_score)
+        if user_score != False:
+            debug_msg(LayerHandler, sys._getframe().f_lineno,"render layer.html");
+            self.render("layer.html", userscore=user_score)
+        else:
+            debug_msg(LayerHandler, sys._getframe().f_lineno,"no render layer.html");
 
     def post(self):
         ret = {"status": True, "data": "", "error": "succeed"}
@@ -30,11 +39,11 @@ class LayerHandler(BaseHandler):
 
         succeed = True
         if (succeed):
-            dbg.debug_msg(LoginHandler, sys._getframe().f_lineno, "redirect home page")
+            debug_msg(LayerHandler, sys._getframe().f_lineno, "redirect home page")
             # self.render("home.html")
             self.write(json.dumps(ret))
         else:
-            dbg.debug_msg(LoginHandler, sys._getframe().f_lineno, "错误处理")
+            debug_msg(LayerHandler, sys._getframe().f_lineno, "错误处理")
             # self.render("home.html")
             ret["status"] = False
             ret["error"] = "密码错误！"
