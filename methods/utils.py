@@ -35,6 +35,9 @@ class UserDataUtils:
         {"name": "chenxiaojie", "passwd": "123456"},
         {"name": "raoxiansheng", "passwd": "123456"},
     ]
+    render_controller = {"index": False, "authorized": True, "login":False}
+
+
     def __init__(self):
         pass
 
@@ -71,3 +74,38 @@ class UserDataUtils:
                 return user_score
 
         return False
+
+    @staticmethod
+    def get_render_controller():
+        return UserDataUtils.render_controller
+
+class UserAuthUtils:
+    user_infos=[
+        {"username": "raoyuanqin", "passwd": "123456", "role":"admin"},
+        {"username": "chenmeijing", "passwd": "123456","role":"normal"},
+        {"username": "chenxiaojie", "passwd": "123456","role":"normal"},
+        {"username": "raoxiansheng", "passwd": "123456","role":"normal"},
+    ]
+
+    def __init__(self):
+        pass
+    """
+    用户验证，存在用户返回True，不存在返回False
+    """
+    @staticmethod
+    def authenticate_user_by_name(username, passwd):
+        for user_info in UserAuthUtils.user_infos:
+            if user_info["username"] == username and  user_info["passwd"] == passwd:
+                return True
+
+        return  False
+
+    @staticmethod
+    def get_role_by_name(username):
+        for user_info in UserAuthUtils.user_infos:
+            if user_info["username"] == username:
+                return user_info["role"]
+
+        return  None
+
+

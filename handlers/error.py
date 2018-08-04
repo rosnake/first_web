@@ -4,10 +4,15 @@
 import tornado.escape
 import methods.readdb as mrd
 from base import BaseHandler
+from  methods.utils import UserDataUtils
 #继承 base.py 中的类 BaseHandler
 class ErrorHandler(BaseHandler):
     """
     显示登陆错误的页面
     """
+    controller = UserDataUtils.get_render_controller()
+    controller["index"] = True
+    controller["authorized"] = False
+
     def get(self):
-        self.render("error.html")
+        self.render("error.html", controller=controller)

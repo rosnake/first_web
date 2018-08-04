@@ -15,12 +15,12 @@
 {% end %}
 
 {% block header %}
-    <h2>欢迎使用</h2>
+<h2>欢迎使用</h2>
 {% end %}
 
 {% block body %}
 
-    <p> 您好 </p>
-     {{ modules.Table(tables) }}
+<p> 您好 </p>
+{{ modules.Table(tables, role) }}
 
 {% end %}

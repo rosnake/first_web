@@ -4,6 +4,7 @@
 import tornado.escape
 import methods.readdb as mrd
 from base import BaseHandler
+from  methods.utils import UserDataUtils
 #继承 base.py 中的类 BaseHandler
 class IndexHandler(BaseHandler):
     """
@@ -13,6 +14,16 @@ class IndexHandler(BaseHandler):
         usernames = mrd.select_columns(table="users",column="username")
         one_user = usernames[0][0]
         #print ("one user name:%s" % one_user)
+        username=self.get_current_user()
+        controller = UserDataUtils.get_render_controller()
+        controller["index"] = True
+        controller["authorized"] = False
+        controller["login"] = False
+
+        if username != None:
+            controller["authorized"] = True
+            print("################"+username)
+
         self.render("index.html",
                     persons=[
                         {
@@ -31,7 +42,9 @@ class IndexHandler(BaseHandler):
                             "add": 15,
                             "description":"<p>菩提本无树，明镜亦非台</p>"
                         }
-                    ]
+                    ],
+                    controller =controller,
+                    username=username,
                     )
 
     def post(self):

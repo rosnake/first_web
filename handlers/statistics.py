@@ -10,7 +10,7 @@ from  methods.utils import UserAuthUtils
 
 #继承 base.py 中的类 BaseHandler
 
-class HomeHandler(BaseHandler):
+class StatHandler(BaseHandler):
     """
     该类处理的主要是登陆后显示的主页和基于主页的操作
     该类只有在登陆成功后才会显示主页页面，登陆失败，不显示该页面
@@ -28,26 +28,10 @@ class HomeHandler(BaseHandler):
                 {"name": "chenxiaojie","late": -1,"retreat": 0,"absenteeism": -1,"un_present": 0,"total": 9 },
                 {"name": "raoxiansheng","late": -1,"retreat": -1,"absenteeism": 0,"un_present": 0,"total": 12 },
             ]
-        username = self.get_argument("user")
-        role = UserAuthUtils.get_role_by_name(username)
-        if role == None:
-            role="normal"
+
+        role="normal"
 
         self.render("home.html", tables=score_tables, controller=controller, role=role)
 
     def post(self):
-        username = self.get_argument("username")
-        password = self.get_argument("password")
-        user_infos = mrd.select_table(table="users",column="*",condition="username",value=username)
-        if user_infos:
-            db_pwd = user_infos[0][2]
-            if db_pwd == password:
-                print("username:%s pwd:%s db_pwd %s" % (username, password, db_pwd))
-                # 将当前用户名写入 cookie，方法见下面
-                self.set_current_user(username)
-                self.write(username)
-            else:
-                print("username:%s pwd:%s " % (username, password))
-                self.write("-1")
-        else:
-            self.write("-1")
+        pass

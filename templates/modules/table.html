@@ -1,4 +1,4 @@
-<table class="layui-table">
+<table class="info_tables">
   <colgroup>
     <col width="60">
     <col width="100">
@@ -30,9 +30,10 @@
         <td id="un_present">{{lines["un_present"]}}</td>
         <td id="total">{{lines["total"]}}</td>
         <td>
-        <input class="table_check" id="tcheck" type="button" value="查看" >
-        <input class="table_edit" id="tedit" type="button" value="编辑" >
-        <input class="table_del" id="tdelete" type="button" value="删除" >
+        <input class="table_check" id="tcheck" type="button" value="详细信息" >
+            {% if role=="admin" %}
+                <input class="table_edit" id="tedit" type="button" value="编辑" >
+            {% end %}
         </td>
     </tr>
     {% end %}

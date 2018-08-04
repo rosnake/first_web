@@ -11,18 +11,20 @@ class BaseHandler(tornado.web.RequestHandler):
     """
 
     def get_current_user(self):
-        user_id = self.get_secure_cookie("user")
+        user_id = self.get_secure_cookie("username")
         if not user_id:
-            print("null")
+            print("None=======")
             return None
-        user_info = orm.select_columns(table="users",column="username")
-        print(user_info)
-        return user_info
+
+        return user_id
     
   
         
     def set_current_user(self, user):
         if user:
-            self.set_secure_cookie('user', tornado.escape.json_encode(user))    #注意这里使用了 tornado.escape.json_encode() 方法
+            self.set_secure_cookie('username', tornado.escape.json_encode(user))    #注意这里使用了 tornado.escape.json_encode() 方法
         else:
-            self.clear_cookie("user")
+            self.clear_cookie("username")
+
+    def clear_current_user(self):
+        self.clear_cookie("username")

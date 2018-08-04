@@ -2,17 +2,13 @@
 
 {% block header %}
     <h2>新用户注册</h2>
-    
 {% end %}
 {% block body %}
-    <form name="register_form" action="/register" method="post">
+    <form class="register_form" name="register_form" action="/register" method="post">
         {% raw xsrf_form_html() %}
-        <p><span>账号:</span><input type="text" id="username"/></p>
-        <p><span>密码:</span><input type="password" id="password" /></p>
-        <p><span>确认密码:</span><input type="password" id="confirm" /></p>
+        <p><span>创建账号:</span><input type="text" id="username"/></p>
+        <p><span>输入密码:</span><input type="password" id="password" /></p>
+        <p><span>验证密码:</span><input type="password" id="confirm" /></p>
         <p><button id="register" type="button">注册</button></p>
-      
     </form>
-   
-    
 {% end %}

@@ -7,11 +7,16 @@ import methods.debug as dbg
 import json
 import sys
 from base import BaseHandler
+from  methods.utils import UserDataUtils
 
 class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
     def get(self):
         dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "get register")
-        self.render("register.html")
+        controller = UserDataUtils.get_render_controller()
+        controller["index"] = False
+        controller["authorized"] = False
+        controller["login"] = True
+        self.render("register.html",controller=controller)
         
     def post(self):
         ret = {"status":True,"data":"","error":""}

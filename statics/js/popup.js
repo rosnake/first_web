@@ -62,9 +62,9 @@ $(document).ready(function(){
         }
     });
 
-     $('input[value="查看"]').click(function () {
+     $('input[value="详细信息"]').click(function () {
         //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-        var numId = $('input[value="查看"]').index($(this))+1;
+        var numId = $('input[value="详细信息"]').index($(this))+1;
         console.log(numId);
         //选择表格中的所有tr 通过eq方法取得当前tr
         var ttr = $('table tr').eq(numId);
@@ -74,7 +74,7 @@ $(document).ready(function(){
          each方法为每一个td设置function
          */
          var user="";
-         var operation="examine";
+         var operation="browse";
         ttr.find("td").each(function () {
             /*过滤 td中的元素
              checkbox 、 button、text 不需要执行append

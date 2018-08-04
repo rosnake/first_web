@@ -89,7 +89,7 @@ a code {
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
-  margin-bottom: 1em;
+  margin-bottom: auto;
 }
 
 #header,
@@ -184,3 +184,38 @@ p.owner {
     margin:auto;
 	color: #f60;
 	}
+
+.info_tables
+{
+margin:auto;
+}
+
+footer#butt
+{
+margin:auto;
+}
+footer.small
+{
+margin:auto;
+}
+div.layui-inline
+{
+ float: left;
+}
+
+div.browse
+{
+margin:auto;
+}
+form#register
+{
+text-align:center;
+margin:auto;
+}
+
+
+form{
+	width: 300px;
+	display: inline-block;
+	border: 1px solid #ccc;
+}

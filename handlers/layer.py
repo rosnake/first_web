@@ -24,11 +24,16 @@ class LayerHandler(BaseHandler):
         debug_msg(LayerHandler, sys._getframe().f_lineno, "====operation:" + operation)
         user_score = UserDataUtils.get_user_score_by_name(username)
         print(user_score)
-        if user_score != False:
-            debug_msg(LayerHandler, sys._getframe().f_lineno,"render layer.html");
-            self.render("layer.html", userscore=user_score)
-        else:
-            debug_msg(LayerHandler, sys._getframe().f_lineno,"no render layer.html");
+        if operation == "edit":
+            if user_score != False:
+                debug_msg(LayerHandler, sys._getframe().f_lineno,"render pop_editor.html");
+                self.render("pop_editor.html", userscore=user_score)
+            else:
+                debug_msg(LayerHandler, sys._getframe().f_lineno,"no render pop_editor.html");
+
+        elif operation == "browse":
+            debug_msg(LayerHandler, sys._getframe().f_lineno, "render pop_browse.html");
+            self.render("pop_browse.html", userscore=user_score)
 
     def post(self):
         ret = {"status": True, "data": "", "error": "succeed"}
