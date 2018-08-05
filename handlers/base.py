@@ -16,9 +16,8 @@ class BaseHandler(tornado.web.RequestHandler):
             print("None=======")
             return None
 
-        return user_id
-    
-  
+        return tornado.escape.json_decode(user_id)
+
         
     def set_current_user(self, user):
         if user:

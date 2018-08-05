@@ -22,13 +22,11 @@ class HomeHandler(BaseHandler):
         controller["index"] = False
         controller["authorized"] = True
         controller["login"] = False
-        score_tables= [
-                {"name": "raoyuanqin","late": -1,"retreat": 0,"absenteeism": 0,"un_present": 0,"total": 10 },
-                {"name": "chenmeijing","late": -1,"retreat": 0,"absenteeism": 0,"un_present": 0,"total": 11 },
-                {"name": "chenxiaojie","late": -1,"retreat": 0,"absenteeism": -1,"un_present": 0,"total": 9 },
-                {"name": "raoxiansheng","late": -1,"retreat": -1,"absenteeism": 0,"un_present": 0,"total": 12 },
-            ]
-        username = self.get_argument("user")
+        #username = self.get_argument("user")
+        username = self.get_current_user()
+        score_tables = UserDataUtils.get_user_score_tables()
+        print("username:"+username)
+
         role = UserAuthUtils.get_role_by_name(username)
         if role == None:
             role="normal"

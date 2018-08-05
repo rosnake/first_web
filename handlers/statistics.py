@@ -18,20 +18,18 @@ class StatHandler(BaseHandler):
     def get(self):
         #用户渲染表格模板的数据接口
         #后续该接口需要从数据库读取
+        username=self.get_current_user()
         controller = UserDataUtils.get_render_controller()
         controller["index"] = False
-        controller["authorized"] = True
+        controller["authorized"] = False
         controller["login"] = False
-        score_tables= [
-                {"name": "raoyuanqin","late": -1,"retreat": 0,"absenteeism": 0,"un_present": 0,"total": 10 },
-                {"name": "chenmeijing","late": -1,"retreat": 0,"absenteeism": 0,"un_present": 0,"total": 11 },
-                {"name": "chenxiaojie","late": -1,"retreat": 0,"absenteeism": -1,"un_present": 0,"total": 9 },
-                {"name": "raoxiansheng","late": -1,"retreat": -1,"absenteeism": 0,"un_present": 0,"total": 12 },
-            ]
 
-        role="normal"
+        user_score = UserDataUtils.get_user_score_by_name(username)
+        if username != None:
+            controller["authorized"] = True
+            print("################"+username)
 
-        self.render("home.html", tables=score_tables, controller=controller, role=role)
+        self.render("statistics.html", user_score=user_score, controller=controller)
 
     def post(self):
         pass

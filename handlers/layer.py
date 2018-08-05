@@ -25,7 +25,7 @@ class LayerHandler(BaseHandler):
         user_score = UserDataUtils.get_user_score_by_name(username)
         print(user_score)
         if operation == "edit":
-            if user_score != False:
+            if user_score != None:
                 debug_msg(LayerHandler, sys._getframe().f_lineno,"render pop_editor.html");
                 self.render("pop_editor.html", userscore=user_score)
             else:

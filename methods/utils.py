@@ -37,6 +37,24 @@ class UserDataUtils:
     ]
     render_controller = {"index": False, "authorized": True, "login":False}
 
+    user_topics_tables = [
+        {
+            "name": "chenmeijing",
+            "image": "images/chenhaha.jpg",
+            "title":"读书分享",
+            "current":True,
+            "time":"2018-8-6",
+            "description": "<p>这世界要是没有爱情，它在我们心中还会有什么意义！这就如一盏没有亮光的走马灯</p>"
+        },
+        {
+            "name": "raoyuanqin",
+            "image": "images/raohaha.jpg",
+            "title":"读书分享2",
+            "current": False,
+            "time": "2018-7-26",
+            "description": "<p>菩提本无树，明镜亦非台</p>"
+        }
+    ]
 
     def __init__(self):
         pass
@@ -51,7 +69,7 @@ class UserDataUtils:
 
     @staticmethod
     def get_user_score_tables():
-        return  UserDataUtils.score_tables
+        return  UserDataUtils.user_score_tables
 
     @staticmethod
     def get_user_info_tables():
@@ -64,20 +82,36 @@ class UserDataUtils:
             if user_info["name"] == username:
                 return user_info
 
-        return False
+        return None
 
     @staticmethod
     def get_user_score_by_name(username):
         for user_score in UserDataUtils.user_score_tables:
-
+            print("username:"+username)
+            print("name:"+ user_score["name"])
             if user_score["name"] == username:
+                print("=====name:" + user_score["name"])
                 return user_score
 
-        return False
+        return None
 
     @staticmethod
     def get_render_controller():
         return UserDataUtils.render_controller
+
+    @staticmethod
+    def get_user_topics_table():
+        return UserDataUtils.user_topics_tables
+
+    @staticmethod
+    def get_user_topics_by_name(username):
+        for user_topic in UserDataUtils.user_topics_tables:
+
+            if user_topic["name"] == username:
+                return user_topic
+
+        return None
+
 
 class UserAuthUtils:
     user_infos=[

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+<!--自动转义-->
+{% autoescape None %}
+<!-- 引入第三方js库-->
+{% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/topic.js")}}"></script>
+{% end %}
+
+{% block header %}
+    {% if username == None %}
+        <h2>欢迎访问信息管理系统测试版</h2>
+    {% else %}
+        <h2>欢迎您：{{username}}</h2>
+    {% end%}
+{% end %}
+
+{% block body %}
+{% if controller["authorized"] == True %}
+    {% if user_topic == None %}
+    <h3> 您当前没有申报议题</h3>
+    <p><input type="BUTTON" value="申报议题" id="applications" /></p>
+    {% else %}
+    <h3> 您当前已上报的议题如下：</h3>
+    <div class="topics">
+        {% if user_topic["name"] != "" %}
+        <h5 class="username">议题主讲人：{{ user_topic["name"] }}</h5>
+        <div class="topic_details">
+            <h4>议题:</h4>
+            <div class="topic_title">{{ user_topic["title"]}}</div>
+            <h4>议题简介:</h4>
+            <div class="topic_description">{% raw user_topic["description"] %}</div>
+            <h4>议题时间:</h4>
+            <div class="topic_time">{% raw user_topic["time"] %}</div>
+        </div>
+        {% end %}
+    </div>
+     <p><input type="BUTTON" value="继续申报" id="applications_continue" /></p>
+
+    {% end %}
+{% else %}
+    <p> 您未登录，请先登录 </p>
+{% end %}
+{% end %}

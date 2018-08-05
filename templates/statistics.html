@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+<!--自动转义-->
+{% autoescape None %}
+
+<!-- 网页内嵌js代码实现-->
+{% block script %}
+    <script>
+
+    </script>
+{% end %}
+
+{% block header %}
+<h2>欢迎使用</h2>
+{% end %}
+
+{% block body %}
+
+{% if controller["authorized"] == True %}
+    <p> 这里放置个人积分信息 </p>
+    {% if user_score != None %}
+    <h3> 您当前积分如下： </h3>
+     <table class="info_tables">
+      <colgroup>
+        <col width="60">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <col width=50">
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+            <th>姓名</th>
+            <th>迟到</th>
+            <th>早退</th>
+            <th>旷会</th>
+            <th>未出席</th>
+            <th>当前分数</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td id="name">{{user_score["name"]}}</td>
+            <td id="late">{{user_score["late"]}}</td>
+            <td id="retreat">{{user_score["retreat"]}}</td>
+            <td id="absenteeism">{{user_score["absenteeism"]}}</td>
+            <td id="un_present">{{user_score["un_present"]}}</td>
+            <td id="total">{{user_score["total"]}}</td>
+        </tr>
+      </tbody>
+    </table>
+    {% end %}
+
+{% else %}
+<p> 您未登录，请先登录 </p>
+{% end %}
+
+{% end %}

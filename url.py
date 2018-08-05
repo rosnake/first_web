@@ -17,6 +17,9 @@ from handlers.layer import LayerHandler
 from handlers.error import ErrorHandler
 from handlers.logout import LogoutHandler
 from handlers.statistics import StatHandler
+from handlers.topics import TopicsHandler
+from handlers.applications import ApplicationsHandler
+from handlers.issues import IssuesHandler
 #一个URL列表
 url = [
     (r'/', IndexHandler),
@@ -29,4 +32,7 @@ url = [
     (r'/home', HomeHandler),
     (r'/layer', LayerHandler),
     (r'/statistics', StatHandler),
+    (r'/topics',TopicsHandler),
+    (r'/applications', ApplicationsHandler),
+    (r'/issues',IssuesHandler)
 ]
