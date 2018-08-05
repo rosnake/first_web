@@ -20,6 +20,8 @@ from handlers.statistics import StatHandler
 from handlers.topics import TopicsHandler
 from handlers.applications import ApplicationsHandler
 from handlers.issues import IssuesHandler
+from handlers.login import VerifyHandler
+
 #一个URL列表
 url = [
     (r'/', IndexHandler),
@@ -34,5 +36,6 @@ url = [
     (r'/statistics', StatHandler),
     (r'/topics',TopicsHandler),
     (r'/applications', ApplicationsHandler),
-    (r'/issues',IssuesHandler)
+    (r'/issues',IssuesHandler),
+    (r'/verify_code', VerifyHandler),
 ]

@@ -12,8 +12,8 @@ $(document).ready(function(){
     $("#login").click(function(){
         var user = $("#username").val();
         var pwd = $("#password").val();
-        var conf = $("#confirm").val();
-        var pd = {"username":user, "password":pwd,"confirm":conf, "_xsrf":getCookie("_xsrf")};
+        var verify_code = $("#verify_code").val();
+        var pd = {"username":user, "password":pwd,"verify_code":verify_code, "_xsrf":getCookie("_xsrf")};
         $.ajax({
             type:"post",
             url:"/login",
@@ -29,6 +29,7 @@ $(document).ready(function(){
                 window.location.href = "/home?user="+user;
             }else{
                 alert(obj.error);
+                window.location.href ="/login"
             }
             }
         });

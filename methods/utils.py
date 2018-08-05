@@ -120,6 +120,7 @@ class UserAuthUtils:
         {"username": "chenxiaojie", "passwd": "123456","role":"normal"},
         {"username": "raoxiansheng", "passwd": "123456","role":"normal"},
     ]
+    verify_code=""
 
     def __init__(self):
         pass
@@ -142,4 +143,10 @@ class UserAuthUtils:
 
         return  None
 
+    @staticmethod
+    def get_verify_code():
+        return UserAuthUtils.verify_code
 
+    @staticmethod
+    def set_verify_code(verify_code):
+        UserAuthUtils.verify_code = verify_code

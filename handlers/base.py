@@ -3,6 +3,7 @@
 
 import tornado.web
 import methods.readdb as orm
+#from  methods.session import  Session
 class BaseHandler(tornado.web.RequestHandler):
     """
     该类为用户提供web请求处理的基本处理操作，主要包括以下操作：
