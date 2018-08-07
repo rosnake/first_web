@@ -25,7 +25,6 @@ class HomeHandler(BaseHandler):
         #username = self.get_argument("user")
         username = self.get_current_user()
         score_tables = UserDataUtils.get_user_score_tables()
-        print("username:"+username)
 
         role = UserAuthUtils.get_role_by_name(username)
         if role == None:

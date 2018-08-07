@@ -35,7 +35,7 @@ class UserDataUtils:
         {"name": "chenxiaojie", "passwd": "123456"},
         {"name": "raoxiansheng", "passwd": "123456"},
     ]
-    render_controller = {"index": False, "authorized": True, "login":False}
+    render_controller = {"index": False, "authorized": True, "login":False,"admin":False}
 
     user_topics_tables = [
         {
@@ -87,7 +87,6 @@ class UserDataUtils:
     @staticmethod
     def get_user_score_by_name(username):
         for user_score in UserDataUtils.user_score_tables:
-            print("username:"+username)
             print("name:"+ user_score["name"])
             if user_score["name"] == username:
                 print("=====name:" + user_score["name"])

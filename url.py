@@ -21,7 +21,8 @@ from handlers.topics import TopicsHandler
 from handlers.applications import ApplicationsHandler
 from handlers.issues import IssuesHandler
 from handlers.login import VerifyHandler
-
+from handlers.modify_pwd  import ModifyPassWordHandler
+from handlers.admin import AdminHandler
 #一个URL列表
 url = [
     (r'/', IndexHandler),
@@ -38,4 +39,6 @@ url = [
     (r'/applications', ApplicationsHandler),
     (r'/issues',IssuesHandler),
     (r'/verify_code', VerifyHandler),
+    (r'/modify_password', ModifyPassWordHandler),
+    (r'/admin',AdminHandler)
 ]

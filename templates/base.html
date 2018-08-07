@@ -27,6 +27,7 @@
                     {% raw _('<a href="%(url)s">登录</a>') % {"url": "/login"} %}
                     {% raw _('<a href="%(url)s">注册</a>') % {"url": "/register"} %}
                 {% else %}
+                    {% raw _('<a href="%(url)s">修改密码</a>') % {"url": "/modify_password"} %}
                     {% raw _('<a href="%(url)s">退出</a>') % {"url": "/logout"} %}
                 {%end %}
             {% end %}
