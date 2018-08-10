@@ -1,31 +1,120 @@
-/*
- * Copyright 2009 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may obtain
- * a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations
- * under the License.
- */
 
+
+/*定义整体网页内容样式*/
 body {
-  background: white;
-  color: black;
-  margin: 15px;
-  margin-top: 0;
+    color: #000000; /*页面显示颜色*/
+    background: #fff; /*背景*/
+    font-family: Georgia, Palatino, serif; /*字体*/
+    max-width: 1000px;
+    border: 1px;
+    padding: 5px;
+    margin: auto;
+    position:relative;
+  }
+
+#header
+{
+    background-image: url(background/header_background.jpg);
+    background-color: aqua;
+    width: 1000px;
+    height: 80px;
+}
+#entry
+{
+    position: relative;
+    float:right;
+    margin-top: 40px;
+    margin-right: 2%;
+    border-color: #8D8D8D;
+    background-color: #1c94c4;
 }
 
-body,
-input,
-textarea {
-  font-family: Georgia, serif;
-  font-size: 12pt;
+#entry a
+{
+    float: left;
+    display:block;
+    text-align:center; /* 居中对齐文字 */
+    width:70px; /* 设置宽度 */
+    height:25px; /* 设置高度 */
+    background-color: #4bffa9; /* 设置背景色 */
+    color: #000000; /* 设置文字颜色 */
+    text-decoration:none; /* 去掉下划线 */
+    font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
+    border:1px solid #40AFFE; /* 在左侧加上分隔线 */
+}
+
+#entry a:hover
+{
+    background: #549c50; /* 变换背景色 */
+    color: #d9ff68; /* 变换文字颜色 */
+}
+
+#title
+{
+    float:left;
+    margin-left: 2%;
+    border: 2px;
+}
+
+#base_header
+{
+    text-align:center; /* 居中对齐文字 */
+    animation:mymove 5s infinite;
+}
+
+#content
+{
+
+}
+
+.topics_current
+{
+    width: 980px;
+    border: 2px solid #61ac95;
+}
+
+.topics
+{
+    width: 980px;
+    border: 2px solid #aca647;
+
+}
+
+input[type="text"]
+{
+  width:150px;
+  display:block;
+  margin-bottom:10px;
+  background-color:yellow;
+  font-family: Verdana, Arial;
+}
+
+input[type="button"]
+{
+  width:120px;
+  margin-left:35px;
+  display:block;
+  font-family: Verdana, Arial;
+}
+
+#copyright
+{
+     background-color: #d3fffd;
+    font-family: Verdana, Arial;
+
+}
+
+#blank_buttom
+{
+    width:1000px;
+    height: 30px;
+}
+#copyright p
+{
+    text-align:center; /* 居中对齐文字 */
+    color: #000000; /* 设置文字颜色 */
+    text-decoration:none; /* 去掉下划线 */
+    font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
 }
 
 table {
@@ -46,176 +135,4 @@ tr {
 th {
   border:1px solid #0094ff;
   padding: 0;
-}
-
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
-  margin: 0;
-}
-
-h1 {
-  font-size: 20pt;
-}
-
-pre,
-code {
-  font-family: monospace;
-  color: #060;
-}
-
-pre {
-  margin-left: 1em;
-  padding-left: 1em;
-  border-left: 1px solid silver;
-  line-height: 14pt;
-}
-
-a,
-a code {
-  color: #00c;
-}
-
-#body {
-  max-width: 800px;
-  margin: auto;
-}
-
-#header {
-  background-color: #3b5998;
-  padding: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-bottom: auto;
-}
-
-#header,
-#header a {
-  color: white;
-}
-
-#header h1 a {
-  text-decoration: none;
-}
-
-#footer,
-#content {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-footer{
-    width: 100%;
-    height:100px;   /* footer的高度一定要是固定值*/
-    position:absolute;
-    bottom:0px;
-    left:0px;
-    background: #FAEBD7;
-}
-
-.entry h1 a {
-  color: black;
-  text-decoration: none;
-}
-
-.entry {
-  margin-bottom: 2em;
-}
-
-.entry .date {
-  margin-top: 3px;
-}
-
-.entry p {
-  margin: 0;
-  margin-bottom: 1em;
-}
-
-.entry .body {
-  margin-top: 1em;
-  line-height: 16pt;
-}
-
-.compose td {
-  vertical-align: middle;
-  padding-bottom: 5px;
-}
-
-.compose td.field {
-  padding-right: 10px;
-}
-
-.compose .title,
-.compose .submit {
-  font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
-  font-weight: bold;
-}
-
-.compose .title {
-  font-size: 20pt;
-}
-
-.compose .title,
-.compose .markdown {
-  width: 100%;
-}
-
-.compose .markdown {
-  height: 500px;
-  line-height: 16pt;
-}
-
-div#bottom
-{
-    background: #b0e0e6;
-    width: 100%;
-    height:20px;
-    position:absolute;
-    margin-bottom:auto;
-    bottom:100px;
-    padding: 20px;
-    left:0px;
-}
-
-p.owner {
-    margin:auto;
-	color: #f60;
-	}
-
-.info_tables
-{
-margin:auto;
-}
-
-footer#butt
-{
-margin:auto;
-}
-footer.small
-{
-margin:auto;
-}
-div.layui-inline
-{
- float: left;
-}
-
-div.browse
-{
-margin:auto;
-}
-form#register
-{
-text-align:center;
-margin:auto;
-}
-
-
-form{
-	width: 300px;
-	display: inline-block;
-	border: 1px solid #ccc;
 }

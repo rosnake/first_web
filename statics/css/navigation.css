@@ -1,50 +1,46 @@
 .navigation
 {
-background-color: #3b5998;
-padding: 0px;
-padding-left: 0px;
-padding-right: 0px;
-
+    background-color: #3b5998;
+    width: 1000px;
+    height: 30px;
 }
-div
+
+#menu
 {
-
+    list-style-type:none;
+    margin:0;
+    padding:0;
 }
-
-#menu {
-font:16px verdana, arial, sans-serif; /* 设置文字大小和字体样式 */
-}
-#menu, #menu li
+#menu a
 {
-list-style:none; /* 将默认的列表符号去掉 */
-padding:0; /* 将默认的内边距去掉 */
-margin:0; /* 将默认的外边距去掉 */
+    display:block;
+    width:199px;
+    line-height:30px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
+    text-align:center; /* 居中对齐文字 */
+    background: #25788f; /* 设置背景色 */
+    color:#fff; /* 设置文字颜色 */
+    text-decoration:none; /* 去掉下划线 */
+    border-right:1px solid #000; /* 在左侧加上分隔线 */
+    font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
 }
 
 #menu li
 {
-float:left; /* 往左浮动 */
-}
+    float:left;
 
-#menu li a {
-display:block; /* 将链接设为块级元素 */
-width:158px; /* 设置宽度 */
-height:30px; /* 设置高度 */
-line-height:30px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
-text-align:center; /* 居中对齐文字 */
-background:#3A4953; /* 设置背景色 */
-color:#fff; /* 设置文字颜色 */
-text-decoration:none; /* 去掉下划线 */
-border-right:1px solid #000; /* 在左侧加上分隔线 */
 }
 
 #menu li a:hover
 {
-background:#146C9C; /* 变换背景色 */
-color:#fff; /* 变换文字颜色 */
+    background: #9c8d0e; /* 变换背景色 */
+    color: #ffffff; /* 变换文字颜色 */
 }
 
 #menu li a.last
 {
- border-right:0; /* 去掉左侧边框 */
+    border-right:0; /* 去掉左侧边框 */
 }
+
+
+
+

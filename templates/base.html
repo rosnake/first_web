@@ -18,7 +18,11 @@
 <body>
 <div id="body">
     <div id="header">
-        <div style="float:right">
+        <div id="title">
+            <h1><a>{{ escape(handler.settings["web_title"]) }}</a></h1>
+        </div>
+
+        <div id="entry">
             {% if controller["index"] == False %}
                 {% raw _('<a href="%(url)s">回到首页</a>') % {"url": "/"} %}
             {% end %}
@@ -32,7 +36,6 @@
                 {%end %}
             {% end %}
         </div>
-        <h1><a href="/">{{ escape(handler.settings["web_title"]) }}</a></h1>
     </div>
     <!-- 导航模板-->
     <!--自动转义-->
@@ -46,18 +49,21 @@
         <!-- 网页内嵌j正常内容区域-->
         {% block body %}{% end %}
     </div>
-    <div id="bottom">
-        {% block bottom %}
-        <p class="owner">网站所有者信息.</p>
-        {% end %}
-    </div>
 
     <footer>
+        <div id="blank_buttom">
+
+        </div>
         {% block footer %}
-        <p id="butt">请联系我们:<a href="mailto:raoyuanqin@qq.com">raoyuanqin@qq.com</a>.</p>
-        <p class="small">友情链接： {% raw linkify("http://www.w3school.com.cn", extra_params='ref=website') %}.</p>
+
         {% end %}
+            <div id="copyright">
+                <p class="owner">网站版权所有者信息.</p>
+                <p id="butt">联系我们:<a href="mailto:raoyuanqin@qq.com">raoyuanqin@qq.com</a>.</p>
+                <p class="small">友情链接： {% raw linkify("http://www.w3school.com.cn", extra_params='ref=website') %}.</p>
+            </div>
     </footer>
 </div>
+
 </body>
 </html>

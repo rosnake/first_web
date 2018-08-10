@@ -21,7 +21,7 @@
     <h3> 您当前没有申报议题</h3>
     <p><input type="BUTTON" value="申报议题" id="applications" /></p>
     {% else %}
-    <h3> 您当前已上报的议题如下：</h3>
+    <h3> 您当前已申报的议题如下：</h3>
     <div class="topics">
         {% if user_topic["name"] != "" %}
         <h5 class="username">议题主讲人：{{ user_topic["name"] }}</h5>

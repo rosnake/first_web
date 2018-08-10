@@ -1,22 +1,22 @@
 .person {
-	width: 500px;
+	width: 930px;
 	border: 1px solid #555;
 	padding: 0 15px 0 15px;
 	margin: 15px;
 	background-color:#F5F5F5;
 }
-	.person img.person_image {
-        background:no-repeat;
-        height:120px;
-        width:180px;
-   		margin: 5px 15px 5px 0;
-		float: left;
-	}
+.person img.person_image {
+	background:no-repeat;
+	height:120px;
+	width:180px;
+	margin: 5px 15px 5px 0;
+	float: left;
+}
 	
-	.person .person_details {
-		margin: 5px 10px 5px 0;
-	}
+.person .person_details {
+	margin: 5px 10px 5px 0;
+}
 	
-	.person .person_name {
-		color: #777;
-	}
+.person .person_name {
+	color: #777;
+}

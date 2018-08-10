@@ -27,22 +27,26 @@
 </div>
 {% end %}
 
-<h3> 所有议题信息：</h3>
+<h3> 历史议题信息：</h3>
 
 {% for topics in  topics_table %}
-<div class="topics">
-    {% if topics["name"] != "" %}
-    <h5 class="username">议题主讲人：{{ topics["name"] }}</h5>
-    <div class="topic_details">
-        <h4>议题:</h4>
-        <div class="topic_title">{{ topics["title"]}}</div>
-        <h4>议题简介:</h4>
-        <div class="topic_description">{% raw topics["description"] %}</div>
-        <h4>议题时间:</h4>
-        <div class="topic_time">{% raw topics["time"] %}</div>
-    </div>
+    {% if topics["current"] == True %}
+        {%  continue %}
     {% end %}
-</div>
+    <div class="topics">
+        {% if topics["name"] != "" %}
+        <h5 class="username">议题主讲人：{{ topics["name"] }}</h5>
+        <div class="topic_details">
+            <h4>议题:</h4>
+            <div class="topic_title">{{ topics["title"]}}</div>
+            <h4>议题简介:</h4>
+            <div class="topic_description">{% raw topics["description"] %}</div>
+            <h4>议题时间:</h4>
+            <div class="topic_time">{% raw topics["time"] %}</div>
+        </div>
+        {% end %}
+    </div>
+    <p></p>
 {% end %}
 
 {% end %}
