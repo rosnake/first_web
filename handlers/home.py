@@ -3,9 +3,9 @@
 
 import tornado.escape
 import methods.readdb as mrd
-from base import BaseHandler
-from  methods.utils import UserDataUtils
-from  methods.utils import UserAuthUtils
+from handlers.base import BaseHandler
+from methods.utils import UserDataUtils
+from methods.utils import UserAuthUtils
 
 
 #继承 base.py 中的类 BaseHandler
@@ -20,22 +20,33 @@ class HomeHandler(BaseHandler):
         #后续该接口需要从数据库读取
         controller = UserDataUtils.get_render_controller()
         controller["index"] = False
-        controller["authorized"] = True
+        controller["authorized"] = False
         controller["login"] = False
         #username = self.get_argument("user")
         username = self.get_current_user()
         score_tables = UserDataUtils.get_user_score_tables()
 
+        topics_table = UserDataUtils.get_user_topics_table()
+
+        if username is not None:
+            controller["authorized"] = True
+            print("################"+username)
+
         role = UserAuthUtils.get_role_by_name(username)
         if role == None:
             role="normal"
+        if role == "admin":
+            controller["admin"] = True
+        else:
+            controller["admin"] = False
 
-        self.render("home.html", tables=score_tables, controller=controller, role=role)
+        print("username:%s,role:%s" % (username, role))
+        self.render("home.html", tables=score_tables, controller=controller, topics_table=topics_table, username=username)
 
     def post(self):
         username = self.get_argument("username")
         password = self.get_argument("password")
-        user_infos = mrd.select_table(table="users",column="*",condition="username",value=username)
+        user_infos = mrd.select_table(table="users",column="*",condition="username", value=username)
         if user_infos:
             db_pwd = user_infos[0][2]
             if db_pwd == password:

@@ -5,7 +5,7 @@ $(document).ready(function(){
        //标签+属性选择所有<编辑>按钮
     $('input[value="编辑"]').click(function () {
         //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-        var numId = $('input[value="编辑"]').index($(this))+1;
+        var numId = $('input[value="编辑"]').index($(this))+2;
         console.log(numId);
         //选择表格中的所有tr 通过eq方法取得当前tr
         var ttr = $('table tr').eq(numId);
@@ -64,7 +64,7 @@ $(document).ready(function(){
 
      $('input[value="详细信息"]').click(function () {
         //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-        var numId = $('input[value="详细信息"]').index($(this))+1;
+        var numId = $('input[value="详细信息"]').index($(this))+2;
         console.log(numId);
         //选择表格中的所有tr 通过eq方法取得当前tr
         var ttr = $('table tr').eq(numId);
@@ -139,9 +139,30 @@ $(document).ready(function(){
         }
     });
 
-    $('#pop_close').on('click', function(){
+    $('#popup_submit').on('click', function(){
+        var temp=$("#label_popup_edit_name").html();
+        var words = temp.split(':');
+        var username = words[1];
+        var un_present= $('#edit_select_un_present option:selected').text();//选中的文本
+        var absenteeism= $('#edit_select_absenteeism option:selected').text();//选中的文本
+        var retreat= $('#edit_select_retreat option:selected').text();//选中的文本
+        var late= $('#edit_select_late option:selected').text();//选中的文本
+        console.log("user:"+username);
+        console.log("un_present: "+un_present);
+        console.log("absenteeism: "+absenteeism);
+        console.log("retreat: "+retreat);
+        console.log("late: "+late);
+
+        
+
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
         parent.layer.close(index); //再执行关闭
         });
+
+    $('#popup_back').on('click', function(){
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+        });
+
 
     });

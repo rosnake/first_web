@@ -5,6 +5,7 @@ import tornado.escape
 import methods.readdb as mrd
 from base import BaseHandler
 from  methods.utils import UserDataUtils
+from  methods.utils import UserAuthUtils
 #继承 base.py 中的类 BaseHandler
 class ApplicationsHandler(BaseHandler):
     """
@@ -25,8 +26,8 @@ class ApplicationsHandler(BaseHandler):
             print("################"+username)
 
         self.render("applications.html",
-                    controller =controller,
-                    username=username,
+                    controller = controller,
+                    username= username,
                     user_topic=user_topic,
                     )
 

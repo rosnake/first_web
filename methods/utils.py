@@ -35,21 +35,21 @@ class UserDataUtils:
         {"name": "chenxiaojie", "passwd": "123456"},
         {"name": "raoxiansheng", "passwd": "123456"},
     ]
-    render_controller = {"index": False, "authorized": True, "login":False,"admin":False}
+    render_controller = {"index": False, "login": False, "authorized": True, "admin":False, "organizer": False}
 
     user_topics_tables = [
         {
             "name": "chenmeijing",
             "image": "images/chenhaha.jpg",
-            "title":"读书分享",
-            "current":True,
-            "time":"2018-8-6",
+            "title": "读书分享",
+            "current": True,
+            "time": "2018-8-6",
             "description": "<p>这世界要是没有爱情，它在我们心中还会有什么意义！这就如一盏没有亮光的走马灯</p>"
         },
         {
             "name": "raoyuanqin",
             "image": "images/raohaha.jpg",
-            "title":"读书分享2",
+            "title": "读书分享2",
             "current": False,
             "time": "2018-7-26",
             "description": "<p>菩提本无树，明镜亦非台</p>"
@@ -87,7 +87,7 @@ class UserDataUtils:
     @staticmethod
     def get_user_score_by_name(username):
         for user_score in UserDataUtils.user_score_tables:
-            print("name:"+ user_score["name"])
+            print("name:" + user_score["name"])
             if user_score["name"] == username:
                 print("=====name:" + user_score["name"])
                 return user_score
@@ -114,10 +114,10 @@ class UserDataUtils:
 
 class UserAuthUtils:
     user_infos=[
-        {"username": "raoyuanqin", "passwd": "123456", "role":"admin"},
-        {"username": "chenmeijing", "passwd": "123456","role":"normal"},
-        {"username": "chenxiaojie", "passwd": "123456","role":"normal"},
-        {"username": "raoxiansheng", "passwd": "123456","role":"normal"},
+        {"username": "raoyuanqin", "passwd": "123456", "role": "admin"},
+        {"username": "chenmeijing", "passwd": "123456", "role": "organizer"},
+        {"username": "chenxiaojie", "passwd": "123456", "role": "normal"},
+        {"username": "raoxiansheng", "passwd": "123456", "role": "normal"},
     ]
     verify_code=""
 
@@ -149,3 +149,7 @@ class UserAuthUtils:
     @staticmethod
     def set_verify_code(verify_code):
         UserAuthUtils.verify_code = verify_code
+
+
+class ControllerUtils:
+    pass

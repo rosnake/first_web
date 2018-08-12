@@ -13,13 +13,13 @@
     <h2>请登录</h2>
 {% end %}
 {% block body %}
-    <form method="POST">
+    <form method="POST" class="login_form">
         {% raw xsrf_form_html() %}
         <p><span>账号:</span><input type="text" id="username"/></p>
         <p><span>密码:</span><input type="password" id="password" /></p>
         <p><span>验证码:</span><input type="text" id="verify_code"/></p>
-        <img src="/verify_code" onclick='ChangeCode();' id="img_code"><br/><br/>
-        <p>看不清，请点击验证码图片刷新</p>
-        <p><input type="BUTTON" value="登录" id="login" /></p>
+        <img src="/verify_code" onclick='ChangeCode();' id="img_code">
+        <p id="change_img">看不清，请点击验证码图片刷新</p>
+        <p><button id="login" type="button">登录</button></p>
     </form>
 {% end %}

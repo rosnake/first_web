@@ -1,0 +1,135 @@
+.class_popup_edit_name
+{
+    border: 2px solid #e7d3c3;
+    background-color: #fff6ce;
+    height: 40px;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 25px;
+    font-weight:bold;
+    border-radius: 20px;
+}
+.label_popup_edit_name
+{
+    align-content: center;
+    text-align: center;
+}
+.label_popup_edit
+{
+    display: block;
+    align-content: center;
+    text-align: center;
+    float: left;
+}
+
+.class_popup_edit_total
+{
+    position: relative;
+    height: 30px;
+    text-align: left;
+    margin-top: 10px;
+    padding-top: 5px;
+    font-size: 20px;
+    font-weight:bold;
+    width: 200px;
+}
+
+#edit_title
+{
+    margin-bottom: 20px;
+}
+
+.class_popup_edit_item
+{
+    width: 120px;
+    float: left;
+    padding-top: 10px;
+    font-size: 20px;
+}
+
+#id_edit_detail
+{
+    border-radius: 20px;
+    background-color: #d3fffd;
+    height: 50px;
+}
+
+.class_edit_input_block
+{
+    float: left;
+    position: relative;
+    left: 5px;
+}
+.class_edit_input_block select
+{
+    font-size: 15px;
+    height: 30px;
+}
+
+.class_popup_submit
+{
+    height: 50px;
+    padding-top: 20px;
+    align-content: center;
+    text-align: center;
+}
+#popup_submit
+{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    border-radius:5px;
+    border: 1px solid #009f95;
+}
+
+.class_popup_browse
+{
+    height: 50px;
+}
+
+.class_popup_browse_item
+{
+    width: 120px;
+    float: left;
+    padding-top: 10px;
+    font-size: 20px;
+}
+
+.class_popup_browse_label
+{
+    height: 30px;
+    display: block;
+    float: left;
+}
+
+.class_popup_back
+{
+    height: 50px;
+    padding-top: 20px;
+    align-content: center;
+    text-align: center;
+}
+
+#popup_back
+{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    border-radius:5px;
+}
+
+.class_popup_browse_total
+{
+    margin-top: 10px;
+    height: 50px;
+
+}
+
+.label_popup_browse_total
+{
+    padding-top: 5px;
+    font-size: 25px;
+    font-weight:bold;
+}

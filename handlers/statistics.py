@@ -29,7 +29,7 @@ class StatHandler(BaseHandler):
             controller["authorized"] = True
             print("################"+username)
 
-        self.render("statistics.html", user_score=user_score, controller=controller)
+        self.render("statistics.html", user_score=user_score, controller=controller,username=username)
 
     def post(self):
         pass

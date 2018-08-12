@@ -3,7 +3,7 @@
 
 import tornado.escape
 import methods.readdb as mrd
-from base import BaseHandler
+from handlers.base import BaseHandler
 import json
 import methods.debug as dbg
 import sys

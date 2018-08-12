@@ -15,12 +15,32 @@
 {% end %}
 
 {% block header %}
-<h2>欢迎使用</h2>
+{% if username == None %}
+    <h2>欢迎访问信息管理系统测试版</h2>
+{% else %}
+    <h2>欢迎您：{{username}}</h2>
+{% end%}
 {% end %}
 
 {% block body %}
 
-<p> 您好 </p>
-{{ modules.Table(tables, role) }}
+<h3> 本周议题如下：</h3>
+{% for topics in  topics_table %}
+<div class="topics_current">
+    {% if topics["current"] == True %}
+    <h5 class="username">议题主讲人：{{ topics["name"] }}</h5>
+    <div class="topic_details">
+        <h4>议题:</h4>
+        <div class="topic_title">{{ topics["title"]}}</div>
+        <h4>议题简介:</h4>
+        <div class="topic_description">{% raw topics["description"] %}</div>
+        <h4>议题时间:</h4>
+        <div class="topic_time">{% raw topics["time"] %}</div>
+    </div>
+    {% end %}
+</div>
+{% end %}
+<h3> 当前积分排行榜：</h3>
+{{ modules.Table(tables,controller) }}
 
 {% end %}

@@ -4,6 +4,10 @@
         <li><a href="/topics">议题信息</a></li>
         <li><a href="/statistics">我的积分</a></li>
         <li><a href="/applications">议题申报</a></li>
+        {% if controller["admin"] == True or controller["organizer"] == True %}
         <li><a href="/admin" class="last">管理</a></li>
+        {% else %}
+        <li><a href="/about" class="last">关于</a></li>
+        {% end %}
     </ul>
 </div>

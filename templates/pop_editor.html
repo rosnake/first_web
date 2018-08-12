@@ -5,18 +5,20 @@
     <script src="{{static_url("js_lib/jquery.min.js")}}"></script>
     <script src="{{static_url("layer/layer.js")}}"></script>
     <script src="{{static_url("js/popup.js")}}"></script>
+    <link rel="stylesheet" href="{{ static_url("css/popup.css") }}" type="text/css">
 </head>
 <body>
-        <div class="layui-form-item">
-            <label class="layui-form-label">姓名</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder={{userscore["name"]}} class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">迟到</label>
-            <div class="layui-input-inline">
-                <select name="quiz3">
+    <div class="class_popup_edit_name">
+        <label id="label_popup_edit_name">姓名:{{ userscore["name"] }}</label>
+    </div>
+    <div id="edit_title">
+        <h3>分数变动明细：</h3>
+    </div>
+    <div id="id_edit_detail">
+        <div class="class_popup_edit_item">
+            <label class="label_popup_edit">迟到</label>
+            <div class="class_edit_input_block">
+                <select id="edit_select_late">
                     <option value="default">{{userscore["late"]}}</option>
                     <option value="sub">-1</option>
                     <option value="add">+1</option>
@@ -24,10 +26,10 @@
             </div>
         </div>
 
-         <div class="layui-inline">
-            <label class="layui-form-label">早退</label>
-            <div class="layui-input-inline">
-                <select name="quiz3">
+         <div class="class_popup_edit_item">
+            <label class="label_popup_edit">早退</label>
+            <div class="class_edit_input_block">
+                <select id="edit_select_retreat">
                     <option value="default">{{userscore["retreat"]}}</option>
                     <option value="sub">-1</option>
                     <option value="add">+1</option>
@@ -35,10 +37,10 @@
             </div>
         </div>
 
-         <div class="layui-inline">
-            <label class="layui-form-label">旷会</label>
-            <div class="layui-input-inline">
-                <select name="quiz3">
+         <div class="class_popup_edit_item">
+            <label class="label_popup_edit">旷会</label>
+            <div class="class_edit_input_block">
+                <select id="edit_select_absenteeism">
                     <option value="default">{{userscore["absenteeism"]}}</option>
                     <option value="sub">-1</option>
                     <option value="add">+1</option>
@@ -46,25 +48,23 @@
             </div>
         </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">未出席</label>
-            <div class="layui-input-inline">
-                <select name="quiz3">
+        <div class="class_popup_edit_item">
+            <label class="label_popup_edit">未出席</label>
+            <div class="class_edit_input_block">
+                <select id="edit_select_un_present">
                     <option value="default">{{userscore["un_present"]}}</option>
                     <option value="sub">-1</option>
                     <option value="add">+1</option>
                 </select>
             </div>
         </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">当前分数</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder={{userscore["total"]}} class="layui-input">
-            </div>
-        </div>
-
- <p><input type="BUTTON" value="提交" id="pop_close" /></p>
+    </div>
+    <div class="class_popup_edit_total">
+        <label class="label_popup_edit_name">当前分数:{{userscore["total"]}}分。</label>
+    </div>
+    <div class="class_popup_submit">
+        <input type="BUTTON" value="提交" id="popup_submit" />
+    </div>
 
 </body>
 </html>

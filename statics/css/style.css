@@ -15,7 +15,6 @@ body {
 #header
 {
     background-image: url(background/header_background.jpg);
-    background-color: aqua;
     width: 1000px;
     height: 80px;
 }
@@ -62,49 +61,25 @@ body {
     animation:mymove 5s infinite;
 }
 
-#content
-{
-
-}
-
 .topics_current
 {
-    width: 980px;
+    width: 1000px;
     border: 2px solid #61ac95;
 }
 
 .topics
 {
-    width: 980px;
+    width: 1000px;
     border: 2px solid #aca647;
-
 }
-
-input[type="text"]
-{
-  width:150px;
-  display:block;
-  margin-bottom:10px;
-  background-color:yellow;
-  font-family: Verdana, Arial;
-}
-
-input[type="button"]
-{
-  width:120px;
-  margin-left:35px;
-  display:block;
-  font-family: Verdana, Arial;
-}
-
 #copyright
 {
      background-color: #d3fffd;
-    font-family: Verdana, Arial;
+    font-family: Verdana, Arial sans-serif;
 
 }
 
-#blank_buttom
+#blank_padding
 {
     width:1000px;
     height: 30px;
@@ -117,22 +92,278 @@ input[type="button"]
     font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
 }
 
-table {
-  border-collapse: collapse;
-  border: 0;
+/*表格相关的CSS布局*/
+#info_tables{
+    margin-top: 20px;
+    background: #8effe4;
+    border: 2px solid #e78f08;
 }
 
-td {
-  border:1px solid #0094ff;
+#table_item_name
+{
+    background: #ee7777;
+    font-family:Arial sans-serif;
+    height: 30px;
+}
+
+#table_title
+{
+    background: #d3fffd;
+    height: 40px;
+    font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
+    font-size: 20pt;
+}
+
+.table_structure
+{
+    text-align: center;
+    width: 1000px;
+    border-collapse:collapse;
+    margin:0;
+    border-spacing:0;
+}
+
+.table_structure td {
+    border:2px solid #0094ff;
+    padding: 0;
+}
+
+.table_structure tr {
+  border:2px solid #0094ff;
   padding: 0;
 }
 
-tr {
-  border:1px solid #0094ff;
+.table_structure th {
+  border:2px solid #0094ff;
   padding: 0;
 }
 
-th {
-  border:1px solid #0094ff;
-  padding: 0;
+.col_name
+{
+    width: 100px;
+    background: #c77405;
+    border: 1px solid #ee7777;
 }
+
+.col_table_button
+{
+    width: 165px;
+
+}
+#table_check
+{
+    float:  left;
+    margin: 5px;
+    width: 70px;
+    height: 30px;
+    font-family: "Arial Narrow", sans-serif;
+    font-size: 14px;
+    background: #917ce7;
+    border: 1px solid #009f95;
+    border-radius:3px;
+}
+
+#table_edit
+{
+    float: right;
+    margin: 5px;
+    width: 70px;
+    height: 30px;
+    font-family: "Arial Narrow", sans-serif;
+    font-size: 14px;
+    background: #917ce7;
+    border: 1px solid #009f95;
+    border-radius:3px;
+}
+
+#user_score th
+{
+    height: 50px;
+    font-family: Arial sans-serif;
+    font-size: 25px;
+}
+
+#request_topics
+{
+    margin-top: 40px;
+    padding-bottom: 10px;
+    width: 1000px;
+}
+
+#request_topics p
+{
+    font-family: Arial sans-serif;
+    font-size: 1.5em;
+}
+
+#applications_continue
+{
+    height: 40px;
+    width: 200px;
+    font-family: "Arial Narrow", sans-serif;
+    font-size: 20px;
+    align-content: center;
+    position: relative;
+    left: 350px;
+    border-radius:5px;
+}
+
+.modify_password_form
+{
+    margin-top: 20px;
+    position: relative;
+    width: 600px;
+    height: 300px;
+    border: 2px solid #e3ffab;
+    text-align:right;
+    font-family: Arial sans-serif;
+    font-size: 20px;
+    left: 200px;
+    background-image: url(background/modify_passwd.jpg);
+}
+
+.modify_password_form span
+{
+    display:block;
+    width: 120px;
+    float: left;
+    align-content: left;
+    position: relative;
+    left: 130px;
+}
+
+.modify_password_form input
+{
+    position: relative;
+    right: 130px;
+    width: 200px;
+    height: 22px;
+    border: 2px solid #aca647;
+    font-family: Arial sans-serif;
+    font-size: 20px;
+}
+
+.modify_password_form button
+{
+    position: relative;
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 20px;
+    border: 1px solid #009f95;
+}
+
+.login_form
+{
+    margin-top: 20px;
+    position: relative;
+    width: 600px;
+    height: 360px;
+    border: 2px solid #e3ffab;
+    text-align:right;
+    font-family: Arial sans-serif;
+    font-size: 20px;
+    left: 200px;
+    background-image: url(background/login.jpg);
+
+}
+.login_form span
+{
+    display:block;
+    width: 120px;
+    float: left;
+    align-content: left;
+    position: relative;
+    left: 110px;
+}
+
+.login_form input
+{
+    position: relative;
+    right: 150px;
+    width: 200px;
+    height: 22px;
+    border: 2px solid #aca647;
+    font-family: Arial sans-serif;
+    font-size: 20px;
+}
+
+.login_form button
+{
+    position: relative;
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    border: 1px solid #009f95;
+}
+
+.login_form img
+{
+    position: relative;
+    right: 150px;
+    width: 280px;
+    height: 60px;
+    border: 1px solid #009f95;
+}
+
+#change_img
+{
+    position: relative;
+    left: 170px;
+    width: 280px;
+}
+
+.register_form
+{
+    margin-top: 20px;
+    position: relative;
+    width: 600px;
+    height: 240px;
+    border: 2px solid #e3ffab;
+    text-align:right;
+    font-family: Arial sans-serif;
+    font-size: 20px;
+    left: 200px;
+    background-image: url(background/register.jpg);
+
+}
+.register_form span
+{
+    display:block;
+    width: 120px;
+    float: left;
+    align-content: left;
+    position: relative;
+    left: 110px;
+}
+
+.register_form input
+{
+    position: relative;
+    right: 150px;
+    width: 200px;
+    height: 22px;
+    border: 2px solid #aca647;
+    font-family: Arial sans-serif;
+    font-size: 20px;
+}
+
+.register_form button
+{
+    position: relative;
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 15px;
+    border: 1px solid #009f95;
+}
+

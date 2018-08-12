@@ -3,11 +3,12 @@
 
 import tornado.escape
 import methods.readdb as mrd
-from base import BaseHandler
+from handlers.base import BaseHandler
 import json
-from  methods.debug import debug_msg
+from methods.debug import debug_msg
 import sys
-from  methods.utils import  UserDataUtils
+from methods.utils import UserDataUtils
+
 
 class LayerHandler(BaseHandler):
     """

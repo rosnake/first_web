@@ -24,7 +24,7 @@ class TopicsHandler(BaseHandler):
             print("################"+username)
 
         self.render("topics.html",
-                    controller =controller,
+                    controller=controller,
                     username=username,
                     topics_table=topics_table,
                     )

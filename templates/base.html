@@ -24,7 +24,7 @@
 
         <div id="entry">
             {% if controller["index"] == False %}
-                {% raw _('<a href="%(url)s">回到首页</a>') % {"url": "/"} %}
+                {% raw _('<a href="%(url)s">首页</a>') % {"url": "/"} %}
             {% end %}
             {% if controller["login"] == False %}
                 {% if controller["authorized"] == False %}
@@ -40,7 +40,7 @@
     <!-- 导航模板-->
     <!--自动转义-->
     {% autoescape None %}
-    {{ modules.Navigation() }}
+    {{ modules.Navigation(controller) }}
     <!-- 网页头部区域-->
     <div id="base_header">
         {% block header %}{% end %}
@@ -51,7 +51,7 @@
     </div>
 
     <footer>
-        <div id="blank_buttom">
+        <div id="blank_padding">
 
         </div>
         {% block footer %}
