@@ -5,30 +5,34 @@
     <script src="{{static_url("js_lib/jquery.min.js")}}"></script>
     <script src="{{static_url("layer/layer.js")}}"></script>
     <script src="{{static_url("js/topic.js")}}"></script>
+    <script src="{{static_url("js/popup.js")}}"></script>
+    <link rel="stylesheet" href="{{ static_url("css/popup.css") }}" type="text/css">
 </head>
 <body>
 <div class="applications">
-    <div class="applications_item">
+    <div class="applications_item_name">
         <label class="applications_label">议题名称:</label>
-        <input type="text">
+        <input type="text" id="id_input_topic_name">
         </input>
     </div>
-    <div class="applications_item">
+    <div class="applications_item_brief">
         <label class="applications_label">议题简介:</label>
-        <input type="text">
-        </input>
+        <textarea rows="4" cols="20" id="id_input_topic_brief">
+        </textarea>
     </div>
-    <div class="applications_item">
+    <div class="applications_item_date">
         <label class="applications_label">议题时间:</label>
-        <select name="quiz3">
+        <select id="id_select_topic_date">
             <option value="1">2018-8-7</option>
             <option value="2">2018-8-8</option>
             <option value="3">2018-8-8</option>
         </select>
     </div>
 </div>
-<div>
-    <p><input type="BUTTON" value="申请" id="applications_confirm" /></p>
+
+<div class="class_applications_confirm">
+    <input type="BUTTON" value="申请" id="id_applications_confirm" />
 </div>
+
 </body>
 </html>
