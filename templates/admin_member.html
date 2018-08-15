@@ -2,7 +2,6 @@
 <!--自动转义-->
 {% block external_lib %}
     <script src="{{static_url("js/admin.js")}}"></script>
-    <link rel="stylesheet" href="{{ static_url("css/admin.css") }}" type="text/css">
 {% end %}
 {% autoescape None %}
 {% block header %}
@@ -16,49 +15,33 @@
 {% block body %}
 <h3>成员管理</h3>
 <div class="class_admin_body">
-   <div class="admin_navigation">
-    <ul class="ul_admin_navigation">
-        <li class="li_admin_navigation"><a href="/admin/member">成员管理</a></li>
-        <li class="li_admin_navigation"><a href="/admin/topics">话题管理</a></li>
-        <li class="li_admin_navigation"><a href="/admin/point">积分管理</a></li>
-        <li class="li_admin_navigation"><a href="/admin/organizer">组织者管理</a></li>
-    </ul>
-
-    </div>
-
+    {{ modules.Admin(controller) }}
     <div class="admin_page">
-        <form id="form1" name="form1" method="post" action="">
         <h3>可编辑的表格</h3>
-        <table width="698" border="0" cellpadding="0" cellspacing="0" id="tabProduct">
+        <form id="admin_member_form" name="member_form">
+        <table id="admin_member_table">
+        <thead id="admin_member_table_head">
             <tr>
-              <td width="32" align="center" bgcolor="#EFEFEF" Name="Num"><input type="checkbox" name="checkbox" value="checkbox" /></td>
-              <td width="186" bgcolor="#EFEFEF" Name="Num" EditType="TextBox">序号</td>
-              <td width="152" bgcolor="#EFEFEF" Name="ProductName" EditType="DropDownList" DataItems="{text:'A',value:'a'},{text:'B',value:'b'},{text:'C',value:'c'},{text:'D',value:'d'}">商品名称</td>
-              <td width="103" bgcolor="#EFEFEF" Name="Amount" EditType="TextBox">数量</td>
-              <td width="103" bgcolor="#EFEFEF" Name="Price" EditType="TextBox">单价</td>
-              <td width="120" bgcolor="#EFEFEF" Name="SumMoney" Expression="Amount*Price" Format="#,###.00">合计</td>
+                <th></th>
+                <th>用户ID</th>
+                <th>用户名</th>
+                <th>角色</th>
             </tr>
+        </thead>
+        <tbody id="admin_member_table_body">
+        {% for user_info in user_tables %}
             <tr>
-              <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>
-              <td bgcolor="#FFFFFF">1</td>
-              <td bgcolor="#FFFFFF" Value="c">C</td>
-              <td bgcolor="#FFFFFF">0</td>
-              <td bgcolor="#FFFFFF">0</td>
-              <td bgcolor="#FFFFFF">0</td>
+                <td><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
+                 <td id="user_id">{{ user_info["id"] }}</td>
+                <td id="user_name">{{ user_info["username"] }}</td>
+                <td id="user_role">{{ user_info["role"] }}</td>
             </tr>
-            <tr>
-              <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox22" value="checkbox" /></td>
-              <td bgcolor="#FFFFFF">2</td>
-              <td bgcolor="#FFFFFF" Value="d">D</td>
-              <td bgcolor="#FFFFFF">0</td>
-              <td bgcolor="#FFFFFF">0</td>
-              <td bgcolor="#FFFFFF">0</td>
-            </tr>
-        </table>
-
+        {% end %}
+        </tbody>
+    </table>
         <br />
-        <input type="button" name="Submit" value="新增" onclick="AddRow(document.getElementById('tabProduct'),1)" />
-        <input type="button" name="Submit2" value="删除" onclick="DeleteRow(document.getElementById('tabProduct'),1)" />
+        <input type="button" id="admin_member_add" value="新增" />
+        <input type="button" id="admin_member_del" value="删除"/>
         <input type="button" name="Submit22" value="重置" onclick="window.location.reload()" />
         <input type="submit" name="Submit3" value="提交" onclick="GetTableData(document.getElementById('tabProduct'));return false;" />
         </form>

@@ -31,10 +31,20 @@ class NavigationModule(tornado.web.UIModule):
         return "css/navigation.css"
 
 
+# 导航模板
+class AdminModule(tornado.web.UIModule):
+    def render(self, controller):
+        return self.render_string("modules/admin_navigation.html", controller=controller)
+
+    def css_files(self):
+        return "css/admin.css"
+
+
 # UI模板入口
 ui = [
     {"Table": TableModule},
     {"Person": PersonModule},
-    {"Navigation": NavigationModule, }
+    {"Navigation": NavigationModule, },
+    {"Admin": AdminModule, }
     ]
 

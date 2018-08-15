@@ -58,10 +58,10 @@ class AdminMemberHandler(BaseHandler):
             controller["authorized"] = True
             print("################"+username)
 
-        persons = UserDataUtils.get_user_info_tables()
+        user_tables = UserAuthUtils.get_user_info_tables()
         self.render("admin_member.html",
-                    persons = persons,
-                    controller = controller,
+                    user_tables=user_tables,
+                    controller=controller,
                     username=username,
                     )
 

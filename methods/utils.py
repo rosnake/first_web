@@ -113,11 +113,11 @@ class UserDataUtils:
 
 
 class UserAuthUtils:
-    user_infos=[
-        {"username": "raoyuanqin", "passwd": "123456", "role": "admin"},
-        {"username": "chenmeijing", "passwd": "123456", "role": "organizer"},
-        {"username": "chenxiaojie", "passwd": "123456", "role": "normal"},
-        {"username": "raoxiansheng", "passwd": "123456", "role": "normal"},
+    user_infos = [
+        {"id": "123450", "username": "raoyuanqin", "passwd": "123456", "role": "admin"},
+        {"id": "123451", "username": "chenmeijing", "passwd": "123456", "role": "organizer"},
+        {"id": "123452", "username": "chenxiaojie", "passwd": "123456", "role": "normal"},
+        {"id": "123453", "username": "raoxiansheng", "passwd": "123456", "role": "normal"},
     ]
     verify_code=""
 
@@ -149,6 +149,10 @@ class UserAuthUtils:
     @staticmethod
     def set_verify_code(verify_code):
         UserAuthUtils.verify_code = verify_code
+
+    @staticmethod
+    def get_user_info_tables():
+        return UserAuthUtils.user_infos
 
 
 class ControllerUtils:

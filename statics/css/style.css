@@ -367,3 +367,41 @@ body {
     border: 1px solid #009f95;
 }
 
+/*----------后台管理CSS----------*/
+#admin_member_form
+{
+    margin-left: 40px;
+}
+#admin_member_table
+{
+    //margin-left: 40px;
+    width: 800px;
+    line-height: 2em;
+    font-family: Arial;
+    border-collapse: collapse;
+}
+
+#admin_member_table_head tr {
+    color: #902d2d;
+    background-color: #e09999;
+    border-bottom: 1px solid #fff;
+}
+#admin_member_table_body tr {
+    color: #ac5959;
+    font-size: 0.8em;
+    border-bottom: 1px solid #fff;
+    background-color: #ffe7e7;
+}
+#admin_member_table_head th {
+    font-weight: normal;
+    text-align: left;
+    padding: 0 10px;
+}
+admin_member_table_body td {
+    padding: 0 10px;
+}
+
+#admin_member_table_body tr:hover {
+    background-color: #ffd4d4;
+}
+
