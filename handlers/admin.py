@@ -236,9 +236,9 @@ class AdminDeductHandler(BaseHandler):
             controller["authorized"] = True
             print("################"+username)
 
-        user_tables = UserAuthUtils.get_user_info_tables()
+            deduct_tables = UserDataUtils.get_deduct_tables()
         self.render("admin_deduct.html",
-                    user_tables=user_tables,
+                    deduct_tables=deduct_tables,
                     controller=controller,
                     username=username,
                     )

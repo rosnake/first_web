@@ -56,6 +56,14 @@ class UserDataUtils:
         }
     ]
 
+    deduct_tables = [
+        {"deduct_id": 123450, "deduct_name": "迟到", "deduct_points": 1},
+        {"deduct_id": 123451, "deduct_name": "早退", "deduct_points": 2},
+        {"deduct_id": 123452, "deduct_name": "旷会", "deduct_points": 10},
+        {"deduct_id": 123453, "deduct_name": "出差", "deduct_points": 1},
+        {"deduct_id": 123454, "deduct_name": "家中有事", "deduct_points": 1},
+    ]
+
     def __init__(self):
         pass
 
@@ -68,9 +76,12 @@ class UserDataUtils:
         return  False
 
     @staticmethod
+    def get_deduct_tables():
+        return  UserDataUtils.deduct_tables
+
+    @staticmethod
     def get_user_score_tables():
         return  UserDataUtils.user_score_tables
-
     @staticmethod
     def get_user_info_tables():
         return UserDataUtils.user_info_tables
