@@ -55,8 +55,36 @@
           </tbody>
         </table>
     </div>
+    <div id="points_exchange">
+    <h2> 积分兑换</h2>
+    {% set points = user_score["total"] %}
+    {% if points <= 16 %}
+        <h3> 您当前积分为：{{ user_score["total"] }} .</h3>
+        <p>您当前积分不足，无法兑换。如需兑换，积分需满足大于16分。</p>
+        {% set exchange_flags = False %}
+    {% elif points <=20 %}
+         <h3> 您当前积分为：{{ user_score["total"] }} .</h3>
+        <p>您当前可以兑换物品为：</p>
+        {% set exchange_flags = True %}
+    {% elif points <=30 %}
+         <h3> 您当前积分为：{{ user_score["total"] }} .</h3>
+         <p>您当前可以兑换物品为：</p>
+        {% set exchange_flags = True %}
     {% end %}
 
+    {% if exchange_flags == True %}
+    <label class="label_popup_edit">请选择您需要兑换的物品。</label>
+        <div class="class_edit_input_block">
+            <select id="edit_select_late">
+                <option value="default">{{user_score["total"]}}</option>
+                <option value="sub">-1</option>
+                <option value="add">+1</option>
+            </select>
+        </div>
+    <input type="button" class="admin_del" id="admin_deduct_del" value="积分兑换"/>
+    {% end %}
+    </div>
+    {% end %}
 {% else %}
 <p> 您未登录，如需查看积分，请先登录 </p>
 {% end %}

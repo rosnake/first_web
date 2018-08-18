@@ -17,8 +17,33 @@
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}
     <div class="admin_page">
-
-        <p>后台管理页面</p>
+        <h3>当前所有成员如下</h3>
+        <form id="admin_member_form" name="member_form">
+        <table id="admin_member_table">
+        <thead id="admin_member_table_head">
+            <tr>
+                <th></th>
+                <th>用户ID</th>
+                <th>用户名</th>
+                <th>角色</th>
+            </tr>
+        </thead>
+        <tbody id="admin_member_table_body">
+        {% for user_info in user_tables %}
+            <tr>
+                <td><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
+                 <td id="user_id">{{ user_info["id"] }}</td>
+                <td id="user_name">{{ user_info["username"] }}</td>
+                <td id="user_role">{{ user_info["role"] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+        <br />
+        <input type="button" class="admin_add" id="admin_member_add" value="新增" />
+        <input type="button" class="admin_del" id="admin_member_del" value="删除"/>
+        <input type="button" class="admin_mod" id="admin_member_mod" value="修改" />
+        </form>
     </div>
 
 </div> <!--end of admin body-->

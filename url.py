@@ -23,11 +23,7 @@ from handlers.applications import ApplicationsHandler
 from handlers.issues import IssuesHandler
 from handlers.login import VerifyHandler
 from handlers.modify_pwd import ModifyPassWordHandler
-from handlers.admin import AdminHandler
-from handlers.admin import AdminMemberHandler
-from handlers.admin import AdminPointHandler
-from handlers.admin import AdminOrganizerHandler
-from handlers.admin import AdminTopicsHandler
+from handlers.admin import *
 
 # 一个URL列表
 url = [
@@ -52,4 +48,6 @@ url = [
     (r'/admin/point', AdminPointHandler),
     (r'/admin/organizer', AdminOrganizerHandler),
     (r'/admin/member', AdminMemberHandler),
+    (r'/admin/deduct', AdminDeductHandler),
+    (r'/admin/exchange', AdminExchangeHandler),
 ]

@@ -17,7 +17,7 @@
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}
     <div class="admin_page">
-        <h3>可编辑的表格</h3>
+        <h3>当前所有成员如下</h3>
         <form id="admin_member_form" name="member_form">
         <table id="admin_member_table">
         <thead id="admin_member_table_head">
@@ -40,10 +40,9 @@
         </tbody>
     </table>
         <br />
-        <input type="button" id="admin_member_add" value="新增" />
-        <input type="button" id="admin_member_del" value="删除"/>
-        <input type="button" name="Submit22" value="重置" onclick="window.location.reload()" />
-        <input type="submit" name="Submit3" value="提交" onclick="GetTableData(document.getElementById('tabProduct'));return false;" />
+        <input type="button" class="admin_add" id="admin_member_add" value="新增" />
+        <input type="button" class="admin_del" id="admin_member_del" value="删除"/>
+        <input type="button" class="admin_mod" id="admin_member_mod" value="修改" />
         </form>
     </div>
 

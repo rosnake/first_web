@@ -27,8 +27,8 @@
 }
 .ul_admin_navigation a
 {
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     display:block;
     width:120px;
     line-height:60px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
@@ -57,6 +57,21 @@
     border-right:0; /* 去掉左侧边框 */
 }
 
-
-
+#admin_member_form
+{
+    align-content: center;
+}
+.admin_add, .admin_del, .admin_mod
+{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 15px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #009f95;
+}
 

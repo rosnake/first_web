@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+<!--自动转义-->
+{% block external_lib %}
+    <script src="{{static_url("js/admin.js")}}"></script>
+{% end %}
+{% autoescape None %}
+{% block header %}
+    {% if username == None %}
+        <h2>欢迎访问信息管理系统测试版</h2>
+    {% else %}
+        <h2>欢迎您，{{username}}</h2>
+    {% end%}
+{% end %}
+
+{% block body %}
+<h3>积分兑换</h3>
+<div class="class_admin_body">
+    {{ modules.Admin(controller) }}
+    <div class="admin_page">
+        <h3>当前有如下用户申请积分兑换，请处理：</h3>
+        <form id="admin_member_form" name="member_form">
+        <table id="admin_member_table">
+        <thead id="admin_member_table_head">
+            <tr>
+                <th></th>
+                <th>用户ID</th>
+                <th>用户名</th>
+                <th>角色</th>
+            </tr>
+        </thead>
+        <tbody id="admin_member_table_body">
+        {% for user_info in user_tables %}
+            <tr>
+                <td><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
+                 <td id="user_id">{{ user_info["id"] }}</td>
+                <td id="user_name">{{ user_info["username"] }}</td>
+                <td id="user_role">{{ user_info["role"] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+        <br />
+        <input type="button" class="admin_add" id="admin_deduct_add" value="兑换" />
+        <input type="button" class="admin_del" id="admin_deduct_del" value="驳回"/>
+        </form>
+
+        <h3>当前所有积分兑换规则如下：</h3>
+        <form id="admin_member_form" name="member_form">
+        <table id="admin_member_table">
+        <thead id="admin_member_table_head">
+            <tr>
+                <th></th>
+                <th>用户ID</th>
+                <th>用户名</th>
+                <th>角色</th>
+            </tr>
+        </thead>
+        <tbody id="admin_member_table_body">
+        {% for user_info in user_tables %}
+            <tr>
+                <td><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
+                 <td id="user_id">{{ user_info["id"] }}</td>
+                <td id="user_name">{{ user_info["username"] }}</td>
+                <td id="user_role">{{ user_info["role"] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+        <br />
+        <input type="button" class="admin_add" id="admin_deduct_add" value="新增" />
+        <input type="button" class="admin_del" id="admin_deduct_del" value="删除"/>
+        <input type="button" class="admin_mod" id="admin_deduct_mod" value="修改" />
+        </form>
+
+
+    </div>
+
+</div> <!--end of admin body-->
+
+
+{% end %}
