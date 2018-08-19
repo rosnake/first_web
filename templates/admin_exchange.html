@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 <!--自动转义-->
 {% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
     <script src="{{static_url("js/admin.js")}}"></script>
 {% end %}
 {% autoescape None %}
@@ -25,23 +26,27 @@
                 <th></th>
                 <th>用户ID</th>
                 <th>用户名</th>
-                <th>角色</th>
+                <th>当前积分</th>
+                <th>兑换物品</th>
+                <th>申请时间</th>
             </tr>
         </thead>
-        <tbody id="admin_member_table_body">
-        {% for user_info in user_tables %}
+        <tbody id="admin_user_exchange_table_body">
+        {% for user_exchange_table in user_exchange_tables %}
             <tr>
-                <td><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
-                 <td id="user_id">{{ user_info["id"] }}</td>
-                <td id="user_name">{{ user_info["username"] }}</td>
-                <td id="user_role">{{ user_info["role"] }}</td>
+                <td><input type="radio" name="select_id" value={{ user_exchange_table["user_id"] }}></td>
+                <td id="user_id">{{ user_exchange_table["user_id"] }}</td>
+                <td id="user_name">{{ user_exchange_table["user_name"] }}</td>
+                <td id="user_points">{{ user_exchange_table["user_points"] }}</td>
+                <td id="exchange_item">{{ user_exchange_table["exchange_item"] }}</td>
+                <td id="apply_date">{{ user_exchange_table["apply_date"] }}</td>
             </tr>
         {% end %}
         </tbody>
     </table>
         <br />
-        <input type="button" class="admin_add" id="admin_deduct_add" value="兑换" />
-        <input type="button" class="admin_del" id="admin_deduct_del" value="驳回"/>
+        <input type="button" class="admin_add" id="admin_exchange_confirm" value="兑换" />
+        <input type="button" class="admin_del" id="admin_exchange_cancel" value="驳回"/>
         </form>
 
         <h3>当前所有积分兑换规则如下：</h3>
@@ -50,28 +55,46 @@
         <thead id="admin_member_table_head">
             <tr>
                 <th></th>
-                <th>用户ID</th>
-                <th>用户名</th>
-                <th>角色</th>
+                <th>规则ID</th>
+                <th>兑换物品</th>
+                <th>所需积分</th>
+                <th>最少积分</th>
             </tr>
         </thead>
-        <tbody id="admin_member_table_body">
-        {% for user_info in user_tables %}
+        <tbody id="admin_exchange_table_body">
+        {% for exchange_rule_table in exchange_rule_tables %}
             <tr>
-                <td><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
-                 <td id="user_id">{{ user_info["id"] }}</td>
-                <td id="user_name">{{ user_info["username"] }}</td>
-                <td id="user_role">{{ user_info["role"] }}</td>
+                <td><input type="radio" name="select_id" value={{ exchange_rule_table["rule_id"] }}></td>
+                <td id="rule_id">{{ exchange_rule_table["rule_id"] }}</td>
+                <td id="rule_name">{{ exchange_rule_table["rule_name"] }}</td>
+                <td id="need_points">{{ exchange_rule_table["need_points"] }}</td>
+                <td id="points_range">{{ exchange_rule_table["points_range"] }}</td>
             </tr>
         {% end %}
         </tbody>
     </table>
         <br />
-        <input type="button" class="admin_add" id="admin_deduct_add" value="新增" />
-        <input type="button" class="admin_del" id="admin_deduct_del" value="删除"/>
-        <input type="button" class="admin_mod" id="admin_deduct_mod" value="修改" />
+        <input type="button" class="admin_add" id="admin_exchange_add" value="新增" />
+        <input type="button" class="admin_del" id="admin_exchange_del" value="删除"/>
+        <input type="button" class="admin_mod" id="admin_exchange_mod" value="修改" />
         </form>
 
+        <!-- 弹窗内容开始 -->
+        <div id="admin_popup_background" class="back">
+            <div id="admin_popup_frontend" class="content">
+                <div id="admin_popup_close">
+                    <h2>弹窗头部</h2>
+                </div>
+                <div id="admin_popup_body">
+                    <h3>弹窗标题</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, ullam, nisi, enim laboriosam ea cum necessitatibus ipsum cupiditate neque soluta qui autem odit eligendi blanditiis voluptatem repellat suscipit quia perspiciatis.</p>
+                <input type="button" class="admin_mod" id="admin_popup_close_button" value="提交" />
+                </div>
+                <h3 id="admin_popup_foot">底部内容</h3>
+
+            </div>
+        </div>
+        <!-- 弹窗内容结束 -->
 
     </div>
 

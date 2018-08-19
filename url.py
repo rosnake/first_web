@@ -23,8 +23,13 @@ from handlers.applications import ApplicationsHandler
 from handlers.issues import IssuesHandler
 from handlers.login import VerifyHandler
 from handlers.modify_pwd import ModifyPassWordHandler
-from handlers.admin import *
-
+from admins.admin import AdminHandler
+from admins.topics import AdminTopicsHandler
+from admins.deduct import AdminDeductHandler
+from admins.exchange import AdminExchangeHandler
+from admins.member import AdminMemberHandler
+from admins.organizer import AdminOrganizerHandler
+from admins.points import AdminPointHandler
 # 一个URL列表
 url = [
     (r'/', IndexHandler),

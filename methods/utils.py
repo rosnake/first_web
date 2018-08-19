@@ -64,6 +64,18 @@ class UserDataUtils:
         {"deduct_id": 123454, "deduct_name": "家中有事", "deduct_points": 1},
     ]
 
+    user_exchange_tables = [
+        {"user_id": 123450, "user_name": "raopyuanqin", "user_points": 20, "exchange_item": "书籍",
+         "apply_date": "2018-9-8"},
+        {"user_id": 123451, "user_name": "raopyuan11", "user_points": 20, "exchange_item": "书籍",
+         "apply_date": "2018-9-7"},
+    ]
+
+    exchange_rule_tables = [
+        {"rule_id": 123450, "rule_name": "咖啡卷", "need_points": 6, "points_range": 16},
+        {"rule_id": 123451, "rule_name": "书籍", "need_points": 10, "points_range": 20},
+    ]
+
     def __init__(self):
         pass
 
@@ -73,15 +85,23 @@ class UserDataUtils:
             if user["name"] == username and user["passwd"] == passwd:
                 return True
 
-        return  False
+        return False
 
     @staticmethod
     def get_deduct_tables():
-        return  UserDataUtils.deduct_tables
+        return UserDataUtils.deduct_tables
+
+    @staticmethod
+    def get_exchange_rule_tables():
+        return UserDataUtils.exchange_rule_tables
+
+    @staticmethod
+    def get_user_exchange_tables():
+        return UserDataUtils.user_exchange_tables
 
     @staticmethod
     def get_user_score_tables():
-        return  UserDataUtils.user_score_tables
+        return UserDataUtils.user_score_tables
     @staticmethod
     def get_user_info_tables():
         return UserDataUtils.user_info_tables

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 <!--自动转义-->
 {% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
     <script src="{{static_url("js/admin.js")}}"></script>
 {% end %}
 {% autoescape None %}
