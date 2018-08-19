@@ -28,12 +28,12 @@ class AdminTopicsHandler(BaseHandler):
             print("################"+username)
 
         persons = UserDataUtils.get_user_info_tables()
-        user_tables = UserAuthUtils.get_user_info_tables()
+        user_topic_tables = UserDataUtils.get_user_topics_table()
         self.render("admin_topics.html",
                     persons=persons,
                     controller=controller,
                     username=username,
-                    user_tables=user_tables,
+                    user_topic_tables=user_topic_tables,
                     )
 
     def post(self):

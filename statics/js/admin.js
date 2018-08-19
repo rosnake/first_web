@@ -432,12 +432,21 @@ $(document).ready(function(){
 
     $('#admin_exchange_add').on('click', function(){
         $('#admin_popup_background').show();
-
+        $("#admin_exchange_popup_sub_title").text("新增规则");
     });
 
     $('#admin_popup_close_button').on('click', function(){
-        $('#admin_popup_background').hide();
+        var rule_id = $("#admin_exchange_popup_rule_id").val();
+        var rule_name = $("#admin_exchange_popup_rule_name").val();
+        var need_points = $("#admin_exchange_popup_rule_points").val();
+        var points_range = $("#admin_exchange_popup_rule_range").val();
 
+        console.log("rule_id: "+rule_id);
+        console.log("rule_name: "+rule_name);
+        console.log("need_points: "+need_points);
+        console.log("points_range: "+points_range);
+        setTimeout(function(){ window.location.reload(); }, 1000);
+        $('#admin_popup_background').hide();
     });
 
 
@@ -491,22 +500,23 @@ $(document).ready(function(){
         }, function(){
         //这里放删除提交
             layer.msg("删除成功", {icon: 1});
+            setTimeout(function(){ window.location.reload(); }, 1000);
+
         }, function(){
             layer.msg("删除【"+deduct_name+"】操作已为您取消", {icon: 0});
         });
 
-        window.location.reload();
     });
 
      $('#admin_exchange_mod').on('click', function(){
-        var deduct_id = $('#admin_exchange_table_body input[name="select_id"]:checked ').val();
-        if((typeof deduct_id) === 'undefined')
+        var rule_id = $('#admin_exchange_table_body input[name="select_id"]:checked ').val();
+        if((typeof rule_id) === 'undefined')
         {
             layer.msg("当前未选择任何项目");
             console.log("current not select any id");
             return;
         }
-        console.log("deduct_id: "+deduct_id);
+        console.log("rule_id: "+rule_id);
         console.log("click admin member delete");
         //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
         var ttr = $("input:checked").parents('tr');
@@ -515,9 +525,10 @@ $(document).ready(function(){
         /*当前行使用find方法找到每一个td列
          each方法为每一个td设置function
          */
-         var deduct_id = "";
-         var deduct_points = "";
-         var deduct_name = "";
+         var rule_id = "";
+         var need_points = "";
+         var rule_name = "";
+         var points_range="";
         ttr.find("td").each(function () {
             /*过滤 td中的元素
              checkbox 、 button、text 不需要执行append
@@ -525,43 +536,39 @@ $(document).ready(function(){
              return false 为 跳出整个 each
              */
 
-            if($(this).attr('id') === "deduct_id")
+            if($(this).attr('id') === "rule_id")
             {
-                deduct_id = $(this).text();
-                console.log("user_id:"+ deduct_id);
+                rule_id = $(this).text();
+                console.log("rule_id:"+ rule_id);
             }
 
-            if($(this).attr('id') === "deduct_points")
+            if($(this).attr('id') === "rule_name")
             {
-                deduct_points = $(this).text();
-                console.log("deduct_points:"+ deduct_points);
+                rule_name = $(this).text();
+                console.log("rule_name:"+ rule_name);
             }
 
-            if($(this).attr('id') === "deduct_name")
+            if($(this).attr('id') === "need_points")
             {
-                deduct_name = $(this).text();
-                console.log("deduct_name:"+ deduct_name);
+                need_points = $(this).text();
+                console.log("need_points:"+ need_points);
+            }
+
+            if($(this).attr('id') === "points_range")
+            {
+                points_range = $(this).text();
+                console.log("need_points:"+ points_range);
             }
         });
 
-        deduct_points=prompt("请输入新的【"+deduct_name+"】扣分值,当前扣分值【"+deduct_points+"】");
-        if(deduct_points === "")
-        {
-             layer.msg("您未输入有效的扣分值，已为您取消操作。", {icon: 2});
-             return;
-        }
-        console.log("deduct_id: "+deduct_id);
-        console.log("deduct_name: "+deduct_name);
-        console.log("deduct_points: "+deduct_points);
-         ret = confirm("是否修改【"+deduct_name+"】为【"+deduct_points+"】?");
-         if (ret === true)
-        {
-            alert("修改成功");
-        }
-        else
-        {
-            alert("取消修改");
-        }
-        window.location.reload();
+        $("#admin_exchange_popup_rule_id").val(rule_id);
+        $("#admin_exchange_popup_rule_name").val(rule_name);
+        $("#admin_exchange_popup_rule_points").val(need_points);
+        $("#admin_exchange_popup_rule_range").val(points_range);
+        $("#admin_exchange_popup_rule_id").attr("readonly",true);
+        $("#admin_exchange_popup_rule_name").attr("readonly",true);
+        $('#admin_popup_background').show();
+        $("#admin_exchange_popup_sub_title").text("修改规则");
+
      });
 });

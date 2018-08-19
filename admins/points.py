@@ -22,6 +22,7 @@ class AdminPointHandler(BaseHandler):
         controller["index"] = True
         controller["authorized"] = False
         controller["login"] = False
+        score_tables = UserDataUtils.get_user_score_tables()
 
         if username is not None:
             controller["authorized"] = True
@@ -33,7 +34,7 @@ class AdminPointHandler(BaseHandler):
                     persons = persons,
                     controller = controller,
                     username=username,
-                    user_tables=user_tables,
+                    tables=score_tables,
                     )
 
     def post(self):

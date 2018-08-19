@@ -6,7 +6,7 @@
 class UserDataUtils:
 
     user_score_tables = [
-        {"name": "raoyuanqin", "late": -1, "retreat": 0, "absenteeism": 0, "un_present": 0, "total": 15.5},
+        {"name": "raoyuanqin", "late": -1, "retreat": 0, "absenteeism": 0, "un_present": 0, "total": 17.5},
         {"name": "chenmeijing", "late": -1, "retreat": 0, "absenteeism": 0, "un_present": 0, "total": 11},
         {"name": "chenxiaojie", "late": -1, "retreat": 0, "absenteeism": -1, "un_present": 0, "total": 9},
         {"name": "raoxiansheng", "late": -1, "retreat": -1, "absenteeism": 0, "un_present": 0, "total": 12},
@@ -36,22 +36,39 @@ class UserDataUtils:
         {"name": "raoxiansheng", "passwd": "123456"},
     ]
     render_controller = {"index": False, "login": False, "authorized": True, "admin":False, "organizer": False}
-
+    organizer_tables = [
+        {"organizer_id": 123456, "organizer_name": "raoyuanqin", "date": "2018-8-7"},
+        {"organizer_id": 123457, "organizer_name": "chenmeijing", "date": "2018-8-9"},
+    ]
     user_topics_tables = [
         {
+            "topic_id": 12340,
             "name": "chenmeijing",
             "image": "images/chenhaha.jpg",
             "title": "读书分享",
             "current": True,
+            "finish": False,
             "time": "2018-8-6",
             "description": "<p>这世界要是没有爱情，它在我们心中还会有什么意义！这就如一盏没有亮光的走马灯</p>"
         },
         {
+            "topic_id": 12341,
             "name": "raoyuanqin",
             "image": "images/raohaha.jpg",
             "title": "读书分享2",
             "current": False,
+            "finish": True,
             "time": "2018-7-26",
+            "description": "<p>菩提本无树，明镜亦非台</p>"
+        },
+        {
+            "topic_id": 12342,
+            "name": "raoyuanqin",
+            "image": "images/raohaha.jpg",
+            "title": "读书分享3",
+            "current": False,
+            "finish": False,
+            "time": "2018-7-29",
             "description": "<p>菩提本无树，明镜亦非台</p>"
         }
     ]
@@ -76,6 +93,7 @@ class UserDataUtils:
         {"rule_id": 123451, "rule_name": "书籍", "need_points": 10, "points_range": 20},
     ]
 
+
     def __init__(self):
         pass
 
@@ -91,6 +109,9 @@ class UserDataUtils:
     def get_deduct_tables():
         return UserDataUtils.deduct_tables
 
+    @staticmethod
+    def get_organizer_tables():
+        return UserDataUtils.organizer_tables
     @staticmethod
     def get_exchange_rule_tables():
         return UserDataUtils.exchange_rule_tables

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 <!--自动转义-->
 {% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
     <script src="{{static_url("js/admin.js")}}"></script>
 {% end %}
 {% autoescape None %}
@@ -17,33 +18,40 @@
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}
     <div class="admin_page">
-        <h3>当前所有成员如下</h3>
+        <h3>下月组织处为：</h3>
+
         <form id="admin_member_form" name="member_form">
         <table id="admin_member_table">
         <thead id="admin_member_table_head">
             <tr>
                 <th></th>
-                <th>用户ID</th>
+                <th>组织者ID</th>
                 <th>用户名</th>
-                <th>角色</th>
+                <th>时间</th>
             </tr>
         </thead>
         <tbody id="admin_member_table_body">
-        {% for user_info in user_tables %}
+        {% for organizer_table in organizer_tables %}
             <tr>
-                <td><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
-                 <td id="user_id">{{ user_info["id"] }}</td>
-                <td id="user_name">{{ user_info["username"] }}</td>
-                <td id="user_role">{{ user_info["role"] }}</td>
+                <td><input type="radio" name="select_id" value={{ organizer_table["organizer_id"] }}></td>
+                 <td id="organizer_id">{{ organizer_table["organizer_id"] }}</td>
+                <td id="organizer_name">{{ organizer_table["organizer_name"] }}</td>
+                <td id="date">{{ organizer_table["date"] }}</td>
             </tr>
         {% end %}
         </tbody>
     </table>
         <br />
-        <input type="button" class="admin_add" id="admin_member_add" value="新增" />
-        <input type="button" class="admin_del" id="admin_member_del" value="删除"/>
-        <input type="button" class="admin_mod" id="admin_member_mod" value="修改" />
+
+        {% if controller["admin"] ==  True %}
+        <input type="button" class="admin_add" id="admin_organizer_mod" value="增加组织者" />
+        <input type="button" class="admin_del" id="admin_member_del" value="删除组织者"/>
+        <input type="button" class="admin_mod" id="admin_member_mod" value="修改组织者" />
+        {% elif controller["organizer"] == True %}
+        <input type="button" class="admin_add" id="admin_organizer_assign" value="指定组织者" />
+        {% end %}
         </form>
+
     </div>
 
 </div> <!--end of admin body-->

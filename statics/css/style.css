@@ -417,10 +417,12 @@ admin_member_table_body td {
 }
 
 #admin_popup_frontend {
+    position: absolute;
+    left: 40%;
+    top: 30%;
 	background:#eeeeee;
-	width: 40%;
+	width: 600px;
 	z-index: 1;
-	margin: 12% auto;
 	overflow: auto;
 }
 
@@ -464,4 +466,8 @@ admin_member_table_body td {
     margin-left: 240px;
 }
 
+.admin_topics
+{
+    border: 1px solid #384eee;
+}
 

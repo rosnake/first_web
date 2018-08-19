@@ -27,13 +27,13 @@ class AdminOrganizerHandler(BaseHandler):
             controller["authorized"] = True
             print("################"+username)
 
-        user_tables = UserAuthUtils.get_user_info_tables()
+        organizer_tables = UserDataUtils.get_organizer_tables()
         persons = UserDataUtils.get_user_info_tables()
         self.render("admin_organizer.html",
                     persons = persons,
                     controller = controller,
                     username=username,
-                    user_tables=user_tables,
+                    organizer_tables=organizer_tables,
                     )
 
     def post(self):

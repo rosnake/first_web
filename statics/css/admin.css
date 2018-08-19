@@ -1,7 +1,12 @@
 .class_admin_body
 {
+    position:relative;
     border: 5px solid #ee7777;
-    min-height: 500px;
+    heigth:500px;
+    max-heigth:auto;
+    height:auto;
+    overflow:hidden;
+    margin:0 auto;
 }
 .admin_navigation
 {

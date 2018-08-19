@@ -33,6 +33,7 @@
     {% if topics["current"] == True %}
         {%  continue %}
     {% end %}
+    {% if topics["finish"] == True %}
     <div class="topics">
         {% if topics["name"] != "" %}
         <h5 class="username">议题主讲人：{{ topics["name"] }}</h5>
@@ -46,6 +47,7 @@
         </div>
         {% end %}
     </div>
+    {% end %}
     <p></p>
 {% end %}
 

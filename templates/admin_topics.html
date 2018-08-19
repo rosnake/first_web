@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 <!--自动转义-->
 {% block external_lib %}
-    <script src="{{static_url("js/admin.js")}}"></script>
+<script src="{{ static_url("js/admin.js") }}" xmlns="http://www.w3.org/1999/html"></script>
 {% end %}
 {% autoescape None %}
 {% block header %}
@@ -17,33 +17,33 @@
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}
     <div class="admin_page">
-        <h3>当前所有成员如下</h3>
-        <form id="admin_member_form" name="member_form">
-        <table id="admin_member_table">
-        <thead id="admin_member_table_head">
-            <tr>
-                <th></th>
-                <th>用户ID</th>
-                <th>用户名</th>
-                <th>角色</th>
-            </tr>
-        </thead>
-        <tbody id="admin_member_table_body">
-        {% for user_info in user_tables %}
-            <tr>
-                <td><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
-                 <td id="user_id">{{ user_info["id"] }}</td>
-                <td id="user_name">{{ user_info["username"] }}</td>
-                <td id="user_role">{{ user_info["role"] }}</td>
-            </tr>
+        <h3>当前所有未完成议题信息如下：</h3>
+    {% for topics in  user_topic_tables %}
+        {% if topics["finish"] == False %}
+        <div class="admin_topics">
+            {% if topics["name"] != "" %}
+             <input type="radio" name="select_id" value={{ topics["topic_id"] }}>当前议题编号:{{ topics["topic_id"] }}
+            <h5 class="topic_name">议题主讲人：{{ topics["name"] }}</h5>
+            <div class="topic_details">
+                <h4>议题:</h4>
+                <p>{{ topics["title"]}}</p>
+                <h4>议题简介:</h4>
+                <p class="topic_description">{% raw topics["description"] %}</p>
+                <h4>议题时间: </h4>
+                <p>{{ topics["time"]}}</p>
+            </div>
+            {% end %}
+        </div>
+
+        <p></p>
         {% end %}
-        </tbody>
-    </table>
-        <br />
-        <input type="button" class="admin_add" id="admin_member_add" value="新增" />
-        <input type="button" class="admin_del" id="admin_member_del" value="删除"/>
-        <input type="button" class="admin_mod" id="admin_member_mod" value="修改" />
-        </form>
+    {% end %}
+
+    <br />
+    <input type="button" class="admin_add" id="admin_user_topic_add" value="新增" />
+    <input type="button" class="admin_del" id="admin_user_topic_del" value="删除"/>
+    <input type="button" class="admin_mod" id="admin_user_topic_mod" value="修改" />
+
     </div>
 
 </div> <!--end of admin body-->
