@@ -142,7 +142,7 @@
     text-align: center;
 }
 
-#id_applications_confirm
+#id_applications_confirm,#id_admin_add_issues_confirm
 {
     right: 200px;
     width: 200px;
@@ -157,13 +157,13 @@
     font-family: Calibri sans-serif;
     font-size: 20px;
 }
-.applications_item_name
+.applications_item_name, .applications_item_user
 {
     margin-top: 20px;
      height: 60px;
 }
 
-#id_input_topic_name
+#id_input_topic_name,#id_input_topic_user
 {
     width: 680px;
     height: 30px;

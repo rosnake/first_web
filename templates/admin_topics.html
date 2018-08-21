@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 <!--自动转义-->
 {% block external_lib %}
+<script src="{{static_url("layer/layer.js")}}"></script>
 <script src="{{ static_url("js/admin.js") }}" xmlns="http://www.w3.org/1999/html"></script>
 {% end %}
 {% autoescape None %}
@@ -22,11 +23,16 @@
         {% if topics["finish"] == False %}
         <div class="admin_topics">
             {% if topics["name"] != "" %}
-             <input type="radio" name="select_id" value={{ topics["topic_id"] }}>当前议题编号:{{ topics["topic_id"] }}
-            <h5 class="topic_name">议题主讲人：{{ topics["name"] }}</h5>
+            <!--
+            <input type="radio" name="select_id" value={{ topics["topic_id"] }}>
+             -->
+             <input type="radio" name="select_id" id="id_admin_issues" value={{ topics["topic_id"] }}>当前议题编号:{{ topics["topic_id"] }}
+
+            <h5 class="topic_name">议题主讲人：</h5>
+            <p id="id_admin_topic_user_name">{{ topics["name"] }}</p>
             <div class="topic_details">
                 <h4>议题:</h4>
-                <p>{{ topics["title"]}}</p>
+                <p id="id_admin_topic_title">{{ topics["title"]}}</p>
                 <h4>议题简介:</h4>
                 <p class="topic_description">{% raw topics["description"] %}</p>
                 <h4>议题时间: </h4>
