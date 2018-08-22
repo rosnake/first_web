@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 <!--自动转义-->
 {% autoescape None %}
-
+{% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
+{% end %}
 <!-- 网页内嵌js代码实现-->
 {% block script %}
     <script>
@@ -75,13 +77,13 @@
     {% if exchange_flags == True %}
     <label class="label_popup_edit">请选择您需要兑换的物品。</label>
         <div class="class_edit_input_block">
-            <select id="edit_select_late">
-                <option value="default">{{user_score["total"]}}</option>
-                <option value="sub">-1</option>
-                <option value="add">+1</option>
+            <select id="id_points_exchange_select">
+                {% for present in presents_table %}
+                <option value="present">{{ present }}</option>
+                {% end %}
             </select>
         </div>
-    <input type="button" class="admin_del" id="admin_deduct_del" value="积分兑换"/>
+    <input type="button" class="class_points_exchange_user" id="id_points_exchange_user" value="积分兑换"/>
     {% end %}
     </div>
     {% end %}

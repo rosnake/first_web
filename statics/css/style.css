@@ -471,3 +471,35 @@ admin_member_table_body td {
     border: 1px solid #384eee;
 }
 
+#id_points_exchange_user
+{
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 15px;
+    border: 1px solid #009f95;
+}
+
+#id_points_exchange_select
+{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 15px;
+    border: 1px solid #009f95;
+}
+
+#points_exchange
+{
+    margin-top: 20px;
+    border: 2px solid #345eee;
+}
+#points_exchange h2
+{
+    text-align: center;
+}

@@ -166,5 +166,19 @@ $(document).ready(function(){
             }
         });
     });
+    $("#id_points_exchange_user").click(function(){
+        var selected = $("#id_points_exchange_select option:selected").text();//获取选中的项
+        layer.confirm("是否兑换【"+selected+"】?", {
+        btn: ['兑换','取消'] //按钮
+        }, function(){
+        //这里放删除提交
+            layer.msg("兑换成功", {icon: 1});
+            setTimeout(function(){ window.location.reload(); }, 1000);
+
+        }, function(){
+            layer.msg("兑换【"+selected+"】操作已为您取消", {icon: 0});
+        });
+         console.log(selected);
+    });
 
 });

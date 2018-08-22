@@ -31,6 +31,7 @@ from admins.member import AdminMemberHandler
 from admins.organizer import AdminOrganizerHandler
 from admins.points import AdminPointHandler
 from admins.issues import AdminIssuesHandler
+from admins.issues_modify import AdminIssuesModifyHandler
 # 一个URL列表
 url = [
     (r'/', IndexHandler),
@@ -57,4 +58,5 @@ url = [
     (r'/admin/deduct', AdminDeductHandler),
     (r'/admin/exchange', AdminExchangeHandler),
     (r'/admin/issues', AdminIssuesHandler),
+    (r'/admin/issues_modify', AdminIssuesModifyHandler),
 ]

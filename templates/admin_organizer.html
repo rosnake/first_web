@@ -44,9 +44,9 @@
         <br />
 
         {% if controller["admin"] ==  True %}
-        <input type="button" class="admin_add" id="admin_organizer_mod" value="增加组织者" />
-        <input type="button" class="admin_del" id="admin_member_del" value="删除组织者"/>
-        <input type="button" class="admin_mod" id="admin_member_mod" value="修改组织者" />
+        <input type="button" class="admin_add" id="admin_organizer_add" value="增加组织者" />
+        <input type="button" class="admin_del" id="admin_organizer_del" value="删除组织者"/>
+        <input type="button" class="admin_mod" id="admin_organizer_mod" value="修改组织者" />
         {% elif controller["organizer"] == True %}
         <input type="button" class="admin_add" id="admin_organizer_assign" value="指定组织者" />
         {% end %}

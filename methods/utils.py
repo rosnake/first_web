@@ -49,7 +49,7 @@ class UserDataUtils:
             "current": True,
             "finish": False,
             "time": "2018-8-6",
-            "description": "<p>这世界要是没有爱情，它在我们心中还会有什么意义！这就如一盏没有亮光的走马灯</p>"
+            "description": "这世界要是没有爱情，它在我们心中还会有什么意义！这就如一盏没有亮光的走马灯"
         },
         {
             "topic_id": 12341,
@@ -59,7 +59,7 @@ class UserDataUtils:
             "current": False,
             "finish": True,
             "time": "2018-7-26",
-            "description": "<p>菩提本无树，明镜亦非台</p>"
+            "description": "菩提本无树，明镜亦非台"
         },
         {
             "topic_id": 12342,
@@ -69,7 +69,7 @@ class UserDataUtils:
             "current": False,
             "finish": False,
             "time": "2018-7-29",
-            "description": "<p>菩提本无树，明镜亦非台</p>"
+            "description": "菩提本无树，明镜亦非台"
         }
     ]
 
@@ -93,6 +93,7 @@ class UserDataUtils:
         {"rule_id": 123451, "rule_name": "书籍", "need_points": 10, "points_range": 20},
     ]
 
+    exchange_presents_table = ["咖啡卷", "书籍", "电影票"]
 
     def __init__(self):
         pass
@@ -108,6 +109,10 @@ class UserDataUtils:
     @staticmethod
     def get_deduct_tables():
         return UserDataUtils.deduct_tables
+
+    @staticmethod
+    def get_exchange_presents_table():
+        return UserDataUtils.exchange_presents_table
 
     @staticmethod
     def get_organizer_tables():
@@ -153,6 +158,17 @@ class UserDataUtils:
     @staticmethod
     def get_user_topics_table():
         return UserDataUtils.user_topics_tables
+
+    @staticmethod
+    def get_user_topics_by_id(issues_id):
+        strData = issues_id.encode("ascii")
+        topic_id = int(strData)
+        for user_topic in UserDataUtils.user_topics_tables:
+            if user_topic["topic_id"] == topic_id:
+                return user_topic
+
+        return None
+
 
     @staticmethod
     def get_user_topics_by_name(username):

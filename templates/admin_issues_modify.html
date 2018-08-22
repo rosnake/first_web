@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="{{static_url("js_lib/jquery.min.js")}}"></script>
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/admin.js")}}"></script>
+    <script src="{{static_url("js/popup.js")}}"></script>
+    <link rel="stylesheet" href="{{ static_url("css/popup.css") }}" type="text/css">
+</head>
+<body>
+<div class="applications">
+    {% if issues_table is None %}
+        <label class="applications_label">当前查无此议题</label>
+    {% else %}
+    <div class="applications_item_user">
+        <label class="applications_label">主 讲 人:</label>
+        <input type="text" id="id_input_topic_user" value={{ issues_table["name"]}}>
+        </input>
+    </div>
+    <div class="applications_item_name">
+        <label class="applications_label">议题名称:</label>
+        <input type="text" id="id_input_topic_name" value={{ issues_table["title"]}}>
+        </input>
+    </div>
+    <div class="applications_item_brief">
+        <label class="applications_label">议题简介:</label>
+        <textarea rows="4" cols="20" id="id_input_topic_brief">
+        {% raw issues_table["description"] %}
+        </textarea>
+    </div>
+    <div class="applications_item_date">
+        <label class="applications_label">议题时间:</label>
+        <select id="id_select_topic_date">
+            <option value="default">{{ issues_table["time"]}}</option>
+            <option value="1">2018-8-7</option>
+            <option value="2">2018-8-8</option>
+            <option value="3">2018-8-8</option>
+        </select>
+    </div>
+    {% end %}
+</div>
+
+<div class="class_applications_confirm">
+    <input type="BUTTON" value="确定" id="id_admin_add_issues_confirm" />
+</div>
+
+</body>
+</html>
