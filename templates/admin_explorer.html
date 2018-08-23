@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+<!--自动转义-->
+{% block external_lib %}
+    <script src="{{static_url("js/admin.js")}}"></script>
+    <link rel="stylesheet" href="{{ static_url("css/admin.css") }}" type="text/css">
+{% end %}
+{% autoescape None %}
+{% block header %}
+    {% if username == None %}
+        <h2>欢迎访问信息管理系统测试版</h2>
+    {% else %}
+        <h2>欢迎您，{{username}}</h2>
+    {% end%}
+{% end %}
+
+{% block body %}
+<h3>后台及用户管理页面</h3>
+<div class="class_admin_body">
+    {{ modules.Admin(controller) }}
+    <div class="admin_page">
+        <!--<input class="class_admin_file_upload_text" type="text" name="upload"/>-->
+        <div id="id_admin_file_upload_div">
+            <input type="file" id="id_admin_upload_file" />
+            <input type="button" class="admin_add" id="id_admin_file_upload" value="文件上传" />
+        </div>
+        <div id="id_admin_file_download_div">
+            <input type="button" class="admin_del" id="id_admin_file_download" value="文件导出"/>
+        </div>
+
+    </div>
+
+</div> <!--end of admin body-->
+
+
+{% end %}

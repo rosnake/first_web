@@ -32,8 +32,8 @@
 }
 .ul_admin_navigation a
 {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     display:block;
     width:120px;
     line-height:60px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */

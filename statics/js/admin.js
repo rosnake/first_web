@@ -650,8 +650,13 @@ $(document).ready(function(){
         });
 
         $('#admin_organizer_add').on('click', function(){
-          layer.msg("添加成功", {icon: 1});
+            $('#admin_popup_background').show();
+            $("#admin_exchange_popup_sub_title").text("增加组织者");
         });
+        $('#id_admin_popup_organizer_submit').on('click', function(){
+            $('#admin_popup_background').hide();
+        });
+
 
         $('#admin_organizer_mod').on('click', function(){
             var organizer_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
@@ -661,6 +666,10 @@ $(document).ready(function(){
                 console.log("current not select any id");
                 return;
             }
+
+            $('#admin_popup_background').show();
+            $("#admin_exchange_popup_sub_title").text("增加组织者");
+
         });
 
         $('#admin_organizer_del').on('click', function(){
@@ -672,4 +681,38 @@ $(document).ready(function(){
                 return;
             }
         });
+
+        $('#id_admin_file_download').on('click', function(){
+            window.location.href ="/file/download"
+        });
+
+        $('#id_admin_file_upload').on('click', function(){
+            var fileObj = $("#id_admin_upload_file")[0].files[0];        //获取上传文件名称
+            var form = new FormData();                  //创建表单对象
+            form.append("k1", "v1");                    //向表单对象添加name和value
+            form.append("file", fileObj);                //向表单对象添加name和value,将上传文件名称添加到value
+            form.append("_xsrf",getCookie("_xsrf"));
+             $.ajax({                                    //jquery的ajax提交
+                 type: 'POST',
+                 url: '/file/upload',
+                 data: form,                             //提交数据为表单对象
+                 processData: false,                     //默认为 true，数据被处理为 URL 编码格式。如果为 false，则阻止将传入的数据处理为 URL 编码的格式。
+                 contentType: false,                     //指 定 请 求 内 容 的 类 型
+                 success:function(arg){
+                    console.log(arg);
+                    //arg是字符串
+                    var obj = JSON.parse(arg);
+                    if(obj.status){
+                        //注册成功---跳转（已登录状态--session实现）
+                        alert("上传成功");
+
+                    }else{
+                        alert("上传失败");
+                    }
+                 }
+
+             });
+        });
+
+
 });

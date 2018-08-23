@@ -32,6 +32,10 @@ from admins.organizer import AdminOrganizerHandler
 from admins.points import AdminPointHandler
 from admins.issues import AdminIssuesHandler
 from admins.issues_modify import AdminIssuesModifyHandler
+from admins.explorer import AdminExplorerHandler
+from admins.explorer import FileDownLoadHandler
+from admins.explorer import FileUpLoadHandler
+
 # 一个URL列表
 url = [
     (r'/', IndexHandler),
@@ -59,4 +63,7 @@ url = [
     (r'/admin/exchange', AdminExchangeHandler),
     (r'/admin/issues', AdminIssuesHandler),
     (r'/admin/issues_modify', AdminIssuesModifyHandler),
+    (r'/admin/explorer', AdminExplorerHandler),
+    (r'/file/download', FileDownLoadHandler),
+    (r'/file/upload', FileUpLoadHandler),
 ]
