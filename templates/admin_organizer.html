@@ -2,7 +2,7 @@
 <!--自动转义-->
 {% block external_lib %}
     <script src="{{static_url("layer/layer.js")}}"></script>
-    <script src="{{static_url("js/admin.js")}}"></script>
+    <script src="{{static_url("js/organizer.js")}}"></script>
 {% end %}
 {% autoescape None %}
 {% block header %}
@@ -51,7 +51,7 @@
         <input type="button" class="admin_add" id="admin_organizer_assign" value="指定组织者" />
         {% end %}
         </form>
-                <!-- 弹窗内容开始 -->
+        <!-- 弹窗内容开始 -->
         <div id="admin_popup_background" class="back">
             <div id="admin_popup_frontend" class="content">
                 <div id="admin_popup_close">

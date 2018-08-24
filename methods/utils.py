@@ -93,6 +93,10 @@ class UserDataUtils:
         {"rule_id": 123451, "rule_name": "书籍", "need_points": 10, "points_range": 20},
     ]
 
+    point_tables = [
+        {"user_id": 123450, "user_name": "raoyuanqin", "user_point": 6},
+        {"user_id": 123451, "user_name": "chenmeijing", "user_point": 10},
+    ]
     exchange_presents_table = ["咖啡卷", "书籍", "电影票"]
 
     def __init__(self):
@@ -105,6 +109,10 @@ class UserDataUtils:
                 return True
 
         return False
+
+    @staticmethod
+    def get_point_tables():
+        return UserDataUtils.point_tables
 
     @staticmethod
     def get_deduct_tables():

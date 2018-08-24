@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 <!--自动转义-->
 {% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
     <script src="{{static_url("js/admin.js")}}"></script>
 {% end %}
 {% autoescape None %}
@@ -17,7 +18,31 @@
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}
     <div class="admin_page">
-        <h3>积分管理请参考主页</h3>
+        <h3>当前所有成员积分如下</h3>
+        <form id="admin_member_form" name="member_form">
+        <table id="admin_member_table">
+        <thead id="admin_member_table_head">
+            <tr>
+                <th></th>
+                <th>用户ID</th>
+                <th>用户名</th>
+                <th>当前积分</th>
+            </tr>
+        </thead>
+        <tbody id="admin_member_table_body">
+        {% for point_info in point_tables %}
+            <tr>
+                <td><input type="radio" name="select_id" value={{ point_info["user_id"] }}></td>
+                 <td id="user_id">{{ point_info["user_id"] }}</td>
+                <td id="user_name">{{ point_info["user_name"] }}</td>
+                <td id="user_point">{{ point_info["user_point"] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+        <br />
+        <input type="button" class="admin_mod" id="id_admin_point_mod" value="修改" />
+        </form>
     </div>
 
 </div> <!--end of admin body-->

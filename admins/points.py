@@ -28,13 +28,13 @@ class AdminPointHandler(BaseHandler):
             controller["authorized"] = True
             print("################"+username)
 
-        user_tables = UserAuthUtils.get_user_info_tables()
+        point_tables = UserDataUtils.get_point_tables()
         persons = UserDataUtils.get_user_info_tables()
         self.render("admin_point.html",
                     persons = persons,
                     controller = controller,
                     username=username,
-                    tables=score_tables,
+                    point_tables=point_tables,
                     )
 
     def post(self):
