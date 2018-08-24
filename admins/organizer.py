@@ -6,6 +6,10 @@ import methods.readdb as mrd
 from handlers.base import BaseHandler
 from methods.utils import UserDataUtils
 from methods.utils import UserAuthUtils
+import logging  # 引入logging模块
+# logging.basicConfig函数对日志的输出格式及方式做相关配置
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(funcName)s-%(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')
 
 
 # 继承 base.py 中的类 BaseHandler

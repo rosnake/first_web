@@ -115,6 +115,21 @@ class UserDataUtils:
         return UserDataUtils.point_tables
 
     @staticmethod
+    def set_point_to_tables_by_id(user_id, user_point):
+        strData = user_id.encode("ascii")
+        user_id = int(strData)
+
+        strData = user_point.encode("ascii")
+        user_point = int(strData)
+        for i in range(len(UserDataUtils.point_tables)):
+
+            if UserDataUtils.point_tables[i]["user_id"] == user_id:
+                UserDataUtils.point_tables[i]["user_point"] = user_point
+                return True
+
+        return False
+
+    @staticmethod
     def get_deduct_tables():
         return UserDataUtils.deduct_tables
 

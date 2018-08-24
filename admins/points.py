@@ -6,7 +6,13 @@ import methods.readdb as mrd
 from handlers.base import BaseHandler
 from methods.utils import UserDataUtils
 from methods.utils import UserAuthUtils
+import json
+import datetime
 
+import logging  # 引入logging模块
+# logging.basicConfig函数对日志的输出格式及方式做相关配置
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(funcName)s-%(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')
 
 # 继承 base.py 中的类 BaseHandler
 class AdminPointHandler(BaseHandler):
@@ -38,18 +44,37 @@ class AdminPointHandler(BaseHandler):
                     )
 
     def post(self):
-        username = self.get_argument("username")
-        password = self.get_argument("password")
-        user_infos = mrd.select_table(table="users",column="*",condition="username",value=username)
-        if user_infos:
-            db_pwd = user_infos[0][2]
-            if db_pwd == password:
-                print("username:%s pwd:%s db_pwd %s" % (username, password, db_pwd))
-                self.set_current_user(username)    # 将当前用户名写入 cookie，方法见下面
-                self.write(username)
-            else:
-                print("username:%s pwd:%s " % (username, password))
-                self.write("-1")
-        else:
-            self.write("-1")
+        response = {"status": True, "data": "", "message": "succeed"}
+        user_id = self.get_argument("user_id")
+        user_name = self.get_argument("user_name")
+        user_point = self.get_argument("user_point")
+
+        logging.info("user post info")
+        logging.info("user_id:" + user_id)
+        logging.info("user_name:" + user_name)
+        logging.info("user_point:" + user_point)
+
+        nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # 现在
+        logging.info(nowTime)
+        if user_point.isdigit() is False:
+            response["status"] = False
+            response["message"] = "输入格式正确，只支持数字"
+            response["data"] = nowTime
+            self.write(json.dumps(response))
+            return
+
+        ret = UserDataUtils.set_point_to_tables_by_id(user_id, user_point)
+        if ret is True:
+            response["status"] = True
+            response["message"] = "修改成功！"
+            response["data"] = nowTime
+            self.write(json.dumps(response))
+            return
+
+        response["status"] = False
+        response["message"] = "修改失败,找不到记录！"
+        response["data"] = nowTime
+        self.write(json.dumps(response))
+        return
+
 

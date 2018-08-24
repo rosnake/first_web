@@ -4,6 +4,10 @@
 import tornado.web
 import methods.readdb as orm
 # from  methods.session import  Session
+import logging  # 引入logging模块
+# logging.basicConfig函数对日志的输出格式及方式做相关配置
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(funcName)s-%(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -20,7 +24,7 @@ class BaseHandler(tornado.web.RequestHandler):
             return None
         # 设置的时候用了json编码，获取的时候对应的需要解码
         user = tornado.escape.json_decode(user_id)
-        print("current login user is :"+user)
+        logging.info("current login user is :"+user)
 
         return user
 
@@ -28,11 +32,11 @@ class BaseHandler(tornado.web.RequestHandler):
         if user:
             # 注意这里使用了 tornado.escape.json_encode() 方法
             self.set_secure_cookie('username', tornado.escape.json_encode(user))
-            print("set user [%s] to cookies." %(user))
+            logging.info("set user [%s] to cookies." %(user))
         else:
             self.clear_cookie("username")
 
     def clear_current_user(self):
-        print("clear cookies")
+        logging.info("clear cookies")
         self.clear_cookie("username")
 

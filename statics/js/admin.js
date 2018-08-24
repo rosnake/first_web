@@ -1,3 +1,18 @@
+function getCookie(name) {
+	var x = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+	return x ? x[1] : undefined;
+}
+function isDigitNumber(inputData) {
+	//isNaN(inputData)不能判断空串或一个空格
+	//如果是一个空串或是一个空格，而isNaN是做为数字0进行处理的，而parseInt与parseFloat是返回一个错误消息，这个isNaN检查不严密而导致的。
+	if (parseFloat(inputData).toString() == "NaN") {
+		return false;
+	} else {
+		return true;
+		　　
+	}
+}
+
 $(document).ready(function () {
 	$('#id_admin_file_download').on('click', function () {
 		window.location.href = "/file/download"
@@ -54,7 +69,6 @@ $(document).ready(function () {
 			注意 return 为 跳出当前 each
 			return false 为 跳出整个 each
 			 */
-
 			if ($(this).attr('id') === "user_id") {
 				user_id = $(this).text();
 				console.log("user_id:" + user_id);
@@ -78,18 +92,47 @@ $(document).ready(function () {
 			});
 			return;
 		}
+		if (isDigitNumber(user_point) === false) {
+			layer.msg("只能输入数字，不能输入其他字符！", {
+				icon: 2
+			});
 
+			return;
+		}
 		console.log("user_id: " + user_id);
 		console.log("user_name: " + user_name);
 		console.log("user_point: " + user_point);
+
 		var ret = confirm("是否修改【" + user_name + "】的积分到【" + user_point + "】?");
 		if (ret === true) {
-			alert("修改成功");
-		} else {
-			alert("取消修改");
+			var post_date = {
+				"user_id": user_id,
+				"user_name": user_name,
+				"user_point": user_point,
+				"_xsrf": getCookie("_xsrf"),
+			};
+			$.ajax({
+				type: "POST",
+				url: "/admin/point",
+				data: post_date,
+				success: function (arg) {
+					console.log(arg);
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						layer.msg(obj.message, {
+							icon: 0
+						});
+
+						setTimeout(function () {
+							window.location.reload();
+						}, 500);
+					} else {
+						layer.msg(obj.message, {
+							icon: 2
+						});
+					}
+				}
+			});
 		}
-		window.location.reload();
-
 	});
-
 });
