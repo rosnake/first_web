@@ -26,13 +26,10 @@ class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
         confirm  = self.get_argument("confirm")
         print("username:%s password:%s confirm:%s" %(username, password, confirm))
         #print(")
-        succeed = False
+        succeed = True
         if(succeed):
             dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "redirect home page")
-            #self.render("home.html")
             self.write(json.dumps(ret))
-            #self.redirect("home.html")
-            
         else:
             dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "redirect error page")
             #self.render("register_error.html", user=username)
@@ -40,4 +37,3 @@ class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
             ret["status"] = False
             ret["error"] = "用户名已存在！"
             self.write(json.dumps(ret))
-        

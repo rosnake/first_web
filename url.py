@@ -35,6 +35,7 @@ from admins.issues_modify import AdminIssuesModifyHandler
 from admins.explorer import AdminExplorerHandler
 from admins.explorer import FileDownLoadHandler
 from admins.explorer import FileUpLoadHandler
+from admins.meeting import AdminMeetingHandler
 
 # 一个URL列表
 url = [
@@ -64,6 +65,7 @@ url = [
     (r'/admin/issues', AdminIssuesHandler),
     (r'/admin/issues_modify', AdminIssuesModifyHandler),
     (r'/admin/explorer', AdminExplorerHandler),
+    (r'/admin/meeting', AdminMeetingHandler),
     (r'/file/download', FileDownLoadHandler),
     (r'/file/upload', FileUpLoadHandler),
 ]

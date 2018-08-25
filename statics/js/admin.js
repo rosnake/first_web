@@ -135,4 +135,75 @@ $(document).ready(function () {
 			});
 		}
 	});
+
+	$('#id_admin_meeting_mod').on('click', function () {
+		var tpoic_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
+		if ((typeof tpoic_id) === 'undefined') {
+			layer.msg("当前未选择任何项目");
+			console.log("current not select any id");
+			return;
+		}
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		var ttr = $("input:checked").parents('tr');
+		//console.log(ttr);
+
+		/*当前行使用find方法找到每一个td列
+		each方法为每一个td设置function
+		 */
+		var topic_id = "";
+		var user_name = "";
+		var meeting_room = "";
+		var meeting_date = "";
+		ttr.find("td").each(function () {
+			/*过滤 td中的元素
+			checkbox 、 button、text 不需要执行append
+			注意 return 为 跳出当前 each
+			return false 为 跳出整个 each
+			 */
+
+			if ($(this).attr('id') === "topic_id") {
+				topic_id = $(this).text();
+				console.log("topic_id:" + topic_id);
+			}
+
+			if ($(this).attr('id') === "user_name") {
+				user_name = $(this).text();
+				console.log("user_name:" + user_name);
+			}
+
+			if ($(this).attr('id') === "meeting_room") {
+				meeting_room = $(this).text();
+				console.log("meeting_room:" + meeting_room);
+			}
+
+			if ($(this).attr('id') === "meeting_date") {
+				meeting_date = $(this).text();
+				console.log("meeting_date:" + meeting_date);
+			}
+		});
+
+		$("#id_admin_meeting_topic_id").val(topic_id);
+		$("#id_admin_meeting_user_name").val(user_name);
+		$("#id_admin_meeting_meeting_room").val(meeting_room);
+		$("#id_admin_meeting_meeting_date").val(meeting_date);
+
+		$("#id_admin_meeting_topic_id").attr("readonly", true);
+		$("#id_admin_meeting_user_name").attr("readonly", true);
+		$('#admin_popup_background').show();
+		$("#id_admin_meeting_sub_title").text("修改会议信息");
+
+	});
+
+	$('#id_admin_meeting_submit').on('click', function () {
+		var meeting_room = $("#id_admin_meeting_meeting_room").val();
+		var meeting_date = $("#id_admin_meeting_meeting_date").val();
+
+		console.log("meeting_date: " + meeting_date);
+		console.log("meeting_room: " + meeting_room);
+		setTimeout(function () {
+			window.location.reload();
+		}, 1000);
+		$('#admin_popup_background').hide();
+	});
+
 });

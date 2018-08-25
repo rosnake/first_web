@@ -92,8 +92,9 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
-					//alert("注册成功")
-					window.location.href = "/home?user=" + user;
+					alert("注册成功");
+					console.log("username:"+user);
+					window.location.href = "/user?user=" + user;
 				} else {
 					alert(obj.error);
 				}
@@ -196,5 +197,60 @@ $(document).ready(function () {
 		});
 		console.log(selected);
 	});
+
+	$("#id_user_other_info_submit").click(function () {
+		var user = $("#id_user_other_info_user").val();
+		var email = $("#id_user_other_info_email").val();
+		var nickname = $("#id_user_other_info_nickname").val();
+		var department = $("#id_user_other_info_department").val();
+
+		if (email == "") {
+			$("#id_user_other_info_email").focus();
+			debugMessage("Email不能为空.");
+			return false;
+		} else {
+			//debugMessage("用户名:"+user);
+		}
+
+		if (nickname == "") {
+			$("#id_user_other_info_nickname").focus();
+			debugMessage("姓名不能为空");
+			return false;
+		}
+
+		if (department == "") {
+			$("#id_user_other_info_department").focus();
+			debugMessage("部门不能为空");
+			return false;
+		}
+
+		var pd = {
+			"username": user,
+			"email": email,
+			"nickname": nickname,
+			"department": department,
+			"_xsrf": getCookie("_xsrf")
+		};
+
+		$.ajax({
+			type: "post",
+			url: "/user",
+			data: pd,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					//注册成功---跳转（已登录状态--session实现）
+					alert("提交成功")
+					window.location.href = "/index?user=" + user;
+				} else {
+					alert(obj.error);
+				}
+			}
+		});
+    });
+
 
 });

@@ -40,11 +40,20 @@ class AdminModule(tornado.web.UIModule):
         return "css/admin.css"
 
 
+# 头模板
+class HeaderModule(tornado.web.UIModule):
+    def render(self, username):
+        return self.render_string("modules/header.html", username=username)
+
+    def css_files(self):
+        return "css/header.css"
+
 # UI模板入口
 ui = [
     {"Table": TableModule},
     {"Person": PersonModule},
     {"Navigation": NavigationModule, },
-    {"Admin": AdminModule, }
+    {"Admin": AdminModule, },
+    {"Header": HeaderModule, }
     ]
 

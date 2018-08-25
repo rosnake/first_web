@@ -12,7 +12,7 @@ settings = dict(
     static_path=os.path.join(os.path.dirname(__file__), "statics"),
     cookie_secret="vEg+O43NQwGknl6vRwKRwPajAP/RKUSKsGKLhY5j0MI=",
     xsrf_cookies=True,
-    login_url='/',
+    login_url='/login',
     
     )
 

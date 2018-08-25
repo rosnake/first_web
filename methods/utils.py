@@ -97,6 +97,11 @@ class UserDataUtils:
         {"user_id": 123450, "user_name": "raoyuanqin", "user_point": 6},
         {"user_id": 123451, "user_name": "chenmeijing", "user_point": 10},
     ]
+
+    meeting_tables = [
+        {"topic_id": 123450, "user_name": "raoyuanqin", "meeting_room": "A26", "meeting_date": "2018-08-27-18:45"},
+        {"topic_id": 123451, "user_name": "chenmeijing", "meeting_room": "A26", "meeting_date": "2018-09-01-18:45"},
+    ]
     exchange_presents_table = ["咖啡卷", "书籍", "电影票"]
 
     def __init__(self):
@@ -109,6 +114,10 @@ class UserDataUtils:
                 return True
 
         return False
+
+    @staticmethod
+    def get_meeting_tables():
+        return UserDataUtils.meeting_tables
 
     @staticmethod
     def get_point_tables():

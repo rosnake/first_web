@@ -367,6 +367,34 @@ body {
     border: 1px solid #009f95;
 }
 
+#id_user_other_info input
+{
+    right: 150px;
+    width: 200px;
+    height: 22px;
+    border: 2px solid #aca647;
+    font-family: Arial sans-serif;
+    font-size: 20px;
+}
+#id_user_other_info span
+{
+    font-family: Arial sans-serif;
+    font-size: 20px;
+}
+#id_user_other_info_submit
+{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 15px;
+    border: 1px solid #009f95;
+}
+
+
+
 /*----------后台管理CSS----------*/
 #admin_member_form
 {
@@ -468,7 +496,7 @@ admin_member_table_body td {
 
 .admin_topics
 {
-    border: 1px solid #384eee;
+    border: 2px solid #a3adee;
 }
 
 #id_points_exchange_user

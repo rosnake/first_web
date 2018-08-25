@@ -1,5 +1,9 @@
 {% extends "base.html" %}
-
+{% autoescape None %}
+<!-- 引入第三方js库-->
+{% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
+{% end %}
 {% block header %}
     <h2>新用户注册</h2>
 {% end %}

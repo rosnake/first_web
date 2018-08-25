@@ -1,7 +1,7 @@
 .class_admin_body
 {
     position:relative;
-    border: 5px solid #ee7777;
+    border: 2px solid #009f95;
     heigth:500px;
     max-heigth:auto;
     height:auto;
@@ -10,8 +10,8 @@
 }
 .admin_navigation
 {
-    border: 2px solid #009f95;
-    background-color: #3b5998;
+    //border: 2px solid #009f95;
+    background-color: #fff6ce;
     width: 120px;
     float: left;
 }
@@ -21,22 +21,24 @@
     list-style-type:none;
     margin:0;
     padding:0;
-    height: 498px;
-    background-color: #e3ffab;
+    //min-height: 498px;
+    //background-color: #e3ffab;
 }
 
 .admin_page
 {
+    position: center;
+    margin-left: 15px;
     float: left;
-    border: 3px solid #ee1c1f;
+    //border: 2px solid #ee1c1f;
 }
 .ul_admin_navigation a
 {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
     display:block;
     width:120px;
-    line-height:60px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
+    line-height:50px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
     text-align:center; /* 居中对齐文字 */
     background: #22463d; /* 设置背景色 */
     color:#fff; /* 设置文字颜色 */
