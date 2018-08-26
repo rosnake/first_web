@@ -32,7 +32,7 @@ $(document).ready(function () {
 					//alert("注册成功")
 					window.location.href = "/home?user=" + user;
 				} else {
-					alert(obj.error);
+					alert(obj.message);
 					window.location.href = "/login"
 				}
 			}

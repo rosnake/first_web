@@ -35,7 +35,7 @@ class UserDataUtils:
         {"name": "chenxiaojie", "passwd": "123456"},
         {"name": "raoxiansheng", "passwd": "123456"},
     ]
-    render_controller = {"index": False, "login": False, "authorized": True, "admin":False, "organizer": False}
+    render_controller = {"index": False, "login": False, "authorized": True, "admin": False, "organizer": False}
     organizer_tables = [
         {"organizer_id": 123456, "organizer_name": "raoyuanqin", "date": "2018-8-7"},
         {"organizer_id": 123457, "organizer_name": "chenmeijing", "date": "2018-8-9"},
@@ -219,7 +219,6 @@ class UserAuthUtils:
         {"id": "123452", "username": "chenxiaojie", "passwd": "123456", "role": "normal"},
         {"id": "123453", "username": "raoxiansheng", "passwd": "123456", "role": "normal"},
     ]
-    verify_code=""
 
     def __init__(self):
         pass
@@ -232,7 +231,7 @@ class UserAuthUtils:
             if user_info["username"] == username and  user_info["passwd"] == passwd:
                 return True
 
-        return  False
+        return False
 
     @staticmethod
     def get_role_by_name(username):
@@ -241,14 +240,6 @@ class UserAuthUtils:
                 return user_info["role"]
 
         return  None
-
-    @staticmethod
-    def get_verify_code():
-        return UserAuthUtils.verify_code
-
-    @staticmethod
-    def set_verify_code(verify_code):
-        UserAuthUtils.verify_code = verify_code
 
     @staticmethod
     def get_user_info_tables():

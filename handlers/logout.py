@@ -13,6 +13,7 @@ from methods.utils import UserDataUtils
 class LogoutHandler(BaseHandler):  # 继承 base.py 中的类 BaseHandler
     def get(self):
         # print ("one user name:%s" % one_user)
+        print(self.session["aut"])
         self.clear_current_user()
         self.redirect('/')
         return

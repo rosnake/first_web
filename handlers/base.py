@@ -3,19 +3,19 @@
 
 import tornado.web
 import methods.readdb as orm
-# from  methods.session import  Session
-import logging  # 引入logging模块
-# logging.basicConfig函数对日志的输出格式及方式做相关配置
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(funcName)s-%(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')
-
-
+from session.session import SessionFactory
+from methods.debug import *
 class BaseHandler(tornado.web.RequestHandler):
     """
     该类为用户提供web请求处理的基本处理操作，主要包括以下操作：
     1、数据库操作
     2、安全认证操作
     """
+    """
+    该方法提供session初始化
+    """
+    def initialize(self):
+        self.session = SessionFactory.get_session_handler(self)
 
     def get_current_user(self):
         user_id = self.get_secure_cookie("username")
@@ -39,4 +39,5 @@ class BaseHandler(tornado.web.RequestHandler):
     def clear_current_user(self):
         logging.info("clear cookies")
         self.clear_cookie("username")
+
 
