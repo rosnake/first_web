@@ -34,7 +34,7 @@ class AdminIssuesModifyHandler(BaseHandler):
         if role is None:
             role="normal"
 
-        self.render("admin_issues_modify.html", controller=controller, issues_table=issues_table)
+        self.render("admin/issues_modify.html", controller=controller, issues_table=issues_table)
 
     def post(self):
         username = self.get_argument("username")

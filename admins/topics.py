@@ -29,7 +29,7 @@ class AdminTopicsHandler(BaseHandler):
 
         persons = UserDataUtils.get_user_info_tables()
         user_topic_tables = UserDataUtils.get_user_topics_table()
-        self.render("admin_topics.html",
+        self.render("admin/topics.html",
                     persons=persons,
                     controller=controller,
                     username=username,

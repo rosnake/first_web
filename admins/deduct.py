@@ -28,7 +28,7 @@ class AdminDeductHandler(BaseHandler):
             print("################"+username)
 
             deduct_tables = UserDataUtils.get_deduct_tables()
-        self.render("admin_deduct.html",
+        self.render("admin/deduct.html",
                     deduct_tables=deduct_tables,
                     controller=controller,
                     username=username,

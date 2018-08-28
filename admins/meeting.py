@@ -29,7 +29,7 @@ class AdminMeetingHandler(BaseHandler):
 
         user_tables = UserAuthUtils.get_user_info_tables()
         meeting_tables = UserDataUtils.get_meeting_tables()
-        self.render("admin_meeting.html",
+        self.render("admin/meeting.html",
                     meeting_tables=meeting_tables,
                     controller=controller,
                     username=username,

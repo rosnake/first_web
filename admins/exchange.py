@@ -29,7 +29,7 @@ class AdminExchangeHandler(BaseHandler):
 
         user_exchange_tables = UserDataUtils.get_user_exchange_tables()
         exchange_rule_tables = UserDataUtils.get_exchange_rule_tables()
-        self.render("admin_exchange.html",
+        self.render("admin/exchange.html",
                     user_exchange_tables=user_exchange_tables,
                     exchange_rule_tables=exchange_rule_tables,
                     controller=controller,

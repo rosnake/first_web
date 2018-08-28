@@ -21,6 +21,8 @@ from methods.toolkits import DateToolKits
 class LoginHandler(BaseHandler):
 
     def get(self):
+        nextname = self.get_argument('next', '')
+        print(nextname)
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
         render_controller["index"] = False
@@ -28,12 +30,15 @@ class LoginHandler(BaseHandler):
         render_controller["authorized"] = False
 
         logging.info("get login page")
-        self.render("login.html", controller=render_controller)
+        self.render("login.html", controller=render_controller, nextname=nextname)
 
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}
+
         username = self.get_argument("username")
         password = self.get_argument("password")
+        nextname = self.get_argument("next")
+        print("nextname:"+nextname)
         verify_code_tmp = self.get_argument("verify_code")
         verify_code_client = verify_code_tmp.upper()   # 将验证码字符统一转换成大写
         verify_code_server = VerifyCode.get_verify_code()
@@ -60,8 +65,10 @@ class LoginHandler(BaseHandler):
 
             self.set_current_user(username)
             self.session["authorized"] = True
+            self.session["username"] = username
             render_controller["authorized"] = self.session["authorized"] = True
             self.write(json.dumps(response))
+            return
         else:
             logging.info("login failed,user name:" + username)
             render_controller["index"] = False

@@ -20,7 +20,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
         user_id = self.get_secure_cookie("username")
         if not user_id:
-            print("get current user is None")
+            logging.info("get current user is None")
             return None
         # 设置的时候用了json编码，获取的时候对应的需要解码
         user = tornado.escape.json_decode(user_id)

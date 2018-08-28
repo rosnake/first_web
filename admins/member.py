@@ -28,7 +28,7 @@ class AdminMemberHandler(BaseHandler):
             print("################"+username)
 
         user_tables = UserAuthUtils.get_user_info_tables()
-        self.render("admin_member.html",
+        self.render("admin/member.html",
                     user_tables=user_tables,
                     controller=controller,
                     username=username,

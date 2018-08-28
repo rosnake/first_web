@@ -36,7 +36,7 @@ class AdminPointHandler(BaseHandler):
 
         point_tables = UserDataUtils.get_point_tables()
         persons = UserDataUtils.get_user_info_tables()
-        self.render("admin_point.html",
+        self.render("admin/point.html",
                     persons = persons,
                     controller = controller,
                     username=username,

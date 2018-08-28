@@ -35,7 +35,7 @@ class AdminExplorerHandler(BaseHandler):
         if role == None:
             role = "admin"
         if controller["admin"] == True:
-            self.render("admin_explorer.html", username=username, controller=controller, role=role)
+            self.render("admin/explorer.html", username=username, controller=controller, role=role)
 
     def post(self):
         pass

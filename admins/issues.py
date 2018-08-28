@@ -31,7 +31,7 @@ class AdminIssuesHandler(BaseHandler):
         if role == None:
             role="normal"
 
-        self.render("admin_issues.html", tables=score_tables, controller=controller, role=role)
+        self.render("admin/issues.html", tables=score_tables, controller=controller, role=role)
 
     def post(self):
         username = self.get_argument("username")

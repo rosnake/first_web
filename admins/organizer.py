@@ -33,7 +33,7 @@ class AdminOrganizerHandler(BaseHandler):
 
         organizer_tables = UserDataUtils.get_organizer_tables()
         persons = UserDataUtils.get_user_info_tables()
-        self.render("admin_organizer.html",
+        self.render("admin/organizer.html",
                     persons = persons,
                     controller = controller,
                     username=username,

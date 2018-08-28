@@ -12,9 +12,11 @@ $(document).ready(function () {
 		var user = $("#username").val();
 		var pwd = $("#password").val();
 		var verify_code = $("#verify_code").val();
+		var nextname = $("#login").val();
 		var pd = {
 			"username": user,
 			"password": pwd,
+			"next":nextname,
 			"verify_code": verify_code,
 			"_xsrf": getCookie("_xsrf")
 		};
@@ -30,7 +32,7 @@ $(document).ready(function () {
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
 					//alert("注册成功")
-					window.location.href = "/home?user=" + user;
+					window.location.href = nextname+"?user=" + user;
 				} else {
 					alert(obj.message);
 					window.location.href = "/login"
@@ -182,13 +184,33 @@ $(document).ready(function () {
 		layer.confirm("是否兑换【" + selected + "】?", {
 			btn: ['兑换', '取消']//按钮
 		}, function () {
-			//这里放删除提交
-			layer.msg("兑换成功", {
-				icon: 1
-			});
-			setTimeout(function () {
-				window.location.reload();
-			}, 1000);
+			var pd = {
+			"present": selected,
+			"_xsrf": getCookie("_xsrf")
+		};
+
+		$.ajax({
+			type: "post",
+			url: "/statistics",
+			data: pd,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					layer.msg("兑换成功", {
+						icon: 1
+					});
+					setTimeout(function () {
+						window.location.reload();
+					}, 1000);
+				} else {
+					alert(obj.message);
+				}
+			}
+		});
+
 
 		}, function () {
 			layer.msg("兑换【" + selected + "】操作已为您取消", {
