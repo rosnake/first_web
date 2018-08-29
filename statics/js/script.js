@@ -13,6 +13,13 @@ $(document).ready(function () {
 		var pwd = $("#password").val();
 		var verify_code = $("#verify_code").val();
 		var nextname = $("#login").val();
+		if(nextname ==="")
+		{
+			nextname = "/home";
+
+		}
+
+		console.log("nextname:"+nextname);
 		var pd = {
 			"username": user,
 			"password": pwd,
@@ -31,13 +38,17 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
-					//alert("注册成功")
+					alert("登陆成功");
 					window.location.href = nextname+"?user=" + user;
 				} else {
 					alert(obj.message);
 					window.location.href = "/login"
 				}
-			}
+			},
+			error:function(arg) {
+                alert("未知的错误");
+                window.location.href = "/login"
+            }
 		});
 	});
 
@@ -98,9 +109,12 @@ $(document).ready(function () {
 					console.log("username:"+user);
 					window.location.href = "/user?user=" + user;
 				} else {
-					alert(obj.error);
+					alert(obj.message);
 				}
-			}
+			},
+			error:function(arg) {
+                alert("未知的错误");
+            }
 		});
 	});
 

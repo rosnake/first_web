@@ -6,7 +6,8 @@ import methods.readdb as mrd
 from handlers.base import BaseHandler
 from methods.utils import UserDataUtils
 from methods.utils import UserAuthUtils
-
+from methods.debug import *
+from orm.user import UserModule
 
 #继承 base.py 中的类 BaseHandler
 
@@ -15,15 +16,29 @@ class HomeHandler(BaseHandler):
     该类处理的主要是登陆后显示的主页和基于主页的操作
     该类只有在登陆成功后才会显示主页页面，登陆失败，不显示该页面
     """
+
+    @tornado.web.authenticated
     def get(self):
-        #用户渲染表格模板的数据接口
-        #后续该接口需要从数据库读取
+        # 用户渲染表格模板的数据接口
+        # 后续该接口需要从数据库读取
+        logging.info(self.session["username"])
         controller = UserDataUtils.get_render_controller()
         controller["index"] = False
         controller["authorized"] = False
         controller["login"] = False
-        #username = self.get_argument("user")
+
         username = self.get_current_user()
+        # 先判断是否完善其他信息，如果没有完善，跳转到信息完善页面
+        if username is not None:
+            user = self.db.query(UserModule).filter(UserModule.username == username).first()
+            if user is not None:
+                print(user.username)
+                if user.email == "unknown":
+                    self.redirect("/user")
+                    self.finish()
+                    return
+
+
         score_tables = UserDataUtils.get_user_score_tables()
 
         topics_table = UserDataUtils.get_user_topics_table()

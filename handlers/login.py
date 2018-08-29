@@ -15,7 +15,7 @@ from methods.verify import VerifyImage  # 导入验证码图片生成插件
 from methods.controller import PageController  # 导入页面控制器
 from methods.code import VerifyCode
 from methods.toolkits import DateToolKits
-
+from orm.user import UserModule
 
 # 继承 base.py 中的类 BaseHandler
 class LoginHandler(BaseHandler):
@@ -57,9 +57,9 @@ class LoginHandler(BaseHandler):
             self.write(json.dumps(response))
             return
 
-        auth_flags = UserAuthUtils.authenticate_user_by_name(username, password)
-
-        if(auth_flags == True):
+        user = self.db.query(UserModule).filter(UserModule.username == username).filter(UserModule.password == password).first()
+        print(user)
+        if user is not None:
             logging.info("login ok,user name:"+username)
             response["data"] = date_kits.get_now_day_str()
 
@@ -74,7 +74,7 @@ class LoginHandler(BaseHandler):
             render_controller["index"] = False
             render_controller["authorized"] = False
             render_controller["login"] = True
-            logging.inf("密码错误处理")
+            logging.info("密码错误处理")
             response["status"] = False
             response["message"] = "密码错误！"
             response["data"] = date_kits.get_now_day_str()

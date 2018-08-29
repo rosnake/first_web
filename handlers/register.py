@@ -7,7 +7,9 @@ import methods.debug as dbg
 import json
 import sys
 from base import BaseHandler
-from  methods.utils import UserDataUtils
+from methods.utils import UserDataUtils
+from orm.user import UserModule
+
 
 class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
     def get(self):
@@ -19,21 +21,35 @@ class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
         self.render("register.html",controller=controller)
         
     def post(self):
-        ret = {"status":True,"data":"","error":""}
+        ret = {"status": True, "data": "", "message": ""}
         dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "post register")
         username = self.get_argument("username")
         password = self.get_argument("password")
-        confirm  = self.get_argument("confirm")
-        print("username:%s password:%s confirm:%s" %(username, password, confirm))
-        #print(")
-        succeed = True
-        if(succeed):
+        confirm = self.get_argument("confirm")
+        print("username:%s password:%s confirm:%s" % (username, password, confirm))
+        # 先查询用户是否存在
+        user = self.db.query(UserModule).filter(UserModule.username == username).first()
+        print(user)
+        succeed = False
+        # 不存在创建用户
+        if user is None:
+            user_moudle = UserModule()
+            user_moudle.username = username
+            user_moudle.password = password
+            user_moudle.nickname = "unknown"
+            user_moudle.address = "unknown"
+            user_moudle.department = "unknown"
+            user_moudle.email = "unknown"
+
+            self.db.add(user_moudle)
+            self.db.commit()
+            succeed = True
+
+        if succeed is True:
             dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "redirect home page")
             self.write(json.dumps(ret))
         else:
             dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "redirect error page")
-            #self.render("register_error.html", user=username)
-            
             ret["status"] = False
             ret["error"] = "用户名已存在！"
             self.write(json.dumps(ret))

@@ -9,6 +9,7 @@ from  methods.utils import UserDataUtils
 import json
 import sys
 import methods.debug as dbg
+from methods.debug import *
 
 
 class UserHandler(BaseHandler):
@@ -16,11 +17,18 @@ class UserHandler(BaseHandler):
         controller = UserDataUtils.get_render_controller()
         controller["index"] = True
         controller["authorized"] = False
-        username = self.get_argument("user")
-        #username = tornado.escape.json_decode(self.current_user)
+        
+        try:
+            username = self.get_argument("user")
+        except:
+            username = self.get_current_user()
+            logging.info("get username from except")
+        else:
+            logging.info("get username from request")
 
-        user_infos = mrd.select_table(table="users",column="*",condition="username",value=username)
-        self.render("user.html", users = user_infos, controller=controller, username=username)
+        if username is not None:
+            user_infos = mrd.select_table(table="users",column="*",condition="username",value=username)
+            self.render("user.html", users = user_infos, controller=controller, username=username)
 
     def post(self):
         ret = {"status": True, "data": "", "error": ""}
@@ -30,6 +38,8 @@ class UserHandler(BaseHandler):
         nickname = self.get_argument("nickname")
         department = self.get_argument("department")
         print("username:%s email:%s nickname:%s department：%s" % (username, email, nickname, department))
+
+
         # print(")
         succeed = True
         if (succeed):

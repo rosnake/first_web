@@ -9,7 +9,7 @@ from application import application
 
 from tornado.options import define, options
 define("port", default=8888, help="run on the given port", type=int)
-
+define("tables", default=False, group="application", help="creat tables", type=bool)
 
 def main():
     tornado.options.parse_command_line()
