@@ -10,14 +10,14 @@ import json
 import sys
 import methods.debug as dbg
 from methods.debug import *
-
+from orm.user import UserModule
 
 class UserHandler(BaseHandler):
     def get(self):
         controller = UserDataUtils.get_render_controller()
         controller["index"] = True
         controller["authorized"] = False
-        
+
         try:
             username = self.get_argument("user")
         except:
@@ -38,18 +38,22 @@ class UserHandler(BaseHandler):
         nickname = self.get_argument("nickname")
         department = self.get_argument("department")
         print("username:%s email:%s nickname:%s department：%s" % (username, email, nickname, department))
+        succeed = False
+        if email is not None and nickname is not None and department is not None:
+            self.db.query(UserModule).filter(UserModule.username == username).update({
+                UserModule.email: email,
+                UserModule.nickname: nickname,
+                UserModule.department: department,
+            })
+            self.db.commit()
+            succeed = True
 
-
-        # print(")
-        succeed = True
-        if (succeed):
-            dbg.debug_msg(UserHandler, sys._getframe().f_lineno, "redirect home page")
+        if succeed is True:
+            logging.info("update user[%s] info succeed." % username)
             self.write(json.dumps(ret))
         else:
-            dbg.debug_msg(UserHandler, sys._getframe().f_lineno, "redirect error page")
-            # self.render("register_error.html", user=username)
-
+            logging.info("update user[%s] info failed." % username)
             ret["status"] = False
-            ret["error"] = "用户名已存在！"
+            ret["error"] = "更新用户信息失败！"
             self.write(json.dumps(ret))
 
