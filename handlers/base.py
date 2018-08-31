@@ -23,6 +23,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def on_finish(self):
         self.db.close()
+        self.clear_cookie("username")
 
     def get_current_user(self):
         user_id = self.get_secure_cookie("username")

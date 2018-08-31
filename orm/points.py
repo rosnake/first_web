@@ -27,9 +27,7 @@ class PointsModule(Base):
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.username)
 
-
     # 可以在类里面写别的方法,类似查询方法
-
     @classmethod
     def get_all_points(cls):
         return dbSession.query(cls).all()

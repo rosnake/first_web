@@ -23,6 +23,7 @@ class LoginHandler(BaseHandler):
     def get(self):
         nextname = self.get_argument('next', '')
         print(nextname)
+        self.clear_current_user()
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
         render_controller["index"] = False

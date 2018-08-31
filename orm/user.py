@@ -36,3 +36,13 @@ class UserModule(Base):
     def get_all_users(cls):
         return dbSession.query(cls).all()
 
+    @classmethod
+    def delete_user_by_name(cls, username):
+        username = dbSession.query(cls).filter(cls.username == username).first()
+
+        if username is not None:
+            dbSession.delete(username)
+            return True
+        else:
+            return False
+

@@ -13,7 +13,7 @@ from orm.user import UserModule
 
 class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
     def get(self):
-        dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "get register")
+        dbg.debug_msg(RegisterHandler, sys._getframe().f_lineno, "get register")
         controller = UserDataUtils.get_render_controller()
         controller["index"] = False
         controller["authorized"] = False
@@ -22,7 +22,7 @@ class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
         
     def post(self):
         ret = {"status": True, "data": "", "message": ""}
-        dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "post register")
+        dbg.debug_msg(RegisterHandler, sys._getframe().f_lineno, "post register")
         username = self.get_argument("username")
         password = self.get_argument("password")
         confirm = self.get_argument("confirm")
@@ -40,7 +40,7 @@ class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
             user_moudle.address = "unknown"
             user_moudle.department = "unknown"
             user_moudle.email = "unknown"
-
+            user_moudle.role = "normal"
             self.db.add(user_moudle)
             self.db.commit()
             succeed = True
