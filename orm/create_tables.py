@@ -6,6 +6,12 @@ from orm.db import DataBase
 
 from orm.user import UserModule
 from orm.points import PointsModule
+from orm.exchange import ExchangeModule
+from orm.organizer import OrganizerModule
+from orm.topics import TopicsModule
+from orm.marks import MarksModule
+from orm.rules import ExchangeRuleModule
+
 
 # 将创建好的数据表类，映射到数据库的表中
 
