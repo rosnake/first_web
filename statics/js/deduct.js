@@ -1,12 +1,5 @@
 $(document).ready(function () {
 	$('#admin_deduct_add').on('click', function () {
-		var deduct_id = prompt("请输入新的扣分项目编号.");
-		if (deduct_id === "" || deduct_id === null) {
-			layer.msg("您未输入有效的项目编号，已为您取消操作。", {
-				icon: 2
-			});
-			return;
-		}
 		var deduct_name = prompt("请输入扣分项目.");
 		if (deduct_name === "" || deduct_name === null) {
 			layer.msg("您未输入有效的项目名称，已为您取消操作。", {
@@ -15,18 +8,50 @@ $(document).ready(function () {
 			return;
 		}
 		var deduct_points = prompt("请输入扣分值.");
-		if (deduct_name === "" || deduct_name === null) {
+		if (deduct_points === "" || deduct_points === null) {
 			layer.msg("您未输入有效的扣分值，已为您取消操作。", {
 				icon: 2
 			});
 			return;
 		}
+		var deduct_id = "0";
 		console.log("deduct_id: " + deduct_id);
 		console.log("deduct_name: " + deduct_name);
 		console.log("deduct_points: " + deduct_points);
 		ret = confirm("是否新增【" + deduct_name + "】?");
 		if (ret === true) {
-			alert("新增成功");
+			var submit_data = {
+			"operation": "add",
+			"deduct_name": deduct_name,
+			"deduct_points": deduct_points,
+			"id":deduct_id,
+			"_xsrf": getCookie("_xsrf")
+			};
+
+			console.log("operation:add,deduct_name:"+deduct_name+" deduct_points:"+deduct_points+" deduct_id:"+deduct_id);
+
+			$.ajax({
+				type: "post",
+				url: "/admin/deduct",
+				data: submit_data,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						alert("添加成功");
+						console.log("deduct_name:"+ deduct_name);
+						window.location.reload();
+					} else {
+						alert(obj.message);
+					}
+				},
+				error:function(arg) {
+					alert("未知的错误");
+				}
+			});
+
 		} else {
 			alert("取消新增");
 		}
@@ -50,6 +75,7 @@ $(document).ready(function () {
 		each方法为每一个td设置function
 		 */
 		var deduct_name = "";
+		var deduct_points = 0;
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
 			checkbox 、 button、text 不需要执行append
@@ -58,7 +84,7 @@ $(document).ready(function () {
 			 */
 
 			if ($(this).attr('id') === "deduct_id") {
-				var deduct_id = $(this).text();
+				var deduct_id = $(this).val();
 				console.log("deduct_id:" + deduct_id);
 			}
 
@@ -68,26 +94,53 @@ $(document).ready(function () {
 			}
 
 			if ($(this).attr('id') === "deduct_points") {
-				var deduct_points = $(this).text();
+				 deduct_points = $(this).val();
 				console.log("deduct_points:" + deduct_points);
 			}
 		});
 
-		//ret = confirm("是否删除【"+deduct_name+"】?");
 		layer.confirm("是否删除【" + deduct_name + "】?", {
 			btn: ['删除', '取消']//按钮
 		}, function () {
-			//这里放删除提交
-			layer.msg("删除成功", {
-				icon: 1
+			var submit_data = {
+			"operation": "delete",
+			"deduct_name": deduct_name,
+			"deduct_points": deduct_points,
+			"id":deduct_id,
+			"_xsrf": getCookie("_xsrf")
+			};
+
+			console.log("operation:add,deduct_name:"+deduct_name+" deduct_points:"+deduct_points+" deduct_id:"+deduct_id);
+
+			$.ajax({
+				type: "post",
+				url: "/admin/deduct",
+				data: submit_data,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						layer.msg("删除成功", {	icon: 1	});
+						console.log("deduct_name:"+ deduct_name);
+						setTimeout(function () {window.location.reload();}, 1000);
+					} else {
+						alert(obj.message);
+					}
+				},
+				error:function(arg) {
+					alert("未知的错误");
+				}
 			});
+
 		}, function () {
 			layer.msg("删除【" + deduct_name + "】操作已为您取消", {
 				icon: 0
 			});
 		});
 
-		window.location.reload();
+		//setTimeout(function () {window.location.reload();}, 1000);
 	});
 
 	$('#admin_deduct_mod').on('click', function () {
@@ -107,7 +160,7 @@ $(document).ready(function () {
 		each方法为每一个td设置function
 		 */
 		var deduct_id = "";
-		var deduct_points = "";
+		var deduct_points = 0;
 		var deduct_name = "";
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
@@ -132,7 +185,7 @@ $(document).ready(function () {
 			}
 		});
 
-		deduct_points = prompt("请输入新的【" + deduct_name + "】扣分值,当前扣分值【" + deduct_points + "】");
+		var deduct_new_points = prompt("请输入新的【" + deduct_name + "】扣分值,当前扣分值【" + deduct_points + "】");
 		if (deduct_points === "") {
 			layer.msg("您未输入有效的扣分值，已为您取消操作。", {
 				icon: 2
@@ -141,10 +194,41 @@ $(document).ready(function () {
 		}
 		console.log("deduct_id: " + deduct_id);
 		console.log("deduct_name: " + deduct_name);
-		console.log("deduct_points: " + deduct_points);
-		ret = confirm("是否修改【" + deduct_name + "】为【" + deduct_points + "】?");
+		console.log("deduct_points: " + deduct_new_points);
+		ret = confirm("是否修改【" + deduct_name + "】为【" + deduct_new_points + "】?");
 		if (ret === true) {
-			alert("修改成功");
+			var submit_data = {
+			"operation": "modify",
+			"deduct_name": deduct_name,
+			"deduct_points": deduct_new_points,
+			"id":deduct_id,
+			"_xsrf": getCookie("_xsrf")
+			};
+
+			console.log("operation:add,deduct_name:"+deduct_name+" deduct_points:"+deduct_points+" deduct_id:"+deduct_id);
+
+			$.ajax({
+				type: "post",
+				url: "/admin/deduct",
+				data: submit_data,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						alert("修改成功");
+						console.log("deduct_name:"+ deduct_name);
+						window.location.reload();
+					} else {
+						alert(obj.message);
+					}
+				},
+				error:function(arg) {
+					alert("未知的错误");
+				}
+			});
+
 		} else {
 			alert("取消修改");
 		}

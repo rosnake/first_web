@@ -96,9 +96,7 @@ $(document).ready(function () {
 		console.log("organizer_id: " + organizer_id);
 		console.log("organizer_name: " + organizer_name);
 
-		setTimeout(function () {
-			window.location.reload();
-		}, 1000);
+		setTimeout(function () {window.location.reload();}, 1000);
 		$('#admin_popup_background').hide();
 	});
 });
