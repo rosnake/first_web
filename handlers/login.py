@@ -50,6 +50,8 @@ class LoginHandler(BaseHandler):
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
 
+        # 为了调试，注销验证码验证
+        verify_code_client = verify_code_server
         if verify_code_server != verify_code_client:
             logging.info("verify code not equal. ")
             response["status"] = False

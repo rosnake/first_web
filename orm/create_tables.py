@@ -2,12 +2,15 @@
 # coding=utf-8
 
 from orm.db import engine
-from orm.user import Base
+from orm.db import DataBase
+
+from orm.user import UserModule
+from orm.points import PointsModule
+
+# 将创建好的数据表类，映射到数据库的表中
 
 
-#将创建好的User类，映射到数据库的users表中
-
-def run():
+def create_all_tables():
     print('------------create_all-------------')
-    Base.metadata.create_all(engine)
+    DataBase.metadata.create_all(engine)
     print('------------create_end-------------')
