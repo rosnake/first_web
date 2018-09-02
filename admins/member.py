@@ -26,7 +26,7 @@ class AdminMemberHandler(BaseHandler):
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
         if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login")
+            self.redirect("/login?next=/admin/member")
             return
 
         username = self.session["username"]
@@ -39,10 +39,12 @@ class AdminMemberHandler(BaseHandler):
                     user_tables.append(uses)
 
         print(self.session["authorized"])
-        render_controller["index"] = True
+        render_controller["index"] = False
         render_controller["authorized"] = self.session["authorized"]
         render_controller["login"] = False
-        render_controller["admin"] = True  # 后续需要删除
+        render_controller["admin"] = self.session["admin"]
+        render_controller["organizer"] = self.session["organizer"]
+
         self.render("admin/member.html",
                     user_tables=user_tables,
                     controller=render_controller,

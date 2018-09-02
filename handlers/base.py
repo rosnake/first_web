@@ -6,7 +6,7 @@ import methods.readdb as orm
 from session.session import SessionFactory
 from methods.debug import *
 from orm.db import dbSession
-
+from orm.user import UserModule
 
 class BaseHandler(tornado.web.RequestHandler):
     """
@@ -48,4 +48,16 @@ class BaseHandler(tornado.web.RequestHandler):
         logging.info("clear cookies")
         self.clear_cookie("username")
 
+    def get_user_role(self, username):
+        user = self.db.query(UserModule).filter(UserModule.username == username).first()
+
+        if user is None:
+            return False, False
+
+        if user.role == "admin":
+            return True, False
+        elif user.role == "organizer":
+            return False, True
+        else:
+            return False, False
 

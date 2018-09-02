@@ -22,15 +22,17 @@ class AdminDeductHandler(BaseHandler):
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
         if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login")
+            self.redirect("/login?next=/admin/deduct")
             return
 
         username = self.get_current_user()
 
-        render_controller["index"] = True
-        render_controller["authorized"] = False
-        render_controller["login"] = False
+        print(self.session["authorized"])
+        render_controller["index"] = False
         render_controller["authorized"] = self.session["authorized"]
+        render_controller["login"] = False
+        render_controller["admin"] = self.session["admin"]
+        render_controller["organizer"] = self.session["organizer"]
 
         if username is not None:
             deduct_module = MarksModule.get_all_marks()

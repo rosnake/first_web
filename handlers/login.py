@@ -65,10 +65,12 @@ class LoginHandler(BaseHandler):
         if user is not None:
             logging.info("login ok,user name:"+username)
             response["data"] = date_kits.get_now_day_str()
-
+            admin, organizer = self.get_user_role(username)
             self.set_current_user(username)
             self.session["authorized"] = True
             self.session["username"] = username
+            self.session["admin"] = admin
+            self.session["organizer"] = organizer
             render_controller["authorized"] = self.session["authorized"] = True
             self.write(json.dumps(response))
             return

@@ -15,6 +15,7 @@ class ExchangeRuleModule(DataBase):
     id = Column(Integer, primary_key=True)
     exchange_rule_name = Column(String(64), nullable=False, index=True)  # 分数项目名称
     exchange_rule_points = Column(Float, default=0.0, nullable=False, index=False)  # 对应分数
+    min_points = Column(Float, default=0.0, nullable=False, index=False)  # 最少分数
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.username)

@@ -12,6 +12,7 @@ import methods.debug as dbg
 from methods.debug import *
 from orm.user import UserModule
 
+
 class UserHandler(BaseHandler):
     def get(self):
         controller = UserDataUtils.get_render_controller()
