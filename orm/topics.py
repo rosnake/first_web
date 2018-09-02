@@ -17,8 +17,10 @@ class TopicsModule(DataBase):
     nickname = Column(String(64), nullable=False, index=False)  # 中文名
     title = Column(String(64), nullable=False)  # 议题名称
     brief = Column(String(64), nullable=True, index=False)  # 议题简介
+    image = Column(String(64), nullable=True, index=False)  # 议题图片路径
     datetime = Column(DateTime, default=datetime.now())
     finish = Column(Boolean, default=False, nullable=False)
+    current = Column(Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.username)

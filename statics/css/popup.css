@@ -142,7 +142,7 @@
     text-align: center;
 }
 
-#id_applications_confirm,#id_admin_add_issues_confirm
+#id_applications_confirm,#id_admin_add_issues_confirm,#id_admin_mod_issues_confirm
 {
     right: 200px;
     width: 200px;
@@ -160,19 +160,18 @@
 .applications_item_name, .applications_item_user
 {
     margin-top: 20px;
-     height: 60px;
+     height: 50px;
 }
 
-#id_input_topic_name,#id_input_topic_user
+#id_input_topic_name, #id_input_topic_user,#id_admin_mod_issues
 {
-    width: 680px;
+    width: 670px;
     height: 30px;
     border: 1px solid #000000;
     border-radius:5px;
     background-color: #a2ffe9;
     font-size: 20px;
 }
-
 .applications_item_brief
 {
      height: 120px;

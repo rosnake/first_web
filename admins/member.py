@@ -9,6 +9,7 @@ from methods.utils import UserDataUtils
 from methods.utils import UserAuthUtils
 from methods.controller import PageController  # 导入页面控制器
 from orm.user import UserModule
+from orm.points import PointsModule
 from methods.debug import *
 from methods.toolkits import DateToolKits
 import random
@@ -94,6 +95,7 @@ class AdminMemberHandler(BaseHandler):
                 response["data"] = date_kits.get_now_day_str()
                 self.write(json.dumps(response))
 
+            self.__delete_point_by_name(username)
             return
 
         if operation == "modify":
@@ -124,6 +126,18 @@ class AdminMemberHandler(BaseHandler):
                 response["data"] = date_kits.get_now_day_str()
                 self.write(json.dumps(response))
                 return
+
+    def __delete_point_by_name(self, username):
+        point = self.db.query(PointsModule).filter(PointsModule.username == username).first()
+
+        if point is not None:
+            self.db.delete(point)
+            self.db.commit()
+            logging.info("delete point succeed")
+            return True
+        else:
+            logging.error("delete point failed")
+            return False
 
     def __delete_user_by_name(self, username):
         user = self.db.query(UserModule).filter(UserModule.username == username).first()
@@ -187,6 +201,16 @@ class AdminMemberHandler(BaseHandler):
 
         self.db.add(user_moudle)
         self.db.commit()
+
+        # 更新积分表格
+        point_moudle = PointsModule()
+        point_moudle.username = username
+        point_moudle.current_point = 10
+        point_moudle.last_point = 10
+        point_moudle.nickname = user_moudle.nickname
+        self.db.add(point_moudle)
+        self.db.commit()
+
         return True
 
 

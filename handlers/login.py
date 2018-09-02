@@ -16,6 +16,7 @@ from methods.controller import PageController  # 导入页面控制器
 from methods.code import VerifyCode
 from methods.toolkits import DateToolKits
 from orm.user import UserModule
+from orm.points import PointsModule
 
 # 继承 base.py 中的类 BaseHandler
 class LoginHandler(BaseHandler):

@@ -9,6 +9,7 @@ import sys
 from base import BaseHandler
 from methods.utils import UserDataUtils
 from orm.user import UserModule
+from orm.points import PointsModule
 
 
 class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
@@ -42,6 +43,14 @@ class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
             user_moudle.email = "unknown"
             user_moudle.role = "normal"
             self.db.add(user_moudle)
+            self.db.commit()
+            # 更新积分表格
+            point_moudle = PointsModule()
+            point_moudle.username = username
+            point_moudle.current_point = 10
+            point_moudle.last_point = 10
+            point_moudle.nickname = user_moudle.nickname
+            self.db.add(point_moudle)
             self.db.commit()
             succeed = True
 

@@ -8,11 +8,11 @@ from methods.utils import UserDataUtils
 from methods.utils import UserAuthUtils
 import json
 import datetime
+from methods.debug import *
+from methods.controller import PageController
+from orm.points import PointsModule
+from orm.user import UserModule
 
-import logging  # 引入logging模块
-# logging.basicConfig函数对日志的输出格式及方式做相关配置
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(funcName)s-%(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')
 
 # 继承 base.py 中的类 BaseHandler
 class AdminPointHandler(BaseHandler):
@@ -20,28 +20,31 @@ class AdminPointHandler(BaseHandler):
     用户首页处理，显示一些客户不需要登陆也可查看的信息
     """
     def get(self):
-        usernames = mrd.select_columns(table="users",column="username")
-        one_user = usernames[0][0]
-        # print ("one user name:%s" % one_user)
+        page_controller = PageController()
+        render_controller = page_controller.get_render_controller()
+        if self.session["authorized"] is None or self.session["authorized"] is False:
+            self.redirect("/login?next=/admin/point")
+            return
+
         username = self.get_current_user()
-        controller = UserDataUtils.get_render_controller()
-        controller["index"] = True
-        controller["authorized"] = False
-        controller["login"] = False
-        score_tables = UserDataUtils.get_user_score_tables()
+        if username is None:
+            self.redirect("/login?next=/admin/point")
+            return
 
-        if username is not None:
-            controller["authorized"] = True
-            print("################"+username)
-
-        point_tables = UserDataUtils.get_point_tables()
-        persons = UserDataUtils.get_user_info_tables()
-        self.render("admin/point.html",
-                    persons = persons,
-                    controller = controller,
-                    username=username,
-                    point_tables=point_tables,
-                    )
+        print(self.session["authorized"])
+        render_controller["index"] = False
+        render_controller["authorized"] = self.session["authorized"]
+        render_controller["login"] = False
+        render_controller["admin"] = self.session["admin"]
+        render_controller["organizer"] = self.session["organizer"]
+        self.__update_point_info()
+        point_tables = self.__get_all_points()
+        if point_tables is not None:
+            self.render("admin/point.html",
+                        controller=render_controller,
+                        username=username,
+                        point_tables=point_tables,
+                        )
 
     def post(self):
         response = {"status": True, "data": "", "message": "succeed"}
@@ -77,4 +80,28 @@ class AdminPointHandler(BaseHandler):
         self.write(json.dumps(response))
         return
 
+    def __update_point_info(self):
+        user_all = UserModule.get_all_users()
+
+        if user_all:
+            for x in user_all:
+                self.db.query(PointsModule).filter(PointsModule.username == x.username).update({
+                    PointsModule.username: x.username,
+                    PointsModule.nickname: x.nickname,
+                })
+                self.db.commit()
+
+    def __get_all_points(self):
+        points_tables = []
+
+        point_module = PointsModule.get_all_points()
+
+        if point_module is None:
+            return None
+
+        for point in point_module:
+            tmp = {"user_id": point.username, "user_name": point.nickname, "user_point": point.current_point}
+            points_tables.append(tmp)
+
+        return points_tables
 

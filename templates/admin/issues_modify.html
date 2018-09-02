@@ -14,14 +14,16 @@
         <label class="applications_label">当前查无此议题</label>
     {% else %}
     <div class="applications_item_user">
+        <label class="applications_label">议题编号:</label>
+        <input type="text" readonly="readonly" id="id_admin_mod_issues" value={{ issues_table["topic_id"] }}>
+    </div>
+    <div class="applications_item_user">
         <label class="applications_label">主 讲 人:</label>
         <input type="text" id="id_input_topic_user" value={{ issues_table["name"]}}>
-        </input>
     </div>
     <div class="applications_item_name">
         <label class="applications_label">议题名称:</label>
         <input type="text" id="id_input_topic_name" value={{ issues_table["title"]}}>
-        </input>
     </div>
     <div class="applications_item_brief">
         <label class="applications_label">议题简介:</label>
@@ -42,7 +44,7 @@
 </div>
 
 <div class="class_applications_confirm">
-    <input type="BUTTON" value="确定" id="id_admin_add_issues_confirm" />
+    <input type="BUTTON" value="确定" id="id_admin_mod_issues_confirm" />
 </div>
 
 </body>
