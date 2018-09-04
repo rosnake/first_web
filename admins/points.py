@@ -47,17 +47,14 @@ class AdminPointHandler(BaseHandler):
                         )
 
     def post(self):
-        response = {"status": True, "data": "", "message": "succeed"}
+        response = {"status": True, "data": "", "message": "failed"}
+        nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # 现在
         user_id = self.get_argument("user_id")
         user_name = self.get_argument("user_name")
         user_point = self.get_argument("user_point")
 
         logging.info("user post info")
-        logging.info("user_id:" + user_id)
-        logging.info("user_name:" + user_name)
-        logging.info("user_point:" + user_point)
-
-        nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # 现在
+        logging.info("user_id:" + user_id+"user_name:" + user_name+"user_point:" + user_point)
         logging.info(nowTime)
         if user_point.isdigit() is False:
             response["status"] = False
@@ -66,19 +63,19 @@ class AdminPointHandler(BaseHandler):
             self.write(json.dumps(response))
             return
 
-        ret = UserDataUtils.set_point_to_tables_by_id(user_id, user_point)
+        ret = self.__update_user_point_by_username(user_id, user_point)
         if ret is True:
             response["status"] = True
             response["message"] = "修改成功！"
             response["data"] = nowTime
             self.write(json.dumps(response))
             return
-
-        response["status"] = False
-        response["message"] = "修改失败,找不到记录！"
-        response["data"] = nowTime
-        self.write(json.dumps(response))
-        return
+        else:
+            response["status"] = False
+            response["message"] = "修改失败,找不到记录！"
+            response["data"] = nowTime
+            self.write(json.dumps(response))
+            return
 
     def __update_point_info(self):
         user_all = UserModule.get_all_users()
@@ -105,3 +102,15 @@ class AdminPointHandler(BaseHandler):
 
         return points_tables
 
+    def __update_user_point_by_username(self, username, point):
+        user_point = self.db.query(PointsModule).filter(PointsModule.username == username).first()
+
+        if user_point:
+            self.db.query(PointsModule).filter(PointsModule.username == username).update({
+                PointsModule.last_point:user_point.current_point,
+                PointsModule.current_point: point,
+            })
+            self.db.commit()
+            return True
+        else:
+            return False

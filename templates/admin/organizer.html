@@ -27,13 +27,15 @@
             </tr>
         </thead>
         <tbody id="admin_member_table_body">
-        {% for organizer_table in organizer_tables %}
-            <tr>
-                <td><input type="radio" name="select_id" value={{ organizer_table["organizer_id"] }}></td>
-                 <td id="organizer_id">{{ organizer_table["organizer_id"] }}</td>
-                <td id="organizer_name">{{ organizer_table["organizer_name"] }}</td>
-                <td id="date">{{ organizer_table["date"] }}</td>
-            </tr>
+        {% if organizer_tables is not None %}
+            {% for organizer_table in organizer_tables %}
+                <tr>
+                    <td><input type="radio" name="select_id" value={{ organizer_table["organizer_id"] }}></td>
+                     <td id="organizer_id">{{ organizer_table["organizer_id"] }}</td>
+                    <td id="organizer_name">{{ organizer_table["organizer_name"] }}</td>
+                    <td id="date">{{ organizer_table["date"] }}</td>
+                </tr>
+            {% end %}
         {% end %}
         </tbody>
     </table>
