@@ -15,6 +15,7 @@
     {{ modules.Admin(controller) }}
     <div class="admin_page">
         <h3>当前会议信息如下</h3>
+
         <form id="admin_member_form" name="member_form">
         <table id="admin_member_table">
         <thead id="admin_member_table_head">
@@ -52,14 +53,13 @@
                     <p><span>话题编号:</span><input type="text" id="id_admin_meeting_topic_id" /></p>
                     <p><span>主讲人:</span><input type="text" id="id_admin_meeting_user_name" /></p>
                     <p><span>会议室:</span><input type="text" id="id_admin_meeting_meeting_room"/></p>
-                    <p><span>会议时间:</span><input type="text" id="id_admin_meeting_meeting_date"/></p>
+                    <p><span>会议时间:</span><input type="date" id="id_admin_meeting_meeting_date"/></p>
                     <input type="button" class="admin_mod" id="id_admin_meeting_submit" value="提交" />
                 </div>
 
             </div>
         </div>
         <!-- 弹窗内容结束 -->
-
 
     </div>
 

@@ -120,6 +120,20 @@ class UserDataUtils:
         return UserDataUtils.meeting_tables
 
     @staticmethod
+    def modify_meeting_info_by_id(meeting_id, user_name, meeting_room, meeting_date):
+        strData = meeting_id.encode("ascii")
+        meeting_id = int(strData)
+
+        for i in range(len(UserDataUtils.meeting_tables)):
+            if UserDataUtils.meeting_tables[i]["topic_id"] == meeting_id:
+                UserDataUtils.meeting_tables[i]["user_name"] = user_name
+                UserDataUtils.meeting_tables[i]["meeting_room"] = meeting_room
+                UserDataUtils.meeting_tables[i]["meeting_date"] = meeting_date
+                return True
+
+        return False
+
+    @staticmethod
     def get_point_tables():
         return UserDataUtils.point_tables
 
@@ -149,6 +163,7 @@ class UserDataUtils:
     @staticmethod
     def get_organizer_tables():
         return UserDataUtils.organizer_tables
+
     @staticmethod
     def get_exchange_rule_tables():
         return UserDataUtils.exchange_rule_tables
@@ -160,6 +175,7 @@ class UserDataUtils:
     @staticmethod
     def get_user_score_tables():
         return UserDataUtils.user_score_tables
+
     @staticmethod
     def get_user_info_tables():
         return UserDataUtils.user_info_tables
