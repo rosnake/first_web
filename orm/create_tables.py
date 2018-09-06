@@ -11,6 +11,7 @@ from orm.organizer import OrganizerModule
 from orm.topics import TopicsModule
 from orm.marks import MarksModule
 from orm.rules import ExchangeRuleModule
+from orm.attendance import AttendanceModule
 
 
 # 将创建好的数据表类，映射到数据库的表中

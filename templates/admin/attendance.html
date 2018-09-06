@@ -1,0 +1,136 @@
+{% extends "../base.html" %}
+<!--自动转义-->
+{% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/attendance.js")}}"></script>
+{% end %}
+{% autoescape None %}
+{% block header %}
+{{ modules.Header(username) }}
+{% end %}
+
+{% block body %}
+<h3>出勤管理</h3>
+<div class="class_admin_body">
+    {{ modules.Admin(controller) }}
+    <div class="admin_page">
+        <h3>当前有如下用户请假，请处理：</h3>
+        <form id="admin_member_form" name="member_form">
+           <table class="class_admin_table_structure" id="admin_member_table" frame="box">
+                <colgroup>
+                    <col class="col_name"/>
+                    <col class="col_late"/>
+                    <col class="col_retreat"/>
+                    <col class="col_absenteeism"/>
+                    <col class="col_un_present"/>
+                    <col class="col_total"/>
+                    <col class="col_table_button"/>
+                </colgroup>
+                <thead>
+                <tr id="table_title">
+                    <th colspan="8">请假统计表</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr id="table_item_name">
+                        <th>用户ID</th>
+                        <th>姓名</th>
+                        <th>编号</th>
+                        <th>请假事由</th>
+                        <th>请假日期</th>
+                        <th>申请时间</th>
+                        <th colspan="2">操作</th>
+                    </tr>
+            {% if attendance_tables is not None %}
+                {% for attendance in attendance_tables %}
+                    {% if attendance["attend"] == False %}
+                    <tr>
+                        <td id="id_admin_attendance_username">{{attendance["username"]}}</td>
+                        <td id="id_admin_attendance_nickname">{{attendance["nickname"]}}</td>
+                        <td id="id_admin_attendance_absence_id">{{attendance["absence_id"]}}</td>
+                        <td id="id_admin_attendance_absence_reason">{{attendance["absence_reason"]}}</td>
+                        <td id="id_admin_attendance_datetime">{{attendance["datetime"]}}</td>
+                        <td id="id_admin_attendance_apply_time">{{attendance["apply_time"]}}</td>
+                        <td>
+                            <div id="table_button">
+                                <input id="id_admin_attendance_submit"  type="button" value="同意" >
+                                <input id="id_admin_attendance_cancel"  type="button" value="驳回" >
+                            </div>
+
+                        </td>
+                    </tr>
+                    {% end %}
+                {% end %}
+            {% end %}
+                </tbody>
+            </table>
+        </form>
+
+        <h3>出勤签到：</h3>
+        <form id="admin_member_form" name="member_form">
+                   <table class="class_admin_table_structure" id="admin_member_table"  frame="box">
+                <colgroup>
+                    <col class="col_name"/>
+                    <col class="col_late"/>
+                    <col class="col_retreat"/>
+                    <col class="col_absenteeism"/>
+                    <col class="col_un_present"/>
+                    <col class="col_total"/>
+                    <col class="col_table_button"/>
+                </colgroup>
+                <thead>
+                <tr id="table_title">
+                    <th colspan="8">出勤统计表</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr id="table_item_name">
+                        <th>用户ID</th>
+                        <th>姓名</th>
+                        <th colspan="1">操作</th>
+                    </tr>
+            {% if attendance_tables is not None %}
+                {% for attendance in attendance_tables %}
+                    {% if attendance["attend"] == True %}
+                    <tr>
+                        <td id="id_admin_attendance_username">{{attendance["username"]}}</td>
+                        <td id="id_admin_attendance_nickname">{{attendance["nickname"]}}</td>
+                        <td>
+                            <div id="table_button">
+                                <input id="id_admin_attendance_sign_in"  type="button" value="签到" >
+                            </div>
+
+                        </td>
+                    </tr>
+                    {% end %}
+                {% end %}
+            {% end %}
+                </tbody>
+            </table>
+        </form>
+
+        <!-- 弹窗内容开始 -->
+        <div id="admin_popup_background" class="back">
+            <div id="admin_popup_frontend" class="content">
+                <div id="admin_popup_close">
+                    <h2>积分兑换规则</h2>
+                </div>
+                <div id="admin_popup_body">
+                    <h3 id="admin_exchange_popup_sub_title" >弹窗标题</h3>
+                    <p><span>兑换编号:</span><input type="text" id="admin_exchange_popup_rule_id"/></p>
+                    <p><span>兑换物品:</span><input type="text" id="admin_exchange_popup_rule_name"/></p>
+                    <p><span>所需积分:</span><input type="text" id="admin_exchange_popup_rule_points"/></p>
+                    <p><span>最少积分:</span><input type="text" id="admin_exchange_popup_rule_range"/></p>
+                    <input type="button" class="admin_mod" id="admin_popup_close_button" value="提交" />
+                </div>
+
+            </div>
+        </div>
+        <!-- 弹窗内容结束 -->
+
+    </div>
+
+</div> <!--end of admin body-->
+
+
+{% end %}
