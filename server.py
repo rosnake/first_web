@@ -4,10 +4,10 @@
 import tornado.ioloop
 import tornado.options
 import tornado.httpserver
-
+import time, threading
 from application import application
 from orm.create_tables import *
-
+from consistency import DataConsistency
 from tornado.options import define, options
 define("port", default=8888, help="run on the given port", type=int)
 define("tables", default=False, group="application", help="create tables", type=bool)
@@ -25,4 +25,8 @@ def main():
 
 
 if __name__ == "__main__":
+    consistency = DataConsistency()
+    consistency.run()
     main()
+
+
