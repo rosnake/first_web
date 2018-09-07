@@ -22,8 +22,8 @@ from orm.points import PointsModule
 class LoginHandler(BaseHandler):
 
     def get(self):
-        nextname = self.get_argument('next', '')
-        print(nextname)
+        next_name = self.get_argument('next', '')
+        logging.info("login next name:"+next_name)
         self.clear_current_user()
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
@@ -32,7 +32,7 @@ class LoginHandler(BaseHandler):
         render_controller["authorized"] = False
 
         logging.info("get login page")
-        self.render("login.html", controller=render_controller, nextname=nextname)
+        self.render("login.html", controller=render_controller, nextname=next_name)
 
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}

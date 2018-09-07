@@ -5,9 +5,11 @@ import tornado.escape
 import methods.readdb as mrd
 from handlers.base import BaseHandler
 import json
-from methods.debug import debug_msg
+from methods.debug import *
 import sys
 from methods.utils import UserDataUtils
+from orm.history import HistoryModule
+from orm.marks import MarksModule
 
 
 class LayerHandler(BaseHandler):
@@ -18,23 +20,29 @@ class LayerHandler(BaseHandler):
     """
 
     def get(self):
-        username = "hello world"
-        username = self.get_argument("user")
-        operation = self.get_argument("operation")
-        debug_msg(LayerHandler, sys._getframe().f_lineno,"====username:"+username)
-        debug_msg(LayerHandler, sys._getframe().f_lineno, "====operation:" + operation)
-        user_score = UserDataUtils.get_user_score_by_name(username)
-        print(user_score)
-        if operation == "edit":
-            if user_score != None:
-                debug_msg(LayerHandler, sys._getframe().f_lineno,"render pop_editor.html");
-                self.render("pop_editor.html", userscore=user_score)
-            else:
-                debug_msg(LayerHandler, sys._getframe().f_lineno,"no render pop_editor.html");
+        if self.session["authorized"] is None or self.session["authorized"] is False:
+            self.redirect("/login?next=/home")
+            return
 
-        elif operation == "browse":
-            debug_msg(LayerHandler, sys._getframe().f_lineno, "render pop_browse.html");
-            self.render("pop_browse.html", userscore=user_score)
+        username = self.get_argument("user", "unknown")
+        operation = self.get_argument("operation", "unknown")
+
+        if username == "unknown" or operation == "unknown":
+            logging.error("popup layer username:"+username+" operation:" + operation)
+            self.redirect("/")
+            return
+
+        if operation == "browse":
+            history_table = self.__get_point_history_by_user_name(username)
+            point_stat = self.__get_point_stat_by_user_name(username)
+            self.render("pop_browse.html", history_table=history_table, point_stat=point_stat)
+
+            return
+
+        if operation == "apply":
+            if self.session["username"] == username:
+                leave_reason = self.__get_all_leave_reason()
+                self.render("pop_editor.html", username=username, leave_reason=leave_reason)
 
     def post(self):
         ret = {"status": True, "data": "", "error": "succeed"}
@@ -54,3 +62,58 @@ class LayerHandler(BaseHandler):
             ret["status"] = False
             ret["error"] = "密码错误！"
             self.write(json.dumps(ret))
+
+    def __get_point_history_by_user_name(self, user_name):
+        history_module = self.db.query(HistoryModule).filter(HistoryModule.user_name == user_name).all()
+
+        history_table = []
+        if history_module:
+            for history in history_module:
+                tmp = {
+                    "transactor": history.transactor, "mark_name": history.mark_name,
+                    "points": history.points, "datetime": history.datetime,
+                }
+                history_table.append(tmp)
+
+            return history_table
+        else:
+            return history_table
+
+    def __get_point_stat_by_user_name(self, user_name):
+        history_module = self.db.query(HistoryModule).filter(HistoryModule.user_name == user_name).all()
+        mark_module = MarksModule.get_all_marks()
+
+        user_point = {}
+        user_point["username"] = user_name
+        if history_module and mark_module:
+            user_point = {}
+            for x in mark_module:
+                point = 0
+                for y in history_module:
+                    if x.id == y.mark_id:
+                        point = point + y.points
+
+                        user_point[x.markname] = point
+
+            return user_point
+
+        else:
+            return user_point
+
+    def __get_all_leave_reason(self):
+        deduct_module = MarksModule.get_all_marks()
+
+        leave_reason = []
+
+        if deduct_module:
+            for x in deduct_module:
+                if x.points < 0:
+                    tmp = {"reason_id": x.id, "leave_reason": x.markname}
+                    leave_reason.append(tmp)
+
+            return leave_reason
+        else:
+            return leave_reason
+
+
+

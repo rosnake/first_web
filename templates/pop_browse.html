@@ -10,31 +10,57 @@
 </head>
 <body>
     <div class="class_popup_edit_name">
-        <label class="label_popup_edit_name">姓名：{{ userscore["name"] }}</label>
+        {% if point_stat is not None %}
+            <label class="label_popup_edit_name">用户ID：{{ point_stat["username"] }}</label>
+        {% end %}
+    </div>
+    <div class="class_popup_browse_detail">
+         <h3>当前分数明细如下：</h3>
+        {% if point_stat is not None %}
+            {% for key in point_stat %}
+                {% if key != "username" %}
+                <label class="label_popup_browse_detail">{{ key }}: {{point_stat[key]}}分。</label>
+                <br>
+                {% end %}
+            {% end %}
+        {% end %}
     </div>
     <div id="edit_title">
         <h3>分数变动明细如下：</h3>
     </div>
 
     <div class="class_popup_browse">
-        <div class="class_popup_browse_item">
-            <label class="class_popup_browse_label">迟到: {{userscore["late"]}}</label>
-        </div>
-
-        <div class="class_popup_browse_item">
-            <label class="class_popup_browse_label">早退: {{userscore["late"]}}</label>
-        </div>
-
-         <div class="class_popup_browse_item">
-            <label class="class_popup_browse_label">旷会: {{userscore["absenteeism"]}}</label>
-        </div>
-
-        <div class="class_popup_browse_item">
-            <label class="class_popup_browse_label">未出席: {{userscore["un_present"]}}</label>
-        </div>
-    </div>
-    <div class="class_popup_browse_total">
-        <label class="label_popup_browse_total">当前分数: {{userscore["total"]}}分。</label>
+    <table class="class_popup_table_structure"  frame="box">
+        <colgroup>
+            <col class="col_history_table_transactor"/>
+            <col class="col_history_table_mark_name"/>
+            <col class="col_history_table_points"/>
+            <col class="col_history_table_datetime"/>
+        </colgroup>
+        <thead>
+        <tr id="id_popup_table_title">
+            <th colspan="4">分数详情</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr id="id_popup_table_item_name">
+                <th>用户ID</th>
+                <th>姓名</th>
+                <th>上周分数</th>
+                <th>当前分数</th>
+            </tr>
+            {% if history_table is not None %}
+                {% for history in history_table %}
+                <tr>
+                    <td id="id_popup_item_transactor">{{history["transactor"]}}</td>
+                    <td id="id_popup_item_mark_name">{{history["mark_name"]}}</td>
+                    <td id="id_popup_item_points">{{history["points"]}}</td>
+                    <td id="id_popup_item_datetime">{{history["datetime"]}}</td>
+                </tr>
+                {% end %}
+            {% end %}
+        </tbody>
+    </table>
     </div>
 
     <div class="class_popup_back">

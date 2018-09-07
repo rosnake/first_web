@@ -150,9 +150,8 @@ body {
     width: 165px;
 
 }
-#table_check
+#id_home_point_detail
 {
-    float:  left;
     margin: 5px;
     width: 70px;
     height: 30px;
@@ -530,4 +529,22 @@ admin_member_table_body td {
 #points_exchange h2
 {
     text-align: center;
+}
+
+#id_home_leave
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#id_home_leave_apply
+{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 15px;
+    border: 1px solid #a2ffe9;
 }

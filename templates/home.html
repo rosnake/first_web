@@ -19,8 +19,8 @@
 {% end %}
 
 {% block body %}
-
 <h3> 本周议题如下：</h3>
+
 {% for topics in  topics_table %}
 <div class="topics_current">
     {% if topics["current"] == True %}
@@ -36,7 +36,52 @@
     {% end %}
 </div>
 {% end %}
+<div id="id_home_leave">
+    <h3> 如果您有事无法出席，请点击下面按钮请假：</h3>
+    <option  id="id_span_home_user_name" value={{ username }}></option>
+     <input type="button" class="class_home_leave" id="id_home_leave_apply" value="请假" />
+</div>
 <h3> 当前积分排行榜：</h3>
-{{ modules.Table(tables,controller) }}
+<div id="info_tables">
+    <table class="table_structure"  frame="box">
+        <colgroup>
+            <col class="col_home_user_name"/>
+            <col class="col_home_nick_name"/>
+            <col class="col_home_last_point"/>
+            <col class="col_home_current_point"/>
+            <col class="col_home_operation"/>
+        </colgroup>
+        <thead>
+        <tr id="table_title">
+            <th colspan="5">分数统计表</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr id="table_item_name">
+                <th>用户ID</th>
+                <th>姓名</th>
+                <th>上周分数</th>
+                <th>当前分数</th>
+                <th>操作</th>
+            </tr>
+            {% if points_table is not None %}
+                {% for point in points_table %}
+                <tr>
+                    <td id="id_home_user_name">{{point["user_name"]}}</td>
+                    <td id="id_home_nick_name">{{point["nick_name"]}}</td>
+                    <td id="id_home_last_point">{{point["last_point"]}}</td>
+                    <td id="id_home_current_point">{{point["current_point"]}}</td>
+                    <td>
+                        <div id="table_button">
+                            <input id="id_home_point_detail"  type="button" value="详细信息" >
+                        </div>
+
+                    </td>
+                </tr>
+                {% end %}
+            {% end %}
+        </tbody>
+    </table>
+</div>
 
 {% end %}

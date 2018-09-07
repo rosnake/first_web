@@ -7,12 +7,6 @@ import tornado.web
 import sys     # utf-8，兼容汉字
 
 
-# 表格模板
-class TableModule(tornado.web.UIModule):
-    def render(self, tables, controller):
-        return self.render_string("modules/table.html", tables=tables, controller=controller)
-
-
 # 人员信息模板
 class PersonModule(tornado.web.UIModule):
     def render(self, person):
@@ -48,9 +42,9 @@ class HeaderModule(tornado.web.UIModule):
     def css_files(self):
         return "css/header.css"
 
+
 # UI模板入口
 ui = [
-    {"Table": TableModule},
     {"Person": PersonModule},
     {"Navigation": NavigationModule, },
     {"Admin": AdminModule, },

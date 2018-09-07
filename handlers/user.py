@@ -27,9 +27,11 @@ class UserHandler(BaseHandler):
         else:
             logging.info("get username from request")
 
+        next_name = self.get_argument("next", "/login")
+
         if username is not None:
             user_infos = mrd.select_table(table="users",column="*",condition="username",value=username)
-            self.render("user.html", users = user_infos, controller=controller, username=username)
+            self.render("user.html", users=user_infos, controller=controller, username=username,next=next_name)
 
     def post(self):
         ret = {"status": True, "data": "", "error": ""}

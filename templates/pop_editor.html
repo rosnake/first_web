@@ -9,61 +9,34 @@
 </head>
 <body>
     <div class="class_popup_edit_name">
-        <label id="label_popup_edit_name">姓名:{{ userscore["name"] }}</label>
+        <label id="id_popup_leave_apply_user_name">姓名:{{ username }}</label>
     </div>
     <div id="edit_title">
-        <h3>分数变动明细：</h3>
+        <h3>请假明细：</h3>
     </div>
     <div id="id_edit_detail">
         <div class="class_popup_edit_item">
-            <label class="label_popup_edit">迟到</label>
+            <label class="label_popup_edit">请假事由</label>
             <div class="class_edit_input_block">
-                <select id="edit_select_late">
-                    <option value="default">{{userscore["late"]}}</option>
-                    <option value="sub">-1</option>
-                    <option value="add">+1</option>
+                {% if leave_reason is not None %}
+                <select id="id_popup_leave_apply_reason">
+                    {% for reason in  leave_reason%}
+                    <option value={{ reason["reason_id"] }}>{{reason["leave_reason"]}}</option>
+                    {% end %}
                 </select>
+                {% end %}
             </div>
         </div>
 
          <div class="class_popup_edit_item">
-            <label class="label_popup_edit">早退</label>
-            <div class="class_edit_input_block">
-                <select id="edit_select_retreat">
-                    <option value="default">{{userscore["retreat"]}}</option>
-                    <option value="sub">-1</option>
-                    <option value="add">+1</option>
-                </select>
-            </div>
+             <label class="label_popup_edit">请假时间</label>
+             <input type="date" id="id_popup_leave_apply_date"/>
         </div>
 
-         <div class="class_popup_edit_item">
-            <label class="label_popup_edit">旷会</label>
-            <div class="class_edit_input_block">
-                <select id="edit_select_absenteeism">
-                    <option value="default">{{userscore["absenteeism"]}}</option>
-                    <option value="sub">-1</option>
-                    <option value="add">+1</option>
-                </select>
-            </div>
-        </div>
+    </div>
 
-        <div class="class_popup_edit_item">
-            <label class="label_popup_edit">未出席</label>
-            <div class="class_edit_input_block">
-                <select id="edit_select_un_present">
-                    <option value="default">{{userscore["un_present"]}}</option>
-                    <option value="sub">-1</option>
-                    <option value="add">+1</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="class_popup_edit_total">
-        <label class="label_popup_edit_name">当前分数:{{userscore["total"]}}分。</label>
-    </div>
     <div class="class_popup_submit">
-        <input type="BUTTON" value="提交" id="popup_submit" />
+        <input type="BUTTON" value="提交" id="id_popup_leave_apply_submit" />
     </div>
 
 </body>

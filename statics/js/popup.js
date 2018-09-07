@@ -3,45 +3,10 @@ var popup_index = 0;
 $(document).ready(function () {
 	//弹出一个iframe层
 	//标签+属性选择所有<编辑>按钮
-	$('input[value="编辑"]').click(function () {
-		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="编辑"]').index($(this)) + 2;
-		console.log(numId);
-		//选择表格中的所有tr 通过eq方法取得当前tr
-		var ttr = $('table tr').eq(numId);
-		console.log(ttr);
-
-		/*当前行使用find方法找到每一个td列
-		each方法为每一个td设置function
-		 */
-		var user = "";
-		var operation = "edit";
-		ttr.find("td").each(function () {
-			/*过滤 td中的元素
-			checkbox 、 button、text 不需要执行append
-			注意 return 为 跳出当前 each
-			return false 为 跳出整个 each
-			 */
-			if ($(this).children("input[type='checkbox']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='button']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='text']").length > 0) {
-				return;
-			}
-
-			var id = $(this).attr('id');
-			var tdVal = $(this).html();
-			//console.log(id);
-			//console.log(tdVal);
-			if (id == "name") {
-				user = tdVal;
-			}
-		});
-
-		console.log(user);
+	$('#id_home_leave_apply').on('click', function () {
+		var user = $('#id_span_home_user_name').val();
+		var operation = "apply";
+		console.log("leave apply username:"+user);
 		if (user == "") {
 			layer.msg('用户名不能为空');
 		} else {
@@ -91,7 +56,7 @@ $(document).ready(function () {
 			var tdVal = $(this).html();
 			//console.log(id);
 			//console.log(tdVal);
-			if (id == "name") {
+			if (id == "id_home_user_name") {
 				user = tdVal;
 			}
 		});
@@ -128,19 +93,15 @@ $(document).ready(function () {
 		}
 	});
 
-	$('#popup_submit').on('click', function () {
-		var temp = $("#label_popup_edit_name").html();
+	$('#id_popup_leave_apply_submit').on('click', function () {
+		var temp = $("#id_popup_leave_apply_user_name").html();
 		var words = temp.split(':');
 		var username = words[1];
-		var un_present = $('#edit_select_un_present option:selected').text(); //选中的文本
-		var absenteeism = $('#edit_select_absenteeism option:selected').text(); //选中的文本
-		var retreat = $('#edit_select_retreat option:selected').text(); //选中的文本
-		var late = $('#edit_select_late option:selected').text(); //选中的文本
-		console.log("user:" + username);
-		console.log("un_present: " + un_present);
-		console.log("absenteeism: " + absenteeism);
-		console.log("retreat: " + retreat);
-		console.log("late: " + late);
+		var leave_reason = $('#id_popup_leave_apply_reason option:selected').text(); //选中的文本
+		var leave_id = $('#id_popup_leave_apply_reason option:selected').val(); //选中的文本
+		var leave_date = $('#id_popup_leave_apply_date').val(); //选中的文本
+		console.log("user:" + username+" leave_reason:" + leave_reason+" leave_id: " + leave_id+" leave_date:"+ leave_date);
+
 
 		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 		parent.layer.close(index); //再执行关闭

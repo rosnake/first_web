@@ -8,6 +8,10 @@ from methods.utils import UserDataUtils
 from methods.utils import UserAuthUtils
 from methods.debug import *
 from orm.user import UserModule
+from methods.controller import PageController
+from orm.topics import TopicsModule
+from orm.points import PointsModule
+
 
 #继承 base.py 中的类 BaseHandler
 
@@ -21,56 +25,70 @@ class HomeHandler(BaseHandler):
     def get(self):
         # 用户渲染表格模板的数据接口
         # 后续该接口需要从数据库读取
-        logging.info(self.session["username"])
-        controller = UserDataUtils.get_render_controller()
-        controller["index"] = False
-        controller["authorized"] = False
-        controller["login"] = False
+        page_controller = PageController()
+        render_controller = page_controller.get_render_controller()
+        if self.session["authorized"] is None or self.session["authorized"] is False:
+            self.redirect("/login?next=/home")
+            return
 
         username = self.get_current_user()
+
+        print(self.session["authorized"])
+        render_controller["index"] = False
+        render_controller["authorized"] = self.session["authorized"]
+        render_controller["login"] = False
+        render_controller["admin"] = self.session["admin"]
+        render_controller["organizer"] = self.session["organizer"]
+
         # 先判断是否完善其他信息，如果没有完善，跳转到信息完善页面
         if username is not None:
             user = self.db.query(UserModule).filter(UserModule.username == username).first()
             if user is not None:
                 print(user.username)
                 if user.email == "unknown":
-                    self.redirect("/user")
+                    self.redirect("/user?next=/home")
                     self.finish()
                     return
 
+        points_table = self.__get_all_point_tables()
+        topics_table = self.__get_all_topic_tables()
 
-        score_tables = UserDataUtils.get_user_score_tables()
-
-        topics_table = UserDataUtils.get_user_topics_table()
-
-        if username is not None:
-            controller["authorized"] = True
-            print("################"+username)
-
-        role = UserAuthUtils.get_role_by_name(username)
-        if role == None:
-            role="normal"
-        if role == "admin":
-            controller["admin"] = True
-        else:
-            controller["admin"] = False
-
-        print("username:%s,role:%s" % (username, role))
-        self.render("home.html", tables=score_tables, controller=controller, topics_table=topics_table, username=username)
+        self.render("home.html", points_table=points_table, controller=render_controller,
+                    topics_table=topics_table, username=username)
 
     def post(self):
-        username = self.get_argument("username")
-        password = self.get_argument("password")
-        user_infos = mrd.select_table(table="users",column="*",condition="username", value=username)
-        if user_infos:
-            db_pwd = user_infos[0][2]
-            if db_pwd == password:
-                print("username:%s pwd:%s db_pwd %s" % (username, password, db_pwd))
-                # 将当前用户名写入 cookie，方法见下面
-                self.set_current_user(username)
-                self.write(username)
-            else:
-                print("username:%s pwd:%s " % (username, password))
-                self.write("-1")
-        else:
-            self.write("-1")
+        pass
+
+    def __get_all_topic_tables(self):
+        topics_module = TopicsModule.get_all_topics()
+        if topics_module is None:
+            return None
+
+        topics_tables = []
+        for topics in topics_module:
+            tmp = {
+                "topic_id": topics.id, "name": topics.username, "image": topics.image, "title": topics.title,
+                "current": topics.current, "finish": topics.finish, "time": topics.datetime,
+                "description": topics.brief
+            }
+            topics_tables.append(tmp)
+
+        return topics_tables
+
+    def __get_all_point_tables(self):
+        points_tables = []
+
+        point_module = PointsModule.get_all_points()
+
+        if point_module is None:
+            return points_tables
+
+        for point in point_module:
+            tmp = {
+                "user_name": point.username, "nick_name": point.nickname,
+                "current_point": point.current_point, "last_point": point.last_point
+            }
+            points_tables.append(tmp)
+
+        return points_tables
+

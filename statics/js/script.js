@@ -239,6 +239,11 @@ $(document).ready(function () {
 		var email = $("#id_user_other_info_email").val();
 		var nickname = $("#id_user_other_info_nickname").val();
 		var department = $("#id_user_other_info_department").val();
+		var nextname = $("#id_user_other_info_submit").val();
+		if(nextname ==="")
+		{
+			nextname = "/login";
+		}
 
 		if (email == "") {
 			$("#id_user_other_info_email").focus();
@@ -280,7 +285,7 @@ $(document).ready(function () {
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
 					alert("提交成功")
-					window.location.href = "/index?user=" + user;
+					window.location.href = nextname+"?user=" + user;
 				} else {
 					alert(obj.error);
 				}
@@ -288,5 +293,5 @@ $(document).ready(function () {
 		});
     });
 
-
+	/*处理请假*/
 });
