@@ -2,14 +2,16 @@
 # coding=utf-8
 
 import tornado.escape
+import json
 from handlers.base import BaseHandler
-from methods.utils import UserDataUtils
-from methods.utils import UserAuthUtils
 from methods.debug import *
 from orm.user import UserModule
 from methods.controller import PageController
 from orm.topics import TopicsModule
 from orm.points import PointsModule
+from methods.toolkits import DateToolKits
+from orm.marks import MarksModule
+from orm.attendance import AttendanceModule
 
 
 #继承 base.py 中的类 BaseHandler
@@ -56,7 +58,55 @@ class HomeHandler(BaseHandler):
                     topics_table=topics_table, username=username)
 
     def post(self):
-        pass
+        response = {"status": True, "data": "", "message": "failed"}
+        date_kits = DateToolKits()
+        operation = self.get_argument("operation")
+        username = self.get_argument("username")
+        leave_id = self.get_argument("leave_id", 0)
+        leave_date = self.get_argument("leave_date", "none")
+
+        logging.info("operation:%s , username: %s, leave_id:%s leave_date: %s" % (operation, username, leave_id, leave_date))
+
+        if operation == "leave_apply":
+            ret = self.__leave_apply_by_id(username, leave_id, leave_date)
+
+            if ret is True:
+                response["status"] = True
+                response["message"] = "申请成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+            else:
+                response["status"] = False
+                response["message"] = "申请失败！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+
+            return
+
+    def __leave_apply_by_id(self, username, leave_id, leave_date):
+        mark = self.db.query(MarksModule).filter(MarksModule.id == leave_id).first()
+        if mark is None:
+            return False
+        attendance = self.db.query(AttendanceModule).filter(AttendanceModule.username == username).first()
+
+        if attendance is None:
+            return False
+
+        date_kits = DateToolKits()
+        apply_time = date_kits.get_now_time()  # 申请时间
+
+        self.db.query(AttendanceModule).filter(AttendanceModule.username == username).update({
+            AttendanceModule.absence_reason: mark.markname,
+            AttendanceModule.absence_id: mark.id,
+            AttendanceModule.attend: False,
+            AttendanceModule.apply_time: apply_time,
+            AttendanceModule.datetime: leave_date,
+        })
+
+        self.db.commit()
+        logging.info("user leave apply  succeed")
+
+        return True
 
     def __get_all_topic_tables(self):
         topics_module = TopicsModule.get_all_topics()

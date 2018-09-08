@@ -18,71 +18,111 @@
 {% block body %}
 
 {% if controller["authorized"] == True %}
-    {% if user_score != None %}
-    <h3> 您当前积分如下： </h3>
-    <div id="info_tables">
-        <table class="table_structure"  frame="box">
-            <colgroup>
-                <col class="col_name"/>
-                <col class="col_late"/>
-                <col class="col_retreat"/>
-                <col class="col_absenteeism"/>
-                <col class="col_un_present"/>
-                <col class="col_total"/>
-                <col>
-            </colgroup>
-          <thead id="user_score">
-            <tr>
+    <h3> 您当前积分为：{{ current_point }} </h3>
+    <div class="class_popup_browse_detail">
+         <h3>当前分数明细如下：</h3>
+        {% if point_stat is not None %}
+            {% for key in point_stat %}
+                {% if key != "username" %}
+                <label class="label_popup_browse_detail">{{ key }}: {{point_stat[key]}}分。</label>
+                <br>
+                {% end %}
+            {% end %}
+        {% end %}
+    </div>
+    <div id="edit_title">
+        <h3>分数变动明细如下：</h3>
+    </div>
+
+    <div class="class_popup_browse">
+    <table class="class_popup_table_structure"  frame="box">
+        <colgroup>
+            <col class="col_history_table_transactor"/>
+            <col class="col_history_table_mark_name"/>
+            <col class="col_history_table_points"/>
+            <col class="col_history_table_datetime"/>
+        </colgroup>
+        <thead>
+        <tr id="id_popup_table_title">
+            <th colspan="4">分数详情</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr id="id_popup_table_item_name">
+                <th>用户ID</th>
                 <th>姓名</th>
-                <th>迟到</th>
-                <th>早退</th>
-                <th>旷会</th>
-                <th>未出席</th>
+                <th>上周分数</th>
                 <th>当前分数</th>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-                <td id="name">{{user_score["name"]}}</td>
-                <td id="late">{{user_score["late"]}}</td>
-                <td id="retreat">{{user_score["retreat"]}}</td>
-                <td id="absenteeism">{{user_score["absenteeism"]}}</td>
-                <td id="un_present">{{user_score["un_present"]}}</td>
-                <td id="total">{{user_score["total"]}}</td>
-            </tr>
-          </tbody>
-        </table>
+            {% if history_table is not None %}
+                {% for history in history_table %}
+                <tr>
+                    <td id="id_popup_item_transactor">{{history["transactor"]}}</td>
+                    <td id="id_popup_item_mark_name">{{history["mark_name"]}}</td>
+                    <td id="id_popup_item_points">{{history["points"]}}</td>
+                    <td id="id_popup_item_datetime">{{history["datetime"]}}</td>
+                </tr>
+                {% end %}
+            {% end %}
+        </tbody>
+    </table>
     </div>
+
     <div id="points_exchange">
     <h2> 积分兑换</h2>
-    {% set points = user_score["total"] %}
-    {% if points <= 16 %}
-        <h3> 您当前积分为：{{ user_score["total"] }} .</h3>
-        <p>您当前积分不足，无法兑换。如需兑换，积分需满足大于16分。</p>
-        {% set exchange_flags = False %}
-    {% elif points <=20 %}
-         <h3> 您当前积分为：{{ user_score["total"] }} .</h3>
-        <p>您当前可以兑换物品为：</p>
-        {% set exchange_flags = True %}
-    {% elif points <=30 %}
-         <h3> 您当前积分为：{{ user_score["total"] }} .</h3>
-         <p>您当前可以兑换物品为：</p>
-        {% set exchange_flags = True %}
-    {% end %}
+        {% if len(presents_table) %}
+            <h3> 您当前积分为：{{ current_point }} .</h3>
+            <p>您当前可以兑换物品为：</p>
+                <table class="class_popup_table_structure"  frame="box">
+                    <colgroup>
+                        <col class="col_history_table_transactor"/>
+                        <col class="col_history_table_mark_name"/>
+                        <col class="col_history_table_points"/>
+                        <col class="col_history_table_points"/>
+                    </colgroup>
+                    <thead>
+                    <tr id="id_popup_table_title">
+                        <th colspan="4">兑换物品详情</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="id_popup_table_item_name">
+                            <th>兑换物品</th>
+                            <th>所需积分</th>
+                            <th>最少积分</th>
+                            <th>兑换后积分</th>
+                        </tr>
+                        {% if presents_table is not None %}
+                            {% for present in presents_table %}
+                                {% set exchange_after = current_point - present["consume_point"] %}
+                            <tr>
+                                <td id="id_popup_item_transactor">{{present["present_name"]}}</td>
+                                <td id="id_popup_item_mark_name">{{present["consume_point"]}}</td>
+                                <td id="id_popup_item_points">{{present["min_points"]}}</td>
+                                <td id="id_popup_item_points">{{exchange_after}}</td>
+                            </tr>
+                            {% end %}
+                        {% end %}
+                    </tbody>
+                </table>
+            {% set exchange_flags = True %}
+        {% else %}
+            <p>您当前积分不足，无法兑换。如需兑换，积分需满足大于16分。</p>
+            {% set exchange_flags = False %}
+        {% end %}
 
     {% if exchange_flags == True %}
     <label class="label_popup_edit">请选择您需要兑换的物品。</label>
         <div class="class_edit_input_block">
             <select id="id_points_exchange_select">
                 {% for present in presents_table %}
-                <option value="present">{{ present }}</option>
+                <option value=presents_table["present_id"]>{{ present["present_name"] }}</option>
                 {% end %}
             </select>
         </div>
     <input type="button" class="class_points_exchange_user" id="id_points_exchange_user" value="积分兑换"/>
     {% end %}
     </div>
-    {% end %}
 {% else %}
 <p> 您未登录，如需查看积分，请先登录 </p>
 {% end %}

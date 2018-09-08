@@ -1,5 +1,10 @@
 var popup_index = 0;
 
+function getCookie(name) {
+	var x = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+	return x ? x[1] : undefined;
+}
+
 $(document).ready(function () {
 	//弹出一个iframe层
 	//标签+属性选择所有<编辑>按钮
@@ -102,6 +107,51 @@ $(document).ready(function () {
 		var leave_date = $('#id_popup_leave_apply_date').val(); //选中的文本
 		console.log("user:" + username+" leave_reason:" + leave_reason+" leave_id: " + leave_id+" leave_date:"+ leave_date);
 
+		if ((typeof leave_date) === 'undefined') {
+			layer.msg("请选择请假日期");
+			console.log("current not select any date");
+			return;
+		}
+
+		if(leave_date ==="")
+		{
+			layer.msg("请选择请假日期");
+			console.log("current not select any date");
+			return;
+		}
+
+		var submit_data = {
+			"operation": "leave_apply",
+			"username": username,
+			"leave_id": leave_id,
+			"leave_date":leave_date,
+			"_xsrf": getCookie("_xsrf")
+			};
+
+			console.log("operation:leave_apply,username:"+username+" leave_id:"+leave_id+" leave_date:"+leave_date);
+
+			$.ajax({
+				type: "post",
+				url: "/home",
+				data: submit_data,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						//注册成功---跳转（已登录状态--session实现）
+						alert("提交成功");
+						console.log("username:"+ username);
+						window.location.reload();
+					} else {
+						alert(obj.message);
+					}
+				},
+				error:function(arg) {
+					alert("未知的错误");
+				}
+			});
 
 		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 		parent.layer.close(index); //再执行关闭
