@@ -11,4 +11,4 @@ PASSWORD = 'tornado123'
 
 # DB_URI的格式：dialect（mysql/sqlite）+driver://username:password@host:port/database?charset=utf8
 
-DB_URI = 'mysql+mysqldb://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
+DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)

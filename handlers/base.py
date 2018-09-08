@@ -2,7 +2,6 @@
 # coding=utf-8
 
 import tornado.web
-import methods.readdb as orm
 from session.session import SessionFactory
 from methods.debug import *
 from orm.db import dbSession

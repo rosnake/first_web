@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 #coding:utf-8
-import Image, ImageDraw, ImageFont, ImageFilter
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import random
 
+
 class VerifyImage:
-    def __init__(self,width = 240, height = 60):
+    def __init__(self, width=240, height=60):
         self.width = width
         self.height = height
         self.image = None
-        self.image_string=""
+        self.image_string = ""
         self.__create_image()
 
     def get_image(self):
@@ -16,8 +17,6 @@ class VerifyImage:
 
     def get_code(self):
         return self.image_string
-
-
 
     # 随机字母:
     def __rndChar(self):
@@ -43,8 +42,8 @@ class VerifyImage:
                 draw.point((x, y), fill=self.__rndColor())
         # 输出文字:
         for t in range(4):
-            char =  self.__rndChar()
-            self.image_string=self.image_string+str(char)
+            char = self.__rndChar()
+            self.image_string = self.image_string+str(char)
             draw.text((self.height * t + 10, 10), char, font=font, fill=self.__rndColor2())
         # 模糊:
         self.image = image.filter(ImageFilter.BLUR)

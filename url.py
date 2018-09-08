@@ -5,8 +5,9 @@ the url structure of website
 """
 # utf-8，兼容汉字
 import sys
-reload(sys)
-sys.setdefaultencoding("utf-8")
+import importlib
+importlib.reload(sys)
+
 # 从相关文件中导入相关处理的类
 from handlers.index import IndexHandler
 from handlers.about import AboutHandler

@@ -3,9 +3,8 @@
 
 import tornado.web
 import tornado.escape
-import methods.readdb as mrd
 from handlers.base import BaseHandler
-from  methods.utils import UserDataUtils
+from methods.utils import UserDataUtils
 import json
 import sys
 import methods.debug as dbg

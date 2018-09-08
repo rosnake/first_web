@@ -2,7 +2,6 @@
 # coding=utf-8
 
 import tornado.escape
-import methods.readdb as mrd
 from methods.debug import *
 from handlers.base import BaseHandler
 import json
@@ -11,19 +10,19 @@ import sys
 from methods.utils import UserDataUtils
 from methods.utils import UserAuthUtils
 import io  # 导入io模块
-from methods.verify import VerifyImage  # 导入验证码图片生成插件
+from methods.image_generator import VerifyImage  # 导入验证码图片生成插件
 from methods.controller import PageController  # 导入页面控制器
-from methods.code import VerifyCode
 from methods.toolkits import DateToolKits
 from orm.user import UserModule
 from orm.points import PointsModule
+
 
 # 继承 base.py 中的类 BaseHandler
 class LoginHandler(BaseHandler):
 
     def get(self):
         next_name = self.get_argument('next', '')
-        logging.info("login next name:"+next_name)
+        logging.info("login next name:" + next_name)
         self.clear_current_user()
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
@@ -40,10 +39,10 @@ class LoginHandler(BaseHandler):
         username = self.get_argument("username")
         password = self.get_argument("password")
         nextname = self.get_argument("next")
-        print("nextname:"+nextname)
+        print("next name:" + nextname)
         verify_code_tmp = self.get_argument("verify_code")
-        verify_code_client = verify_code_tmp.upper()   # 将验证码字符统一转换成大写
-        verify_code_server = VerifyCode.get_verify_code()
+        verify_code_client = verify_code_tmp.upper()  # 将验证码字符统一转换成大写
+        verify_code_server = self.session["verify_code"]
 
         date_kits = DateToolKits()
         logging.info("username:%s password:%s verify_code_client:%s, verify_code_server %s"
@@ -61,10 +60,12 @@ class LoginHandler(BaseHandler):
             self.write(json.dumps(response))
             return
 
-        user = self.db.query(UserModule).filter(UserModule.username == username).filter(UserModule.password == password).first()
+        del self.session["verify_code"]
+        user = self.db.query(UserModule).filter(UserModule.username == username).filter(
+            UserModule.password == password).first()
         print(user)
         if user is not None:
-            logging.info("login ok,user name:"+username)
+            logging.info("login ok,user name:" + username)
             response["data"] = date_kits.get_now_day_str()
             admin, organizer = self.get_user_role(username)
             self.set_current_user(username)
@@ -91,11 +92,10 @@ class LoginHandler(BaseHandler):
 class VerifyHandler(BaseHandler):
     def get(self):
         # 生成图片并且返回
-        mstream = io.BytesIO()                          # 创建一个BytesIO临时保存生成图片数据
+        mstream = io.BytesIO()  # 创建一个BytesIO临时保存生成图片数据
         verify = VerifyImage()
         img = verify.get_image()
         code = verify.get_code()
-        VerifyCode.set_verify_code(code)
-        img.save(mstream, "PNG")                         # 将返回的验证码图片数据，添加到BytesIO临时保存
-        self.write(mstream.getvalue())                  # 从BytesIO临时保存，获取图片返回给img的 src= 进行显示
-
+        self.session["verify_code"] = code
+        img.save(mstream, "PNG")  # 将返回的验证码图片数据，添加到BytesIO临时保存
+        self.write(mstream.getvalue())  # 从BytesIO临时保存，获取图片返回给img的 src= 进行显示

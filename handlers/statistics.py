@@ -2,9 +2,8 @@
 # coding=utf-8
 
 import tornado.escape
-import methods.readdb as mrd
-from base import BaseHandler
-from  methods.utils import UserDataUtils
+from handlers.base import BaseHandler
+from methods.utils import UserDataUtils
 from  methods.utils import UserAuthUtils
 from methods.debug import *
 

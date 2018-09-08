@@ -1,13 +1,13 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import config
+from session.config import SessionConfig
 from hashlib import sha1
 import os
 import time
 from methods.debug import *
 
-create_session_id = lambda: sha1(bytes('%s%s' % (os.urandom(16), time.time()))).hexdigest()
+create_session_id = lambda: sha1(bytes('%s%s' % (os.urandom(16), time.time()), encoding='utf-8')).hexdigest()
 
 
 class CacheSession:
@@ -27,7 +27,7 @@ class CacheSession:
             logging.info("client_random_str is not exist :")
             CacheSession.session_container[self.random_str] = {}
 
-        expires_time = time.time() + config.SESSION_EXPIRES
+        expires_time = time.time() + SessionConfig.SESSION_EXPIRES
         handler.set_cookie(CacheSession.session_id, self.random_str, expires=expires_time)
 
     def __getitem__(self, key):
@@ -58,11 +58,11 @@ class SessionFactory:
     def get_session_handler(handler):
         session = None
 
-        if config.SESSION_TYPE == "cache":
+        if SessionConfig.SESSION_TYPE == "cache":
             session = CacheSession(handler)
-        elif config.SESSION_TYPE == "memcached":
+        elif SessionConfig.SESSION_TYPE == "memcached":
             session = MemcachedSession(handler)
-        elif config.SESSION_TYPE == "redis":
+        elif SessionConfig.SESSION_TYPE == "redis":
             session = RedisSession(handler)
 
         return session

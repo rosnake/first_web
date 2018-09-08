@@ -2,11 +2,10 @@
 # coding=utf-8
 
 import tornado.escape
-import methods.readdb as mrd
 import methods.debug as dbg
 import json
 import sys
-from base import BaseHandler
+from handlers.base import BaseHandler
 from methods.utils import UserDataUtils
 
 
