@@ -11,6 +11,7 @@ from methods.debug import *
 from orm.meeting import MeetingModule
 from orm.topics import TopicsModule
 import json
+from orm.user import UserModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -51,9 +52,10 @@ class AdminMeetingHandler(BaseHandler):
         user_name = self.get_argument("user_name")
         meeting_room = self.get_argument("meeting_room")
         meeting_date = self.get_argument("meeting_date")
-
+        topic_title = self.get_argument("topic_title")
+        logging.info("topic_id: "+topic_id)
         if operation == "modify":
-            ret = self.__modify_meeting_info_by_id(topic_id, user_name, meeting_room, meeting_date)
+            ret = self.__modify_meeting_info_by_topic_id(topic_id, meeting_room, meeting_date)
             if ret is True:
                 response["status"] = True
                 response["message"] = "修改成功！"
@@ -66,6 +68,36 @@ class AdminMeetingHandler(BaseHandler):
                 self.write(json.dumps(response))
 
             return
+
+        if operation == "add":
+            ret = self.__add_meeting_info(topic_id, user_name, meeting_room, meeting_date, topic_title)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "修改成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+            else:
+                response["status"] = False
+                response["message"] = "修改失败！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+
+            return
+        if operation == "set_current":
+            ret = self.__set_meeting_to_current(topic_id)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "修改成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+            else:
+                response["status"] = False
+                response["message"] = "修改失败！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+
+            return
+
 
     def __get_meeting_table(self):
         meeting_modules = MeetingModule.get_all_meeting()
@@ -98,5 +130,54 @@ class AdminMeetingHandler(BaseHandler):
 
         return topics_tables
 
-    def __modify_meeting_info_by_id(self, meeting_id, user_name, meeting_room, meeting_date):
-        return UserDataUtils.modify_meeting_info_by_id(meeting_id, user_name, meeting_room, meeting_date)
+    def __add_meeting_info(self, topic_id, user_name, meeting_room, meeting_date, topic_title):
+        meeting = self.db.query(MeetingModule).filter(MeetingModule.topic_id == topic_id).first()
+        if meeting is not None:
+            return False
+
+        user = self.db.query(UserModule).filter(UserModule.username == user_name).first()
+        if user is not None:
+            nickname = user.nickname
+        else:
+            nickname = "unknown"
+        meeting_info = MeetingModule()
+
+        meeting_info.user_name = user_name
+        meeting_info.topic_id = topic_id
+        meeting_info.nick_name = nickname
+        meeting_info.meeting_room = meeting_room
+        meeting_info.meeting_date = meeting_date
+        meeting_info.current_meeting = False
+        meeting_info.topic_title = topic_title
+
+        self.db.add(meeting_info)
+        self.db.commit()
+
+        return True
+
+    def __modify_meeting_info_by_topic_id(self, topic_id, meeting_room, meeting_date):
+        meeting = self.db.query(MeetingModule).filter(MeetingModule.topic_id == topic_id).first()
+        if meeting is None:
+            return False
+
+        self.db.query(MeetingModule).filter(MeetingModule.topic_id == topic_id).update({
+            MeetingModule.meeting_room: meeting_room,
+            MeetingModule.meeting_date: meeting_date,
+        })
+
+        self.db.commit()
+
+        return True
+
+    def __set_meeting_to_current(self, topic_id):
+        meeting = self.db.query(MeetingModule).filter(MeetingModule.topic_id == topic_id).first()
+        if meeting is None:
+            return False
+
+        self.db.query(MeetingModule).filter(MeetingModule.topic_id == topic_id).update({
+            MeetingModule.current_meeting: True,
+        })
+
+        self.db.commit()
+
+        return True

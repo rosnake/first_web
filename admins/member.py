@@ -126,6 +126,35 @@ class AdminMemberHandler(BaseHandler):
                 self.write(json.dumps(response))
                 return
 
+        if operation == "show_pwd":
+            ret, password = self.__show_user_password(username)
+            if ret is True:
+                response["status"] = True
+                response["message"] = password
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+            else:
+                response["status"] = False
+                response["message"] = password
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+
+    def __show_user_password(self, username):
+        user = self.db.query(UserModule).filter(UserModule.username == username).first()
+
+        if user is not None:
+            if user.pwd_modified is False:
+                password = user.password
+                return True, password
+            else:
+                password = "用户已修改密码，无法查看"
+                return True, password
+        else:
+            logging.error("modify user failed")
+            password = "用户不存在"
+            return False, password
+
     def __delete_point_by_name(self, username):
         point = self.db.query(PointsModule).filter(PointsModule.username == username).first()
 

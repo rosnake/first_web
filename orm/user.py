@@ -20,6 +20,7 @@ class UserModule(DataBase):
     department = Column(String(64), nullable=False, index=True)  # 部门
     role = Column(String(64), nullable=False, index=True)  # 角色
     address = Column(String(128), nullable=False, index=True)  # 地址，备用
+    pwd_modified = Column(Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.username)

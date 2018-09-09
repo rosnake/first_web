@@ -22,6 +22,7 @@
             <tr>
                 <th></th>
                 <th>议题ID</th>
+                <th>议题</th>
                 <th>用户名</th>
                 <th>会议室</th>
                 <th>时间</th>
@@ -32,6 +33,7 @@
             <tr>
                 <td><input type="radio" name="select_id" value={{ meeting["topic_id"] }}></td>
                  <td id="topic_id">{{ meeting["topic_id"] }}</td>
+                <td id="topic_title">{{ meeting["topic_title"] }}</td>
                 <td id="user_name">{{ meeting["user_name"] }}</td>
                 <td id="meeting_room">{{ meeting["meeting_room"] }}</td>
                 <td id="meeting_date">{{ meeting["meeting_date"] }}</td>
@@ -42,6 +44,7 @@
         <br />
         <input type="button" class="admin_del" id="id_admin_meeting_mod" value="修改"/>
         <input type="button" class="admin_del" id="id_admin_meeting_add" value="增加"/>
+        <input type="button" class="admin_del" id="id_admin_meeting_set_current" value="设置为当前"/>
         </form>
         <!-- 弹窗内容开始 -->
         <div id="admin_popup_background" class="back">
@@ -51,15 +54,13 @@
                 </div>
                 <div id="admin_popup_body">
                     <h3 id="id_admin_meeting_sub_title" >弹窗标题</h3>
-                    {% if len(topics_tables) %}
+                    <p id="id_admin_meeting_topic_operation"></p>
                     <p><span>话题编号:</span><input type="text" id="id_admin_meeting_topic_id"  /></p>
+                    <p><span>话题:</span><input type="text" id="id_admin_meeting_topic_title" /></p>
                     <p><span>主讲人:</span><input type="text" id="id_admin_meeting_user_name" /></p>
                     <p><span>会议室:</span><input type="text" id="id_admin_meeting_meeting_room"/></p>
                     <p><span>会议时间:</span><input type="date" id="id_admin_meeting_meeting_date"/></p>
                     <input type="button" class="admin_mod" id="id_admin_meeting_submit" value="提交" />
-                    {% else %}
-                    <p><span>当前无议题，无法添加会议信息，如下添加会议信息，请先添加议题</span></p>
-                    {% end %}
                 </div>
 
             </div>

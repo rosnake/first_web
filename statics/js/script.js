@@ -13,17 +13,16 @@ $(document).ready(function () {
 		var pwd = $("#password").val();
 		var verify_code = $("#verify_code").val();
 		var nextname = $("#login").val();
-		if(nextname ==="")
-		{
+		if (nextname === "") {
 			nextname = "/home";
 
 		}
 
-		console.log("nextname:"+nextname);
+		console.log("nextname:" + nextname);
 		var pd = {
 			"username": user,
 			"password": pwd,
-			"next":nextname,
+			"next": nextname,
 			"verify_code": verify_code,
 			"_xsrf": getCookie("_xsrf")
 		};
@@ -37,18 +36,23 @@ $(document).ready(function () {
 				//arg是字符串
 				var obj = JSON.parse(arg);
 				if (obj.status) {
-					//注册成功---跳转（已登录状态--session实现）
-					alert("登陆成功");
-					window.location.href = nextname+"?user=" + user;
+					//登陆成功---跳转（已登录状态--session实现）
+					layer.alert("登陆成功", {
+						skin: 'layui-layer-molv' //样式类名
+					,
+						closeBtn: 0
+					}, function () {
+						window.location.href = nextname + "?user=" + user;
+					});
 				} else {
 					alert(obj.message);
 					window.location.href = "/login"
 				}
 			},
-			error:function(arg) {
-                alert("未知的错误");
-                window.location.href = "/login"
-            }
+			error: function (arg) {
+				layer.msg("未知的错误");
+				window.location.href = "/login"
+			}
 		});
 	});
 
@@ -105,16 +109,16 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
-					alert("注册成功");
-					console.log("username:"+user);
+					layer.msg("注册成功");
+					console.log("username:" + user);
 					window.location.href = "/user?user=" + user;
 				} else {
-					alert(obj.message);
+					layer.msg(obj.message);
 				}
 			},
-			error:function(arg) {
-                alert("未知的错误");
-            }
+			error: function (arg) {
+				layer.msg("未知的错误");
+			}
 		});
 	});
 
@@ -185,27 +189,33 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
-					alert("修改成功")
-					window.location.href = "/home?user=" + user;
+					layer.alert("修改成功", {
+						skin: 'layui-layer-molv' //样式类名
+					,
+						closeBtn: 0
+					}, function () {
+						window.location.href = "/home?user=" + user;
+					});
 				} else {
-					alert(obj.error);
+					layer.msg(obj.message);
 				}
 			}
 		});
 	});
+
 	$("#id_points_exchange_user").click(function () {
 		var selected = $("#id_points_exchange_select option:selected").text(); //获取选中的项
-		var present_id =  $("#id_points_exchange_select option:selected").val(); //获取选中的项
+		var present_id = $("#id_points_exchange_select option:selected").val(); //获取选中的项
 		layer.confirm("是否兑换【" + selected + "】?", {
 			btn: ['兑换', '取消']//按钮
 		}, function () {
 			var pd = {
-			"operation":"exchange",
-			"present": selected,
-			"present_id":present_id,
-			"_xsrf": getCookie("_xsrf")
+				"operation": "exchange",
+				"present": selected,
+				"present_id": present_id,
+				"_xsrf": getCookie("_xsrf")
 			};
-			console.log("present:"+selected+" present_id:"+present_id);
+			console.log("present:" + selected + " present_id:" + present_id);
 			$.ajax({
 				type: "post",
 				url: "/statistics",
@@ -228,7 +238,6 @@ $(document).ready(function () {
 				}
 			});
 
-
 		}, function () {
 			layer.msg("兑换【" + selected + "】操作已为您取消", {
 				icon: 0
@@ -243,8 +252,7 @@ $(document).ready(function () {
 		var nickname = $("#id_user_other_info_nickname").val();
 		var department = $("#id_user_other_info_department").val();
 		var nextname = $("#id_user_other_info_submit").val();
-		if(nextname ==="")
-		{
+		if (nextname === "") {
 			nextname = "/login";
 		}
 
@@ -288,13 +296,13 @@ $(document).ready(function () {
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
 					alert("提交成功")
-					window.location.href = nextname+"?user=" + user;
+					window.location.href = nextname + "?user=" + user;
 				} else {
 					alert(obj.error);
 				}
 			}
 		});
-    });
+	});
 
 	/*处理请假*/
 });

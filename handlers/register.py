@@ -41,6 +41,7 @@ class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
             user_moudle.department = "unknown"
             user_moudle.email = "unknown"
             user_moudle.role = "normal"
+            user_moudle.pwd_modified = True
             self.db.add(user_moudle)
             self.db.commit()
             # 更新积分表格

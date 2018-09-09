@@ -433,7 +433,7 @@ admin_member_table_body td {
 }
 
 /*管理界面弹窗布局*/
-#admin_popup_background {
+#admin_popup_background, #id_meeting_popup_background {
 	display: none;
 	position: fixed;
 	left: 0;
@@ -443,7 +443,7 @@ admin_member_table_body td {
 	background-color: rgba(0,0,0,0.5);
 }
 
-#admin_popup_frontend {
+#admin_popup_frontend, #id_meeting_popup_frontend {
     position: absolute;
     left: 40%;
     top: 30%;
@@ -453,7 +453,7 @@ admin_member_table_body td {
 	overflow: auto;
 }
 
-#admin_popup_body {
+#admin_popup_body, #id_meeting_popup_body {
 	background:#eeeeee;
 	margin: auto;
 	height: 300px;

@@ -240,4 +240,89 @@ $(document).ready(function () {
 		}
 		window.location.reload();
 	});
+
+	$('#admin_member_show_password').on('click', function ()
+	{
+		var member_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
+		if ((typeof member_id) === 'undefined') {
+			layer.msg("当前未选择任何项目");
+			console.log("current not select any id");
+			return;
+		}
+		console.log("member_id: " + member_id);
+		console.log("click admin member delete");
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		var ttr = $("input:checked").parents('tr');
+		//console.log(ttr);
+
+		/*当前行使用find方法找到每一个td列
+		each方法为每一个td设置function
+		 */
+		var user_name = "";
+		var user_id = "";
+		var user_role = "";
+		ttr.find("td").each(function () {
+			/*过滤 td中的元素
+			checkbox 、 button、text 不需要执行append
+			注意 return 为 跳出当前 each
+			return false 为 跳出整个 each
+			 */
+
+			if ($(this).attr('id') === "user_id") {
+				user_id = $(this).text();
+				console.log("user_id:" + user_id);
+			}
+
+			if ($(this).attr('id') === "user_name") {
+				user_name = $(this).text();
+				console.log("user_name:" + user_name);
+			}
+
+			if ($(this).attr('id') === "user_role") {
+				user_role = $(this).text();
+				console.log("user_role:" + user_role);
+			}
+		});
+
+		var submit_data = {
+			"operation": "show_pwd",
+			"username": user_name,
+			"role": user_role,
+			"id":user_id,
+			"_xsrf": getCookie("_xsrf")
+			};
+
+			console.log("operation:delete,username:"+user_name+" role:"+user_role+" id:"+user_id);
+
+			$.ajax({
+				type: "post",
+				url: "/admin/member",
+				data: submit_data,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						//注册成功---跳转（已登录状态--session实现）
+						$("#id_admin_member_user_name").val(user_name);
+						$("#id_admin_member_pass_word").val(obj.message);
+						$('#admin_popup_background').show();
+						console.log("username:"+ user_name);
+					} else {
+						alert(obj.message);
+					}
+				},
+				error:function(arg) {
+					alert("未知的错误");
+				}
+			});
+	});
+
+	$('#id_admin_member_show_close').on('click', function (){
+		$("#id_admin_member_user_name").val("");
+		$("#id_admin_member_pass_word").val("");
+		$('#admin_popup_background').hide();
+		window.location.reload();
+	});
 });
