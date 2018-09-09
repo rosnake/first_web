@@ -7,7 +7,6 @@ from handlers.base import BaseHandler
 from methods.debug import *
 from orm.user import UserModule
 from methods.controller import PageController
-from orm.topics import TopicsModule
 from orm.points import PointsModule
 from methods.toolkits import DateToolKits
 from orm.marks import MarksModule
@@ -52,10 +51,8 @@ class HomeHandler(BaseHandler):
                     return
 
         points_table = self.__get_all_point_tables()
-        topics_table = self.__get_all_topic_tables()
 
-        self.render("home.html", points_table=points_table, controller=render_controller,
-                    topics_table=topics_table, username=username)
+        self.render("home.html", points_table=points_table, controller=render_controller, username=username)
 
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}
@@ -107,22 +104,6 @@ class HomeHandler(BaseHandler):
         logging.info("user leave apply  succeed")
 
         return True
-
-    def __get_all_topic_tables(self):
-        topics_module = TopicsModule.get_all_topics()
-        if topics_module is None:
-            return None
-
-        topics_tables = []
-        for topics in topics_module:
-            tmp = {
-                "topic_id": topics.id, "name": topics.username, "image": topics.image, "title": topics.title,
-                "current": topics.current, "finish": topics.finish, "time": topics.datetime,
-                "description": topics.brief
-            }
-            topics_tables.append(tmp)
-
-        return topics_tables
 
     def __get_all_point_tables(self):
         points_tables = []

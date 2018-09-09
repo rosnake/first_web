@@ -116,7 +116,7 @@
         <div class="class_edit_input_block">
             <select id="id_points_exchange_select">
                 {% for present in presents_table %}
-                <option value=presents_table["present_id"]>{{ present["present_name"] }}</option>
+                <option value={{ present["present_id"] }}>{{ present["present_name"] }}</option>
                 {% end %}
             </select>
         </div>

@@ -2,7 +2,7 @@
 <!--自动转义-->
 {% block external_lib %}
     <script src="{{static_url("layer/layer.js")}}"></script>
-    <script src="{{static_url("js/admin.js")}}"></script>
+    <script src="{{static_url("js/meeting.js")}}"></script>
 {% end %}
 {% autoescape None %}
 {% block header %}
@@ -41,8 +41,9 @@
     </table>
         <br />
         <input type="button" class="admin_del" id="id_admin_meeting_mod" value="修改"/>
+        <input type="button" class="admin_del" id="id_admin_meeting_add" value="增加"/>
         </form>
-                <!-- 弹窗内容开始 -->
+        <!-- 弹窗内容开始 -->
         <div id="admin_popup_background" class="back">
             <div id="admin_popup_frontend" class="content">
                 <div id="admin_popup_close">
@@ -50,16 +51,65 @@
                 </div>
                 <div id="admin_popup_body">
                     <h3 id="id_admin_meeting_sub_title" >弹窗标题</h3>
-                    <p><span>话题编号:</span><input type="text" id="id_admin_meeting_topic_id" /></p>
+                    {% if len(topics_tables) %}
+                    <p><span>话题编号:</span><input type="text" id="id_admin_meeting_topic_id"  /></p>
                     <p><span>主讲人:</span><input type="text" id="id_admin_meeting_user_name" /></p>
                     <p><span>会议室:</span><input type="text" id="id_admin_meeting_meeting_room"/></p>
                     <p><span>会议时间:</span><input type="date" id="id_admin_meeting_meeting_date"/></p>
                     <input type="button" class="admin_mod" id="id_admin_meeting_submit" value="提交" />
+                    {% else %}
+                    <p><span>当前无议题，无法添加会议信息，如下添加会议信息，请先添加议题</span></p>
+                    {% end %}
                 </div>
 
             </div>
         </div>
         <!-- 弹窗内容结束 -->
+         <!-- 弹窗内容开始 -->
+        <div id="id_meeting_popup_background" class="back">
+            <div id="id_meeting_popup_frontend" class="content">
+                <div id="admin_popup_close">
+                    <h2>会议信息添加</h2>
+                </div>
+                <div id="id_meeting_popup_body">
+
+                    <form id="admin_member_form" name="member_form">
+                        {% if len(topics_tables) %}
+                        <table id="admin_member_table">
+                            <thead id="admin_member_table_head">
+                            <tr>
+                                <th></th>
+                                <th>议题ID</th>
+                                <th>用户名</th>
+                                <th>议题简介</th>
+                            </tr>
+                            </thead>
+                            <tbody id="admin_member_table_body">
+                            {% for topics in topics_tables %}
+                                <tr>
+                                    <td><input type="radio" name="select_id" value={{ topics["topic_id"] }}></td>
+                                    <td id="id_meeting_topic_id">{{ topics["topic_id"] }}</td>
+                                    <td id="id_meeting_user_name">{{ topics["name"] }}</td>
+                                    <td id="id_meeting_topic_title">{{ topics["title"] }}</td>
+                                </tr>
+                            {% end %}
+                            </tbody>
+                        </table>
+
+                    <br />
+                    <input type="button" class="admin_del" id="id_admin_meeting_select_confirm" value="确认"/>
+                    {% else %}
+                    <p><span>当前无议题，无法添加会议信息，如下添加会议信息，请先添加议题</span></p>
+                    <input type="button" class="admin_del" id="id_admin_meeting_select_cancel" value="取消"/>
+                    {% end %}
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <!-- 弹窗内容结束 -->
+
 
     </div>
 

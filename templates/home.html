@@ -19,23 +19,6 @@
 {% end %}
 
 {% block body %}
-<h3> 本周议题如下：</h3>
-
-{% for topics in  topics_table %}
-<div class="topics_current">
-    {% if topics["current"] == True %}
-    <h5 class="username">议题主讲人：{{ topics["name"] }}</h5>
-    <div class="topic_details">
-        <h4>议题:</h4>
-        <div class="topic_title">{{ topics["title"]}}</div>
-        <h4>议题简介:</h4>
-        <div class="topic_description">{% raw topics["description"] %}</div>
-        <h4>议题时间:</h4>
-        <div class="topic_time">{% raw topics["time"] %}</div>
-    </div>
-    {% end %}
-</div>
-{% end %}
 <div id="id_home_leave">
     <h3> 如果您有事无法出席，请点击下面按钮请假：</h3>
     <option  id="id_span_home_user_name" value={{ username }}></option>

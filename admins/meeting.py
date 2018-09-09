@@ -8,6 +8,8 @@ from methods.utils import UserAuthUtils
 from methods.controller import PageController
 from methods.toolkits import DateToolKits
 from methods.debug import *
+from orm.meeting import MeetingModule
+from orm.topics import TopicsModule
 import json
 
 
@@ -32,9 +34,11 @@ class AdminMeetingHandler(BaseHandler):
         username = self.get_current_user()
         if username is not None:
             meeting_tables = self.__get_meeting_table()
+            topics_tables = self.__get_all_no_finish_topics()
             self.render("admin/meeting.html",
                         meeting_tables=meeting_tables,
                         controller=render_controller,
+                        topics_tables=topics_tables,
                         username=username,
                         )
 
@@ -64,7 +68,35 @@ class AdminMeetingHandler(BaseHandler):
             return
 
     def __get_meeting_table(self):
-        return UserDataUtils.get_meeting_tables()
+        meeting_modules = MeetingModule.get_all_meeting()
+        meeting_table = []
+
+        if meeting_modules:
+            for x in meeting_modules:
+                tmp = {"meeting_id": x.id, "topic_id": x.topic_id, "topic_title": x.topic_title,
+                       "current_meeting": x.current_meeting, "user_name": x.user_name,
+                       "meeting_room": x.meeting_room, "meeting_date": x.meeting_date}
+
+                meeting_table.append(tmp)
+
+        return meeting_table
+
+    def __get_all_no_finish_topics(self):
+        topics_module = TopicsModule.get_all_topics()
+        if topics_module is None:
+            return None
+
+        topics_tables = []
+        for topics in topics_module:
+            if topics.finish is False:
+                tmp = {
+                    "topic_id": topics.id, "name": topics.username, "image": topics.image, "title": topics.title,
+                    "current": topics.current, "finish": topics.finish,  "time": topics.datetime,
+                    "description": topics.brief
+                       }
+                topics_tables.append(tmp)
+
+        return topics_tables
 
     def __modify_meeting_info_by_id(self, meeting_id, user_name, meeting_room, meeting_date):
         return UserDataUtils.modify_meeting_info_by_id(meeting_id, user_name, meeting_room, meeting_date)

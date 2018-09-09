@@ -13,13 +13,14 @@
 
 {% block body %}
 {% if controller["authorized"] == True %}
-    {% if user_topic == None %}
+    {% if len(user_topic) %}
     <h3> 您当前没有申报议题</h3>
     <p><input type="BUTTON" value="申报议题" id="applications" /></p>
     {% else %}
     <h3> 您当前已申报的议题如下：</h3>
+    {% for topic in user_topic %}l
     <div class="topics">
-        {% for topic in user_topic %}
+
             {% if topic["name"] != "" %}
             <h5 class="username">议题主讲人：{{ topic["name"] }}</h5>
             <div class="topic_details">
@@ -31,8 +32,8 @@
                 <div class="topic_time">{% raw topic["time"] %}</div>
             </div>
             {% end %}
-        {% end %}
     </div>
+    {% end %}
     <div id="request_topics">
         <p>如需继续申请议题，请点击下面继续申请按钮.</p>
         <p><input type="BUTTON" value="继续申报" id="applications_continue" /></p>

@@ -10,6 +10,8 @@ from methods.toolkits import DateToolKits
 from methods.controller import PageController
 from orm.rules import ExchangeRuleModule
 from methods.debug import *
+from orm.exchange import ExchangeModule
+from orm.points import PointsModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -17,6 +19,7 @@ class AdminExchangeHandler(BaseHandler):
     """
     用户首页处理，显示一些客户不需要登陆也可查看的信息
     """
+
     def get(self):
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
@@ -34,10 +37,8 @@ class AdminExchangeHandler(BaseHandler):
         render_controller["organizer"] = self.session["organizer"]
 
         if username is not None:
-            user_exchange_tables = UserDataUtils.get_user_exchange_tables()  # 后续需要用数据库替换
-            exchange_rule_module = ExchangeRuleModule.get_all_exchange_rules()
-            exchange_rule_tables = []
-            self.__convert_module_to_table(exchange_rule_module, exchange_rule_tables)
+            user_exchange_tables = self.__get_all_exchange_tables()
+            exchange_rule_tables = self.__get_all_exchange_rules()
 
             self.render("admin/exchange.html",
                         user_exchange_tables=user_exchange_tables,
@@ -50,12 +51,22 @@ class AdminExchangeHandler(BaseHandler):
         response = {"status": True, "data": "", "message": "failed"}
         date_kits = DateToolKits()
         response["data"] = date_kits.get_now_day_str()
-
+        rule_name = "none"
+        rule_id = 0
+        need_points = 0
+        min_points = 0
+        exchange_id = 0
+        user_name = "none"
         operation = self.get_argument("operation")
-        rule_name = self.get_argument("rule_name")
-        rule_id = self.get_argument("id")
-        need_points = self.get_argument("need_points")
-        min_points = self.get_argument("min_points")
+
+        if operation == "exchange_reject" or operation == "exchange_confirm":
+            exchange_id = self.get_argument("exchange_id")
+            user_name = self.get_argument("user_name")
+        else:
+            rule_name = self.get_argument("rule_name")
+            rule_id = self.get_argument("id")
+            need_points = self.get_argument("need_points")
+            min_points = self.get_argument("min_points")
 
         if operation == "add":
             ret = self.__add_exchange_rule(rule_name, need_points, min_points)
@@ -102,16 +113,46 @@ class AdminExchangeHandler(BaseHandler):
                 self.write(json.dumps(response))
                 return
 
-    def __convert_module_to_table(self, exchange_rule_module, exchange_rule_tables):
-        if exchange_rule_module is None:
-            return False
+        if operation == "exchange_confirm":
+            ret = self.__exchange_item_confirm(exchange_id, user_name)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "兑换成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "兑换失败"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
 
-        for module in exchange_rule_module:
-            rule = {"rule_id": module.id, "rule_name": module.exchange_rule_name,
-                    "need_points": module.exchange_rule_points, "points_range": module.min_points}
-            exchange_rule_tables.append(rule)
+        if operation == "exchange_reject":
+            ret = self.__exchange_item_reject(exchange_id)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "取消兑换成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "取消兑换失败"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
 
-        return True
+    def __get_all_exchange_rules(self):
+        exchange_rule_module = ExchangeRuleModule.get_all_exchange_rules()
+        exchange_rule_tables = []
+        if exchange_rule_module:
+            for module in exchange_rule_module:
+                rule = {"rule_id": module.id, "rule_name": module.exchange_rule_name,
+                        "need_points": module.exchange_rule_points, "points_range": module.min_points}
+                exchange_rule_tables.append(rule)
+
+        return exchange_rule_tables
 
     def __add_exchange_rule(self, rule_name, need_points, min_points):
         rule = self.db.query(ExchangeRuleModule).filter(ExchangeRuleModule.exchange_rule_name == rule_name).first()
@@ -153,3 +194,55 @@ class AdminExchangeHandler(BaseHandler):
         else:
             logging.error("modify exchange rule failed")
             return False
+
+    def __get_all_exchange_tables(self):
+        exchange_modules = ExchangeModule.get_all_exchange()
+        exchange_table = []
+
+        if exchange_modules:
+            for x in exchange_modules:
+                tmp = {"exchange_id": x.id, "user_name": x.user_name, "user_points": x.current_points,
+                       "exchange_item": x.exchange_item, "apply_date": x.datetime, "exchanged": x.exchange_finish}
+                exchange_table.append(tmp)
+
+        return exchange_table
+
+    def __exchange_item_confirm(self, exchange_id, user_name):
+        exchange_modules = self.db.query(ExchangeModule).filter(ExchangeModule.id == exchange_id).first()
+        point_modules = self.db.query(PointsModule).filter(PointsModule.username == user_name).first()
+        if exchange_modules and point_modules:
+            self.db.query(ExchangeModule).filter(ExchangeModule.id == exchange_id).update({
+                ExchangeModule.exchange_finish: True,
+                ExchangeModule.exchange_status: "confirm",
+            })
+            self.db.commit()
+
+            self.db.query(PointsModule).filter(PointsModule.username == user_name).update({
+                PointsModule.current_point: point_modules.current_point - exchange_modules.need_points,
+            })
+            self.db.commit()
+
+            exchange_all = self.db.query(ExchangeModule).filter(ExchangeModule.user_name == user_name).all()
+            con = False
+            for x in exchange_all:
+                self.db.query(ExchangeModule).filter(ExchangeModule.user_name == user_name).filter(
+                    ExchangeModule.exchange_finish == con).update({ExchangeModule.current_points: point_modules.current_point - exchange_modules.need_points})
+                self.db.commit()
+
+            return True
+
+        else:
+            return False
+
+    def __exchange_item_reject(self, exchange_id):
+        exchange_modules = self.db.query(ExchangeModule).filter(ExchangeModule.id == exchange_id).first()
+        if exchange_modules:
+            self.db.query(ExchangeModule).filter(ExchangeModule.id == exchange_id).update({
+                ExchangeModule.exchange_finish: True,
+                ExchangeModule.exchange_status: "reject",
+            })
+            self.db.commit()
+            return True
+        else:
+            return False
+

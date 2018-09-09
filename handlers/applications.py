@@ -7,6 +7,9 @@ from  methods.utils import UserDataUtils
 from  methods.utils import UserAuthUtils
 from methods.controller import PageController
 from orm.topics import TopicsModule
+from methods.toolkits import DateToolKits
+import json
+from methods.debug import *
 
 
 #继承 base.py 中的类 BaseHandler
@@ -42,9 +45,32 @@ class ApplicationsHandler(BaseHandler):
                         )
 
     def post(self):
-        pass
+        response = {"status": True, "data": "", "message": "failed"}
+        date_kits = DateToolKits()
+        response["data"] = date_kits.get_now_day_str()
 
-    def __get_all_current_user_topics(self,username):
+        operation = self.get_argument("operation")
+        topic_name = self.get_argument("topic_name")
+        topic_brief = self.get_argument("topic_brief")
+        topic_date = self.get_argument("topic_date")
+        username = self.get_current_user()
+
+        if operation == "apply_issues":
+            ret = self.__add_topics(username, topic_name, topic_brief, topic_date)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "新增成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "当前议题已存在"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+
+    def __get_all_current_user_topics(self, username):
         user_tpoic = []
         topics_module = TopicsModule.get_all_topics()
         if topics_module is None:
@@ -60,3 +86,23 @@ class ApplicationsHandler(BaseHandler):
                 user_tpoic.append(tmp)
 
         return user_tpoic
+
+    def __add_topics(self, topic_user, topic_name, topic_brief, topic_date):
+        rule = self.db.query(TopicsModule).filter(TopicsModule.title == topic_name).first()
+        if rule is not None:
+            logging.error("current topics is exit")
+            return False
+
+        topic_module = TopicsModule()
+        topic_module.username = topic_user
+        topic_module.nickname = "unknown"
+        topic_module.title = topic_name
+        topic_module.brief = topic_brief
+        topic_module.datetime = topic_date
+        topic_module.current = False
+        topic_module.finish = False
+        topic_module.image = "null"
+
+        self.db.add(topic_module)
+        self.db.commit()
+        return True

@@ -195,35 +195,38 @@ $(document).ready(function () {
 	});
 	$("#id_points_exchange_user").click(function () {
 		var selected = $("#id_points_exchange_select option:selected").text(); //获取选中的项
+		var present_id =  $("#id_points_exchange_select option:selected").val(); //获取选中的项
 		layer.confirm("是否兑换【" + selected + "】?", {
 			btn: ['兑换', '取消']//按钮
 		}, function () {
 			var pd = {
+			"operation":"exchange",
 			"present": selected,
+			"present_id":present_id,
 			"_xsrf": getCookie("_xsrf")
-		};
-
-		$.ajax({
-			type: "post",
-			url: "/statistics",
-			data: pd,
-			cache: false,
-			success: function (arg) {
-				console.log(arg);
-				//arg是字符串
-				var obj = JSON.parse(arg);
-				if (obj.status) {
-					layer.msg("兑换成功", {
-						icon: 1
-					});
-					setTimeout(function () {
-						window.location.reload();
-					}, 1000);
-				} else {
-					alert(obj.message);
+			};
+			console.log("present:"+selected+" present_id:"+present_id);
+			$.ajax({
+				type: "post",
+				url: "/statistics",
+				data: pd,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						layer.msg("兑换成功", {
+							icon: 1
+						});
+						setTimeout(function () {
+							window.location.reload();
+						}, 1000);
+					} else {
+						layer.msg(obj.message);
+					}
 				}
-			}
-		});
+			});
 
 
 		}, function () {

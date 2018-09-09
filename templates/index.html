@@ -6,9 +6,36 @@
 {% end %}
 
 {% block body %}
-<h3>人员信息</h3>
-{% for person in persons %}
-{{ modules.Person(person) }}
+<h3>本周会议信息</h3>
+<h3> 本周议题如下：</h3>
+
+{% for topics in  topics_table %}
+<div class="topics_current">
+    {% if topics["current"] == True %}
+    <h5 class="username">议题主讲人：{{ topics["name"] }}</h5>
+    <div class="topic_details">
+        <h4>议题:</h4>
+        <div class="topic_title">{{ topics["title"]}}</div>
+        <h4>议题简介:</h4>
+        <div class="topic_description">{% raw topics["description"] %}</div>
+        <h4>议题时间:</h4>
+        <div class="topic_time">{% raw topics["time"] %}</div>
+    </div>
+    {% end %}
+</div>
+{% end %}
+<h3> 本周会议信息如下：</h3>
+{% if current_meeting is not None %}
+    <div class="topic_details">
+        <h4>议题:</h4>
+        <div class="topic_title">{{ current_meeting["topic_title"]}}</div>
+        <h4>会议时间:</h4>
+        <div class="topic_description">{% raw current_meeting["meeting_date"] %}</div>
+        <h4>会议地点:</h4>
+        <div class="topic_time">{% raw current_meeting["meeting_room"] %}</div>
+    </div>
+{% else %}
+    <p>暂无本周会议室信息</p>
 {% end %}
 
 {% end %}

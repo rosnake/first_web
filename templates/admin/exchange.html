@@ -20,7 +20,7 @@
         <thead id="admin_member_table_head">
             <tr>
                 <th></th>
-                <th>用户ID</th>
+                <th>兑换编号</th>
                 <th>用户名</th>
                 <th>当前积分</th>
                 <th>兑换物品</th>
@@ -29,14 +29,16 @@
         </thead>
         <tbody id="admin_user_exchange_table_body">
         {% for user_exchange_table in user_exchange_tables %}
+            {% if  user_exchange_table["exchanged"] is False %}
             <tr>
-                <td><input type="radio" name="select_id" value={{ user_exchange_table["user_id"] }}></td>
-                <td id="user_id">{{ user_exchange_table["user_id"] }}</td>
+                <td><input type="radio" name="select_id" value={{ user_exchange_table["exchange_id"] }}></td>
+                <td id="exchange_id">{{ user_exchange_table["exchange_id"] }}</td>
                 <td id="user_name">{{ user_exchange_table["user_name"] }}</td>
                 <td id="user_points">{{ user_exchange_table["user_points"] }}</td>
                 <td id="exchange_item">{{ user_exchange_table["exchange_item"] }}</td>
                 <td id="apply_date">{{ user_exchange_table["apply_date"] }}</td>
             </tr>
+            {% end %}
         {% end %}
         </tbody>
     </table>

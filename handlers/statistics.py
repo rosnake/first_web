@@ -11,6 +11,9 @@ from orm.points import PointsModule
 from orm.history import HistoryModule
 from orm.marks import MarksModule
 from orm.rules import ExchangeRuleModule
+from methods.toolkits import DateToolKits
+import json
+from orm.exchange import ExchangeModule
 
 # 继承 base.py 中的类 BaseHandler
 
@@ -49,7 +52,30 @@ class StatHandler(BaseHandler):
                         presents_table=presents_table)
 
     def post(self):
-        pass
+        response = {"status": True, "data": "", "message": "failed"}
+        date_kits = DateToolKits()
+        response["data"] = date_kits.get_now_day_str()
+
+        operation = self.get_argument("operation")
+        #  present = self.get_argument("present")
+        present_id = self.get_argument("present_id")
+
+        username = self.get_current_user()
+
+        if operation == "exchange":
+            ret = self.__exchange_apply_by_user_name(username, present_id)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "申请成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "积分兑换失败"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
 
     def __get_current_point(self, username):
         __current = self.db.query(PointsModule).filter(PointsModule.username == username).first()
@@ -114,3 +140,38 @@ class StatHandler(BaseHandler):
 
         else:
             return presents_table
+
+    def __exchange_apply_by_user_name(self, user_name, present_id):
+        present_min_points = self.db.query(ExchangeRuleModule).filter(ExchangeRuleModule.id == present_id).first()
+
+        if present_min_points is None:
+            return False
+
+        current = self.__get_current_point(user_name)
+        if current < present_min_points.min_points:
+            return False
+
+        exchanged_modules = self.db.query(ExchangeModule).filter(ExchangeModule.user_name == user_name).all()
+        exchanged_point = 0
+        if exchanged_modules:
+            for x in exchanged_modules:
+                exchanged_point = exchanged_point + x.need_points
+
+        current_point = current - exchanged_point
+
+        if current_point < present_min_points.min_points:
+            return False
+
+        date_kits = DateToolKits()
+        exchange_apply = ExchangeModule()
+        exchange_apply.exchange_finish = False
+        exchange_apply.exchange_status = "apply"
+        exchange_apply.user_name = user_name
+        exchange_apply.current_points = current
+        exchange_apply.exchange_item = present_min_points.exchange_rule_name
+        exchange_apply.datetime = date_kits.get_now_time()
+        exchange_apply.need_points = present_min_points.exchange_rule_points
+        self.db.add(exchange_apply)
+        self.db.commit()
+        return True
+
