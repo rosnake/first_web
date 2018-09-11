@@ -6,6 +6,8 @@ from methods.debug import *
 from orm.db import dbSession
 from orm.attendance import AttendanceModule
 from orm.user import UserModule
+from multiprocessing import Process
+import os
 
 
 # 数据库资源一致性线程
@@ -17,6 +19,7 @@ class DataConsistency:
 
     def processing(self):
         logging.info("start data consistency processing")
+
         self.__process_attendance_table()
         logging.info("finish data consistency processing")
 

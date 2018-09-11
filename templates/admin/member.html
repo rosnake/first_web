@@ -13,11 +13,11 @@
 <h3>成员管理</h3>
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}
-    <div class="admin_page">
+    <div class="class_admin_context">
         <h3>当前所有成员如下</h3>
-        <form id="admin_member_form" name="member_form">
-        <table id="admin_member_table">
-        <thead id="admin_member_table_head">
+        <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+        <table class="class_admin_context_table"  id="admin_member_table">
+        <thead class="class_admin_context_table_head" id="admin_member_table_head">
             <tr>
                 <th></th>
                 <th>用户ID</th>
@@ -25,36 +25,36 @@
                 <th>角色</th>
             </tr>
         </thead>
-        <tbody id="admin_member_table_body">
+        <tbody class="class_admin_context_table_body" id="id_admin_member_table_body">
         {% for user_info in user_tables %}
             <tr>
-                <td><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
-                 <td id="user_id">{{ user_info["id"] }}</td>
-                 <td id="user_name">{{ user_info["username"] }}</td>
-                 <td id="user_role">{{ user_info["role"] }}</td>
+                <td class="class_admin_context_table_td" ><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
+                 <td class="class_admin_context_table_td" id="user_id">{{ user_info["id"] }}</td>
+                 <td class="class_admin_context_table_td" id="user_name">{{ user_info["username"] }}</td>
+                 <td class="class_admin_context_table_td" id="user_role">{{ user_info["role"] }}</td>
             </tr>
         {% end %}
         </tbody>
     </table>
         <br />
-        <input type="button" class="admin_add" id="admin_member_add" value="新增" />
-        <input type="button" class="admin_del" id="admin_member_del" value="删除"/>
-        <input type="button" class="admin_mod" id="admin_member_mod" value="修改" />
+        <input type="button" class="class_admin_context_button" id="admin_member_add" value="新增" />
+        <input type="button" class="class_admin_context_button" id="admin_member_del" value="删除"/>
+        <input type="button" class="class_admin_context_button" id="admin_member_mod" value="修改" />
         <br />
-        <input type="button" class="admin_mod" id="admin_member_show_password" value="显示密码" />
+        <input type="button" class="class_admin_context_button" id="id_admin_member_show_password" value="显示密码" />
         </form>
     </div>
-    <div id="admin_popup_background" class="back">
-        <div id="admin_popup_frontend" class="content">
-            <div id="admin_popup_close">
+    <div class="class_admin_popup_background" id="id_admin_popup_background">
+        <div class="class_admin_popup_content" id="id_admin_popup_frontend" >
+            <div class="class_admin_popup_title" id="id_admin_popup_close">
                 <h2>用户密码信息</h2>
             </div>
-            <div id="admin_popup_body">
-                <h3 id="id_admin_meeting_sub_title" >弹窗标题</h3>
+            <div class="class_admin_popup_body" id="id_admin_popup_body">
+                <h3 id="id_admin_meeting_sub_title" ></h3>
                 <p id="id_admin_meeting_topic_operation"></p>
-                <p><span>用户ID:</span><input type="text" id="id_admin_member_user_name"  /></p>
-                <p><span>密码:</span><input type="text" id="id_admin_member_pass_word" /></p>
-                <input type="button" class="admin_mod" id="id_admin_member_show_close" value="关闭" />
+                <p><span>用户ID:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_member_user_name"  /></p>
+                <p><span>密码:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_member_pass_word" /></p>
+                <input type="button" class="class_admin_context_button" id="id_admin_member_show_close" value="关闭" />
             </div>
 
         </div>

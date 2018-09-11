@@ -13,11 +13,11 @@
 <h3>扣分项目管理</h3>
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}
-    <div class="admin_page">
+    <div class="class_admin_context">
         <h3>当前所有扣分项目如下：</h3>
-        <form id="admin_member_form" name="member_form">
-        <table id="admin_member_table">
-        <thead id="admin_member_table_head">
+        <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+        <table class="class_admin_context_table" id="admin_member_table">
+        <thead class="class_admin_context_table_head" id="admin_member_table_head">
             <tr>
                 <th></th>
                 <th>项目编号</th>
@@ -25,21 +25,21 @@
                 <th>扣减分数</th>
             </tr>
         </thead>
-        <tbody id="admin_member_table_body">
+        <tbody class="class_admin_context_table_body" id="admin_member_table_body">
         {% for deduct_table in deduct_tables %}
             <tr>
-                <td><input type="radio" name="select_id" value={{ deduct_table["deduct_id"] }}></td>
-                 <td id="deduct_id">{{ deduct_table["deduct_id"] }}</td>
-                <td id="deduct_name">{{ deduct_table["deduct_name"] }}</td>
-                <td id="deduct_points">{{ deduct_table["deduct_points"] }}</td>
+                <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ deduct_table["deduct_id"] }}></td>
+                <td class="class_admin_context_table_td" id="deduct_id">{{ deduct_table["deduct_id"] }}</td>
+                <td class="class_admin_context_table_td" id="deduct_name">{{ deduct_table["deduct_name"] }}</td>
+                <td class="class_admin_context_table_td" id="deduct_points">{{ deduct_table["deduct_points"] }}</td>
             </tr>
         {% end %}
         </tbody>
     </table>
         <br />
-        <input type="button" class="admin_add" id="admin_deduct_add" value="新增" />
-        <input type="button" class="admin_del" id="admin_deduct_del" value="删除"/>
-        <input type="button" class="admin_mod" id="admin_deduct_mod" value="修改" />
+        <input type="button" class="class_admin_context_button" id="admin_deduct_add" value="新增" />
+        <input type="button" class="class_admin_context_button" id="admin_deduct_del" value="删除"/>
+        <input type="button" class="class_admin_context_button" id="admin_deduct_mod" value="修改" />
         </form>
     </div>
 

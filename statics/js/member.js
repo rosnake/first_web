@@ -241,9 +241,9 @@ $(document).ready(function () {
 		window.location.reload();
 	});
 
-	$('#admin_member_show_password').on('click', function ()
+	$('#id_admin_member_show_password').on('click', function ()
 	{
-		var member_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
+		var member_id = $('#id_admin_member_table_body input[name="select_id"]:checked ').val();
 		if ((typeof member_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
 			console.log("current not select any id");
@@ -307,7 +307,7 @@ $(document).ready(function () {
 						//注册成功---跳转（已登录状态--session实现）
 						$("#id_admin_member_user_name").val(user_name);
 						$("#id_admin_member_pass_word").val(obj.message);
-						$('#admin_popup_background').show();
+						$('#id_admin_popup_background').show();
 						console.log("username:"+ user_name);
 					} else {
 						alert(obj.message);

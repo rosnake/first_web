@@ -1,13 +1,4 @@
-.class_admin_body
-{
-    position:relative;
-    border: 2px solid #009f95;
-    heigth:500px;
-    max-heigth:auto;
-    height:auto;
-    overflow:hidden;
-    margin:0 auto;
-}
+/**以下为管理后台导航布局*/
 .admin_navigation
 {
     //border: 2px solid #009f95;
@@ -25,13 +16,6 @@
     //background-color: #e3ffab;
 }
 
-.admin_page
-{
-    position: center;
-    margin-left: 15px;
-    float: left;
-    //border: 2px solid #ee1c1f;
-}
 .ul_admin_navigation a
 {
     margin-top: 2px;
@@ -63,15 +47,70 @@
 {
     border-right:0; /* 去掉左侧边框 */
 }
+/**管理后台导航布局结束*/
 
-#admin_member_form
+.class_admin_body
 {
+    position:relative;
+    border: 2px solid #009f95;
+    heigth:500px;
+    max-heigth:auto;
+    height:auto;
+    overflow:hidden;
+    margin:0 auto;
+}
+
+.class_admin_context
+{
+    position: center;
+    margin-left: 15px;
+    float: left;
+    //border: 2px solid #ee1c1f;
+}
+
+.class_admin_context_form
+{
+    margin-left: 40px;
     align-content: center;
 }
-.admin_add, .admin_del, .admin_mod
+
+.class_admin_context_table
+{
+    //margin-left: 40px;
+    width: 800px;
+    line-height: 2em;
+    font-family: Arial;
+    border-collapse: collapse;
+}
+
+.class_admin_context_table_head tr {
+    color: #902d2d;
+    background-color: #e09999;
+    border-bottom: 1px solid #fff;
+}
+.class_admin_context_table_body tr {
+    color: #ac5959;
+    font-size: 0.8em;
+    border-bottom: 1px solid #fff;
+    background-color: #ffe7e7;
+}
+.class_admin_context_table_head th {
+    font-weight: normal;
+    text-align: left;
+    padding: 0 10px;
+}
+.class_admin_context_table_body td {
+    padding: 0 10px;
+}
+
+.class_admin_context_table_body tr:hover {
+    background-color: #ffd4d4;
+}
+
+.class_admin_context_button
 {
     right: 200px;
-    width: 200px;
+    width: 180px;
     height: 30px;
     font-family: "Arial Unicode MS",sans-serif;
     font-size: 20px;
@@ -82,3 +121,66 @@
     border: 1px solid #009f95;
 }
 
+/*管理界面弹窗布局*/
+.class_admin_popup_background {
+	display: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.class_admin_popup_content {
+    position: absolute;
+    left: 40%;
+    top: 30%;
+	background:#eeeeee;
+	width: 600px;
+	z-index: 1;
+	overflow: auto;
+    border-radius:8px;
+}
+
+.class_admin_popup_body {
+	background: #f3f7df;
+	margin: auto;
+	height: 320px;
+	padding: 0 20px;
+    text-align: center;
+}
+
+
+
+.class_admin_popup_title {
+	padding: 5px;
+	background: #ffc94e;
+}
+
+.class_admin_popup_title h2 {
+	margin: 10px 0;
+	color: white;
+	padding-left: 15px;
+}
+
+.class_admin_popup_body h3 {
+	margin: 0 0px;
+	padding-top: 15px;
+}
+
+.class_admin_popup_body span{
+    width: 120px;
+    height: 25px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 15px;
+    display:-moz-inline-box; /* css注释：for ff2 */
+    display:inline-block;
+}
+.class_admin_popup_body_input{
+    width: 200px;
+    height: 25px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 15px;
+    border-radius:5px;
+}
