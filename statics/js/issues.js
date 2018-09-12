@@ -17,7 +17,7 @@ $(document).ready(function () {
 
 	});
 
-	$('#admin_user_topic_del').on('click', function () {
+	$('#id_admin_user_topic_del').on('click', function () {
 		var issues_object = $('input[name="select_id"]:checked ');
 		var issues_id = issues_object.val();
 		if ((typeof issues_id) === 'undefined') {
@@ -25,8 +25,11 @@ $(document).ready(function () {
 			console.log("current not select any id");
 			return;
 		}
-		var admin_topic_username = issues_object.parents('div').children('#id_admin_topic_user_name').html();
-		var admin_topic_title = issues_object.parents('div').children('.topic_details').children('#id_admin_topic_title').html();
+		var root_div_obj =  issues_object.parents('div').parents('div');
+		var father_div_obj = root_div_obj.children('div');
+
+		var admin_topic_username = father_div_obj.children('div').children('#id_admin_topic_user_name').html();
+		var admin_topic_title = father_div_obj.children('div').children('#id_admin_topic_title').html();
         var topic_brief = "null";
         var topic_date = "null";
 		console.log("issues_id: " + issues_id);

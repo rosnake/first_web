@@ -10,19 +10,32 @@
 {% end %}
 
 {% block body %}
-<h3>后台及用户管理页面</h3>
+<h3>文件管理</h3>
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}
-    <div class="admin_page">
+    <div class="class_admin_context">
         <!--<input class="class_admin_file_upload_text" type="text" name="upload"/>-->
-        <div id="id_admin_file_upload_div">
-            <input type="file" id="id_admin_upload_file" />
-            <input type="button" class="admin_add" id="id_admin_file_upload" value="文件上传" />
+        <div class="class_admin_context_file">
+            <div class="class_admin_context_file_title" >
+                <h2>文件管理</h2>
+            </div>
+            <div class="class_admin_file_upload" id="id_admin_file_upload_div">
+                <span>
+                    <input type="file" class="class_admin_context_file_button" id="id_admin_upload_file" />
+                </span>
+                <input type="button" class="class_admin_context_button" id="id_admin_file_upload" value="文件上传" />
+            </div>
+            <div class="class_admin_file_download" id="id_admin_file_download_div">
+                <span>
+                    <label id="id_admin_file_download_label">请选择需要导出的内容:</label>
+                    <select id="id_admin_file_download_item">
+                        <option value="member_table">成员表</option>
+                        <option value="points_table">积分表</option>
+                    </select>
+                </span>
+                <input type="button" class="class_admin_context_button" id="id_admin_file_download" value="文件导出"/>
+            </div>
         </div>
-        <div id="id_admin_file_download_div">
-            <input type="button" class="admin_del" id="id_admin_file_download" value="文件导出"/>
-        </div>
-
     </div>
 
 </div> <!--end of admin body-->

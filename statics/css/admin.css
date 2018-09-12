@@ -109,7 +109,7 @@
 
 .class_admin_context_button
 {
-    right: 200px;
+    //right: 200px;
     width: 180px;
     height: 30px;
     font-family: "Arial Unicode MS",sans-serif;
@@ -183,4 +183,132 @@
     font-family: "Arial Unicode MS",sans-serif;
     font-size: 15px;
     border-radius:5px;
+}
+
+.class_admin_context_file_button
+{
+    width: 300px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    border: 1px solid #5ccaee;
+}
+
+.class_admin_context_file{
+    margin-left: 75px;
+    margin-top: 10px;
+    width: 700px;
+    height: 300px;
+    border: 1px solid #5ccaee;
+    background-color: #f4f2ea;
+    border-radius:5px;
+}
+
+.class_admin_context_file_title{
+    padding: 5px;
+	background: #ffc94e;
+}
+
+ .class_admin_context_file_title h2 {
+	margin: 10px 0;
+	color: white;
+	padding-left: 15px;
+}
+
+
+.class_admin_file_upload
+{
+    margin-top: 20px;
+    align-content: center;
+}
+
+.class_admin_file_download{
+    margin-top: 20px;
+    align-content: center;
+}
+
+.class_admin_file_upload span{
+    margin-left: 90px;
+    width: 320px;
+    height: 40px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    display:-moz-inline-box; /* css注释：for ff2 */
+    display:inline-block;
+}
+
+.class_admin_file_download span{
+    margin-left: 90px;
+    width: 320px;
+    height: 40px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    display:-moz-inline-box; /* css注释：for ff2 */
+    display:inline-block;
+}
+
+#id_admin_file_download_label
+{
+    width: 300px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+}
+
+#id_admin_file_download_item
+{
+    width: 100px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    border: 1px solid #5ccaee;
+}
+
+/*topic css*/
+.class_admin_context_topic
+{
+    margin-left: 2px;
+    width: 840px;
+    border: 2px solid #8effe4;
+    border-radius:5px;
+    background-color: #d7eedf;
+}
+
+.class_admin_context_details_label
+{
+    float: left;
+    width: 5em;
+    font-family: "Calibri",sans-serif;
+    font-size: 15px;
+    font-weight:bold;
+}
+
+.class_admin_context_topic_details_id
+{
+    width: 5em;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 18px;
+    font-weight:bold;
+}
+
+.class_admin_context_details_paragraph
+{
+    font-family: "Arial",sans-serif;
+    font-size: 15px;
+    border-radius:5px;
+}
+
+.class_admin_context_topic_id
+{
+    padding-top: 5px;
+    background-color: #8effe4;
+    padding-bottom: 5px;
+}
+
+.class_admin_context_topic_details div
+{
+    border-bottom:2px solid #ffc94e;
 }

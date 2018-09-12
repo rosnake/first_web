@@ -13,26 +13,36 @@
 <h3>成员管理</h3>
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}
-    <div class="admin_page">
+    <div class="class_admin_context">
         <h3>当前所有未完成议题信息如下：</h3>
     {% for topics in  user_topic_tables %}
         {% if topics["finish"] == False %}
-        <div class="admin_topics">
+        <div class="class_admin_context_topic">
             {% if topics["name"] != "" %}
             <!--
             <input type="radio" name="select_id" value={{ topics["topic_id"] }}>
              -->
-             <input type="radio" name="select_id" id="id_admin_issues" value={{ topics["topic_id"] }}>当前议题编号:{{ topics["topic_id"] }}
-
-            <h5 class="topic_name">议题主讲人：</h5>
-            <p id="id_admin_topic_user_name">{{ topics["name"] }}</p>
-            <div class="topic_details">
-                <h4>议题:</h4>
-                <p id="id_admin_topic_title">{{ topics["title"]}}</p>
-                <h4>议题简介:</h4>
-                <p class="topic_description">{% raw topics["description"] %}</p>
-                <h4>议题时间: </h4>
-                <p>{{ topics["time"]}}</p>
+            <div class="class_admin_context_topic_id">
+                <input type="radio" name="select_id" id="id_admin_issues" value={{ topics["topic_id"] }}>
+                <label class="class_admin_context_topic_details_id">议题编号:{% raw topics["topic_id"] %}</label>
+            </div>
+            <div class="class_admin_context_topic_details">
+                <div>
+                    <label class="class_admin_context_details_label">主 讲 人：</label>
+                    <p class="class_admin_context_details_paragraph" id="id_admin_topic_user_name">{% raw topics["name"] %}</p>
+                </div>
+                <div>
+                    <label class="class_admin_context_details_label">议&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp题:</label>
+                    <p class="class_admin_context_details_paragraph" id="id_admin_topic_title">{% raw topics["title"] %} </p>
+                </div>
+                <div>
+                    <label class="class_admin_context_details_label">议题简介:</label>
+                    <p class="class_admin_context_details_paragraph" >{% raw topics["description"] %}</p>
+                </div>
+                <div>
+                    <label class="class_admin_context_details_label">议题时间: </label>
+                    <p class="class_admin_context_details_paragraph">{% raw topics["time"]%}</p>
+                </div>
             </div>
             {% end %}
         </div>
@@ -42,9 +52,9 @@
     {% end %}
 
     <br />
-    <input type="button" class="admin_add" id="admin_user_topic_add" value="新增" />
-    <input type="button" class="admin_del" id="admin_user_topic_del" value="删除"/>
-    <input type="button" class="admin_mod" id="admin_user_topic_mod" value="修改" />
+    <input type="button" class="class_admin_context_button" id="admin_user_topic_add" value="新增" />
+    <input type="button" class="class_admin_context_button" id="id_admin_user_topic_del" value="删除"/>
+    <input type="button" class="class_admin_context_button" id="admin_user_topic_mod" value="修改" />
 
     </div>
 
