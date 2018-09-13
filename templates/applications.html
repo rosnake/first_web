@@ -12,6 +12,11 @@
 {% end %}
 
 {% block body %}
+    <style type="text/css">
+        #id_nav_applications a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
 {% if controller["authorized"] == True %}
     {% if len(user_topic) %}
     <h3> 您当前没有申报议题</h3>

@@ -16,7 +16,11 @@
 {% end %}
 
 {% block body %}
-
+    <style type="text/css">
+        #id_nav_statistics a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
 {% if controller["authorized"] == True %}
     <h3> 您当前积分为：{{ current_point }} </h3>
     <div class="class_popup_browse_detail">

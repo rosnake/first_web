@@ -2,7 +2,7 @@
 .admin_navigation
 {
     //border: 2px solid #009f95;
-    background-color: #fff6ce;
+    //background-color: #fff6ce;
     width: 120px;
     float: left;
 }
@@ -22,13 +22,14 @@
     margin-bottom: 2px;
     display:block;
     width:120px;
-    line-height:50px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
+    line-height:40px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
     text-align:center; /* 居中对齐文字 */
-    background: #22463d; /* 设置背景色 */
+    background: #1dbbdb; /* 设置背景色 */
     color:#fff; /* 设置文字颜色 */
     text-decoration:none; /* 去掉下划线 */
-    border-right:1px solid #000; /* 在左侧加上分隔线 */
+    //border-right:1px solid #000; /* 在左侧加上分隔线 */
     font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
+    border-radius:8px;
 }
 
 .ul_admin_navigation li
@@ -39,9 +40,10 @@
 
 .ul_admin_navigation li a:hover
 {
-    background: #517141; /* 变换背景色 */
+    background: #9bee7e; /* 变换背景色 */
     color: #ffffff; /* 变换文字颜色 */
 }
+
 
 #menu li a.last
 {
@@ -52,8 +54,8 @@
 .class_admin_body
 {
     position:relative;
-    border: 2px solid #009f95;
-    heigth:500px;
+    //border: 2px solid #009f95;
+    //heigth:500px;
     max-heigth:auto;
     height:auto;
     overflow:hidden;
@@ -62,6 +64,8 @@
 
 .class_admin_context
 {
+    width: 860px;
+    border: 2px solid #009f95;
     position: center;
     margin-left: 15px;
     float: left;

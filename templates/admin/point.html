@@ -12,12 +12,20 @@
 {% block body %}
 <h3>积分管理</h3>
 <div class="class_admin_body">
+    <style type="text/css">
+        #id_admin_sidebar_nav_point a{
+            background: #517141; /* 设置背景色 */
+        }
+        #id_nav_admin a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
     {{ modules.Admin(controller) }}
-    <div class="admin_page">
+    <div class="class_admin_context">
         <h3>当前所有成员积分如下</h3>
-        <form id="admin_member_form" name="member_form">
-        <table id="admin_member_table">
-        <thead id="admin_member_table_head">
+        <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+        <table class="class_admin_context_table" id="admin_member_table">
+        <thead class="class_admin_context_table_head" id="admin_member_table_head">
             <tr>
                 <th></th>
                 <th>用户ID</th>
@@ -28,16 +36,16 @@
         <tbody id="admin_member_table_body">
         {% for point_info in point_tables %}
             <tr>
-                <td><input type="radio" name="select_id" value={{ point_info["user_id"] }}></td>
-                 <td id="user_id">{{ point_info["user_id"] }}</td>
-                <td id="user_name">{{ point_info["user_name"] }}</td>
-                <td id="user_point">{{ point_info["user_point"] }}</td>
+                <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ point_info["user_id"] }}></td>
+                <td class="class_admin_context_table_td" id="user_id">{{ point_info["user_id"] }}</td>
+                <td class="class_admin_context_table_td" id="user_name">{{ point_info["user_name"] }}</td>
+                <td class="class_admin_context_table_td" id="user_point">{{ point_info["user_point"] }}</td>
             </tr>
         {% end %}
         </tbody>
     </table>
         <br />
-        <input type="button" class="admin_mod" id="id_admin_point_mod" value="修改" />
+        <input type="button" class="class_admin_context_button" id="id_admin_point_mod" value="修改" />
         </form>
     </div>
 

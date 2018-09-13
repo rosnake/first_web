@@ -12,6 +12,14 @@
 {% block body %}
 <h3>出勤管理</h3>
 <div class="class_admin_body">
+    <style type="text/css">
+        #id_admin_sidebar_nav_attendance a{
+            background: #517141; /* 设置背景色 */
+        }
+        #id_nav_admin a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
     {{ modules.Admin(controller) }}
     <div class="class_admin_context">
         <h3>当前有如下用户请假，请处理：</h3>

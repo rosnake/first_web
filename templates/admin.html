@@ -10,6 +10,11 @@
 {% end %}
 
 {% block body %}
+    <style type="text/css">
+        #id_nav_admin a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
 <h3>后台及用户管理页面</h3>
 <div class="class_admin_body">
     {{ modules.Admin(controller) }}

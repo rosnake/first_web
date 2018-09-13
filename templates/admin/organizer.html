@@ -12,13 +12,21 @@
 {% block body %}
 <h3>组织者管理</h3>
 <div class="class_admin_body">
+    <style type="text/css">
+        #id_admin_sidebar_nav_organizer a{
+            background: #517141; /* 设置背景色 */
+        }
+        #id_nav_admin a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
     {{ modules.Admin(controller) }}
-    <div class="admin_page">
+    <div class="class_admin_context">
         <h3>下月组织处为：</h3>
 
-        <form id="admin_member_form" name="member_form">
-        <table id="admin_member_table">
-        <thead id="admin_member_table_head">
+        <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+        <table class="class_admin_context_table" id="admin_member_table">
+        <thead class="class_admin_context_table_head" id="admin_member_table_head">
             <tr>
                 <th></th>
                 <th>组织者ID</th>
@@ -30,10 +38,10 @@
         {% if organizer_tables is not None %}
             {% for organizer_table in organizer_tables %}
                 <tr>
-                    <td><input type="radio" name="select_id" value={{ organizer_table["organizer_id"] }}></td>
-                     <td id="organizer_id">{{ organizer_table["organizer_id"] }}</td>
-                    <td id="organizer_name">{{ organizer_table["organizer_name"] }}</td>
-                    <td id="date">{{ organizer_table["date"] }}</td>
+                    <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ organizer_table["organizer_id"] }}></td>
+                    <td class="class_admin_context_table_td" id="organizer_id">{{ organizer_table["organizer_id"] }}</td>
+                    <td class="class_admin_context_table_td" id="organizer_name">{{ organizer_table["organizer_name"] }}</td>
+                    <td class="class_admin_context_table_td" id="date">{{ organizer_table["date"] }}</td>
                 </tr>
             {% end %}
         {% end %}
@@ -42,30 +50,25 @@
         <br />
 
         {% if controller["admin"] ==  True %}
-        <input type="button" class="admin_add" id="admin_organizer_add" value="增加组织者" />
-        <input type="button" class="admin_del" id="admin_organizer_del" value="删除组织者"/>
-        <input type="button" class="admin_mod" id="admin_organizer_mod" value="修改组织者" />
+        <input type="button" class="class_admin_context_button" id="admin_organizer_add" value="增加组织者" />
+        <input type="button" class="class_admin_context_button" id="admin_organizer_del" value="删除组织者"/>
+        <input type="button" class="class_admin_context_button" id="admin_organizer_mod" value="修改组织者" />
         {% elif controller["organizer"] == True %}
-        <input type="button" class="admin_add" id="admin_organizer_assign" value="指定组织者" />
+        <input type="button" class="class_admin_context_button" id="admin_organizer_assign" value="指定组织者" />
         {% end %}
         </form>
         <!-- 弹窗内容开始 -->
-        <div id="admin_popup_background" class="back">
-            <div id="admin_popup_frontend" class="content">
-                <div id="admin_popup_close">
+        <div class="class_admin_popup_background" id="admin_popup_background">
+            <div class="class_admin_popup_content" id="admin_popup_frontend">
+                <div class="class_admin_popup_title"  id="admin_popup_close">
                     <h2>组织者管理</h2>
                 </div>
-                <div id="admin_popup_body">
+                <div class="class_admin_popup_body" id="admin_popup_body">
                     <h3 id="admin_exchange_popup_sub_title" >弹窗标题</h3>
-                    <p><span>组织者姓名</span><input type="text" id="id_admin_organizer_name"/></p>
-                     <p><span>组织者ID:</span><input type="text" id="id_admin_organizer_id"/></p>
-                    <p><span>主持日期:</span>
-                        <select id="id_admin_organizer_date">
-                            <option value="default">2018-08-08</option>
-                            <option value="sub">2018-08-09</option>
-                            <option value="add">2018-08-10</option>
-                        </select>
-                    <input type="button" class="admin_mod" id="id_admin_popup_organizer_submit" value="提交" />
+                    <p><span>组织者姓名</span><input type="text" class="class_admin_popup_body_input" id="id_admin_organizer_name"/></p>
+                     <p><span>组织者ID:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_organizer_id"/></p>
+                    <p><span>主持日期:</span><input type="date" class="class_admin_popup_body_input" id="id_admin_organizer_date"/></p>
+                    <input type="button" class="class_admin_context_button" id="id_admin_popup_organizer_submit" value="提交" />
                 </div>
 
             </div>

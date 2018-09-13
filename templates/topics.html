@@ -6,6 +6,11 @@
 {% end %}
 
 {% block body %}
+    <style type="text/css">
+        #id_nav_topics a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
 <h3> 本周议题：</h3>
 {% for topics in  topics_table %}
 <div class="topics_current">

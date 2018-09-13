@@ -1,13 +1,13 @@
 <div class="navigation">
     <ul id="menu">
-        <li><a href="/home">主页</a></li>
-        <li><a href="/topics">议题信息</a></li>
-        <li><a href="/statistics">我的积分</a></li>
-        <li><a href="/applications">议题申报</a></li>
+        <li id="id_nav_home"><a href="/home">主页</a></li>
+        <li id="id_nav_topics"><a href="/topics">议题信息</a></li>
+        <li id="id_nav_statistics"><a href="/statistics">我的积分</a></li>
+        <li id="id_nav_applications"><a href="/applications">议题申报</a></li>
         {% if controller["admin"] == True or controller["organizer"] == True %}
-        <li><a href="/admin" class="last">管理</a></li>
+        <li id="id_nav_admin"><a href="/admin" class="last">管理</a></li>
         {% else %}
-        <li><a href="/about" class="last">关于</a></li>
+        <li id="id_nav_about"><a href="/about" class="last">关于</a></li>
         {% end %}
     </ul>
 </div>

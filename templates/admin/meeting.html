@@ -12,13 +12,21 @@
 {% block body %}
 <h3>成员管理</h3>
 <div class="class_admin_body">
+    <style type="text/css">
+        #id_admin_sidebar_nav_meeting a{
+            background: #517141; /* 设置背景色 */
+        }
+        #id_nav_admin a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
     {{ modules.Admin(controller) }}
-    <div class="admin_page">
+    <div class="class_admin_context">
         <h3>当前会议信息如下</h3>
 
-        <form id="admin_member_form" name="member_form">
-        <table id="admin_member_table">
-        <thead id="admin_member_table_head">
+        <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+        <table class="class_admin_context_table" id="admin_member_table">
+        <thead class="class_admin_context_table_head" id="admin_member_table_head">
             <tr>
                 <th></th>
                 <th>议题ID</th>
@@ -31,53 +39,53 @@
         <tbody id="admin_member_table_body">
         {% for meeting in meeting_tables %}
             <tr>
-                <td><input type="radio" name="select_id" value={{ meeting["topic_id"] }}></td>
-                 <td id="topic_id">{{ meeting["topic_id"] }}</td>
-                <td id="topic_title">{{ meeting["topic_title"] }}</td>
-                <td id="user_name">{{ meeting["user_name"] }}</td>
-                <td id="meeting_room">{{ meeting["meeting_room"] }}</td>
-                <td id="meeting_date">{{ meeting["meeting_date"] }}</td>
+                <td class="class_admin_context_table_td" ><input type="radio" name="select_id" value={{ meeting["topic_id"] }}></td>
+                <td class="class_admin_context_table_td" id="topic_id">{{ meeting["topic_id"] }}</td>
+                <td class="class_admin_context_table_td" id="topic_title">{{ meeting["topic_title"] }}</td>
+                <td class="class_admin_context_table_td" id="user_name">{{ meeting["user_name"] }}</td>
+                <td class="class_admin_context_table_td" id="meeting_room">{{ meeting["meeting_room"] }}</td>
+                <td class="class_admin_context_table_td" id="meeting_date">{{ meeting["meeting_date"] }}</td>
             </tr>
         {% end %}
         </tbody>
     </table>
         <br />
-        <input type="button" class="admin_del" id="id_admin_meeting_mod" value="修改"/>
-        <input type="button" class="admin_del" id="id_admin_meeting_add" value="增加"/>
-        <input type="button" class="admin_del" id="id_admin_meeting_set_current" value="设置为当前"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_mod" value="修改"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_add" value="增加"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_current" value="设置为当前"/>
         </form>
         <!-- 弹窗内容开始 -->
-        <div id="admin_popup_background" class="back">
-            <div id="admin_popup_frontend" class="content">
-                <div id="admin_popup_close">
+        <div class="class_admin_popup_background" id="admin_popup_background">
+            <div class="class_admin_popup_content" id="admin_popup_frontend">
+                <div class="class_admin_popup_title" id="admin_popup_close">
                     <h2>会议更改</h2>
                 </div>
-                <div id="admin_popup_body">
+                <div class="class_admin_popup_body" id="admin_popup_body">
                     <h3 id="id_admin_meeting_sub_title" >弹窗标题</h3>
                     <p id="id_admin_meeting_topic_operation"></p>
-                    <p><span>话题编号:</span><input type="text" id="id_admin_meeting_topic_id"  /></p>
-                    <p><span>话题:</span><input type="text" id="id_admin_meeting_topic_title" /></p>
-                    <p><span>主讲人:</span><input type="text" id="id_admin_meeting_user_name" /></p>
-                    <p><span>会议室:</span><input type="text" id="id_admin_meeting_meeting_room"/></p>
-                    <p><span>会议时间:</span><input type="date" id="id_admin_meeting_meeting_date"/></p>
-                    <input type="button" class="admin_mod" id="id_admin_meeting_submit" value="提交" />
+                    <p><span>话题编号:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_topic_id"  /></p>
+                    <p><span>话题:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_topic_title" /></p>
+                    <p><span>主讲人:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_user_name" /></p>
+                    <p><span>会议室:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_meeting_room"/></p>
+                    <p><span>会议时间:</span><input type="date" class="class_admin_popup_body_input" id="id_admin_meeting_meeting_date"/></p>
+                    <input type="button" class="class_admin_context_button" id="id_admin_meeting_submit" value="提交" />
                 </div>
 
             </div>
         </div>
         <!-- 弹窗内容结束 -->
          <!-- 弹窗内容开始 -->
-        <div id="id_meeting_popup_background" class="back">
-            <div id="id_meeting_popup_frontend" class="content">
-                <div id="admin_popup_close">
+        <div class="class_admin_popup_background" id="id_meeting_popup_background">
+            <div class="class_admin_popup_content" id="id_meeting_popup_frontend">
+                <div class="class_admin_popup_title" id="admin_popup_close">
                     <h2>会议信息添加</h2>
                 </div>
-                <div id="id_meeting_popup_body">
+                <div class="class_admin_popup_body" id="id_meeting_popup_body">
 
-                    <form id="admin_member_form" name="member_form">
+                    <form class="class_admin_context_form" id="admin_member_form" name="member_form">
                         {% if len(topics_tables) %}
-                        <table id="admin_member_table">
-                            <thead id="admin_member_table_head">
+                        <table class="class_admin_context_table" id="admin_member_table">
+                            <thead class="class_admin_context_table_head" id="admin_member_table_head">
                             <tr>
                                 <th></th>
                                 <th>议题ID</th>
@@ -88,20 +96,20 @@
                             <tbody id="admin_member_table_body">
                             {% for topics in topics_tables %}
                                 <tr>
-                                    <td><input type="radio" name="select_id" value={{ topics["topic_id"] }}></td>
-                                    <td id="id_meeting_topic_id">{{ topics["topic_id"] }}</td>
-                                    <td id="id_meeting_user_name">{{ topics["name"] }}</td>
-                                    <td id="id_meeting_topic_title">{{ topics["title"] }}</td>
+                                    <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ topics["topic_id"] }}></td>
+                                    <td class="class_admin_context_table_td" id="id_meeting_topic_id">{{ topics["topic_id"] }}</td>
+                                    <td class="class_admin_context_table_td" id="id_meeting_user_name">{{ topics["name"] }}</td>
+                                    <td class="class_admin_context_table_td" id="id_meeting_topic_title">{{ topics["title"] }}</td>
                                 </tr>
                             {% end %}
                             </tbody>
                         </table>
 
                     <br />
-                    <input type="button" class="admin_del" id="id_admin_meeting_select_confirm" value="确认"/>
+                    <input type="button" class="class_admin_context_button" id="id_admin_meeting_select_confirm" value="确认"/>
                     {% else %}
                     <p><span>当前无议题，无法添加会议信息，如下添加会议信息，请先添加议题</span></p>
-                    <input type="button" class="admin_del" id="id_admin_meeting_select_cancel" value="取消"/>
+                    <input type="button" class="class_admin_context_button" id="id_admin_meeting_select_cancel" value="取消"/>
                     {% end %}
 
                     </form>
