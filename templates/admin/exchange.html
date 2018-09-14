@@ -51,10 +51,12 @@
         {% end %}
         </tbody>
     </table>
-        <br />
-        <input type="button" class="class_admin_context_button" id="admin_exchange_confirm" value="兑换" />
-        <input type="button" class="class_admin_context_button" id="admin_exchange_cancel" value="驳回"/>
+
         </form>
+        <div class="class_admin_context_button_layout">
+            <input type="button" class="class_admin_context_button" id="admin_exchange_confirm" value="兑换" />
+            <input type="button" class="class_admin_context_button" id="admin_exchange_cancel" value="驳回"/>
+        </div>
 
         <h3>当前所有积分兑换规则如下：</h3>
         <form class="class_admin_context_form" id="admin_member_form" name="member_form">
@@ -80,17 +82,20 @@
         {% end %}
         </tbody>
     </table>
-        <br />
-        <input type="button" class="class_admin_context_button" id="admin_exchange_add" value="新增" />
-        <input type="button" class="class_admin_context_button" id="admin_exchange_del" value="删除"/>
-        <input type="button" class="class_admin_context_button" id="admin_exchange_mod" value="修改" />
         </form>
+        <div class="class_admin_context_button_layout">
+            <input type="button" class="class_admin_context_button" id="admin_exchange_add" value="新增" />
+            <input type="button" class="class_admin_context_button" id="admin_exchange_del" value="删除"/>
+            <input type="button" class="class_admin_context_button" id="admin_exchange_mod" value="修改" />
+
+        </div>
+
 
         <!-- 弹窗内容开始 -->
         <div class="class_admin_popup_background" id="admin_popup_background">
             <div  class="class_admin_popup_content" id="admin_popup_frontend">
                 <div  class="class_admin_popup_title" id="id_admin_popup_close">
-                    <h2>积分兑换规则</h2><span>X</span>
+                    <h2>积分兑换规则</h2>
                 </div>
                 <div class="class_admin_popup_body" id="admin_popup_body">
                     <h3 id="admin_exchange_popup_sub_title" >弹窗标题</h3>

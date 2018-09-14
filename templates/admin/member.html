@@ -44,13 +44,14 @@
         {% end %}
         </tbody>
     </table>
-        <br />
-        <input type="button" class="class_admin_context_button" id="admin_member_add" value="新增" />
-        <input type="button" class="class_admin_context_button" id="admin_member_del" value="删除"/>
-        <input type="button" class="class_admin_context_button" id="admin_member_mod" value="修改" />
-        <br />
-        <input type="button" class="class_admin_context_button" id="id_admin_member_show_password" value="显示密码" />
         </form>
+        <div class="class_admin_context_button_layout">
+           <input type="button" class="class_admin_context_button" id="id_admin_member_add" value="新增" />
+            <input type="button" class="class_admin_context_button" id="id_admin_member_del" value="删除"/>
+            <input type="button" class="class_admin_context_button" id="id_admin_member_mod" value="修改" />
+            <input type="button" class="class_admin_context_button" id="id_admin_member_show_password" value="显示密码" />
+        </div>
+
     </div>
     <div class="class_admin_popup_background" id="id_admin_popup_background">
         <div class="class_admin_popup_content" id="id_admin_popup_frontend" >
@@ -67,6 +68,29 @@
 
         </div>
     </div>
+
+        <div class="class_admin_popup_background" id="id_admin_member_edit_popup_background">
+        <div class="class_admin_popup_content" id="id_admin_member_edit_popup_frontend" >
+            <div class="class_admin_popup_title" id="id_admin_member_edit_popup_close">
+                <h2 id="id_admin_member_edit_sub_title">用户信息</h2>
+            </div>
+            <div class="class_admin_popup_body" id="id_admin_member_edit_popup_body">
+                <p id="id_admin_member_edit_operation"></p>
+                 <p id="id_admin_member_edit_user_id"></p>
+                <p><span>用户ID:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_member_edit_username"  /></p>
+                <p><span>角色:</span>
+                    <select class="class_admin_popup_body_input" id="id_admin_member_edit_role">
+                        <option value="normal">普通用户</option>
+                        <option value="organizer">组织者</option>
+                        <option value="admin">管理员</option>
+                    </select>
+                </p>
+                <input type="button" class="class_admin_context_button" id="id_admin_member_edit_submit" value="提交" />
+            </div>
+
+        </div>
+    </div>
+
 </div> <!--end of admin body-->
 
 

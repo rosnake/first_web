@@ -65,7 +65,7 @@
 .class_admin_context
 {
     width: 860px;
-    border: 2px solid #009f95;
+    border: 2px solid #9bee7e;
     position: center;
     margin-left: 15px;
     float: left;
@@ -124,7 +124,11 @@
     margin-bottom: 30px;
     border: 1px solid #009f95;
 }
-
+.class_admin_context_button_layout{
+    text-align: center;
+    margin-top: 20px;
+    //border: 1px solid #db5341;
+}
 /*管理界面弹窗布局*/
 .class_admin_popup_background {
 	display: none;
@@ -150,12 +154,9 @@
 .class_admin_popup_body {
 	background: #f3f7df;
 	margin: auto;
-	height: 320px;
 	padding: 0 20px;
     text-align: center;
 }
-
-
 
 .class_admin_popup_title {
 	padding: 5px;
@@ -201,12 +202,13 @@
 
 .class_admin_context_file{
     margin-left: 75px;
-    margin-top: 10px;
+    margin-top: 50px;
     width: 700px;
     height: 300px;
     border: 1px solid #5ccaee;
     background-color: #f4f2ea;
     border-radius:5px;
+    margin-bottom: 50px;
 }
 
 .class_admin_context_file_title{
@@ -274,7 +276,7 @@
 /*topic css*/
 .class_admin_context_topic
 {
-    margin-left: 2px;
+    margin-left: 8px;
     width: 840px;
     border: 2px solid #8effe4;
     border-radius:5px;
@@ -315,4 +317,58 @@
 .class_admin_context_topic_details div
 {
     border-bottom:2px solid #ffc94e;
+}
+
+/*meeting popup table*/
+.class_admin_meeting_form
+{
+    margin-top: 20px;
+    align-content: center;
+}
+
+.class_admin_meeting_table
+{
+    width: 560px;
+    line-height: 2em;
+    font-family: Arial;
+    border-collapse: collapse;
+    border-radius: 3px;
+}
+
+.class_admin_meeting_table_head tr {
+    color: #0f3639;
+    background-color: #9bee7e;
+    border-bottom: 1px solid #fff;
+}
+.class_admin_meeting_table_body tr {
+    color: #0a1309;
+    font-size: 0.8em;
+    border-bottom: 1px solid #fff;
+    background-color: #d7eedf;
+}
+.class_admin_meeting_table_head th {
+    font-weight: normal;
+    text-align: left;
+    padding: 0 10px;
+}
+
+.class_admin_meeting_table_body tr:hover {
+    background-color: #aaeed8;
+}
+
+/*member table*/
+.class_admin_context_table_button{
+    width: 70px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 1em;
+    border-radius:2px;
+    border: 1px solid #eec777;
+    margin-left: 5px;
+    float: right;
+}
+
+#id_admin_context_attendance_sign_form
+{
+    margin-bottom: 20px;
 }

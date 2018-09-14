@@ -2,6 +2,7 @@
 <!--自动转义-->
 {% block external_lib %}
     <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/admin.js")}}"></script>
     <script src="{{static_url("js/meeting.js")}}"></script>
 {% end %}
 {% autoescape None %}
@@ -36,7 +37,7 @@
                 <th>时间</th>
             </tr>
         </thead>
-        <tbody id="admin_member_table_body">
+        <tbody id="id_admin_member_table_body">
         {% for meeting in meeting_tables %}
             <tr>
                 <td class="class_admin_context_table_td" ><input type="radio" name="select_id" value={{ meeting["topic_id"] }}></td>
@@ -49,15 +50,17 @@
         {% end %}
         </tbody>
     </table>
-        <br />
-        <input type="button" class="class_admin_context_button" id="id_admin_meeting_mod" value="修改"/>
-        <input type="button" class="class_admin_context_button" id="id_admin_meeting_add" value="增加"/>
-        <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_current" value="设置为当前"/>
         </form>
+        <div class="class_admin_context_button_layout">
+            <input type="button" class="class_admin_context_button" id="id_admin_meeting_mod" value="修改"/>
+            <input type="button" class="class_admin_context_button" id="id_admin_meeting_add" value="增加"/>
+            <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_current" value="设置为当前"/>
+        </div>
+
         <!-- 弹窗内容开始 -->
         <div class="class_admin_popup_background" id="admin_popup_background">
             <div class="class_admin_popup_content" id="admin_popup_frontend">
-                <div class="class_admin_popup_title" id="admin_popup_close">
+                <div class="class_admin_popup_title" id="id_admin_popup_close">
                     <h2>会议更改</h2>
                 </div>
                 <div class="class_admin_popup_body" id="admin_popup_body">
@@ -77,15 +80,15 @@
          <!-- 弹窗内容开始 -->
         <div class="class_admin_popup_background" id="id_meeting_popup_background">
             <div class="class_admin_popup_content" id="id_meeting_popup_frontend">
-                <div class="class_admin_popup_title" id="admin_popup_close">
+                <div class="class_admin_popup_title" id="id_admin_popup_add_close">
                     <h2>会议信息添加</h2>
                 </div>
                 <div class="class_admin_popup_body" id="id_meeting_popup_body">
 
-                    <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+                    <form class="class_admin_meeting_form" id="admin_member_form">
                         {% if len(topics_tables) %}
-                        <table class="class_admin_context_table" id="admin_member_table">
-                            <thead class="class_admin_context_table_head" id="admin_member_table_head">
+                        <table class="class_admin_meeting_table" id="admin_member_table">
+                            <thead class="class_admin_meeting_table_head" id="admin_member_table_head">
                             <tr>
                                 <th></th>
                                 <th>议题ID</th>
@@ -93,7 +96,7 @@
                                 <th>议题简介</th>
                             </tr>
                             </thead>
-                            <tbody id="admin_member_table_body">
+                            <tbody class="class_admin_meeting_table_body">
                             {% for topics in topics_tables %}
                                 <tr>
                                     <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ topics["topic_id"] }}></td>

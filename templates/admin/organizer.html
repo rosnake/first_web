@@ -47,16 +47,18 @@
         {% end %}
         </tbody>
     </table>
-        <br />
-
-        {% if controller["admin"] ==  True %}
-        <input type="button" class="class_admin_context_button" id="admin_organizer_add" value="增加组织者" />
-        <input type="button" class="class_admin_context_button" id="admin_organizer_del" value="删除组织者"/>
-        <input type="button" class="class_admin_context_button" id="admin_organizer_mod" value="修改组织者" />
+        </form>
+        <div class="class_admin_context_button_layout">
+           {% if controller["admin"] ==  True %}
+            <input type="button" class="class_admin_context_button" id="admin_organizer_add" value="增加组织者" />
+            <input type="button" class="class_admin_context_button" id="admin_organizer_del" value="删除组织者"/>
+            <input type="button" class="class_admin_context_button" id="admin_organizer_mod" value="修改组织者" />
         {% elif controller["organizer"] == True %}
         <input type="button" class="class_admin_context_button" id="admin_organizer_assign" value="指定组织者" />
         {% end %}
-        </form>
+        </div>
+
+
         <!-- 弹窗内容开始 -->
         <div class="class_admin_popup_background" id="admin_popup_background">
             <div class="class_admin_popup_content" id="admin_popup_frontend">

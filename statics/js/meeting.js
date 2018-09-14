@@ -279,4 +279,8 @@ var tpoic_id = $('#admin_member_table_body input[name="select_id"]:checked ').va
 		});
 	});
 
+	$('#id_admin_popup_add_close').on('click', function () {
+	    $('.class_admin_popup_background').hide();
+    });
+
 });
