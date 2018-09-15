@@ -39,7 +39,7 @@
                 <tbody class="class_admin_context_table_body">
                 {% if attendance_tables is not None %}
                     {% for attendance in attendance_tables %}
-                        {% if attendance["attend"] == False %}
+                        {% if attendance["attend"] == False and  attendance["absent_accept"] == False %}
                     <tr>
                         <td id="id_admin_attendance_username">{{attendance["username"]}}</td>
                         <td id="id_admin_attendance_nickname">{{attendance["nickname"]}}</td>
@@ -75,7 +75,7 @@
             <tbody class="class_admin_context_table_body">
             {% if attendance_tables is not None %}
                 {% for attendance in attendance_tables %}
-                    {% if attendance["attend"] == True %}
+                    {% if attendance["attend"] == True and attendance["absent_accept"] == False %}
                 <tr>
                     <td id="id_admin_attendance_username">{{attendance["username"]}}</td>
                     <td id="id_admin_attendance_nickname">{{attendance["nickname"]}}</td>

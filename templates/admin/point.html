@@ -33,7 +33,7 @@
                 <th>当前积分</th>
             </tr>
         </thead>
-        <tbody id="admin_member_table_body">
+        <tbody class="class_admin_context_table_body" id="admin_member_table_body">
         {% for point_info in point_tables %}
             <tr>
                 <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ point_info["user_id"] }}></td>

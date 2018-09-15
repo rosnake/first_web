@@ -133,20 +133,15 @@ $(document).ready(function () {
 
 		console.log("user_name: " + user_name);
 		console.log("user_role: " + user_role);
-		ret = confirm("是否修改【" + user_name + "】?");
-		if (ret === true)
-		{
-		   	$('#id_admin_member_edit_user_id').val(user_id);
-	        $('#id_admin_member_edit_operation').val("modify");
-	        $('#id_admin_member_edit_username').val(user_name);
-	        $('#id_admin_member_edit_role').val(user_role);
-	        $("#id_admin_member_edit_username").attr("readonly", true);
-		    $('#id_admin_member_edit_popup_background').show();
-		    $("#id_admin_member_edit_sub_title").text("修改用户信息");
-			console.log("operation:modify,username:"+user_name+" role:"+user_role+" id:"+user_id);
-		} else {
-			alert("取消修改");
-		}
+
+        $('#id_admin_member_edit_user_id').val(user_id);
+        $('#id_admin_member_edit_operation').val("modify");
+        $('#id_admin_member_edit_username').val(user_name);
+        $('#id_admin_member_edit_role').val(user_role);
+        $("#id_admin_member_edit_username").attr("readonly", true);
+        $('#id_admin_member_edit_popup_background').show();
+        $("#id_admin_member_edit_sub_title").text("修改用户信息");
+        console.log("operation:modify,username:"+user_name+" role:"+user_role+" id:"+user_id);
 	});
 
 	$('#id_admin_member_edit_submit').on('click', function ()
@@ -156,6 +151,22 @@ $(document).ready(function () {
 		var user_name = $("#id_admin_member_edit_username").val();
 		var user_role = $("#id_admin_member_edit_role").val();
 
+		if (user_name == "") {
+			$("#id_admin_member_edit_username").focus();
+			layer.msg("用户名不能为空.");
+			return false;
+		}
+
+		if (user_name.length < 4) {
+			$("#password").focus();
+			layer.msg("用户名ID不能小于4个字符");
+			return false;
+		}
+		if (user_role == "") {
+			$("#id_admin_member_edit_username").focus();
+			layer.msg("用户角色信息不能为空.");
+			return false;
+		}
 		var submit_data = {
 			"operation": operation,
 			"username": user_name,
@@ -282,4 +293,13 @@ $(document).ready(function () {
 		$('#admin_popup_background').hide();
 		window.location.reload();
 	});
+
+	$('#id_admin_member_edit_cancel').on('click', function (){
+        $("#id_admin_member_edit_user_id").val("");
+		$("#id_admin_member_edit_username").val("");
+	    $('#id_admin_member_edit_operation').val("");
+		$('#id_admin_member_edit_popup_background').hide();
+		window.location.reload();
+	});
+
 });

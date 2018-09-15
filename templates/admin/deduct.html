@@ -46,9 +46,26 @@
     </table>
         </form>
         <div class="class_admin_context_button_layout">
-        <input type="button" class="class_admin_context_button" id="admin_deduct_add" value="新增" />
-        <input type="button" class="class_admin_context_button" id="admin_deduct_del" value="删除"/>
-        <input type="button" class="class_admin_context_button" id="admin_deduct_mod" value="修改" />
+        <input type="button" class="class_admin_context_button" id="id_admin_deduct_add" value="新增" />
+        <input type="button" class="class_admin_context_button" id="id_admin_deduct_del" value="删除"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_deduct_mod" value="修改" />
+        </div>
+    </div>
+
+    <div class="class_admin_popup_background" id="id_admin_deduct_edit_popup_background">
+        <div class="class_admin_popup_content" id="id_admin_deduct_edit_popup_frontend" >
+            <div class="class_admin_popup_title" id="id_admin_deduct_edit_popup_close">
+                <h2 id="id_admin_deduct_edit_sub_title">扣分项管理</h2>
+            </div>
+            <div class="class_admin_popup_body" id="id_admin_deduct_edit_popup_body">
+                <p id="id_admin_deduct_edit_operation"></p>
+                <p id="id_admin_deduct_edit_deduct_id"></p>
+                <p><span>扣分项目:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_name"  /></p>
+                <p><span>扣分分数:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_point"  /></p>
+                <input type="button" class="class_admin_context_button" id="id_admin_deduct_edit_submit" value="提交" />
+                <input type="button" class="class_admin_context_button" id="id_admin_deduct_edit_cancel" value="取消" />
+            </div>
+
         </div>
     </div>
 

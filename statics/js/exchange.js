@@ -12,7 +12,7 @@ function isRealNum(val) {
 
 $(document).ready(function () {
 	/*admin_exchange_confirm start*/
-	$('#admin_exchange_confirm').on('click', function () {
+	$('#id_admin_exchange_accept').on('click', function () {
 		var exchange_id = $('#admin_user_exchange_table_body input[name="select_id"]:checked ').val();
 		if ((typeof exchange_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -92,7 +92,7 @@ $(document).ready(function () {
 	/*admin_exchange_confirm end*/
 
 	/* admin_exchange_cancel start*/
-	$('#admin_exchange_cancel').on('click', function () {
+	$('#id_admin_exchange_reject').on('click', function () {
 		var exchange_id = $('#admin_user_exchange_table_body input[name="select_id"]:checked ').val();
 		if ((typeof exchange_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -174,100 +174,15 @@ $(document).ready(function () {
 
 	/*积分规则处理*/
 
-	$('#admin_exchange_add').on('click', function () {
-		$('#admin_popup_background').show();
-		$("#admin_exchange_popup_sub_title").text("新增规则");
-		var rule_id = "无需填写，系统自动生成";
-		$("#admin_exchange_popup_rule_id").val(rule_id);
-		$("#admin_exchange_popup_rule_id").attr("readonly", true);
+	$('#id_admin_exchange_add').on('click', function () {
+		$('#id_admin_exchange_edit_popup_background').show();
+		$("#id_admin_exchange_edit_sub_title").text("新增兑换规则");
+		$("#id_admin_exchange_popup_rule_id").val("0");
+		$("#id_admin_exchange_edit_operation").val("add");
+		$("#id_admin_exchange_popup_rule_id").attr("readonly", true);
 	});
 
-	$('#admin_popup_close_button').on('click', function () {
-		var rule_id = $("#admin_exchange_popup_rule_id").val();
-		var rule_name = $("#admin_exchange_popup_rule_name").val();
-		var need_points = $("#admin_exchange_popup_rule_points").val();
-		var points_range = $("#admin_exchange_popup_rule_range").val();
-
-		if (rule_id == "") {
-			$("#admin_exchange_popup_rule_id").focus();
-			layer.msg("ID不能为空");
-			return false;
-		}
-
-		if (rule_name == "") {
-			$("#admin_exchange_popup_rule_name").focus();
-			layer.msg("兑换物品不能为空");
-			return false;
-		}
-
-		if (need_points == "") {
-			$("#admin_exchange_popup_rule_points").focus();
-			layer.msg("兑换积分不能为空");
-			return false;
-		}
-
-		if (points_range == "") {
-			$("#admin_exchange_popup_rule_range").focus();
-			layer.msg("最少兑换积分不能为空");
-			return false;
-		}
-
-		if (isRealNum(need_points) === false) {
-			$("#admin_exchange_popup_rule_points").focus();
-			layer.msg("兑换积分只能是数字");
-			return false;
-		}
-
-		if (isRealNum(points_range) === false) {
-			$("#admin_exchange_popup_rule_range").focus();
-			layer.msg("最少积分只能是数字");
-			return false;
-		}
-
-		var operation = "modify";
-		if (isRealNum(rule_id) === false) {
-			operation = "add";
-			rule_id = 0;
-		}
-		var submit_data = {
-			"operation": operation,
-			"rule_name": rule_name,
-			"need_points": need_points,
-			"min_points": points_range,
-			"id": rule_id,
-			"_xsrf": getCookie("_xsrf")
-		};
-
-		console.log("operation:" + operation + " rule_name:" + rule_name + " need_points:" + need_points + " points_range:" + points_range + " rule_id:" + rule_id);
-		$.ajax({
-			type: "post",
-			url: "/admin/exchange",
-			data: submit_data,
-			cache: false,
-			success: function (arg) {
-				console.log(arg);
-				//arg是字符串
-				var obj = JSON.parse(arg);
-				if (obj.status) {
-					layer.msg("提交成功");
-					console.log("rule_name:" + rule_name);
-					setTimeout(function () {
-						window.location.reload();
-					}, 1000);
-				} else {
-					layer.msg(obj.message);
-				}
-			},
-			error: function (arg) {
-				layer.msg("未知的错误");
-			}
-		});
-
-		$('#admin_popup_background').hide();
-		//setTimeout(function () {window.location.reload();}, 1000);
-	});
-
-	$('#admin_exchange_del').on('click', function () {
+	$('#id_admin_exchange_del').on('click', function () {
 		var rule_id = $('#admin_exchange_table_body input[name="select_id"]:checked ').val();
 		if ((typeof rule_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -349,7 +264,7 @@ $(document).ready(function () {
 
 	});
 
-	$('#admin_exchange_mod').on('click', function () {
+	$('#id_admin_exchange_mod').on('click', function () {
 		var rule_id = $('#admin_exchange_table_body input[name="select_id"]:checked ').val();
 		if ((typeof rule_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -397,15 +312,121 @@ $(document).ready(function () {
 			}
 		});
 
-		$("#admin_exchange_popup_rule_id").val(rule_id);
-		$("#admin_exchange_popup_rule_name").val(rule_name);
-		$("#admin_exchange_popup_rule_points").val(need_points);
-		$("#admin_exchange_popup_rule_range").val(points_range);
-		$("#admin_exchange_popup_rule_id").attr("readonly", true);
-		$("#admin_exchange_popup_rule_name").attr("readonly", true);
-		$('#admin_popup_background').show();
-		$("#admin_exchange_popup_sub_title").text("修改规则");
+		$("#id_admin_exchange_popup_rule_id").val(rule_id);
+		$("#id_admin_exchange_popup_rule_name").val(rule_name);
+		$("#id_admin_exchange_popup_rule_points").val(need_points);
+		$("#id_admin_exchange_popup_rule_range").val(points_range);
+		$("#id_admin_exchange_edit_operation").val("modify");
+		$("#id_admin_exchange_popup_rule_id").attr("readonly", true);
+		$("#id_admin_exchange_popup_rule_name").attr("readonly", true);
+		$('#id_admin_exchange_edit_popup_background').show();
+		$("#id_admin_exchange_edit_sub_title").text("修改规则");
 
 	});
+
+	$('#id_admin_exchange_edit_submit').on('click', function () {
+		var rule_id = $("#id_admin_exchange_popup_rule_id").val();
+		var rule_name = $("#id_admin_exchange_popup_rule_name").val();
+		var need_points = $("#id_admin_exchange_popup_rule_points").val();
+		var points_range = $("#id_admin_exchange_popup_rule_range").val();
+		var operation =  $("#id_admin_exchange_edit_operation").val();
+
+		if (rule_id == "") {
+			$("#id_admin_exchange_popup_rule_id").focus();
+			layer.msg("ID不能为空");
+			return false;
+		}
+
+		if (rule_name == "") {
+			$("#id_admin_exchange_popup_rule_name").focus();
+			layer.msg("兑换物品不能为空");
+			return false;
+		}
+
+		if (need_points == "") {
+			$("#id_admin_exchange_popup_rule_points").focus();
+			layer.msg("兑换积分不能为空");
+			return false;
+		}
+
+		if (isRealNum(need_points) === false) {
+			$("#id_admin_exchange_popup_rule_points").focus();
+			layer.msg("兑换积分只能是数字");
+			return false;
+		}
+
+		if (need_points < 0) {
+			$("#id_admin_exchange_popup_rule_points").focus();
+			layer.msg("兑换积分不能为负数");
+			return false;
+		}
+
+		if (points_range == "") {
+			$("#id_admin_exchange_popup_rule_range").focus();
+			layer.msg("最少兑换积分不能为空");
+			return false;
+		}
+
+		if (isRealNum(points_range) === false) {
+			$("#id_admin_exchange_popup_rule_range").focus();
+			layer.msg("最少积分只能是数字");
+			return false;
+		}
+
+		if (points_range < 0) {
+			$("#id_admin_exchange_popup_rule_range").focus();
+			layer.msg("兑换最小值不能为负数");
+			return false;
+		}
+		var submit_data = {
+			"operation": operation,
+			"rule_name": rule_name,
+			"need_points": need_points,
+			"min_points": points_range,
+			"id": rule_id,
+			"_xsrf": getCookie("_xsrf")
+		};
+
+		console.log("operation:" + operation + " rule_name:" + rule_name + " need_points:" + need_points + " points_range:" + points_range + " rule_id:" + rule_id);
+		$.ajax({
+			type: "post",
+			url: "/admin/exchange",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					layer.msg("提交成功");
+					console.log("rule_name:" + rule_name);
+					setTimeout(function () {
+						window.location.reload();
+					}, 1000);
+				} else {
+					layer.msg(obj.message);
+				}
+			},
+			error: function (arg) {
+				layer.msg("未知的错误");
+			}
+		});
+
+	    $("#id_admin_exchange_popup_rule_id").val("");
+		$("#id_admin_exchange_popup_rule_name").val("");
+		$("#id_admin_exchange_popup_rule_points").val("");
+		$("#id_admin_exchange_popup_rule_range").val("");
+		$('#id_admin_exchange_edit_popup_background').hide();
+		//setTimeout(function () {window.location.reload();}, 1000);
+	});
+
+	$('#id_admin_exchange_edit_cancel').on('click', function () {
+	    $("#id_admin_exchange_popup_rule_id").val("");
+		$("#id_admin_exchange_popup_rule_name").val("");
+		$("#id_admin_exchange_popup_rule_points").val("");
+		$("#id_admin_exchange_popup_rule_range").val("");
+
+	    $('#id_admin_exchange_edit_popup_background').hide();
+    });
 
 }); /*end of ready function*/

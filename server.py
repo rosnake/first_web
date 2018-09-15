@@ -17,6 +17,10 @@ def main():
     tornado.options.parse_command_line()
     if options.tables:
         create_all_tables()
+    else:
+        consistency = DataConsistency()
+        consistency.run()
+
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(options.port)
     print("Development server is running at http://127.0.0.1:%s" % options.port)
@@ -25,8 +29,6 @@ def main():
 
 
 if __name__ == "__main__":
-    consistency = DataConsistency()
-    consistency.run()
     main()
 
 

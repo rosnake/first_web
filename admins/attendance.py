@@ -8,6 +8,8 @@ from methods.controller import PageController  # 导入页面控制器
 from methods.debug import *
 from methods.toolkits import DateToolKits
 from orm.attendance import AttendanceModule
+from orm.points import PointsModule
+from orm.marks import MarksModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -53,10 +55,81 @@ class AdminAttendanceHandler(BaseHandler):
         date_kits = DateToolKits()
         operation = self.get_argument("operation")
         username = self.get_argument("username")
-        uid = self.get_argument("id")
-        role = self.get_argument("role")
+        logging.info("operation:%s , username: %s" % (operation, username))
 
-        logging.info("operation:%s , username: %s, role:%s id: %s" % (operation, username, role, uid))
+        if operation == "leave_accept":
+            ret = self.__set_attendance_leave_accept_by_username(username)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "处理成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "签到失败"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+
+        if operation == "leave_reject":
+            ret = self.__set_attendance_leave_reject_by_username(username)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "处理成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "签到失败"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+
+    def __set_attendance_leave_accept_by_username(self, username):
+        attendance = self.db.query(AttendanceModule).filter(AttendanceModule.username == username).first()
+
+        if attendance is not None:
+            deduct = self.db.query(MarksModule).filter(MarksModule.id == attendance.absence_id).first()
+            #  更新积分表
+            user_point = self.db.query(PointsModule).filter(PointsModule.username == username).first()
+
+            if user_point and deduct:
+                self.db.query(PointsModule).filter(PointsModule.username == username).update({
+                    PointsModule.last_point: user_point.current_point,
+                    PointsModule.current_point: user_point.current_point + deduct.points,
+                })
+                self.db.commit()
+            else:
+                return False
+
+            self.db.query(AttendanceModule).filter(AttendanceModule.username == username).update({
+                AttendanceModule.attend: True,
+                AttendanceModule.absent_accept: True,
+
+            })
+            self.db.commit()
+            logging.info("modify attendance succeed")
+            return True
+        else:
+            logging.error("modify attendance failed")
+            return False
+
+    def __set_attendance_leave_reject_by_username(self, username):
+        attendance = self.db.query(AttendanceModule).filter(AttendanceModule.username == username).first()
+
+        if attendance is not None:
+            self.db.query(AttendanceModule).filter(AttendanceModule.username == username).update({
+                AttendanceModule.attend: True,
+                AttendanceModule.absent_accept: False,
+            })
+            self.db.commit()
+            logging.info("modify attendance succeed")
+            return True
+        else:
+            logging.error("modify attendance failed")
+            return False
 
     def __get_attendance_tables(self):
         attendance_tables = []
@@ -68,7 +141,7 @@ class AdminAttendanceHandler(BaseHandler):
                 tmp = {
                     "attendance_id": id, "username": x.username, "nickname": x.nickname,
                     "absence_reason": x.absence_reason, "absence_id": x.absence_id, "attend": x.attend,
-                    "apply_time": x.apply_time, "datetime": x.datetime
+                    "apply_time": x.apply_time, "datetime": x.datetime,"absent_accept": x.absent_accept
                 }
                 attendance_tables.append(tmp)
 

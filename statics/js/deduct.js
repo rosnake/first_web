@@ -1,64 +1,12 @@
 $(document).ready(function () {
-	$('#admin_deduct_add').on('click', function () {
-		var deduct_name = prompt("请输入扣分项目.");
-		if (deduct_name === "" || deduct_name === null) {
-			layer.msg("您未输入有效的项目名称，已为您取消操作。", {
-				icon: 2
-			});
-			return;
-		}
-		var deduct_points = prompt("请输入扣分值.");
-		if (deduct_points === "" || deduct_points === null) {
-			layer.msg("您未输入有效的扣分值，已为您取消操作。", {
-				icon: 2
-			});
-			return;
-		}
-		var deduct_id = "0";
-		console.log("deduct_id: " + deduct_id);
-		console.log("deduct_name: " + deduct_name);
-		console.log("deduct_points: " + deduct_points);
-		ret = confirm("是否新增【" + deduct_name + "】?");
-		if (ret === true) {
-			var submit_data = {
-			"operation": "add",
-			"deduct_name": deduct_name,
-			"deduct_points": deduct_points,
-			"id":deduct_id,
-			"_xsrf": getCookie("_xsrf")
-			};
-
-			console.log("operation:add,deduct_name:"+deduct_name+" deduct_points:"+deduct_points+" deduct_id:"+deduct_id);
-
-			$.ajax({
-				type: "post",
-				url: "/admin/deduct",
-				data: submit_data,
-				cache: false,
-				success: function (arg) {
-					console.log(arg);
-					//arg是字符串
-					var obj = JSON.parse(arg);
-					if (obj.status) {
-						alert("添加成功");
-						console.log("deduct_name:"+ deduct_name);
-						window.location.reload();
-					} else {
-						alert(obj.message);
-					}
-				},
-				error:function(arg) {
-					alert("未知的错误");
-				}
-			});
-
-		} else {
-			alert("取消新增");
-		}
-		window.location.reload();
+	$('#id_admin_deduct_add').on('click', function () {
+	    $('#id_admin_deduct_edit_deduct_id').val("0");
+	    $('#id_admin_deduct_edit_operation').val("add");
+		$('#id_admin_deduct_edit_popup_background').show();
+		$("#id_admin_deduct_edit_sub_title").text("增加扣分项目");
 	});
 
-	$('#admin_deduct_del').on('click', function () {
+	$('#id_admin_deduct_del').on('click', function () {
 		var deduct_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
 		if ((typeof deduct_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -143,7 +91,7 @@ $(document).ready(function () {
 		//setTimeout(function () {window.location.reload();}, 1000);
 	});
 
-	$('#admin_deduct_mod').on('click', function () {
+	$('#id_admin_deduct_mod').on('click', function () {
 		var deduct_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
 		if ((typeof deduct_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -185,54 +133,87 @@ $(document).ready(function () {
 			}
 		});
 
-		var deduct_new_points = prompt("请输入新的【" + deduct_name + "】扣分值,当前扣分值【" + deduct_points + "】");
-		if (deduct_points === "") {
-			layer.msg("您未输入有效的扣分值，已为您取消操作。", {
-				icon: 2
-			});
-			return;
-		}
 		console.log("deduct_id: " + deduct_id);
 		console.log("deduct_name: " + deduct_name);
-		console.log("deduct_points: " + deduct_new_points);
-		ret = confirm("是否修改【" + deduct_name + "】为【" + deduct_new_points + "】?");
-		if (ret === true) {
-			var submit_data = {
-			"operation": "modify",
+		console.log("deduct_points: " + deduct_points);
+	    $('#id_admin_deduct_edit_deduct_id').val(deduct_id);
+	    $('#id_admin_deduct_edit_operation').val("modify");
+	    $('#id_admin_deduct_edit_deduct_name').val(deduct_name);
+	    $('#id_admin_deduct_edit_deduct_name').attr("readonly", true)
+	    $("#id_admin_deduct_edit_deduct_point").val(deduct_points);
+		$('#id_admin_deduct_edit_popup_background').show();
+		$("#id_admin_deduct_edit_sub_title").text("修改扣分项目");
+	});
+
+	$('#id_admin_deduct_edit_submit').on('click', function ()
+	{
+	    var operation = $("#id_admin_deduct_edit_operation").val();
+		var deduct_id = $("#id_admin_deduct_edit_deduct_id").val();
+		var deduct_name = $("#id_admin_deduct_edit_deduct_name").val();
+		var deduct_points = $("#id_admin_deduct_edit_deduct_point").val();
+
+		if (deduct_name == "") {
+			$("#id_admin_deduct_edit_deduct_name").focus();
+			layer.msg("扣分项不能为空.");
+			return false;
+		}
+
+		if (deduct_points == "") {
+			$("#id_admin_deduct_edit_deduct_point").focus();
+			layer.msg("扣分值不能为空.");
+			return false;
+		}
+		if (deduct_points >= 0) {
+			$("#id_admin_deduct_edit_deduct_point").focus();
+			layer.msg("扣分值不能大于0.");
+			return false;
+		}
+
+		var submit_data = {
+			"operation": operation,
 			"deduct_name": deduct_name,
-			"deduct_points": deduct_new_points,
+			"deduct_points": deduct_points,
 			"id":deduct_id,
 			"_xsrf": getCookie("_xsrf")
 			};
 
-			console.log("operation:add,deduct_name:"+deduct_name+" deduct_points:"+deduct_points+" deduct_id:"+deduct_id);
+		console.log("operation:"+operation+"deduct_name:"+deduct_name+" deduct_points:"+deduct_points+" deduct_id:"+deduct_id);
 
-			$.ajax({
-				type: "post",
-				url: "/admin/deduct",
-				data: submit_data,
-				cache: false,
-				success: function (arg) {
-					console.log(arg);
-					//arg是字符串
-					var obj = JSON.parse(arg);
-					if (obj.status) {
-						alert("修改成功");
-						console.log("deduct_name:"+ deduct_name);
-						window.location.reload();
-					} else {
-						alert(obj.message);
-					}
-				},
-				error:function(arg) {
-					alert("未知的错误");
-				}
-			});
+        $.ajax({
+            type: "post",
+            url: "/admin/deduct",
+            data: submit_data,
+            cache: false,
+            success: function (arg) {
+                console.log(arg);
+                //arg是字符串
+                var obj = JSON.parse(arg);
+                if (obj.status) {
+                    layer.alert("提交成功", {skin: 'layui-layer-molv' ,closeBtn: 0}, function () {window.location.reload();});
+                } else {
+                    layer.alert(obj.message, {skin: 'layui-layer-molv' ,closeBtn: 0}, function () {window.location.reload();});
+                }
+            },
+            error:function(arg) {
+                alert("未知的错误");
+            }
+        });
 
-		} else {
-			alert("取消修改");
-		}
-		window.location.reload();
-	});
+        $("#id_admin_deduct_edit_deduct_id").val("");
+		$("#id_admin_deduct_edit_deduct_name").val("");
+	    $('#id_admin_deduct_edit_operation').val("");
 
+		$("#id_admin_deduct_edit_deduct_point").val("");
+		$('#id_admin_deduct_edit_popup_background').hide();
+
+    });
+
+	$('#id_admin_deduct_edit_cancel').on('click', function ()
+	{
+        $("#id_admin_deduct_edit_deduct_id").val("");
+		$("#id_admin_deduct_edit_deduct_name").val("");
+	    $('#id_admin_deduct_edit_operation').val("");
+	    $("#id_admin_deduct_edit_deduct_point").val("");
+		$('#id_admin_deduct_edit_popup_background').hide();
+    });
 });

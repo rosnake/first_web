@@ -5,14 +5,18 @@ function getCookie(name) {
 
 $(document).ready(function () {
 
-	$('#admin_organizer_add').on('click', function () {
-
-		$('#admin_popup_background').show();
-		$("#admin_exchange_popup_sub_title").text("增加组织者");
+	$('#id_admin_organizer_add').on('click', function () {
+        var myDate = new Date();
+        var current_date = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+		$('#id_admin_organizer_edit_popup_background').show();
+		$('#id_admin_organizer_edit_operation').val("add");
+		$('#id_admin_organizer_edit_id').val("0");
+		$('#id_admin_organizer_date').text(current_date);
+		$("#id_admin_deduct_edit_sub_title").text("增加组织者");
 
 	});
 
-	$('#admin_organizer_mod').on('click', function () {
+	$('#id_admin_organizer_mod').on('click', function () {
 		var organizer_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
 		if ((typeof organizer_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -20,11 +24,12 @@ $(document).ready(function () {
 			return;
 		}
 
-		$('#admin_popup_background').show();
-		$("#admin_exchange_popup_sub_title").text("修改组织者");
+		$('#id_admin_organizer_edit_popup_background').show();
+		$("#id_admin_deduct_edit_sub_title").text("修改组织者");
 		var ttr = $("input:checked").parents('tr');
 		var organizer_name = "";
 		var organizer_id = "";
+		var organizer_date = "";
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
 			checkbox 、 button、text 不需要执行append
@@ -41,14 +46,20 @@ $(document).ready(function () {
 				organizer_name = $(this).text();
 				console.log("organizer_name:" + organizer_name);
 			}
+			if ($(this).attr('id') === "date") {
+				organizer_date = $(this).text();
+				console.log("organizer_date:" + organizer_date);
+			}
+
+
 		});
 
 		$("#id_admin_organizer_name").val(organizer_name);
 		$("#id_admin_organizer_id").val(organizer_id);
-
+        $("#id_admin_organizer_date").val(organizer_date);
 	});
 
-	$('#admin_organizer_del').on('click', function () {
+	$('#id_admin_organizer_del').on('click', function () {
 		var organizer_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
 		if ((typeof organizer_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -129,8 +140,27 @@ $(document).ready(function () {
 $('#id_admin_popup_organizer_submit').on('click', function () {
 	var organizer_name = $("#id_admin_organizer_name").val();
 	var organizer_id = $("#id_admin_organizer_id").val();
-	var time_date = $('#id_admin_organizer_date option:selected').text(); //选中的文本
+	var time_date = $('#id_admin_organizer_date').val(); //选中的文本
 	console.log(" organizer_id: " + organizer_id + " organizer_name: " + organizer_name + " time_date:" + time_date);
+
+	if (organizer_name == "") {
+        $("#id_admin_organizer_name").focus();
+        layer.msg("组织者不能为空");
+        return false;
+    }
+
+    if (organizer_id == "") {
+        $("#id_admin_organizer_id").focus();
+        layer.msg("组织者ID不能为空");
+        return false;
+    }
+
+    if (time_date == "") {
+        $("#id_admin_organizer_date").focus();
+        layer.msg("时间不能为空");
+        return false;
+    }
+
 	var submit_data = {
 		"operation": "update",
 		"organizer_name": organizer_name,
@@ -168,5 +198,17 @@ $('#id_admin_popup_organizer_submit').on('click', function () {
 		window.location.reload();
 	}, 1000);
 	$('#admin_popup_background').hide();
+    $("#id_admin_organizer_name").val("");
+    $("#id_admin_organizer_id").val("");
+    $("#id_admin_organizer_date").val("");
 });
+
+    $('#id_admin_popup_organizer_cancel').on('click', function () {
+        $('#id_admin_organizer_edit_operation').val("");
+        $('#id_admin_organizer_edit_id').val("");
+        $("#id_admin_organizer_name").val("");
+        $("#id_admin_organizer_id").val("");
+        $("#id_admin_organizer_date").val("");
+        $('#id_admin_organizer_edit_popup_background').hide();
+    });
 });

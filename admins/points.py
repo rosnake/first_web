@@ -106,7 +106,7 @@ class AdminPointHandler(BaseHandler):
 
         if user_point:
             self.db.query(PointsModule).filter(PointsModule.username == username).update({
-                PointsModule.last_point:user_point.current_point,
+                PointsModule.last_point: user_point.current_point,
                 PointsModule.current_point: point,
             })
             self.db.commit()

@@ -96,6 +96,7 @@ class HomeHandler(BaseHandler):
             AttendanceModule.absence_reason: mark.markname,
             AttendanceModule.absence_id: mark.id,
             AttendanceModule.attend: False,
+            AttendanceModule.absent_accept: False,
             AttendanceModule.apply_time: apply_time,
             AttendanceModule.datetime: leave_date,
         })
