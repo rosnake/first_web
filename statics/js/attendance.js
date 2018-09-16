@@ -164,9 +164,9 @@ $(document).ready(function () {
 
 	});
 
-	$('input[value="签到"]').click(function () {
+	$('input[value="已到"]').click(function () {
         //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="签到"]').index($(this))+ 2;
+		var numId = $('input[value="已到"]').index($(this))+ 2;
 		console.log(numId);
 		//选择表格中的所有tr 通过eq方法取得当前tr
 		var ttr = $('table tr').eq(numId);
@@ -271,22 +271,35 @@ $(document).ready(function () {
 
 			var id = $(this).attr('id');
 			var tdVal = $(this).html();
-			//console.log(id);
-			//console.log(tdVal);
+
 			if (id == "id_admin_attendance_username") {
 				user = tdVal;
 			}
 		});
 
-		console.log(user);
+		console.log("absent:"+user);
 		if (user == "") {
 			layer.msg('用户名不能为空');
 			return false;
 		}
+		$('#id_admin_attendance_popup_user_name').val(user);
+		$('#id_admin_attendance_popup_user_name').attr("readonly",true);
+	    $('#id_admin_attendance_edit_popup_background').show();
 
+
+
+	});
+
+	$('#id_admin_attendance_edit_submit').on('click', function () {
+
+		var absent_id = $('#id_admin_popup_absent_reason').val();
+		var user_name = $('#id_admin_attendance_popup_user_name').val();
+
+		console.log("user_name:"+user_name+" absent_id:"+absent_id);
 		var submit_data = {
-			"operation": operation,
-			"username": user,
+			"operation": "absent",
+			"absent_id":absent_id,
+			"username": user_name,
 			"_xsrf": getCookie("_xsrf")
 		};
 
@@ -300,8 +313,8 @@ $(document).ready(function () {
 				//arg是字符串
 				var obj = JSON.parse(arg);
 				if (obj.status) {
-					layer.msg("签到成功");
-					console.log("user:" + user);
+					layer.msg("缺席提交成功");
+					console.log("user:" + user_name);
 					setTimeout(function () {
 						window.location.reload();
 					}, 1000);
@@ -314,5 +327,15 @@ $(document).ready(function () {
 			}
 		});
 
-	});
+		$("#id_admin_attendance_edit_operation").val("");
+		$("#id_admin_attendance_edit_sub_title").text("");
+	    $('#id_admin_attendance_edit_popup_background').hide();
+    });
+
+	/*select popup*/
+	$('#id_admin_attendance_edit_cancel').on('click', function () {
+		$("#id_admin_attendance_edit_operation").val("");
+		$("#id_admin_attendance_edit_sub_title").text("");
+	    $('#id_admin_attendance_edit_popup_background').hide();
+    });
 });

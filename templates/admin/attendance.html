@@ -98,22 +98,22 @@
         <div class="class_admin_popup_background" id="id_admin_attendance_edit_popup_background">
             <div  class="class_admin_popup_content" id="id_admin_attendance_edit_popup_frontend">
                 <div  class="class_admin_popup_title" id="id_admin_attendance_edit_popup_close">
-                    <h2 id="id_admin_attendance_edit_sub_title">兑换规则增加</h2>
+                    <h2 id="id_admin_attendance_edit_sub_title">缺席原因</h2>
                 </div>
                 <div class="class_admin_popup_body" id="admin_popup_body">
                     <p id="id_admin_attendance_edit_operation"></p>
-                    <p id="id_admin_attendance_popup_username"/></p>
                      {% if leave_reason is not None %}
+                    <p><span>用户ID:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_attendance_popup_user_name"/></p>
                     <p>
                         <span>兑换物品:</span>
-                        <select id="id_popup_leave_apply_reason">
+                        <select class="class_admin_popup_body_input" id="id_admin_popup_absent_reason">
                         {% for reason in  leave_reason%}
                             <option value={{ reason["reason_id"] }}>{{reason["leave_reason"]}}</option>
                         {% end %}
                         </select>
                     </p>
                     {% end %}
-                    <input type="button" class="class_admin_context_button" id="id_admin_attendance_edit_submit" value="提交" />
+                    <input type="button" class="class_admin_context_button" id="id_admin_attendance_edit_submit" value="确定" />
                     <input type="button" class="class_admin_context_button" id="id_admin_attendance_edit_cancel" value="取消" />
 
                 </div>

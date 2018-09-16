@@ -42,12 +42,13 @@ class AdminAttendanceHandler(BaseHandler):
         render_controller["organizer"] = self.session["organizer"]
 
         attendance_tables = self.__get_attendance_tables()
-
+        leave_reason = self.__get_all_leave_reason()
         if username is not None:
             self.render("admin/attendance.html",
                         attendance_tables=attendance_tables,
                         controller=render_controller,
                         username=username,
+                        leave_reason=leave_reason,
                         )
 
     def post(self):
@@ -119,11 +120,25 @@ class AdminAttendanceHandler(BaseHandler):
                 self.write(json.dumps(response))
                 return
 
+    def __get_all_leave_reason(self):
+        deduct_module = MarksModule.get_all_marks()
+
+        leave_reason = []
+        if deduct_module:
+            for x in deduct_module:
+                if x.points < 0:
+                    tmp = {"reason_id": x.id, "leave_reason": x.markname}
+                    leave_reason.append(tmp)
+
+            return leave_reason
+        else:
+            return leave_reason
+
     def __set_attendance_absent_by_username(self, username, absent_id):
         attendance = self.db.query(AttendanceModule).filter(AttendanceModule.username == username).first()
 
         if attendance is not None:
-            deduct = self.db.query(MarksModule).filter(MarksModule.id == attendance.absence_id).first()
+            deduct = self.db.query(MarksModule).filter(MarksModule.id == absent_id).first()
             #  更新积分表
             user_point = self.db.query(PointsModule).filter(PointsModule.username == username).first()
 
