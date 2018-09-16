@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$('#id_admin_member_add').on('click', function () {
-	    $('#id_admin_member_edit_user_id').val("0");
-	    $('#id_admin_member_edit_operation').val("add");
+		$('#id_admin_member_edit_user_id').val("0");
+		$('#id_admin_member_edit_operation').val("add");
 		$('#id_admin_member_edit_popup_background').show();
 		$("#id_admin_member_edit_sub_title").text("增加用户");
 	});
@@ -51,14 +51,14 @@ $(document).ready(function () {
 		ret = confirm("是否删除【" + user_name + "】?");
 		if (ret === true) {
 			var submit_data = {
-			"operation": "delete",
-			"username": user_name,
-			"role": user_role,
-			"id":user_id,
-			"_xsrf": getCookie("_xsrf")
+				"operation": "delete",
+				"username": user_name,
+				"role": user_role,
+				"id": user_id,
+				"_xsrf": getCookie("_xsrf")
 			};
 
-			console.log("operation:delete,username:"+user_name+" role:"+user_role+" id:"+user_id);
+			console.log("operation:delete,username:" + user_name + " role:" + user_role + " id:" + user_id);
 
 			$.ajax({
 				type: "post",
@@ -72,13 +72,13 @@ $(document).ready(function () {
 					if (obj.status) {
 						//注册成功---跳转（已登录状态--session实现）
 						alert("删除成功");
-						console.log("username:"+ user_name);
+						console.log("username:" + user_name);
 						window.location.reload();
 					} else {
 						alert(obj.message);
 					}
 				},
-				error:function(arg) {
+				error: function (arg) {
 					alert("未知的错误");
 				}
 			});
@@ -134,18 +134,17 @@ $(document).ready(function () {
 		console.log("user_name: " + user_name);
 		console.log("user_role: " + user_role);
 
-        $('#id_admin_member_edit_user_id').val(user_id);
-        $('#id_admin_member_edit_operation').val("modify");
-        $('#id_admin_member_edit_username').val(user_name);
-        $('#id_admin_member_edit_role').val(user_role);
-        $("#id_admin_member_edit_username").attr("readonly", true);
-        $('#id_admin_member_edit_popup_background').show();
-        $("#id_admin_member_edit_sub_title").text("修改用户信息");
-        console.log("operation:modify,username:"+user_name+" role:"+user_role+" id:"+user_id);
+		$('#id_admin_member_edit_user_id').val(user_id);
+		$('#id_admin_member_edit_operation').val("modify");
+		$('#id_admin_member_edit_username').val(user_name);
+		$('#id_admin_member_edit_role').val(user_role);
+		$("#id_admin_member_edit_username").attr("readonly", true);
+		$('#id_admin_member_edit_popup_background').show();
+		$("#id_admin_member_edit_sub_title").text("修改用户信息");
+		console.log("operation:modify,username:" + user_name + " role:" + user_role + " id:" + user_id);
 	});
 
-	$('#id_admin_member_edit_submit').on('click', function ()
-	{
+	$('#id_admin_member_edit_submit').on('click', function () {
 		var operation = $("#id_admin_member_edit_operation").val();
 		var user_id = $("#id_admin_member_edit_user_id").val();
 		var user_name = $("#id_admin_member_edit_username").val();
@@ -171,46 +170,55 @@ $(document).ready(function () {
 			"operation": operation,
 			"username": user_name,
 			"role": user_role,
-			"id":user_id,
+			"id": user_id,
 			"_xsrf": getCookie("_xsrf")
-			};
+		};
 
-		console.log("operation:"+operation+" username:"+user_name+" role:"+user_role+" id:"+user_id);
-        $.ajax({
-            type: "post",
-            url: "/admin/member",
-            data: submit_data,
-            cache: false,
-            success: function (arg) {
-                console.log(arg);
-                //arg是字符串
-                var obj = JSON.parse(arg);
-                if (obj.status) {
-                    //注册成功---跳转（已登录状态--session实现）
-                    // alert("修改成功");
-                    layer.alert("提交成功", {skin: 'layui-layer-molv' ,closeBtn: 0}, function () {window.location.reload();});
-                    console.log("username:"+ user_name);
+		console.log("operation:" + operation + " username:" + user_name + " role:" + user_role + " id:" + user_id);
+		$.ajax({
+			type: "post",
+			url: "/admin/member",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					//注册成功---跳转（已登录状态--session实现）
+					// alert("修改成功");
+					layer.alert("提交成功", {
+						skin: 'layui-layer-molv',
+						closeBtn: 0
+					}, function () {
+						window.location.reload();
+					});
+					console.log("username:" + user_name);
 
-                } else {
-                    layer.alert(obj.message, {skin: 'layui-layer-molv' ,closeBtn: 0}, function () {window.location.reload();});
-                    //alert(obj.message);
-                }
-            },
-            error:function(arg) {
-                alert("未知的错误");
-            }
-        });
+				} else {
+					layer.alert(obj.message, {
+						skin: 'layui-layer-molv',
+						closeBtn: 0
+					}, function () {
+						window.location.reload();
+					});
+					//alert(obj.message);
+				}
+			},
+			error: function (arg) {
+				alert("未知的错误");
+			}
+		});
 
-        $("#id_admin_member_edit_user_id").val("");
+		$("#id_admin_member_edit_user_id").val("");
 		$("#id_admin_member_edit_username").val("");
-	    $('#id_admin_member_edit_operation').val("");
+		$('#id_admin_member_edit_operation').val("");
 		$('#id_admin_member_edit_popup_background').hide();
 		//window.location.reload();
 
 	});
 
-	$('#id_admin_member_show_password').on('click', function ()
-	{
+	$('#id_admin_member_show_password').on('click', function () {
 		var member_id = $('#id_admin_member_table_body input[name="select_id"]:checked ').val();
 		if ((typeof member_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -256,48 +264,48 @@ $(document).ready(function () {
 			"operation": "show_pwd",
 			"username": user_name,
 			"role": user_role,
-			"id":user_id,
+			"id": user_id,
 			"_xsrf": getCookie("_xsrf")
-			};
+		};
 
-			console.log("operation:show,username:"+user_name+" role:"+user_role+" id:"+user_id);
+		console.log("operation:show,username:" + user_name + " role:" + user_role + " id:" + user_id);
 
-			$.ajax({
-				type: "post",
-				url: "/admin/member",
-				data: submit_data,
-				cache: false,
-				success: function (arg) {
-					console.log(arg);
-					//arg是字符串
-					var obj = JSON.parse(arg);
-					if (obj.status) {
-						//注册成功---跳转（已登录状态--session实现）
-						$("#id_admin_member_user_name").val(user_name);
-						$("#id_admin_member_pass_word").val(obj.message);
-						$('#id_admin_popup_background').show();
-						console.log("username:"+ user_name);
-					} else {
-						alert(obj.message);
-					}
-				},
-				error:function(arg) {
-					alert("未知的错误");
+		$.ajax({
+			type: "post",
+			url: "/admin/member",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					//注册成功---跳转（已登录状态--session实现）
+					$("#id_admin_member_user_name").val(user_name);
+					$("#id_admin_member_pass_word").val(obj.message);
+					$('#id_admin_popup_background').show();
+					console.log("username:" + user_name);
+				} else {
+					alert(obj.message);
 				}
-			});
+			},
+			error: function (arg) {
+				alert("未知的错误");
+			}
+		});
 	});
 
-	$('#id_admin_member_show_close').on('click', function (){
+	$('#id_admin_member_show_close').on('click', function () {
 		$("#id_admin_member_user_name").val("");
 		$("#id_admin_member_pass_word").val("");
 		$('#admin_popup_background').hide();
 		window.location.reload();
 	});
 
-	$('#id_admin_member_edit_cancel').on('click', function (){
-        $("#id_admin_member_edit_user_id").val("");
+	$('#id_admin_member_edit_cancel').on('click', function () {
+		$("#id_admin_member_edit_user_id").val("");
 		$("#id_admin_member_edit_username").val("");
-	    $('#id_admin_member_edit_operation').val("");
+		$('#id_admin_member_edit_operation').val("");
 		$('#id_admin_member_edit_popup_background').hide();
 		window.location.reload();
 	});

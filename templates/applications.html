@@ -18,12 +18,12 @@
         }
     </style>
 {% if controller["authorized"] == True %}
-    {% if len(user_topic) %}
+    {% if len(user_topic) == 0 %}
     <h3> 您当前没有申报议题</h3>
-    <p><input type="BUTTON" value="申报议题" id="applications" /></p>
+    <p><input class="class_user_handle_button_style" type="BUTTON" value="申报议题" id="applications" /></p>
     {% else %}
     <h3> 您当前已申报的议题如下：</h3>
-    {% for topic in user_topic %}l
+    {% for topic in user_topic %}
     <div class="topics">
 
             {% if topic["name"] != "" %}
@@ -41,7 +41,7 @@
     {% end %}
     <div id="request_topics">
         <p>如需继续申请议题，请点击下面继续申请按钮.</p>
-        <p><input type="BUTTON" value="继续申报" id="applications_continue" /></p>
+        <p><input  class="class_user_handle_button_style" type="BUTTON" value="继续申报" id="applications_continue" /></p>
     </div>
 
 

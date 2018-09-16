@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$('#id_admin_deduct_add').on('click', function () {
-	    $('#id_admin_deduct_edit_deduct_id').val("0");
-	    $('#id_admin_deduct_edit_operation').val("add");
+		$('#id_admin_deduct_edit_deduct_id').val("0");
+		$('#id_admin_deduct_edit_operation').val("add");
 		$('#id_admin_deduct_edit_popup_background').show();
 		$("#id_admin_deduct_edit_sub_title").text("增加扣分项目");
 	});
@@ -42,7 +42,7 @@ $(document).ready(function () {
 			}
 
 			if ($(this).attr('id') === "deduct_points") {
-				 deduct_points = $(this).val();
+				deduct_points = $(this).val();
 				console.log("deduct_points:" + deduct_points);
 			}
 		});
@@ -51,14 +51,14 @@ $(document).ready(function () {
 			btn: ['删除', '取消']//按钮
 		}, function () {
 			var submit_data = {
-			"operation": "delete",
-			"deduct_name": deduct_name,
-			"deduct_points": deduct_points,
-			"id":deduct_id,
-			"_xsrf": getCookie("_xsrf")
+				"operation": "delete",
+				"deduct_name": deduct_name,
+				"deduct_points": deduct_points,
+				"id": deduct_id,
+				"_xsrf": getCookie("_xsrf")
 			};
 
-			console.log("operation:add,deduct_name:"+deduct_name+" deduct_points:"+deduct_points+" deduct_id:"+deduct_id);
+			console.log("operation:add,deduct_name:" + deduct_name + " deduct_points:" + deduct_points + " deduct_id:" + deduct_id);
 
 			$.ajax({
 				type: "post",
@@ -70,14 +70,18 @@ $(document).ready(function () {
 					//arg是字符串
 					var obj = JSON.parse(arg);
 					if (obj.status) {
-						layer.msg("删除成功", {	icon: 1	});
-						console.log("deduct_name:"+ deduct_name);
-						setTimeout(function () {window.location.reload();}, 1000);
+						layer.msg("删除成功", {
+							icon: 1
+						});
+						console.log("deduct_name:" + deduct_name);
+						setTimeout(function () {
+							window.location.reload();
+						}, 1000);
 					} else {
 						alert(obj.message);
 					}
 				},
-				error:function(arg) {
+				error: function (arg) {
 					alert("未知的错误");
 				}
 			});
@@ -136,18 +140,17 @@ $(document).ready(function () {
 		console.log("deduct_id: " + deduct_id);
 		console.log("deduct_name: " + deduct_name);
 		console.log("deduct_points: " + deduct_points);
-	    $('#id_admin_deduct_edit_deduct_id').val(deduct_id);
-	    $('#id_admin_deduct_edit_operation').val("modify");
-	    $('#id_admin_deduct_edit_deduct_name').val(deduct_name);
-	    $('#id_admin_deduct_edit_deduct_name').attr("readonly", true)
-	    $("#id_admin_deduct_edit_deduct_point").val(deduct_points);
+		$('#id_admin_deduct_edit_deduct_id').val(deduct_id);
+		$('#id_admin_deduct_edit_operation').val("modify");
+		$('#id_admin_deduct_edit_deduct_name').val(deduct_name);
+		$('#id_admin_deduct_edit_deduct_name').attr("readonly", true)
+		$("#id_admin_deduct_edit_deduct_point").val(deduct_points);
 		$('#id_admin_deduct_edit_popup_background').show();
 		$("#id_admin_deduct_edit_sub_title").text("修改扣分项目");
 	});
 
-	$('#id_admin_deduct_edit_submit').on('click', function ()
-	{
-	    var operation = $("#id_admin_deduct_edit_operation").val();
+	$('#id_admin_deduct_edit_submit').on('click', function () {
+		var operation = $("#id_admin_deduct_edit_operation").val();
 		var deduct_id = $("#id_admin_deduct_edit_deduct_id").val();
 		var deduct_name = $("#id_admin_deduct_edit_deduct_name").val();
 		var deduct_points = $("#id_admin_deduct_edit_deduct_point").val();
@@ -173,47 +176,56 @@ $(document).ready(function () {
 			"operation": operation,
 			"deduct_name": deduct_name,
 			"deduct_points": deduct_points,
-			"id":deduct_id,
+			"id": deduct_id,
 			"_xsrf": getCookie("_xsrf")
-			};
+		};
 
-		console.log("operation:"+operation+"deduct_name:"+deduct_name+" deduct_points:"+deduct_points+" deduct_id:"+deduct_id);
+		console.log("operation:" + operation + "deduct_name:" + deduct_name + " deduct_points:" + deduct_points + " deduct_id:" + deduct_id);
 
-        $.ajax({
-            type: "post",
-            url: "/admin/deduct",
-            data: submit_data,
-            cache: false,
-            success: function (arg) {
-                console.log(arg);
-                //arg是字符串
-                var obj = JSON.parse(arg);
-                if (obj.status) {
-                    layer.alert("提交成功", {skin: 'layui-layer-molv' ,closeBtn: 0}, function () {window.location.reload();});
-                } else {
-                    layer.alert(obj.message, {skin: 'layui-layer-molv' ,closeBtn: 0}, function () {window.location.reload();});
-                }
-            },
-            error:function(arg) {
-                alert("未知的错误");
-            }
-        });
+		$.ajax({
+			type: "post",
+			url: "/admin/deduct",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					layer.alert("提交成功", {
+						skin: 'layui-layer-molv',
+						closeBtn: 0
+					}, function () {
+						window.location.reload();
+					});
+				} else {
+					layer.alert(obj.message, {
+						skin: 'layui-layer-molv',
+						closeBtn: 0
+					}, function () {
+						window.location.reload();
+					});
+				}
+			},
+			error: function (arg) {
+				alert("未知的错误");
+			}
+		});
 
-        $("#id_admin_deduct_edit_deduct_id").val("");
+		$("#id_admin_deduct_edit_deduct_id").val("");
 		$("#id_admin_deduct_edit_deduct_name").val("");
-	    $('#id_admin_deduct_edit_operation').val("");
+		$('#id_admin_deduct_edit_operation').val("");
 
 		$("#id_admin_deduct_edit_deduct_point").val("");
 		$('#id_admin_deduct_edit_popup_background').hide();
 
-    });
+	});
 
-	$('#id_admin_deduct_edit_cancel').on('click', function ()
-	{
-        $("#id_admin_deduct_edit_deduct_id").val("");
+	$('#id_admin_deduct_edit_cancel').on('click', function () {
+		$("#id_admin_deduct_edit_deduct_id").val("");
 		$("#id_admin_deduct_edit_deduct_name").val("");
-	    $('#id_admin_deduct_edit_operation').val("");
-	    $("#id_admin_deduct_edit_deduct_point").val("");
+		$('#id_admin_deduct_edit_operation').val("");
+		$("#id_admin_deduct_edit_deduct_point").val("");
 		$('#id_admin_deduct_edit_popup_background').hide();
-    });
+	});
 });

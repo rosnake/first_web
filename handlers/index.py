@@ -1,9 +1,7 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
 from handlers.base import BaseHandler
-from methods.utils import UserDataUtils
 from methods.controller import PageController
 from orm.topics import TopicsModule
 from orm.meeting import MeetingModule

@@ -207,6 +207,16 @@ body {
     border-radius:5px;
 }
 
+.class_user_handle_button_style{
+    height: 40px;
+    width: 200px;
+    font-family: "Arial Narrow", sans-serif;
+    font-size: 20px;
+    align-content: center;
+    left: 350px;
+    border-radius:5px;
+}
+
 .modify_password_form
 {
     margin-top: 20px;
@@ -392,7 +402,42 @@ body {
     border: 1px solid #009f95;
 }
 
+.class_handle_context_table
+{
+    margin-left: 20px;
+    width: 800px;
+    line-height: 2em;
+    font-family: Arial;
+    border-collapse: collapse;
+}
+.class_handle_context_table_head{
+    text-align: center;
+    font-size: 1.2em;
+}
 
+.class_handle_context_table_head tr {
+    color: #902d2d;
+    background-color: #e09999;
+    border-bottom: 1px solid #fff;
+}
+.class_handle_context_table_body tr {
+    color: #ac5959;
+    font-size: 0.8em;
+    border-bottom: 1px solid #fff;
+    background-color: #ffe7e7;
+}
+.class_handle_context_table_head th {
+    font-weight: normal;
+    text-align: left;
+    padding: 0 10px;
+}
+.class_handle_context_table_body td {
+    padding: 0 10px;
+}
+
+.class_handle_context_table_body tr:hover {
+    background-color: #ffd4d4;
+}
 
 /*----------后台管理CSS----------*/
 
@@ -406,7 +451,10 @@ body {
     font-size: 20px;
     border-radius:5px;
     margin-top: 15px;
+    margin-bottom: 20px;
     border: 1px solid #009f95;
+    text-align: center;
+
 }
 
 #id_points_exchange_select

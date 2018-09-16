@@ -39,19 +39,13 @@
     </div>
 
     <div class="class_popup_browse">
-    <table class="class_popup_table_structure"  frame="box">
-        <colgroup>
-            <col class="col_history_table_transactor"/>
-            <col class="col_history_table_mark_name"/>
-            <col class="col_history_table_points"/>
-            <col class="col_history_table_datetime"/>
-        </colgroup>
-        <thead>
+    <table class="class_handle_context_table"  frame="box">
+        <thead class="class_handle_context_table_head">
         <tr id="id_popup_table_title">
             <th colspan="4">分数详情</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="class_handle_context_table_body">
             <tr id="id_popup_table_item_name">
                 <th>用户ID</th>
                 <th>姓名</th>
@@ -77,19 +71,13 @@
         {% if len(presents_table) %}
             <h3> 您当前积分为：{{ current_point }} .</h3>
             <p>您当前可以兑换物品为：</p>
-                <table class="class_popup_table_structure"  frame="box">
-                    <colgroup>
-                        <col class="col_history_table_transactor"/>
-                        <col class="col_history_table_mark_name"/>
-                        <col class="col_history_table_points"/>
-                        <col class="col_history_table_points"/>
-                    </colgroup>
-                    <thead>
+                <table class="class_handle_context_table"  frame="box">
+                    <thead class="class_handle_context_table_head">
                     <tr id="id_popup_table_title">
                         <th colspan="4">兑换物品详情</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="class_handle_context_table_body">
                         <tr id="id_popup_table_item_name">
                             <th>兑换物品</th>
                             <th>所需积分</th>

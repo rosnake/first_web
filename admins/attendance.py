@@ -1,56 +1,38 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
 import json
 from handlers.base import BaseHandler
-from methods.controller import PageController  # 导入页面控制器
 from methods.debug import *
 from methods.toolkits import DateToolKits
 from orm.attendance import AttendanceModule
 from orm.points import PointsModule
 from orm.marks import MarksModule
+from admins.decorator import admin_get_auth
+from admins.decorator import admin_post_auth
 
 
 # 继承 base.py 中的类 BaseHandler
 class AdminAttendanceHandler(BaseHandler):
     """
-    用户首页处理，显示一些客户不需要登陆也可查看的信息
+    该页面用户出勤相关管理
     """
 
-    @tornado.web.authenticated
+    @admin_get_auth("/admin/attendance", False)
     def get(self):
-        page_controller = PageController()
-        render_controller = page_controller.get_render_controller()
-        if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login?next=/admin/attendance")
-            return
-
-        page_controller = PageController()
-        render_controller = page_controller.get_render_controller()
-        if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login?next=/admin/exchange")
-            return
-
         username = self.get_current_user()
-
-        print(self.session["authorized"])
-        render_controller["index"] = False
-        render_controller["authorized"] = self.session["authorized"]
-        render_controller["login"] = False
-        render_controller["admin"] = self.session["admin"]
-        render_controller["organizer"] = self.session["organizer"]
-
-        attendance_tables = self.__get_attendance_tables()
-        leave_reason = self.__get_all_leave_reason()
         if username is not None:
+            attendance_tables = self.__get_attendance_tables()
+            leave_reason = self.__get_all_leave_reason()
+
             self.render("admin/attendance.html",
                         attendance_tables=attendance_tables,
-                        controller=render_controller,
+                        controller=self.render_controller,
                         username=username,
                         leave_reason=leave_reason,
                         )
 
+    @admin_post_auth(False)
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}
         date_kits = DateToolKits()

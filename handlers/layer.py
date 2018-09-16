@@ -1,15 +1,14 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
 from handlers.base import BaseHandler
 import json
 from methods.debug import *
 import sys
-from methods.utils import UserDataUtils
 from orm.history import HistoryModule
 from orm.marks import MarksModule
-
+from handlers.decorator import handles_get_auth
+from handlers.decorator import handles_post_auth
 
 class LayerHandler(BaseHandler):
     """
@@ -18,11 +17,8 @@ class LayerHandler(BaseHandler):
     2、根据用户编辑后的提交信息，写如数据库，并返回相关状态
     """
 
+    @handles_get_auth("/home")
     def get(self):
-        if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login?next=/home")
-            return
-
         username = self.get_argument("user", "unknown")
         operation = self.get_argument("operation", "unknown")
 
@@ -43,6 +39,7 @@ class LayerHandler(BaseHandler):
                 leave_reason = self.__get_all_leave_reason()
                 self.render("absent_apply.html", username=username, leave_reason=leave_reason)
 
+    @handles_post_auth
     def post(self):
         ret = {"status": True, "data": "", "error": "succeed"}
         username = self.get_argument("username")

@@ -329,7 +329,7 @@ $(document).ready(function () {
 		var rule_name = $("#id_admin_exchange_popup_rule_name").val();
 		var need_points = $("#id_admin_exchange_popup_rule_points").val();
 		var points_range = $("#id_admin_exchange_popup_rule_range").val();
-		var operation =  $("#id_admin_exchange_edit_operation").val();
+		var operation = $("#id_admin_exchange_edit_operation").val();
 
 		if (rule_id == "") {
 			$("#id_admin_exchange_popup_rule_id").focus();
@@ -412,7 +412,7 @@ $(document).ready(function () {
 			}
 		});
 
-	    $("#id_admin_exchange_popup_rule_id").val("");
+		$("#id_admin_exchange_popup_rule_id").val("");
 		$("#id_admin_exchange_popup_rule_name").val("");
 		$("#id_admin_exchange_popup_rule_points").val("");
 		$("#id_admin_exchange_popup_rule_range").val("");
@@ -421,12 +421,12 @@ $(document).ready(function () {
 	});
 
 	$('#id_admin_exchange_edit_cancel').on('click', function () {
-	    $("#id_admin_exchange_popup_rule_id").val("");
+		$("#id_admin_exchange_popup_rule_id").val("");
 		$("#id_admin_exchange_popup_rule_name").val("");
 		$("#id_admin_exchange_popup_rule_points").val("");
 		$("#id_admin_exchange_popup_rule_range").val("");
 
-	    $('#id_admin_exchange_edit_popup_background').hide();
-    });
+		$('#id_admin_exchange_edit_popup_background').hide();
+	});
 
 }); /*end of ready function*/

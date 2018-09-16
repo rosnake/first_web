@@ -137,6 +137,6 @@ $(document).ready(function () {
 	});
 
 	$('#id_admin_popup_close').on('click', function () {
-	    $('.class_admin_popup_background').hide();
-    });
+		$('.class_admin_popup_background').hide();
+	});
 });

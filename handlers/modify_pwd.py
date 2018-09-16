@@ -1,38 +1,25 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
-import methods.debug as dbg
 import json
-import sys
 from handlers.base import BaseHandler
-from methods.controller import PageController
 from methods.toolkits import DateToolKits
 from orm.user import UserModule
 from methods.debug import *
+from handlers.decorator import handles_get_auth
+from handlers.decorator import handles_post_auth
 
 
 class ModifyPassWordHandler(BaseHandler):  # 继承 base.py 中的类 BaseHandler
+    @handles_get_auth("/modify_password")
     def get(self):
-        page_controller = PageController()
-        render_controller = page_controller.get_render_controller()
-        if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login?next=/modify_password")
-            return
-
         username = self.get_current_user()
-
-        print(self.session["authorized"])
-        render_controller["index"] = False
-        render_controller["authorized"] = self.session["authorized"]
-        render_controller["login"] = False
-        render_controller["admin"] = self.session["admin"]
-        render_controller["organizer"] = self.session["organizer"]
 
         # 先判断是否完善其他信息，如果没有完善，跳转到信息完善页面
         if username is not None:
-            self.render("modify_password.html", controller=render_controller)
+            self.render("modify_password.html", controller=self.render_controller)
 
+    @handles_post_auth
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}
         date_kits = DateToolKits()

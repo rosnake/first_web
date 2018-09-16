@@ -1,15 +1,13 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
 from handlers.base import BaseHandler
-from  methods.utils import UserDataUtils
-from  methods.utils import UserAuthUtils
-from methods.controller import PageController
 from orm.topics import TopicsModule
 from methods.toolkits import DateToolKits
 import json
 from methods.debug import *
+from handlers.decorator import handles_get_auth
+from handlers.decorator import handles_post_auth
 
 
 #继承 base.py 中的类 BaseHandler
@@ -17,33 +15,19 @@ class ApplicationsHandler(BaseHandler):
     """
     用户议题申报处理
     """
-    @tornado.web.authenticated
+    @handles_get_auth("/applications")
     def get(self):
-        page_controller = PageController()
-        render_controller = page_controller.get_render_controller()
-        if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login?next=/applications")
-            return
-
         username = self.get_current_user()
-
-        print(self.session["authorized"])
-        render_controller["index"] = False
-        render_controller["authorized"] = self.session["authorized"]
-        render_controller["login"] = False
-        render_controller["admin"] = self.session["admin"]
-        render_controller["organizer"] = self.session["organizer"]
-
         # 先判断是否完善其他信息，如果没有完善，跳转到信息完善页面
         if username is not None:
-
             user_topic = self.__get_all_current_user_topics(username)
             self.render("applications.html",
-                        controller=render_controller,
+                        controller=self.render_controller,
                         username=username,
                         user_topic=user_topic,
                         )
 
+    @handles_post_auth
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}
         date_kits = DateToolKits()

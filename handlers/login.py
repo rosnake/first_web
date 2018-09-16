@@ -1,20 +1,15 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
 from methods.debug import *
 from handlers.base import BaseHandler
 import json
-import methods.debug as dbg
-import sys
-from methods.utils import UserDataUtils
-from methods.utils import UserAuthUtils
 import io  # 导入io模块
 from methods.image_generator import VerifyImage  # 导入验证码图片生成插件
 from methods.controller import PageController  # 导入页面控制器
 from methods.toolkits import DateToolKits
 from orm.user import UserModule
-from orm.points import PointsModule
+from methods.config import GlobalConfig
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -39,7 +34,7 @@ class LoginHandler(BaseHandler):
         username = self.get_argument("username")
         password = self.get_argument("password")
         nextname = self.get_argument("next")
-        print("next name:" + nextname)
+        logging.info("next name:" + nextname)
         verify_code_tmp = self.get_argument("verify_code")
         verify_code_client = verify_code_tmp.upper()  # 将验证码字符统一转换成大写
         verify_code_server = self.session["verify_code"]
@@ -51,7 +46,9 @@ class LoginHandler(BaseHandler):
         render_controller = page_controller.get_render_controller()
 
         # 为了调试，注销验证码验证
-        verify_code_client = verify_code_server
+        if GlobalConfig.DEBUG is True:
+            verify_code_client = verify_code_server
+
         if verify_code_server != verify_code_client:
             logging.info("verify code not equal. ")
             response["status"] = False

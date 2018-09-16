@@ -1,56 +1,33 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
 import json
 from handlers.base import BaseHandler
-from methods.utils import UserDataUtils
-from methods.utils import UserAuthUtils
-from methods.controller import PageController  # 导入页面控制器
 from orm.user import UserModule
 from orm.points import PointsModule
 from methods.debug import *
 from methods.toolkits import DateToolKits
 import random
 import string
+from admins.decorator import admin_get_auth
+from admins.decorator import admin_post_auth
 
 
 # 继承 base.py 中的类 BaseHandler
 class AdminMemberHandler(BaseHandler):
     """
-    用户首页处理，显示一些客户不需要登陆也可查看的信息
+    用于人员管理
     """
 
-    @tornado.web.authenticated
+    @admin_get_auth("/admin/member", True)
     def get(self):
-        page_controller = PageController()
-        render_controller = page_controller.get_render_controller()
-        if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login?next=/admin/member")
-            return
-
-        username = self.session["username"]
-        user_tables = []
+        username = self.get_current_user()
         if username is not None:
-            user_all = self.db.query(UserModule).all()
-            if user_all is not None:
-                for x in user_all:
-                    uses = {"id": x.id, "username": x.username, "passwd": x.password, "role": x.role}
-                    user_tables.append(uses)
+            user_tables = self.__get_all_user_info()
+            self.render("admin/member.html", user_tables=user_tables,
+                        controller=self.render_controller, username=username)
 
-        print(self.session["authorized"])
-        render_controller["index"] = False
-        render_controller["authorized"] = self.session["authorized"]
-        render_controller["login"] = False
-        render_controller["admin"] = self.session["admin"]
-        render_controller["organizer"] = self.session["organizer"]
-
-        self.render("admin/member.html",
-                    user_tables=user_tables,
-                    controller=render_controller,
-                    username=username,
-                    )
-
+    @admin_post_auth(False)
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}
         date_kits = DateToolKits()
@@ -166,6 +143,16 @@ class AdminMemberHandler(BaseHandler):
         else:
             logging.error("delete point failed")
             return False
+
+    def __get_all_user_info(self):
+        user_tables = []
+        user_all = self.db.query(UserModule).all()
+        if user_all is not None:
+            for x in user_all:
+                uses = {"id": x.id, "username": x.username, "passwd": x.password, "role": x.role}
+                user_tables.append(uses)
+
+        return user_tables
 
     def __delete_user_by_name(self, username):
         user = self.db.query(UserModule).filter(UserModule.username == username).first()

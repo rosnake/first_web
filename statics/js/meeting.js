@@ -93,32 +93,32 @@ $(document).ready(function () {
 		var meeting_room = $("#id_admin_meeting_meeting_room").val();
 		var meeting_date = $("#id_admin_meeting_meeting_date").val();
 		var topic_title = $('#id_admin_meeting_topic_title').val();
-		console.log("operation:"+operation+" topic_id: " + topic_id + " user_name: " + user_name +
+		console.log("operation:" + operation + " topic_id: " + topic_id + " user_name: " + user_name +
 			" meeting_date: " + meeting_date + " meeting_room: " + meeting_room);
 
 		if (user_name == "") {
-            $("#id_admin_meeting_user_name").focus();
-            layer.msg("用户名不能为空");
-            return false;
-        }
+			$("#id_admin_meeting_user_name").focus();
+			layer.msg("用户名不能为空");
+			return false;
+		}
 
-        if (meeting_room == "") {
-            $("#id_admin_meeting_meeting_room").focus();
-            layer.msg("会议室不能为空");
-            return false;
-        }
+		if (meeting_room == "") {
+			$("#id_admin_meeting_meeting_room").focus();
+			layer.msg("会议室不能为空");
+			return false;
+		}
 
-        if (meeting_date == "") {
-            $("#id_admin_meeting_meeting_date").focus();
-            layer.msg("时间不能为空");
-            return false;
-        }
+		if (meeting_date == "") {
+			$("#id_admin_meeting_meeting_date").focus();
+			layer.msg("时间不能为空");
+			return false;
+		}
 
-        if (topic_title == "") {
-            $("#id_admin_meeting_topic_title").focus();
-            layer.msg("会议议题不能为空");
-            return false;
-        }
+		if (topic_title == "") {
+			$("#id_admin_meeting_topic_title").focus();
+			layer.msg("会议议题不能为空");
+			return false;
+		}
 		var submit_data = {
 			"operation": operation,
 			"topic_id": topic_id,
@@ -154,7 +154,7 @@ $(document).ready(function () {
 			}
 		});
 
-	    $("#id_admin_meeting_topic_operation").val("");
+		$("#id_admin_meeting_topic_operation").val("");
 		$("#id_admin_meeting_topic_id").val("");
 		$("#id_admin_meeting_user_name").val("");
 		$('#id_admin_meeting_topic_title').val("");
@@ -165,7 +165,7 @@ $(document).ready(function () {
 	});
 
 	$('#id_admin_meeting_set_current').on('click', function () {
-        var tpoic_id = $('#id_admin_meeting_table_body input[name="select_id"]:checked ').val();
+		var tpoic_id = $('#id_admin_meeting_table_body input[name="select_id"]:checked ').val();
 		if ((typeof tpoic_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
 			console.log("current not select any id");
@@ -218,7 +218,7 @@ $(document).ready(function () {
 		});
 
 		operation = "set_current";
-		console.log("operation:"+operation+" topic_id: " + topic_id + " user_name: " + user_name +
+		console.log("operation:" + operation + " topic_id: " + topic_id + " user_name: " + user_name +
 			" meeting_date: " + meeting_date + " meeting_room: " + meeting_room);
 
 		var submit_data = {
@@ -258,15 +258,15 @@ $(document).ready(function () {
 	});
 
 	$('#id_admin_meeting_popup_edit_cancel').on('click', function () {
-	    $("#id_admin_meeting_topic_operation").val("");
+		$("#id_admin_meeting_topic_operation").val("");
 		$("#id_admin_meeting_topic_id").val("");
 		$("#id_admin_meeting_user_name").val("");
 		$('#id_admin_meeting_topic_title').val("");
 		$('#id_admin_meeting_meeting_room').val("");
 		$('#id_admin_meeting_meeting_date').val("");
 		$("#id_admin_meeting_edit_popup_title").text("");
-	    $('#id_admin_meeting_edit_popup_background').hide();
-    });
+		$('#id_admin_meeting_edit_popup_background').hide();
+	});
 
 	/*select popup*/
 	$('#id_admin_meeting_select_confirm').on('click', function () {
@@ -321,11 +321,9 @@ $(document).ready(function () {
 
 	});
 
-
 	$('#id_admin_meeting_select_cancel').on('click', function () {
-	    console.log("id_admin_meeting_select_cancel");
-	    $('#id_meeting_select_popup_background').hide();
-    });
-
+		console.log("id_admin_meeting_select_cancel");
+		$('#id_meeting_select_popup_background').hide();
+	});
 
 });

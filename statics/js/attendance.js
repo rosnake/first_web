@@ -15,7 +15,7 @@ function isDigitNumber(inputData) {
 
 $(document).ready(function () {
 	$('input[value="同意"]').click(function () {
-        //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
 		var numId = $('input[value="同意"]').index($(this)) + 1;
 		console.log(numId);
 		//选择表格中的所有tr 通过eq方法取得当前tr
@@ -48,7 +48,7 @@ $(document).ready(function () {
 			//console.log(id);
 			//console.log(tdVal);
 			if (id == "id_admin_attendance_username") {
-				 user = tdVal;
+				user = tdVal;
 			}
 		});
 
@@ -89,8 +89,8 @@ $(document).ready(function () {
 
 	});
 
-    $('input[value="驳回"]').click(function () {
-        //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+	$('input[value="驳回"]').click(function () {
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
 		var numId = $('input[value="驳回"]').index($(this)) + 1;
 		console.log(numId);
 		//选择表格中的所有tr 通过eq方法取得当前tr
@@ -123,7 +123,7 @@ $(document).ready(function () {
 			//console.log(id);
 			//console.log(tdVal);
 			if (id == "id_admin_attendance_username") {
-				 user = tdVal;
+				user = tdVal;
 			}
 		});
 
@@ -165,8 +165,8 @@ $(document).ready(function () {
 	});
 
 	$('input[value="已到"]').click(function () {
-        //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="已到"]').index($(this))+ 2;
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		var numId = $('input[value="已到"]').index($(this)) + 2;
 		console.log(numId);
 		//选择表格中的所有tr 通过eq方法取得当前tr
 		var ttr = $('table tr').eq(numId);
@@ -241,8 +241,8 @@ $(document).ready(function () {
 	});
 
 	$('input[value="缺席"]').click(function () {
-        //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="缺席"]').index($(this))+ 2;
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		var numId = $('input[value="缺席"]').index($(this)) + 2;
 		console.log(numId);
 		//选择表格中的所有tr 通过eq方法取得当前tr
 		var ttr = $('table tr').eq(numId);
@@ -277,16 +277,14 @@ $(document).ready(function () {
 			}
 		});
 
-		console.log("absent:"+user);
+		console.log("absent:" + user);
 		if (user == "") {
 			layer.msg('用户名不能为空');
 			return false;
 		}
 		$('#id_admin_attendance_popup_user_name').val(user);
-		$('#id_admin_attendance_popup_user_name').attr("readonly",true);
-	    $('#id_admin_attendance_edit_popup_background').show();
-
-
+		$('#id_admin_attendance_popup_user_name').attr("readonly", true);
+		$('#id_admin_attendance_edit_popup_background').show();
 
 	});
 
@@ -295,10 +293,10 @@ $(document).ready(function () {
 		var absent_id = $('#id_admin_popup_absent_reason').val();
 		var user_name = $('#id_admin_attendance_popup_user_name').val();
 
-		console.log("user_name:"+user_name+" absent_id:"+absent_id);
+		console.log("user_name:" + user_name + " absent_id:" + absent_id);
 		var submit_data = {
 			"operation": "absent",
-			"absent_id":absent_id,
+			"absent_id": absent_id,
 			"username": user_name,
 			"_xsrf": getCookie("_xsrf")
 		};
@@ -329,13 +327,13 @@ $(document).ready(function () {
 
 		$("#id_admin_attendance_edit_operation").val("");
 		$("#id_admin_attendance_edit_sub_title").text("");
-	    $('#id_admin_attendance_edit_popup_background').hide();
-    });
+		$('#id_admin_attendance_edit_popup_background').hide();
+	});
 
 	/*select popup*/
 	$('#id_admin_attendance_edit_cancel').on('click', function () {
 		$("#id_admin_attendance_edit_operation").val("");
 		$("#id_admin_attendance_edit_sub_title").text("");
-	    $('#id_admin_attendance_edit_popup_background').hide();
-    });
+		$('#id_admin_attendance_edit_popup_background').hide();
+	});
 });

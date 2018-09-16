@@ -20,7 +20,7 @@ class CacheSession:
 
         if client_random_str and client_random_str in CacheSession.session_container:
             self.random_str = client_random_str
-            print(client_random_str)
+            logging.info("[session]:current random string is:"+ client_random_str)
             logging.info("client_random_str is exist :")
         else:
             self.random_str = create_session_id()

@@ -9,6 +9,15 @@
     font-weight:bold;
     border-radius: 20px;
 }
+
+.class_admin_popup_input_date{
+    width: 200px;
+    height: 25px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 15px;
+    border-radius:5px;
+}
+
 .label_popup_edit_name
 {
     align-content: center;
@@ -142,7 +151,15 @@
     text-align: center;
 }
 
-#id_applications_confirm,#id_admin_add_issues_confirm,#id_admin_mod_issues_confirm
+.class_admin_popup_layer_button{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+}
+#id_applications_confirm
 {
     right: 200px;
     width: 200px;

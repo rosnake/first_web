@@ -11,7 +11,7 @@ $(document).ready(function () {
 	$('#id_home_leave_apply').on('click', function () {
 		var user = $('#id_span_home_user_name').val();
 		var operation = "absent_apply";
-		console.log("leave apply username:"+user);
+		console.log("leave apply username:" + user);
 		if (user == "") {
 			layer.msg('用户名不能为空');
 		} else {
@@ -105,7 +105,7 @@ $(document).ready(function () {
 		var leave_reason = $('#id_popup_leave_apply_reason option:selected').text(); //选中的文本
 		var leave_id = $('#id_popup_leave_apply_reason option:selected').val(); //选中的文本
 		var leave_date = $('#id_popup_leave_apply_date').val(); //选中的文本
-		console.log("user:" + username+" leave_reason:" + leave_reason+" leave_id: " + leave_id+" leave_date:"+ leave_date);
+		console.log("user:" + username + " leave_reason:" + leave_reason + " leave_id: " + leave_id + " leave_date:" + leave_date);
 
 		if ((typeof leave_date) === 'undefined') {
 			layer.msg("请选择请假日期");
@@ -113,8 +113,7 @@ $(document).ready(function () {
 			return;
 		}
 
-		if(leave_date ==="")
-		{
+		if (leave_date === "") {
 			layer.msg("请选择请假日期");
 			console.log("current not select any date");
 			return;
@@ -124,34 +123,34 @@ $(document).ready(function () {
 			"operation": "absent_apply",
 			"username": username,
 			"leave_id": leave_id,
-			"leave_date":leave_date,
+			"leave_date": leave_date,
 			"_xsrf": getCookie("_xsrf")
-			};
+		};
 
-			console.log("operation:leave_apply,username:"+username+" leave_id:"+leave_id+" leave_date:"+leave_date);
+		console.log("operation:leave_apply,username:" + username + " leave_id:" + leave_id + " leave_date:" + leave_date);
 
-			$.ajax({
-				type: "post",
-				url: "/home",
-				data: submit_data,
-				cache: false,
-				success: function (arg) {
-					console.log(arg);
-					//arg是字符串
-					var obj = JSON.parse(arg);
-					if (obj.status) {
-						//注册成功---跳转（已登录状态--session实现）
-						alert("提交成功");
-						console.log("username:"+ username);
-						window.location.reload();
-					} else {
-						alert(obj.message);
-					}
-				},
-				error:function(arg) {
-					alert("未知的错误");
+		$.ajax({
+			type: "post",
+			url: "/home",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					//注册成功---跳转（已登录状态--session实现）
+					alert("提交成功");
+					console.log("username:" + username);
+					window.location.reload();
+				} else {
+					alert(obj.message);
 				}
-			});
+			},
+			error: function (arg) {
+				alert("未知的错误");
+			}
+		});
 
 		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 		parent.layer.close(index); //再执行关闭

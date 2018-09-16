@@ -59,12 +59,12 @@ $(document).ready(function () {
 		var submit_data = {
 			"operation": "apply_issues",
 			"topic_name": topic_name,
-			"topic_brief":topic_brief,
-			"topic_date":topic_date,
+			"topic_brief": topic_brief,
+			"topic_date": topic_date,
 			"_xsrf": getCookie("_xsrf")
-			};
+		};
 
-		console.log(" topic_name:"+topic_name+" topic_brief:"+topic_brief+" topic_date:"+topic_date);
+		console.log(" topic_name:" + topic_name + " topic_brief:" + topic_brief + " topic_date:" + topic_date);
 		$.ajax({
 			type: "post",
 			url: "/applications",
@@ -76,20 +76,24 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					layer.msg("提交成功");
-					console.log("topic_name:"+ topic_name);
+					console.log("topic_name:" + topic_name);
 				} else {
 					layer.msg(obj.message);
 				}
 			},
-			error:function(arg) {
-			    console.log(arg);
+			error: function (arg) {
+				console.log(arg);
 				layer.msg("未知的错误");
 			}
 		});
 
 		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        setTimeout(function () {parent.layer.close(index);}, 800);
-        setTimeout(function () { window.parent.location.reload();}, 1000);
+		setTimeout(function () {
+			parent.layer.close(index);
+		}, 800);
+		setTimeout(function () {
+			window.parent.location.reload();
+		}, 1000);
 	});
 
 });

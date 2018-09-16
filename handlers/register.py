@@ -1,28 +1,31 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
-import methods.debug as dbg
+from methods.debug import *
 import json
 import sys
 from handlers.base import BaseHandler
-from methods.utils import UserDataUtils
 from orm.user import UserModule
 from orm.points import PointsModule
+from methods.controller import PageController
 
-
-class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
+#  继承 base.py 中的类 BaseHandler
+class RegisterHandler(BaseHandler):
     def get(self):
-        dbg.debug_msg(RegisterHandler, sys._getframe().f_lineno, "get register")
-        controller = UserDataUtils.get_render_controller()
-        controller["index"] = False
-        controller["authorized"] = False
-        controller["login"] = True
-        self.render("register.html",controller=controller)
+        page_controller = PageController()
+        render_controller = page_controller.get_render_controller()
+
+        logging.info(self.session["authorized"])
+        render_controller["index"] = False
+        render_controller["authorized"] = False
+        render_controller["login"] = True
+        render_controller["admin"] = False
+        render_controller["organizer"] = False
+
+        self.render("register.html",controller=render_controller)
         
     def post(self):
         ret = {"status": True, "data": "", "message": ""}
-        dbg.debug_msg(RegisterHandler, sys._getframe().f_lineno, "post register")
         username = self.get_argument("username")
         password = self.get_argument("password")
         confirm = self.get_argument("confirm")
@@ -55,10 +58,8 @@ class RegisterHandler(BaseHandler):    #继承 base.py 中的类 BaseHandler
             succeed = True
 
         if succeed is True:
-            dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "redirect home page")
             self.write(json.dumps(ret))
         else:
-            dbg.debug_msg(RegisterHandler,sys._getframe().f_lineno, "redirect error page")
             ret["status"] = False
             ret["error"] = "用户名已存在！"
             self.write(json.dumps(ret))

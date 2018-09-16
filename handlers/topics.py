@@ -1,11 +1,10 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
 from handlers.base import BaseHandler
-from methods.utils import UserDataUtils
-from methods.controller import PageController
 from orm.topics import TopicsModule
+from handlers.decorator import handles_get_auth
+from handlers.decorator import handles_post_auth
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -13,33 +12,21 @@ class TopicsHandler(BaseHandler):
     """
     用户议题显示处理
     """
+    @handles_get_auth("/topics")
     def get(self):
-        page_controller = PageController()
-        render_controller = page_controller.get_render_controller()
-        if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login?next=/topics")
-            return
-
         username = self.get_current_user()
-
-        print(self.session["authorized"])
-        render_controller["index"] = False
-        render_controller["authorized"] = self.session["authorized"]
-        render_controller["login"] = False
-        render_controller["admin"] = self.session["admin"]
-        render_controller["organizer"] = self.session["organizer"]
 
         if username is not None:
             user_topic_tables = self.__get_all_topics()
             self.render("topics.html",
-                        controller=render_controller,
+                        controller=self.render_controller,
                         username=username,
                         topics_table=user_topic_tables,
                         )
 
+    @handles_post_auth
     def post(self):
         pass
-
 
     def __get_all_topics(self):
         topics_module = TopicsModule.get_all_topics()

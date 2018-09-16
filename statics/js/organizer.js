@@ -6,8 +6,8 @@ function getCookie(name) {
 $(document).ready(function () {
 
 	$('#id_admin_organizer_add').on('click', function () {
-        var myDate = new Date();
-        var current_date = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+		var myDate = new Date();
+		var current_date = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
 		$('#id_admin_organizer_edit_popup_background').show();
 		$('#id_admin_organizer_edit_operation').val("add");
 		$('#id_admin_organizer_edit_id').val("0");
@@ -51,12 +51,11 @@ $(document).ready(function () {
 				console.log("organizer_date:" + organizer_date);
 			}
 
-
 		});
 
 		$("#id_admin_organizer_name").val(organizer_name);
 		$("#id_admin_organizer_id").val(organizer_id);
-        $("#id_admin_organizer_date").val(organizer_date);
+		$("#id_admin_organizer_date").val(organizer_date);
 	});
 
 	$('#id_admin_organizer_del').on('click', function () {
@@ -130,85 +129,85 @@ $(document).ready(function () {
 				}
 			});
 
-	}, function () {
-		layer.msg("删除【" + organizer_name + "】操作已为您取消", {
-			icon: 0
+		}, function () {
+			layer.msg("删除【" + organizer_name + "】操作已为您取消", {
+				icon: 0
+			});
 		});
 	});
-});
 
-$('#id_admin_popup_organizer_submit').on('click', function () {
-	var organizer_name = $("#id_admin_organizer_name").val();
-	var organizer_id = $("#id_admin_organizer_id").val();
-	var time_date = $('#id_admin_organizer_date').val(); //选中的文本
-	console.log(" organizer_id: " + organizer_id + " organizer_name: " + organizer_name + " time_date:" + time_date);
+	$('#id_admin_popup_organizer_submit').on('click', function () {
+		var organizer_name = $("#id_admin_organizer_name").val();
+		var organizer_id = $("#id_admin_organizer_id").val();
+		var time_date = $('#id_admin_organizer_date').val(); //选中的文本
+		console.log(" organizer_id: " + organizer_id + " organizer_name: " + organizer_name + " time_date:" + time_date);
 
-	if (organizer_name == "") {
-        $("#id_admin_organizer_name").focus();
-        layer.msg("组织者不能为空");
-        return false;
-    }
+		if (organizer_name == "") {
+			$("#id_admin_organizer_name").focus();
+			layer.msg("组织者不能为空");
+			return false;
+		}
 
-    if (organizer_id == "") {
-        $("#id_admin_organizer_id").focus();
-        layer.msg("组织者ID不能为空");
-        return false;
-    }
+		if (organizer_id == "") {
+			$("#id_admin_organizer_id").focus();
+			layer.msg("组织者ID不能为空");
+			return false;
+		}
 
-    if (time_date == "") {
-        $("#id_admin_organizer_date").focus();
-        layer.msg("时间不能为空");
-        return false;
-    }
+		if (time_date == "") {
+			$("#id_admin_organizer_date").focus();
+			layer.msg("时间不能为空");
+			return false;
+		}
 
-	var submit_data = {
-		"operation": "update",
-		"organizer_name": organizer_name,
-		"organizer_id": organizer_id,
-		"time_date": time_date,
-		"_xsrf": getCookie("_xsrf")
-	};
+		var submit_data = {
+			"operation": "update",
+			"organizer_name": organizer_name,
+			"organizer_id": organizer_id,
+			"time_date": time_date,
+			"_xsrf": getCookie("_xsrf")
+		};
 
-	$.ajax({
-		type: "post",
-		url: "/admin/organizer",
-		data: submit_data,
-		cache: false,
-		success: function (arg) {
-			console.log(arg);
-			//arg是字符串
-			var obj = JSON.parse(arg);
-			if (obj.status) {
-				layer.msg("提交成功");
-				console.log("organizer_name:" + organizer_name);
-				setTimeout(function () {
-					window.location.reload();
-				}, 1000);
-			} else {
+		$.ajax({
+			type: "post",
+			url: "/admin/organizer",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					layer.msg("提交成功");
+					console.log("organizer_name:" + organizer_name);
+					setTimeout(function () {
+						window.location.reload();
+					}, 1000);
+				} else {
+					layer.msg(obj.message);
+				}
+			},
+			error: function (arg) {
+				var obj = JSON.parse(arg);
 				layer.msg(obj.message);
 			}
-		},
-		error: function (arg) {
-			var obj = JSON.parse(arg);
-			layer.msg(obj.message);
-		}
+		});
+
+		setTimeout(function () {
+			window.location.reload();
+		}, 1000);
+		$('#admin_popup_background').hide();
+		$("#id_admin_organizer_name").val("");
+		$("#id_admin_organizer_id").val("");
+		$("#id_admin_organizer_date").val("");
 	});
 
-	setTimeout(function () {
-		window.location.reload();
-	}, 1000);
-	$('#admin_popup_background').hide();
-    $("#id_admin_organizer_name").val("");
-    $("#id_admin_organizer_id").val("");
-    $("#id_admin_organizer_date").val("");
-});
-
-    $('#id_admin_popup_organizer_cancel').on('click', function () {
-        $('#id_admin_organizer_edit_operation').val("");
-        $('#id_admin_organizer_edit_id').val("");
-        $("#id_admin_organizer_name").val("");
-        $("#id_admin_organizer_id").val("");
-        $("#id_admin_organizer_date").val("");
-        $('#id_admin_organizer_edit_popup_background').hide();
-    });
+	$('#id_admin_popup_organizer_cancel').on('click', function () {
+		$('#id_admin_organizer_edit_operation').val("");
+		$('#id_admin_organizer_edit_id').val("");
+		$("#id_admin_organizer_name").val("");
+		$("#id_admin_organizer_id").val("");
+		$("#id_admin_organizer_date").val("");
+		$('#id_admin_organizer_edit_popup_background').hide();
+	});
 });

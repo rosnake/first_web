@@ -1,48 +1,33 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-import tornado.escape
 from handlers.base import BaseHandler
-from methods.utils import UserDataUtils
-from methods.utils import UserAuthUtils
 from orm.marks import MarksModule
-from methods.controller import PageController  # 导入页面控制器
 from methods.toolkits import DateToolKits
 from methods.debug import *
 import json
+from admins.decorator import admin_get_auth
+from admins.decorator import admin_post_auth
 
 
 # 继承 base.py 中的类 BaseHandler
 class AdminDeductHandler(BaseHandler):
     """
-    用户首页处理，显示一些客户不需要登陆也可查看的信息
+    用于扣分规则管理
     """
+    @admin_get_auth("/admin/deduct", True)
     def get(self):
-        page_controller = PageController()
-        render_controller = page_controller.get_render_controller()
-        if self.session["authorized"] is None or self.session["authorized"] is False:
-            self.redirect("/login?next=/admin/deduct")
-            return
-
         username = self.get_current_user()
 
-        print(self.session["authorized"])
-        render_controller["index"] = False
-        render_controller["authorized"] = self.session["authorized"]
-        render_controller["login"] = False
-        render_controller["admin"] = self.session["admin"]
-        render_controller["organizer"] = self.session["organizer"]
-
         if username is not None:
-            deduct_module = MarksModule.get_all_marks()
-            deduct_tables = []
-            self.__convent_module_to_table(deduct_module, deduct_tables)
+            deduct_tables = self.__get_deduct_tables()
             self.render("admin/deduct.html",
                         deduct_tables=deduct_tables,
-                        controller=render_controller,
+                        controller=self.render_controller,
                         username=username,
                         )
 
+    @admin_post_auth(False)
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}
         date_kits = DateToolKits()
@@ -112,15 +97,15 @@ class AdminDeductHandler(BaseHandler):
         self.db.commit()
         return True
 
-    def __convent_module_to_table(self, deduct_module, deduct_tables):
-        if deduct_module is None:
-            return False
+    def __get_deduct_tables(self):
+        deduct_module = MarksModule.get_all_marks()
+        deduct_tables = []
+        if deduct_module:
+            for module in deduct_module:
+                deduct = {"deduct_id": module.id, "deduct_name": module.markname, "deduct_points": module.points}
+                deduct_tables.append(deduct)
 
-        for module in deduct_module:
-            deduct = {"deduct_id": module.id, "deduct_name": module.markname, "deduct_points": module.points}
-            deduct_tables.append(deduct)
-
-        return True
+        return deduct_tables
 
     def __delete_deduct_by_id(self, deduct_id):
         deduct = self.db.query(MarksModule).filter(MarksModule.id == deduct_id).first()

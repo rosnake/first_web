@@ -5,6 +5,7 @@ from url import url
 from ui import ui
 import tornado.web
 import os
+from methods.config import GlobalConfig
 
 settings = dict(
     web_title=u"Learning System",
@@ -19,6 +20,6 @@ settings = dict(
 application = tornado.web.Application(
     handlers=url,
     ui_modules=ui,
-    debug=True,
+    debug= GlobalConfig.DEBUG,
     **settings
     )

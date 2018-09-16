@@ -6,8 +6,6 @@ the url structure of website
 # utf-8，兼容汉字
 import sys
 import importlib
-importlib.reload(sys)
-
 # 从相关文件中导入相关处理的类
 from handlers.index import IndexHandler
 from handlers.about import AboutHandler
@@ -38,6 +36,8 @@ from admins.explorer import FileDownLoadHandler
 from admins.explorer import FileUpLoadHandler
 from admins.meeting import AdminMeetingHandler
 from admins.attendance import AdminAttendanceHandler
+from admins.prohibit import AdminProhibitHandler
+importlib.reload(sys)
 
 # 一个URL列表
 url = [
@@ -71,4 +71,5 @@ url = [
     (r'/file/download', FileDownLoadHandler),
     (r'/file/upload', FileUpLoadHandler),
     (r'/admin/attendance', AdminAttendanceHandler),
+    (r'/admin/prohibit', AdminProhibitHandler),
 ]

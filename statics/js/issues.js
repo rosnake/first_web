@@ -14,7 +14,6 @@ $(document).ready(function () {
 				content: '/admin/issues'
 			});
 
-
 	});
 
 	$('#id_admin_user_topic_del').on('click', function () {
@@ -25,13 +24,13 @@ $(document).ready(function () {
 			console.log("current not select any id");
 			return;
 		}
-		var root_div_obj =  issues_object.parents('div').parents('div');
+		var root_div_obj = issues_object.parents('div').parents('div');
 		var father_div_obj = root_div_obj.children('div');
 
 		var admin_topic_username = father_div_obj.children('div').children('#id_admin_topic_user_name').html();
 		var admin_topic_title = father_div_obj.children('div').children('#id_admin_topic_title').html();
-        var topic_brief = "null";
-        var topic_date = "null";
+		var topic_brief = "null";
+		var topic_date = "null";
 		console.log("issues_id: " + issues_id);
 		console.log("admin_topic_title: " + admin_topic_title);
 		console.log("admin_topic_username: " + admin_topic_username);
@@ -39,39 +38,41 @@ $(document).ready(function () {
 		layer.confirm("是否删除【" + admin_topic_title + "】?", {
 			btn: ['删除', '取消']//按钮
 		}, function () {
-            var submit_data = {
-                "operation": "delete",
-                "topic_user": admin_topic_username,
-                "topic_name": admin_topic_title,
-                "topic_brief":topic_brief,
-                "topic_date":topic_date,
-                "topic_id":issues_id,
-                "_xsrf": getCookie("_xsrf")
-                };
+			var submit_data = {
+				"operation": "delete",
+				"topic_user": admin_topic_username,
+				"topic_name": admin_topic_title,
+				"topic_brief": topic_brief,
+				"topic_date": topic_date,
+				"topic_id": issues_id,
+				"_xsrf": getCookie("_xsrf")
+			};
 
-            console.log("topic_user:"+admin_topic_username+" topic_name:"+admin_topic_title+" topic_brief:"+topic_brief+" topic_date:"+topic_date);
-            $.ajax({
-                type: "post",
-                url: "/admin/topics",
-                data: submit_data,
-                cache: false,
-                success: function (arg) {
-                    console.log(arg);
-                    //arg是字符串
-                    var obj = JSON.parse(arg);
-                    if (obj.status) {
-                        layer.msg("删除成功");
-                        console.log("topic_name:"+ admin_topic_title);
-                        setTimeout(function () {window.location.reload();}, 1000);
-                    } else {
-                        layer.msg(obj.message);
-                    }
-                },
-                error:function(arg) {
-                    console.log(arg);
-                    layer.msg("未知的错误");
-                }
-            });
+			console.log("topic_user:" + admin_topic_username + " topic_name:" + admin_topic_title + " topic_brief:" + topic_brief + " topic_date:" + topic_date);
+			$.ajax({
+				type: "post",
+				url: "/admin/topics",
+				data: submit_data,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						layer.msg("删除成功");
+						console.log("topic_name:" + admin_topic_title);
+						setTimeout(function () {
+							window.location.reload();
+						}, 1000);
+					} else {
+						layer.msg(obj.message);
+					}
+				},
+				error: function (arg) {
+					console.log(arg);
+					layer.msg("未知的错误");
+				}
+			});
 
 		}, function () {
 			layer.msg("删除【" + admin_topic_title + "】操作已为您取消", {
@@ -113,8 +114,8 @@ $(document).ready(function () {
 		var topic_user = $("#id_input_topic_user").val();
 		var topic_name = $("#id_input_topic_name").val();
 		var topic_brief = $("#id_input_topic_brief").val();
-		var topic_date = $("#id_select_topic_date option:selected").text();
-        var topic_id = 0;
+		var topic_date = $("#id_admin_issues_date").val();
+		var topic_id = 0;
 		if (topic_user === "") {
 			$("#id_input_topic_user").focus();
 			layer.msg("主讲人不能为空");
@@ -143,13 +144,13 @@ $(document).ready(function () {
 			"operation": "add",
 			"topic_user": topic_user,
 			"topic_name": topic_name,
-			"topic_brief":topic_brief,
-			"topic_date":topic_date,
-            "topic_id":topic_id,
+			"topic_brief": topic_brief,
+			"topic_date": topic_date,
+			"topic_id": topic_id,
 			"_xsrf": getCookie("_xsrf")
-			};
+		};
 
-		console.log("topic_user:"+topic_user+" topic_name:"+topic_name+" topic_brief:"+topic_brief+" topic_date:"+topic_date);
+		console.log("topic_user:" + topic_user + " topic_name:" + topic_name + " topic_brief:" + topic_brief + " topic_date:" + topic_date);
 		$.ajax({
 			type: "post",
 			url: "/admin/topics",
@@ -161,29 +162,33 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					layer.msg("提交成功");
-					console.log("topic_name:"+ topic_name);
+					console.log("topic_name:" + topic_name);
 				} else {
 					layer.msg(obj.message);
 				}
 			},
-			error:function(arg) {
-			    console.log(arg);
+			error: function (arg) {
+				console.log(arg);
 				layer.msg("未知的错误");
 			}
 		});
 
-        setTimeout(function () { window.parent.location.reload();}, 1000);
+		setTimeout(function () {
+			window.parent.location.reload();
+		}, 1000);
 		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        setTimeout(function () {parent.layer.close(index);}, 800);
+		setTimeout(function () {
+			parent.layer.close(index);
+		}, 800);
 
 	});
 
 	$('#id_admin_mod_issues_confirm').on('click', function () {
-        var topic_id = $("#id_admin_mod_issues").val();
+		var topic_id = $("#id_admin_mod_issues").val();
 		var topic_user = $("#id_input_topic_user").val();
 		var topic_name = $("#id_input_topic_name").val();
 		var topic_brief = $("#id_input_topic_brief").val();
-		var topic_date = $("#id_select_topic_date option:selected").text();
+		var topic_date = $("#id_admin_issues_modify_date").val();
 
 		if (topic_user === "") {
 			$("#id_input_topic_user").focus();
@@ -213,13 +218,13 @@ $(document).ready(function () {
 			"operation": "modify",
 			"topic_user": topic_user,
 			"topic_name": topic_name,
-			"topic_brief":topic_brief,
-			"topic_date":topic_date,
-            "topic_id":topic_id,
+			"topic_brief": topic_brief,
+			"topic_date": topic_date,
+			"topic_id": topic_id,
 			"_xsrf": getCookie("_xsrf")
-			};
+		};
 
-		console.log("topic_id"+topic_id+" topic_user:"+topic_user+" topic_name:"+topic_name+" topic_brief:"+topic_brief+" topic_date:"+topic_date);
+		console.log("topic_id" + topic_id + " topic_user:" + topic_user + " topic_name:" + topic_name + " topic_brief:" + topic_brief + " topic_date:" + topic_date);
 		$.ajax({
 			type: "post",
 			url: "/admin/topics",
@@ -231,30 +236,50 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					layer.msg("修改成功");
-					console.log("topic_name:"+ topic_name);
-					setTimeout(function () { window.parent.location.reload();}, 1000);
+					console.log("topic_name:" + topic_name);
+					setTimeout(function () {
+						window.parent.location.reload();
+					}, 1000);
 				} else {
 					layer.msg(obj.message);
 				}
 			},
-			error:function(arg) {
-			    console.log(arg);
+			error: function (arg) {
+				console.log(arg);
 				layer.msg("未知的错误");
 			}
 		});
 
-        setTimeout(function () { window.parent.location.reload();}, 1000);
+		setTimeout(function () {
+			window.parent.location.reload();
+		}, 1000);
 		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        setTimeout(function () {parent.layer.close(index);}, 800);
+		setTimeout(function () {
+			parent.layer.close(index);
+		}, 800);
 		//再执行关闭
 	});
 
+	$('#id_admin_add_issues_cancel').on('click', function () {
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		parent.layer.close(index);
+		window.parent.location.reload();
 
+	});
+
+	$('#id_admin_mod_issues_cancel').on('click', function () {
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		parent.layer.close(index);
+		window.parent.location.reload();
+
+	});
+	/*
 	$('#admin_organizer_add').on('click', function () {
-		$('#admin_popup_background').show();
-		$("#admin_exchange_popup_sub_title").text("增加组织者");
+	$('#admin_popup_background').show();
+	$("#admin_exchange_popup_sub_title").text("增加组织者");
 	});
 	$('#id_admin_popup_organizer_submit').on('click', function () {
-		$('#admin_popup_background').hide();
+	$('#admin_popup_background').hide();
 	});
+	 */
 });

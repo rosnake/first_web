@@ -17,21 +17,23 @@ class BaseHandler(tornado.web.RequestHandler):
     该方法提供session初始化
     """
     def initialize(self):
+        logging.info("[initialize]:get session handler and init db")
         self.session = SessionFactory.get_session_handler(self)
         self.db = dbSession
 
     def on_finish(self):
+        logging.info("[finish]:clear cookie and close db")
         self.db.close()
         self.clear_cookie("username")
 
     def get_current_user(self):
         user_id = self.get_secure_cookie("username")
         if not user_id:
-            logging.info("get current user is None")
+            logging.info("[cookie]:get current user is None")
             return None
         # 设置的时候用了json编码，获取的时候对应的需要解码
         user = tornado.escape.json_decode(user_id)
-        logging.info("current login user is :"+user)
+        logging.info("[cookie]:current login user is :"+user)
 
         return user
 
@@ -44,7 +46,7 @@ class BaseHandler(tornado.web.RequestHandler):
             self.clear_cookie("username")
 
     def clear_current_user(self):
-        logging.info("clear cookies")
+        logging.info("[cookie]:clear cookies")
         self.clear_cookie("username")
 
     def get_user_role(self, username):

@@ -244,6 +244,7 @@ $(document).ready(function () {
 			});
 		});
 		console.log(selected);
+
 	});
 
 	$("#id_user_other_info_submit").click(function () {
