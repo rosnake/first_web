@@ -18,6 +18,7 @@ class AttendanceModule(DataBase):
     absence_reason = Column(String(64), nullable=True, index=False)  # 缺席原因
     absence_id = Column(Integer, nullable=False)
     attend = Column(Boolean, default=True, nullable=False, index=False)  # 是否出席
+    signed = Column(Boolean, default=False, nullable=False, index=False)  # 是否签到
     absent_accept = Column(Boolean, default=False, nullable=False, index=False)  # 是否出席
     apply_time = Column(DateTime, default=datetime.now())  # 申请时间
     datetime = Column(DateTime, default=datetime.now())  # 申请时间

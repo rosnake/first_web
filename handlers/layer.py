@@ -31,17 +31,17 @@ class LayerHandler(BaseHandler):
             self.redirect("/")
             return
 
-        if operation == "browse":
+        if operation == "detail_browse":
             history_table = self.__get_point_history_by_user_name(username)
             point_stat = self.__get_point_stat_by_user_name(username)
-            self.render("pop_browse.html", history_table=history_table, point_stat=point_stat)
+            self.render("detail_browse.html", history_table=history_table, point_stat=point_stat)
 
             return
 
-        if operation == "apply":
+        if operation == "absent_apply":
             if self.session["username"] == username:
                 leave_reason = self.__get_all_leave_reason()
-                self.render("pop_editor.html", username=username, leave_reason=leave_reason)
+                self.render("absent_apply.html", username=username, leave_reason=leave_reason)
 
     def post(self):
         ret = {"status": True, "data": "", "error": "succeed"}

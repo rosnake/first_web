@@ -10,7 +10,7 @@ $(document).ready(function () {
 	//标签+属性选择所有<编辑>按钮
 	$('#id_home_leave_apply').on('click', function () {
 		var user = $('#id_span_home_user_name').val();
-		var operation = "apply";
+		var operation = "absent_apply";
 		console.log("leave apply username:"+user);
 		if (user == "") {
 			layer.msg('用户名不能为空');
@@ -40,7 +40,7 @@ $(document).ready(function () {
 		each方法为每一个td设置function
 		 */
 		var user = "";
-		var operation = "browse";
+		var operation = "detail_browse";
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
 			checkbox 、 button、text 不需要执行append
@@ -121,7 +121,7 @@ $(document).ready(function () {
 		}
 
 		var submit_data = {
-			"operation": "leave_apply",
+			"operation": "absent_apply",
 			"username": username,
 			"leave_id": leave_id,
 			"leave_date":leave_date,

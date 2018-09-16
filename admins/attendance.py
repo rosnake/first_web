@@ -55,6 +55,8 @@ class AdminAttendanceHandler(BaseHandler):
         date_kits = DateToolKits()
         operation = self.get_argument("operation")
         username = self.get_argument("username")
+        absent_id = self.get_argument("absent_id", -1)
+
         logging.info("operation:%s , username: %s" % (operation, username))
 
         if operation == "leave_accept":
@@ -87,6 +89,82 @@ class AdminAttendanceHandler(BaseHandler):
                 self.write(json.dumps(response))
                 return
 
+        if operation == "sign":
+            ret = self.__attendance_sign_by_username(username)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "处理成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "签到失败"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+
+        if operation == "absent":
+            ret = self.__set_attendance_absent_by_username(username, absent_id)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "处理成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "签到失败"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+
+    def __set_attendance_absent_by_username(self, username, absent_id):
+        attendance = self.db.query(AttendanceModule).filter(AttendanceModule.username == username).first()
+
+        if attendance is not None:
+            deduct = self.db.query(MarksModule).filter(MarksModule.id == attendance.absence_id).first()
+            #  更新积分表
+            user_point = self.db.query(PointsModule).filter(PointsModule.username == username).first()
+
+            if user_point and deduct:
+                self.db.query(PointsModule).filter(PointsModule.username == username).update({
+                    PointsModule.last_point: user_point.current_point,
+                    PointsModule.current_point: user_point.current_point + deduct.points,
+                })
+                self.db.commit()
+            else:
+                return False
+
+            self.db.query(AttendanceModule).filter(AttendanceModule.username == username).update({
+                AttendanceModule.signed: True,
+                AttendanceModule.attend: True,
+                AttendanceModule.absent_accept: True,
+
+            })
+            self.db.commit()
+            logging.info("modify attendance succeed")
+            return True
+        else:
+            logging.error("modify attendance failed")
+            return False
+
+    def __attendance_sign_by_username(self, username):
+        attendance = self.db.query(AttendanceModule).filter(AttendanceModule.username == username).first()
+
+        if attendance is not None:
+            self.db.query(AttendanceModule).filter(AttendanceModule.username == username).update({
+                AttendanceModule.signed: True,
+                AttendanceModule.attend: True,
+                AttendanceModule.absent_accept: False,
+            })
+            self.db.commit()
+            logging.info("modify attendance succeed")
+            return True
+        else:
+            logging.error("modify attendance failed")
+            return False
+
     def __set_attendance_leave_accept_by_username(self, username):
         attendance = self.db.query(AttendanceModule).filter(AttendanceModule.username == username).first()
 
@@ -105,6 +183,7 @@ class AdminAttendanceHandler(BaseHandler):
                 return False
 
             self.db.query(AttendanceModule).filter(AttendanceModule.username == username).update({
+                AttendanceModule.signed: True,
                 AttendanceModule.attend: True,
                 AttendanceModule.absent_accept: True,
 
@@ -121,6 +200,7 @@ class AdminAttendanceHandler(BaseHandler):
 
         if attendance is not None:
             self.db.query(AttendanceModule).filter(AttendanceModule.username == username).update({
+                AttendanceModule.signed: False,
                 AttendanceModule.attend: True,
                 AttendanceModule.absent_accept: False,
             })
@@ -139,9 +219,9 @@ class AdminAttendanceHandler(BaseHandler):
         if attendance_modules:
             for x in attendance_modules:
                 tmp = {
-                    "attendance_id": id, "username": x.username, "nickname": x.nickname,
+                    "attendance_id": id, "username": x.username, "nickname": x.nickname,"signed": x.signed,
                     "absence_reason": x.absence_reason, "absence_id": x.absence_id, "attend": x.attend,
-                    "apply_time": x.apply_time, "datetime": x.datetime,"absent_accept": x.absent_accept
+                    "apply_time": x.apply_time, "datetime": x.datetime,"absent_accept": x.absent_accept,
                 }
                 attendance_tables.append(tmp)
 

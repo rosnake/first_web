@@ -64,7 +64,7 @@ class HomeHandler(BaseHandler):
 
         logging.info("operation:%s , username: %s, leave_id:%s leave_date: %s" % (operation, username, leave_id, leave_date))
 
-        if operation == "leave_apply":
+        if operation == "absent_apply":
             ret = self.__leave_apply_by_id(username, leave_id, leave_date)
 
             if ret is True:

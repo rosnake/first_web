@@ -166,7 +166,7 @@ $(document).ready(function () {
 
 	$('input[value="签到"]').click(function () {
         //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="签到"]').index($(this)) + 2;
+		var numId = $('input[value="签到"]').index($(this))+ 2;
 		console.log(numId);
 		//选择表格中的所有tr 通过eq方法取得当前tr
 		var ttr = $('table tr').eq(numId);
@@ -176,7 +176,7 @@ $(document).ready(function () {
 		each方法为每一个td设置function
 		 */
 		var user = "";
-		var operation = "browse";
+		var operation = "sign";
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
 			checkbox 、 button、text 不需要执行append
@@ -197,7 +197,7 @@ $(document).ready(function () {
 			var tdVal = $(this).html();
 			//console.log(id);
 			//console.log(tdVal);
-			if (id == "id_home_user_name") {
+			if (id == "id_admin_attendance_username") {
 				user = tdVal;
 			}
 		});
@@ -205,17 +205,114 @@ $(document).ready(function () {
 		console.log(user);
 		if (user == "") {
 			layer.msg('用户名不能为空');
-		} else {
-			console.log(user);
-			var index = layer.open({
-					type: 2, //iframe 层
-					title: '查看详细信息',
-					maxmin: true,
-					shadeClose: true, //点击遮罩关闭层
-					area: ['800px', '520px'],
-					content: '/layer?user=' + user + '&operation=' + operation
-				});
+			return false;
 		}
+
+		var submit_data = {
+			"operation": operation,
+			"username": user,
+			"_xsrf": getCookie("_xsrf")
+		};
+
+		$.ajax({
+			type: "post",
+			url: "/admin/attendance",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					layer.msg("签到成功");
+					console.log("user:" + user);
+					setTimeout(function () {
+						window.location.reload();
+					}, 1000);
+				} else {
+					layer.msg(obj.message);
+				}
+			},
+			error: function (arg) {
+				layer.msg("未知的错误");
+			}
+		});
+
 	});
 
+	$('input[value="缺席"]').click(function () {
+        //获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		var numId = $('input[value="缺席"]').index($(this))+ 2;
+		console.log(numId);
+		//选择表格中的所有tr 通过eq方法取得当前tr
+		var ttr = $('table tr').eq(numId);
+		console.log(ttr);
+
+		/*当前行使用find方法找到每一个td列
+		each方法为每一个td设置function
+		 */
+		var user = "";
+		var operation = "absent";
+		ttr.find("td").each(function () {
+			/*过滤 td中的元素
+			checkbox 、 button、text 不需要执行append
+			注意 return 为 跳出当前 each
+			return false 为 跳出整个 each
+			 */
+			if ($(this).children("input[type='checkbox']").length > 0) {
+				return;
+			}
+			if ($(this).children("input[type='button']").length > 0) {
+				return;
+			}
+			if ($(this).children("input[type='text']").length > 0) {
+				return;
+			}
+
+			var id = $(this).attr('id');
+			var tdVal = $(this).html();
+			//console.log(id);
+			//console.log(tdVal);
+			if (id == "id_admin_attendance_username") {
+				user = tdVal;
+			}
+		});
+
+		console.log(user);
+		if (user == "") {
+			layer.msg('用户名不能为空');
+			return false;
+		}
+
+		var submit_data = {
+			"operation": operation,
+			"username": user,
+			"_xsrf": getCookie("_xsrf")
+		};
+
+		$.ajax({
+			type: "post",
+			url: "/admin/attendance",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					layer.msg("签到成功");
+					console.log("user:" + user);
+					setTimeout(function () {
+						window.location.reload();
+					}, 1000);
+				} else {
+					layer.msg(obj.message);
+				}
+			},
+			error: function (arg) {
+				layer.msg("未知的错误");
+			}
+		});
+
+	});
 });

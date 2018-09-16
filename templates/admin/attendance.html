@@ -75,13 +75,15 @@
             <tbody class="class_admin_context_table_body">
             {% if attendance_tables is not None %}
                 {% for attendance in attendance_tables %}
-                    {% if attendance["attend"] == True and attendance["absent_accept"] == False %}
+                    {% if attendance["attend"] == True and attendance["signed"] == False %}
                 <tr>
                     <td id="id_admin_attendance_username">{{attendance["username"]}}</td>
                     <td id="id_admin_attendance_nickname">{{attendance["nickname"]}}</td>
                     <td>
                         <div id="id_admin_attendance_table_button">
-                            <input class="class_admin_context_table_button" id="id_admin_attendance_sign_in"  type="button" value="签到" >
+                            <input class="class_admin_context_table_button" id="id_admin_attendance_absence"  type="button" value="缺席" >
+                            <input class="class_admin_context_table_button" id="id_admin_attendance_sign_in"  type="button" value="已到" >
+
                         </div>
 
                     </td>
@@ -92,8 +94,35 @@
             </tbody>
             </table>
         </form>
-    </div>
+                <!-- 弹窗内容开始 -->
+        <div class="class_admin_popup_background" id="id_admin_attendance_edit_popup_background">
+            <div  class="class_admin_popup_content" id="id_admin_attendance_edit_popup_frontend">
+                <div  class="class_admin_popup_title" id="id_admin_attendance_edit_popup_close">
+                    <h2 id="id_admin_attendance_edit_sub_title">兑换规则增加</h2>
+                </div>
+                <div class="class_admin_popup_body" id="admin_popup_body">
+                    <p id="id_admin_attendance_edit_operation"></p>
+                    <p id="id_admin_attendance_popup_username"/></p>
+                     {% if leave_reason is not None %}
+                    <p>
+                        <span>兑换物品:</span>
+                        <select id="id_popup_leave_apply_reason">
+                        {% for reason in  leave_reason%}
+                            <option value={{ reason["reason_id"] }}>{{reason["leave_reason"]}}</option>
+                        {% end %}
+                        </select>
+                    </p>
+                    {% end %}
+                    <input type="button" class="class_admin_context_button" id="id_admin_attendance_edit_submit" value="提交" />
+                    <input type="button" class="class_admin_context_button" id="id_admin_attendance_edit_cancel" value="取消" />
 
+                </div>
+
+            </div>
+        </div>
+        <!-- 弹窗内容结束 -->
+
+    </div>
 </div> <!--end of admin body-->
 
 
