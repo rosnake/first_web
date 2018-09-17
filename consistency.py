@@ -3,9 +3,9 @@
 
 import time, threading
 from methods.debug import *
-from orm.db import dbSession
+from orm.db_base import dbSession
 from orm.attendance import AttendanceModule
-from orm.user import UserModule
+from orm.users_info import UsersInfoModule
 from multiprocessing import Process
 import os
 
@@ -32,14 +32,14 @@ class DataConsistency:
 
     def __process_attendance_table(self):
         attendance_modules = AttendanceModule.get_all_attendance_info()
-        user_modules = UserModule.get_all_users()
+        user_modules = UsersInfoModule.get_all_users_info()
         if attendance_modules:
             pass
         else:
             for x in user_modules:
                 attendance = AttendanceModule()
-                attendance.username = x.username
-                attendance.nickname = x.nickname
+                attendance.user_name = x.user_name
+                attendance.nick_name = x.nick_name
                 attendance.absence_id = 0
                 attendance.attend = True
                 attendance.absence_id = 0

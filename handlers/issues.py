@@ -14,8 +14,8 @@ class IssuesHandler(BaseHandler):
     """
     @handles_get_auth("/issues")
     def get(self):
-        username = self.get_current_user()
-        if username is not None:
+        user_name = self.get_current_user()
+        if user_name is not None:
             self.render("issues.html")
 
     @handles_post_auth

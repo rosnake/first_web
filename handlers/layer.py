@@ -5,8 +5,8 @@ from handlers.base import BaseHandler
 import json
 from methods.debug import *
 import sys
-from orm.history import HistoryModule
-from orm.marks import MarksModule
+from orm.score_history import ScoringHistoryModule
+from orm.score_criteria import ScoringCriteriaModule
 from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
 
@@ -19,33 +19,33 @@ class LayerHandler(BaseHandler):
 
     @handles_get_auth("/home")
     def get(self):
-        username = self.get_argument("user", "unknown")
+        user_name = self.get_argument("user", "unknown")
         operation = self.get_argument("operation", "unknown")
 
-        if username == "unknown" or operation == "unknown":
-            logging.error("popup layer username:"+username+" operation:" + operation)
+        if user_name == "unknown" or operation == "unknown":
+            logging.error("popup layer user_name:"+user_name+" operation:" + operation)
             self.redirect("/")
             return
 
         if operation == "detail_browse":
-            history_table = self.__get_point_history_by_user_name(username)
-            point_stat = self.__get_point_stat_by_user_name(username)
+            history_table = self.__get_point_history_by_user_name(user_name)
+            point_stat = self.__get_point_stat_by_user_name(user_name)
             self.render("detail_browse.html", history_table=history_table, point_stat=point_stat)
 
             return
 
         if operation == "absent_apply":
-            if self.session["username"] == username:
+            if self.session["user_name"] == user_name:
                 leave_reason = self.__get_all_leave_reason()
-                self.render("absent_apply.html", username=username, leave_reason=leave_reason)
+                self.render("absent_apply.html", user_name=user_name, leave_reason=leave_reason)
 
     @handles_post_auth
     def post(self):
         ret = {"status": True, "data": "", "error": "succeed"}
-        username = self.get_argument("username")
+        user_name = self.get_argument("user_name")
         password = self.get_argument("password")
 
-        print("username:%s password:%s " % (username, password))
+        print("user_name:%s password:%s " % (user_name, password))
 
         succeed = True
         if (succeed):
@@ -60,7 +60,7 @@ class LayerHandler(BaseHandler):
             self.write(json.dumps(ret))
 
     def __get_point_history_by_user_name(self, user_name):
-        history_module = self.db.query(HistoryModule).filter(HistoryModule.user_name == user_name).all()
+        history_module = self.db.query(ScoringHistoryModule).filter(ScoringHistoryModule.user_name == user_name).all()
 
         history_table = []
         if history_module:
@@ -76,11 +76,11 @@ class LayerHandler(BaseHandler):
             return history_table
 
     def __get_point_stat_by_user_name(self, user_name):
-        history_module = self.db.query(HistoryModule).filter(HistoryModule.user_name == user_name).all()
-        mark_module = MarksModule.get_all_marks()
+        history_module = self.db.query(ScoringHistoryModule).filter(ScoringHistoryModule.user_name == user_name).all()
+        mark_module = ScoringCriteriaModule.get_all_scoring_criteria()
 
         user_point = {}
-        user_point["username"] = user_name
+        user_point["user_name"] = user_name
         if history_module and mark_module:
             user_point = {}
             for x in mark_module:
@@ -97,7 +97,7 @@ class LayerHandler(BaseHandler):
             return user_point
 
     def __get_all_leave_reason(self):
-        deduct_module = MarksModule.get_all_marks()
+        deduct_module = ScoringCriteriaModule.get_all_scoring_criteria()
 
         leave_reason = []
 

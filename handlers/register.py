@@ -5,8 +5,8 @@ from methods.debug import *
 import json
 import sys
 from handlers.base import BaseHandler
-from orm.user import UserModule
-from orm.points import PointsModule
+from orm.users_info import UsersInfoModule
+from orm.score_info import ScoreInfoModule
 from methods.controller import PageController
 
 #  继承 base.py 中的类 BaseHandler
@@ -26,33 +26,33 @@ class RegisterHandler(BaseHandler):
         
     def post(self):
         ret = {"status": True, "data": "", "message": ""}
-        username = self.get_argument("username")
+        user_name = self.get_argument("user_name")
         password = self.get_argument("password")
         confirm = self.get_argument("confirm")
-        print("username:%s password:%s confirm:%s" % (username, password, confirm))
+        print("user_name:%s password:%s confirm:%s" % (user_name, password, confirm))
         # 先查询用户是否存在
-        user = self.db.query(UserModule).filter(UserModule.username == username).first()
+        user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).first()
         print(user)
         succeed = False
         # 不存在创建用户
         if user is None:
-            user_moudle = UserModule()
-            user_moudle.username = username
+            user_moudle = UsersInfoModule()
+            user_moudle.user_name = user_name
             user_moudle.password = password
-            user_moudle.nickname = "unknown"
+            user_moudle.nick_name = "unknown"
             user_moudle.address = "unknown"
             user_moudle.department = "unknown"
             user_moudle.email = "unknown"
-            user_moudle.role = "normal"
+            user_moudle.user_role = "normal"
             user_moudle.pwd_modified = True
             self.db.add(user_moudle)
             self.db.commit()
             # 更新积分表格
-            point_moudle = PointsModule()
-            point_moudle.username = username
+            point_moudle = ScoreInfoModule()
+            point_moudle.user_name = user_name
             point_moudle.current_point = 10
             point_moudle.last_point = 10
-            point_moudle.nickname = user_moudle.nickname
+            point_moudle.nick_name = user_moudle.nick_name
             self.db.add(point_moudle)
             self.db.commit()
             succeed = True

@@ -6,7 +6,7 @@
 {% end %}
 {% autoescape None %}
 {% block header %}
-{{ modules.Header(username) }}
+{{ modules.Header(user_name) }}
 {% end %}
 
 {% block body %}
@@ -38,7 +38,7 @@
             <tr>
                 <td class="class_admin_context_table_td" ><input type="radio" name="select_id" value={{ user_info["id"] }}></td>
                  <td class="class_admin_context_table_td" id="user_id">{{ user_info["id"] }}</td>
-                 <td class="class_admin_context_table_td" id="user_name">{{ user_info["username"] }}</td>
+                 <td class="class_admin_context_table_td" id="user_name">{{ user_info["user_name"] }}</td>
                  <td class="class_admin_context_table_td" id="user_role">{{ user_info["role"] }}</td>
             </tr>
         {% end %}
@@ -77,7 +77,7 @@
             <div class="class_admin_popup_body" id="id_admin_member_edit_popup_body">
                 <p id="id_admin_member_edit_operation"></p>
                  <p id="id_admin_member_edit_user_id"></p>
-                <p><span>用户ID:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_member_edit_username"  /></p>
+                <p><span>用户ID:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_member_edit_user_name"  /></p>
                 <p><span>角色:</span>
                     <select class="class_admin_popup_body_input" id="id_admin_member_edit_role">
                         <option value="normal">普通用户</option>

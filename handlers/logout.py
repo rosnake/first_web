@@ -10,7 +10,7 @@ class LogoutHandler(BaseHandler):  # 继承 base.py 中的类 BaseHandler
         print(self.session["authorized"])
         self.clear_current_user()
         self.session["authorized"] = False
-        del self.session["username"]
+        del self.session["user_name"]
         del self.session["admin"]
         del self.session["organizer"]
         self.redirect('/')

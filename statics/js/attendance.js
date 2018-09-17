@@ -47,7 +47,7 @@ $(document).ready(function () {
 			var tdVal = $(this).html();
 			//console.log(id);
 			//console.log(tdVal);
-			if (id == "id_admin_attendance_username") {
+			if (id == "id_admin_attendance_user_name") {
 				user = tdVal;
 			}
 		});
@@ -59,7 +59,7 @@ $(document).ready(function () {
 		}
 		var submit_data = {
 			"operation": operation,
-			"username": user,
+			"user_name": user,
 			"_xsrf": getCookie("_xsrf")
 		};
 
@@ -122,7 +122,7 @@ $(document).ready(function () {
 			var tdVal = $(this).html();
 			//console.log(id);
 			//console.log(tdVal);
-			if (id == "id_admin_attendance_username") {
+			if (id == "id_admin_attendance_user_name") {
 				user = tdVal;
 			}
 		});
@@ -134,7 +134,7 @@ $(document).ready(function () {
 		}
 		var submit_data = {
 			"operation": operation,
-			"username": user,
+			"user_name": user,
 			"_xsrf": getCookie("_xsrf")
 		};
 
@@ -197,7 +197,7 @@ $(document).ready(function () {
 			var tdVal = $(this).html();
 			//console.log(id);
 			//console.log(tdVal);
-			if (id == "id_admin_attendance_username") {
+			if (id == "id_admin_attendance_user_name") {
 				user = tdVal;
 			}
 		});
@@ -210,7 +210,7 @@ $(document).ready(function () {
 
 		var submit_data = {
 			"operation": operation,
-			"username": user,
+			"user_name": user,
 			"_xsrf": getCookie("_xsrf")
 		};
 
@@ -272,7 +272,7 @@ $(document).ready(function () {
 			var id = $(this).attr('id');
 			var tdVal = $(this).html();
 
-			if (id == "id_admin_attendance_username") {
+			if (id == "id_admin_attendance_user_name") {
 				user = tdVal;
 			}
 		});
@@ -297,7 +297,7 @@ $(document).ready(function () {
 		var submit_data = {
 			"operation": "absent",
 			"absent_id": absent_id,
-			"username": user_name,
+			"user_name": user_name,
 			"_xsrf": getCookie("_xsrf")
 		};
 

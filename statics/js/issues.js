@@ -27,20 +27,20 @@ $(document).ready(function () {
 		var root_div_obj = issues_object.parents('div').parents('div');
 		var father_div_obj = root_div_obj.children('div');
 
-		var admin_topic_username = father_div_obj.children('div').children('#id_admin_topic_user_name').html();
+		var admin_topic_user_name = father_div_obj.children('div').children('#id_admin_topic_user_name').html();
 		var admin_topic_title = father_div_obj.children('div').children('#id_admin_topic_title').html();
 		var topic_brief = "null";
 		var topic_date = "null";
 		console.log("issues_id: " + issues_id);
 		console.log("admin_topic_title: " + admin_topic_title);
-		console.log("admin_topic_username: " + admin_topic_username);
+		console.log("admin_topic_user_name: " + admin_topic_user_name);
 		console.log("click admin topics delete");
 		layer.confirm("是否删除【" + admin_topic_title + "】?", {
 			btn: ['删除', '取消']//按钮
 		}, function () {
 			var submit_data = {
 				"operation": "delete",
-				"topic_user": admin_topic_username,
+				"topic_user": admin_topic_user_name,
 				"topic_name": admin_topic_title,
 				"topic_brief": topic_brief,
 				"topic_date": topic_date,
@@ -48,7 +48,7 @@ $(document).ready(function () {
 				"_xsrf": getCookie("_xsrf")
 			};
 
-			console.log("topic_user:" + admin_topic_username + " topic_name:" + admin_topic_title + " topic_brief:" + topic_brief + " topic_date:" + topic_date);
+			console.log("topic_user:" + admin_topic_user_name + " topic_name:" + admin_topic_title + " topic_brief:" + topic_brief + " topic_date:" + topic_date);
 			$.ajax({
 				type: "post",
 				url: "/admin/topics",
@@ -90,12 +90,12 @@ $(document).ready(function () {
 			console.log("current not select any id");
 			return;
 		}
-		var admin_topic_username = issues_object.parents('div').children('#id_admin_topic_user_name').html();
+		var admin_topic_user_name = issues_object.parents('div').children('#id_admin_topic_user_name').html();
 		var admin_topic_title = issues_object.parents('div').children('.topic_details').children('#id_admin_topic_title').html();
 
 		console.log("issues_id: " + issues_id);
 		console.log("admin_topic_title: " + admin_topic_title);
-		console.log("admin_topic_username: " + admin_topic_username);
+		console.log("admin_topic_user_name: " + admin_topic_user_name);
 		console.log("click admin topics modify");
 
 		var index = layer.open({

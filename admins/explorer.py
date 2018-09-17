@@ -15,9 +15,9 @@ class AdminExplorerHandler(BaseHandler):
     """
     @admin_get_auth("/admin/explorer", True)
     def get(self):
-        username = self.get_current_user()
-        if username is not None:
-            self.render("admin/explorer.html", username=username, controller=self.render_controller)
+        user_name = self.get_current_user()
+        if user_name is not None:
+            self.render("admin/explorer.html", user_name=user_name, controller=self.render_controller)
 
     @admin_post_auth(False)
     def post(self):

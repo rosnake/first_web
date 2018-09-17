@@ -48,8 +48,8 @@ def handles_get_auth(jump_page):
                                                                     str(self.render_controller["admin"]),
                                                                     str(self.render_controller["organizer"]),
                                                                     ))
-            if self.session["username"] is not None:
-                logging.info("[decorator]:current user is [%s]" % self.session["username"])
+            if self.session["user_name"] is not None:
+                logging.info("[decorator]:current user is [%s]" % self.session["user_name"])
 
             return method(self, *args, **kwargs)
         return wrapper

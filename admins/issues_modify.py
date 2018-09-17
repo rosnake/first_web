@@ -2,7 +2,7 @@
 # coding=utf-8
 
 from handlers.base import BaseHandler
-from orm.topics import TopicsModule
+from orm.issues_info import IssuesInfoModule
 from methods.debug import *
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
@@ -21,8 +21,8 @@ class AdminIssuesModifyHandler(BaseHandler):
         # 后续该接口需要从数据库读取
         issues_id = self.get_argument("issues_id")
         logging.info("[issues_modify]:issues_id:"+issues_id)
-        username = self.get_current_user()
-        if username is not None:
+        user_name = self.get_current_user()
+        if user_name is not None:
             issues_table = self.__get_topics_by_id(issues_id)
             if issues_table is not None:
                 self.render("admin/issues_modify.html", controller=self.render_controller, issues_table=issues_table)
@@ -32,11 +32,11 @@ class AdminIssuesModifyHandler(BaseHandler):
         pass
 
     def __get_topics_by_id(self, issues_id):
-        topics = self.db.query(TopicsModule).filter(TopicsModule.id == issues_id).first()
+        topics = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).first()
 
         if topics is not None:
             tables = {
-                "topic_id": topics.id, "name": topics.username, "image": topics.image, "title": topics.title,
+                "topic_id": topics.id, "name": topics.user_name, "image": topics.image, "title": topics.title,
                 "current": topics.current, "finish": topics.finish, "time": topics.datetime,
                 "description": topics.brief
             }

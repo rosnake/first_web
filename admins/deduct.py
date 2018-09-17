@@ -2,7 +2,7 @@
 # coding=utf-8
 
 from handlers.base import BaseHandler
-from orm.marks import MarksModule
+from orm.score_criteria import ScoringCriteriaModule
 from methods.toolkits import DateToolKits
 from methods.debug import *
 import json
@@ -17,14 +17,14 @@ class AdminDeductHandler(BaseHandler):
     """
     @admin_get_auth("/admin/deduct", True)
     def get(self):
-        username = self.get_current_user()
+        user_name = self.get_current_user()
 
-        if username is not None:
+        if user_name is not None:
             deduct_tables = self.__get_deduct_tables()
             self.render("admin/deduct.html",
                         deduct_tables=deduct_tables,
                         controller=self.render_controller,
-                        username=username,
+                        user_name=user_name,
                         )
 
     @admin_post_auth(False)
@@ -85,30 +85,31 @@ class AdminDeductHandler(BaseHandler):
                 return
 
     def __add_deduct(self, deduct_name, deduct_points):
-        deduct = self.db.query(MarksModule).filter(MarksModule.markname == deduct_name).first()
+        deduct = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.criteria_name == deduct_name).first()
         if deduct is not None:
             logging.error("current is exit")
             return False
 
-        mark = MarksModule()
-        mark.markname = deduct_name
-        mark.points = deduct_points
+        mark = ScoringCriteriaModule()
+        mark.criteria_name = deduct_name
+        mark.score_value = deduct_points
         self.db.add(mark)
         self.db.commit()
         return True
 
     def __get_deduct_tables(self):
-        deduct_module = MarksModule.get_all_marks()
+        deduct_module = ScoringCriteriaModule.get_all_scoring_criteria()
         deduct_tables = []
         if deduct_module:
             for module in deduct_module:
-                deduct = {"deduct_id": module.id, "deduct_name": module.markname, "deduct_points": module.points}
+                deduct = {"deduct_id": module.id, "deduct_name": module.criteria_name,
+                          "deduct_points": module.score_value}
                 deduct_tables.append(deduct)
 
         return deduct_tables
 
     def __delete_deduct_by_id(self, deduct_id):
-        deduct = self.db.query(MarksModule).filter(MarksModule.id == deduct_id).first()
+        deduct = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == deduct_id).first()
 
         if deduct is not None:
             self.db.delete(deduct)
@@ -120,11 +121,11 @@ class AdminDeductHandler(BaseHandler):
             return False
 
     def __modify_deduct_by_id(self, deduct_id, deduct_points):
-        deduct = self.db.query(MarksModule).filter(MarksModule.id == deduct_id).first()
+        deduct = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == deduct_id).first()
 
         if deduct is not None:
-            self.db.query(MarksModule).filter(MarksModule.id == deduct_id).update({
-                MarksModule.points: deduct_points,
+            self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == deduct_id).update({
+                ScoringCriteriaModule.score_value: deduct_points,
             })
             self.db.commit()
             logging.info("modify deduct succeed")

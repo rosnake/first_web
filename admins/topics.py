@@ -4,7 +4,7 @@
 from handlers.base import BaseHandler
 import json
 from methods.toolkits import DateToolKits
-from orm.topics import TopicsModule
+from orm.issues_info import IssuesInfoModule
 from methods.debug import *
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
@@ -17,12 +17,12 @@ class AdminTopicsHandler(BaseHandler):
     """
     @admin_get_auth("/admin/topics", False)
     def get(self):
-        username = self.get_current_user()
-        if username is not None:
-            user_topic_tables = self.__get_all_topics()
+        user_name = self.get_current_user()
+        if user_name is not None:
+            user_topic_tables = self.__get_all_issues_info()
             self.render("admin/topics.html",
                         controller=self.render_controller,
-                        username=username,
+                        user_name=user_name,
                         user_topic_tables=user_topic_tables,
                         )
 
@@ -84,15 +84,15 @@ class AdminTopicsHandler(BaseHandler):
                 self.write(json.dumps(response))
                 return
 
-    def __get_all_topics(self):
-        topics_module = TopicsModule.get_all_topics()
+    def __get_all_issues_info(self):
+        topics_module = IssuesInfoModule.get_all_issues_info()
         if topics_module is None:
             return None
 
         topics_tables = []
         for topics in topics_module:
             tmp = {
-                "topic_id": topics.id, "name": topics.username, "image": topics.image, "title": topics.title,
+                "topic_id": topics.id, "name": topics.user_name, "image": topics.image, "title": topics.title,
                 "current": topics.current, "finish": topics.finish,  "time": topics.datetime,
                 "description": topics.brief
                    }
@@ -101,14 +101,14 @@ class AdminTopicsHandler(BaseHandler):
         return topics_tables
 
     def __add_topics(self, topic_user, topic_name, topic_brief, topic_date):
-        rule = self.db.query(TopicsModule).filter(TopicsModule.title == topic_name).first()
+        rule = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.title == topic_name).first()
         if rule is not None:
             logging.error("current topics is exit")
             return False
 
-        topic_module = TopicsModule()
-        topic_module.username = topic_user
-        topic_module.nickname = "unknown"
+        topic_module = IssuesInfoModule()
+        topic_module.user_name = topic_user
+        topic_module.nick_name = "unknown"
         topic_module.title = topic_name
         topic_module.brief = topic_brief
         topic_module.datetime = topic_date
@@ -121,14 +121,14 @@ class AdminTopicsHandler(BaseHandler):
         return True
 
     def __modify_topic_by_id(self, topic_id, topic_user, topic_name, topic_brief, topic_date):
-        topic = self.db.query(TopicsModule).filter(TopicsModule.id == topic_id).first()
+        topic = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == topic_id).first()
 
         if topic is not None:
-            self.db.query(TopicsModule).filter(TopicsModule.id == topic_id).update({
-                TopicsModule.username: topic_user,
-                TopicsModule.title: topic_name,
-                TopicsModule.brief: topic_brief,
-                TopicsModule.datetime: topic_date,
+            self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == topic_id).update({
+                IssuesInfoModule.user_name: topic_user,
+                IssuesInfoModule.title: topic_name,
+                IssuesInfoModule.brief: topic_brief,
+                IssuesInfoModule.datetime: topic_date,
                 })
 
             self.db.commit()
@@ -139,7 +139,7 @@ class AdminTopicsHandler(BaseHandler):
             return False
 
     def __delete_topic_by_id(self, topic_id):
-        topic = self.db.query(TopicsModule).filter(TopicsModule.id == topic_id).first()
+        topic = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == topic_id).first()
 
         if topic is not None:
             self.db.delete(topic)

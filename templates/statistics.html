@@ -12,7 +12,7 @@
 {% end %}
 
 {% block header %}
-{{ modules.Header(username) }}
+{{ modules.Header(user_name) }}
 {% end %}
 
 {% block body %}
@@ -27,7 +27,7 @@
          <h3>当前分数明细如下：</h3>
         {% if point_stat is not None %}
             {% for key in point_stat %}
-                {% if key != "username" %}
+                {% if key != "user_name" %}
                 <label class="label_popup_browse_detail">{{ key }}: {{point_stat[key]}}分。</label>
                 <br>
                 {% end %}

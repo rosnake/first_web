@@ -8,7 +8,7 @@
 {% end %}
 
 {% block header %}
-{{ modules.Header(username) }}
+{{ modules.Header(user_name) }}
 {% end %}
 
 {% block body %}
@@ -27,7 +27,7 @@
     <div class="topics">
 
             {% if topic["name"] != "" %}
-            <h5 class="username">议题主讲人：{{ topic["name"] }}</h5>
+            <h5 class="user_name">议题主讲人：{{ topic["name"] }}</h5>
             <div class="topic_details">
                 <h4>议题:</h4>
                 <div class="topic_title">{{ topic["title"]}}</div>

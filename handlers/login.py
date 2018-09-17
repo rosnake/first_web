@@ -8,7 +8,7 @@ import io  # 导入io模块
 from methods.image_generator import VerifyImage  # 导入验证码图片生成插件
 from methods.controller import PageController  # 导入页面控制器
 from methods.toolkits import DateToolKits
-from orm.user import UserModule
+from orm.users_info import UsersInfoModule
 from methods.config import GlobalConfig
 
 
@@ -31,8 +31,8 @@ class LoginHandler(BaseHandler):
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}
 
-        username = self.get_argument("username")
-        password = self.get_argument("password")
+        user_name = self.get_argument("user_name")
+        pass_word = self.get_argument("password")
         nextname = self.get_argument("next")
         logging.info("next name:" + nextname)
         verify_code_tmp = self.get_argument("verify_code")
@@ -40,8 +40,8 @@ class LoginHandler(BaseHandler):
         verify_code_server = self.session["verify_code"]
 
         date_kits = DateToolKits()
-        logging.info("username:%s password:%s verify_code_client:%s, verify_code_server %s"
-                     % (username, password, verify_code_client, verify_code_server))
+        logging.info("user_name:%s password:%s verify_code_client:%s, verify_code_server %s"
+                     % (user_name, pass_word, verify_code_client, verify_code_server))
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
 
@@ -58,23 +58,23 @@ class LoginHandler(BaseHandler):
             return
 
         del self.session["verify_code"]
-        user = self.db.query(UserModule).filter(UserModule.username == username).filter(
-            UserModule.password == password).first()
+        user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).filter(
+            UsersInfoModule.pass_word == pass_word).first()
         print(user)
         if user is not None:
-            logging.info("login ok,user name:" + username)
+            logging.info("login ok,user name:" + user_name)
             response["data"] = date_kits.get_now_day_str()
-            admin, organizer = self.get_user_role(username)
-            self.set_current_user(username)
+            admin, organizer = self.get_user_role(user_name)
+            self.set_current_user(user_name)
             self.session["authorized"] = True
-            self.session["username"] = username
+            self.session["user_name"] = user_name
             self.session["admin"] = admin
             self.session["organizer"] = organizer
             render_controller["authorized"] = self.session["authorized"] = True
             self.write(json.dumps(response))
             return
         else:
-            logging.info("login failed,user name:" + username)
+            logging.info("login failed,user name:" + user_name)
             render_controller["index"] = False
             render_controller["authorized"] = False
             render_controller["login"] = True

@@ -5,8 +5,8 @@ from handlers.base import BaseHandler
 import json
 import datetime
 from methods.debug import *
-from orm.points import PointsModule
-from orm.user import UserModule
+from orm.score_info import ScoreInfoModule
+from orm.users_info import UsersInfoModule
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
 
@@ -19,14 +19,14 @@ class AdminPointHandler(BaseHandler):
 
     @admin_get_auth("/admin/point", False)
     def get(self):
-        username = self.get_current_user()
-        if username is not None:
+        user_name = self.get_current_user()
+        if user_name is not None:
             self.__update_point_info()
             point_tables = self.__get_all_points()
             if point_tables is not None:
                 self.render("admin/point.html",
                             controller=self.render_controller,
-                            username=username,
+                            user_name=user_name,
                             point_tables=point_tables,
                             )
 
@@ -48,7 +48,7 @@ class AdminPointHandler(BaseHandler):
             self.write(json.dumps(response))
             return
 
-        ret = self.__update_user_point_by_username(user_id, user_point)
+        ret = self.__update_user_point_by_user_name(user_id, user_point)
         if ret is True:
             response["status"] = True
             response["message"] = "修改成功！"
@@ -63,37 +63,37 @@ class AdminPointHandler(BaseHandler):
             return
 
     def __update_point_info(self):
-        user_all = UserModule.get_all_users()
+        user_all = UsersInfoModule.get_all_users_info()
 
         if user_all:
             for x in user_all:
-                self.db.query(PointsModule).filter(PointsModule.username == x.username).update({
-                    PointsModule.username: x.username,
-                    PointsModule.nickname: x.nickname,
+                self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == x.user_name).update({
+                    ScoreInfoModule.user_name: x.user_name,
+                    ScoreInfoModule.nick_name: x.nick_name,
                 })
                 self.db.commit()
 
     def __get_all_points(self):
         points_tables = []
 
-        point_module = PointsModule.get_all_points()
+        point_module = ScoreInfoModule.get_all_points()
 
         if point_module is None:
             return None
 
         for point in point_module:
-            tmp = {"user_id": point.username, "user_name": point.nickname, "user_point": point.current_point}
+            tmp = {"user_id": point.user_name, "user_name": point.nick_name, "user_point": point.current_point}
             points_tables.append(tmp)
 
         return points_tables
 
-    def __update_user_point_by_username(self, username, point):
-        user_point = self.db.query(PointsModule).filter(PointsModule.username == username).first()
+    def __update_user_point_by_user_name(self, user_name, point):
+        user_point = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
 
         if user_point:
-            self.db.query(PointsModule).filter(PointsModule.username == username).update({
-                PointsModule.last_point: user_point.current_point,
-                PointsModule.current_point: point,
+            self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
+                ScoreInfoModule.last_point: user_point.current_point,
+                ScoreInfoModule.current_point: point,
             })
             self.db.commit()
             return True

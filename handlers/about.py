@@ -12,10 +12,10 @@ class AboutHandler(BaseHandler):
     """
     @handles_get_auth("/about")
     def get(self):
-        username = self.get_current_user()
+        user_name = self.get_current_user()
 
-        if username is not None:
+        if user_name is not None:
             self.render("about.html",
                         controller=self.render_controller,
-                        username=username,
+                        user_name=user_name,
                         )

@@ -5,7 +5,7 @@ from handlers.base import BaseHandler
 from methods.debug import *
 import json
 from methods.toolkits import DateToolKits
-from orm.organizer import OrganizerModule
+from orm.organizer_info import OrganizerInfoModule
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
 
@@ -17,12 +17,12 @@ class AdminOrganizerHandler(BaseHandler):
     """
     @admin_get_auth("/admin/organizer", False)
     def get(self):
-        username = self.get_current_user()
-        if username is not None:
+        user_name = self.get_current_user()
+        if user_name is not None:
             organizer_tables = self.__get_all_organizer_table()
             self.render("admin/organizer.html",
                         controller=self.render_controller,
-                        username=username,
+                        user_name=user_name,
                         organizer_tables=organizer_tables,
                         )
 
@@ -70,7 +70,7 @@ class AdminOrganizerHandler(BaseHandler):
             return
 
     def __get_all_organizer_table(self):
-        organizer_module = OrganizerModule.get_all_organizer()
+        organizer_module = OrganizerInfoModule.get_all_organizer()
         organizer_table = []
 
         if organizer_module:
@@ -82,7 +82,7 @@ class AdminOrganizerHandler(BaseHandler):
             return None
 
     def __delete_organizer_by_name(self, organizer_id):
-        organizer = self.db.query(OrganizerModule).filter(OrganizerModule.organizer == organizer_id).first()
+        organizer = self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.organizer == organizer_id).first()
 
         if organizer is not None:
             self.db.delete(organizer)
@@ -94,18 +94,18 @@ class AdminOrganizerHandler(BaseHandler):
             return False
 
     def __update_organizer_by_name(self, organizer_name, organizer_id, organizer_date):
-        organizer = self.db.query(OrganizerModule).filter(OrganizerModule.organizer == organizer_id).first()
+        organizer = self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.organizer == organizer_id).first()
 
         if organizer is not None:
-            self.db.query(OrganizerModule).filter(OrganizerModule.organizer == organizer_id).update({
-                OrganizerModule.user_name: organizer_name,
-                OrganizerModule.datetime: organizer_date,
+            self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.organizer == organizer_id).update({
+                OrganizerInfoModule.user_name: organizer_name,
+                OrganizerInfoModule.datetime: organizer_date,
             })
             self.db.commit()
             logging.info("update organizer succeed")
             return True
         else:
-            organizer = OrganizerModule()
+            organizer = OrganizerInfoModule()
             organizer.user_name = organizer_name
             organizer.datetime = organizer_date
             organizer.organizer = organizer_id

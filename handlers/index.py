@@ -3,8 +3,8 @@
 
 from handlers.base import BaseHandler
 from methods.controller import PageController
-from orm.topics import TopicsModule
-from orm.meeting import MeetingModule
+from orm.issues_info import IssuesInfoModule
+from orm.meeting_info import MeetingInfoModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -22,28 +22,28 @@ class IndexHandler(BaseHandler):
         render_controller["admin"] = self.session["admin"]
         render_controller["organizer"] = self.session["organizer"]
 
-        username = self.get_current_user()
+        user_name = self.get_current_user()
         topics_table = self.__get_all_topic_tables()
         current_meeting = self.__get_current_meeting_info()
         self.render("index.html",
                     topics_table=topics_table,
                     controller=render_controller,
                     current_meeting=current_meeting,
-                    username=username,
+                    user_name=user_name,
                     )
 
     def post(self):
         pass
 
     def __get_all_topic_tables(self):
-        topics_module = TopicsModule.get_all_topics()
+        topics_module = IssuesInfoModule.get_all_issues_info()
         if topics_module is None:
             return None
 
         topics_tables = []
         for topics in topics_module:
             tmp = {
-                "topic_id": topics.id, "name": topics.username, "image": topics.image, "title": topics.title,
+                "topic_id": topics.id, "name": topics.user_name, "image": topics.image, "title": topics.title,
                 "current": topics.current, "finish": topics.finish, "time": topics.datetime,
                 "description": topics.brief
             }
@@ -52,7 +52,7 @@ class IndexHandler(BaseHandler):
         return topics_tables
 
     def __get_current_meeting_info(self):
-        all_meeting = MeetingModule.get_all_meeting()
+        all_meeting = MeetingInfoModule.get_all_meeting_info()
         if all_meeting:
             for x in all_meeting:
                 if x.current_meeting is True:

@@ -11,7 +11,7 @@ $(document).ready(function () {
 	$('#id_home_leave_apply').on('click', function () {
 		var user = $('#id_span_home_user_name').val();
 		var operation = "absent_apply";
-		console.log("leave apply username:" + user);
+		console.log("leave apply user_name:" + user);
 		if (user == "") {
 			layer.msg('用户名不能为空');
 		} else {
@@ -83,7 +83,7 @@ $(document).ready(function () {
 	});
 
 	$('#popup').on('click', function () {
-		var user = $("#username").val();
+		var user = $("#user_name").val();
 		if (user == "") {
 			layer.msg('用户名不能为空');
 		} else {
@@ -101,11 +101,11 @@ $(document).ready(function () {
 	$('#id_popup_leave_apply_submit').on('click', function () {
 		var temp = $("#id_popup_leave_apply_user_name").html();
 		var words = temp.split(':');
-		var username = words[1];
+		var user_name = words[1];
 		var leave_reason = $('#id_popup_leave_apply_reason option:selected').text(); //选中的文本
 		var leave_id = $('#id_popup_leave_apply_reason option:selected').val(); //选中的文本
 		var leave_date = $('#id_popup_leave_apply_date').val(); //选中的文本
-		console.log("user:" + username + " leave_reason:" + leave_reason + " leave_id: " + leave_id + " leave_date:" + leave_date);
+		console.log("user:" + user_name + " leave_reason:" + leave_reason + " leave_id: " + leave_id + " leave_date:" + leave_date);
 
 		if ((typeof leave_date) === 'undefined') {
 			layer.msg("请选择请假日期");
@@ -121,13 +121,13 @@ $(document).ready(function () {
 
 		var submit_data = {
 			"operation": "absent_apply",
-			"username": username,
+			"user_name": user_name,
 			"leave_id": leave_id,
 			"leave_date": leave_date,
 			"_xsrf": getCookie("_xsrf")
 		};
 
-		console.log("operation:leave_apply,username:" + username + " leave_id:" + leave_id + " leave_date:" + leave_date);
+		console.log("operation:leave_apply,user_name:" + user_name + " leave_id:" + leave_id + " leave_date:" + leave_date);
 
 		$.ajax({
 			type: "post",
@@ -141,7 +141,7 @@ $(document).ready(function () {
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
 					alert("提交成功");
-					console.log("username:" + username);
+					console.log("user_name:" + user_name);
 					window.location.reload();
 				} else {
 					alert(obj.message);

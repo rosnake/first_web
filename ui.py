@@ -36,8 +36,8 @@ class AdminModule(tornado.web.UIModule):
 
 # 头模板
 class HeaderModule(tornado.web.UIModule):
-    def render(self, username):
-        return self.render_string("modules/header.html", username=username)
+    def render(self, user_name):
+        return self.render_string("modules/header.html", user_name=user_name)
 
     def css_files(self):
         return "css/header.css"

@@ -2,7 +2,7 @@
 # coding=utf-8
 
 from handlers.base import BaseHandler
-from orm.topics import TopicsModule
+from orm.issues_info import IssuesInfoModule
 from methods.toolkits import DateToolKits
 import json
 from methods.debug import *
@@ -17,13 +17,13 @@ class ApplicationsHandler(BaseHandler):
     """
     @handles_get_auth("/applications")
     def get(self):
-        username = self.get_current_user()
+        user_name = self.get_current_user()
         # 先判断是否完善其他信息，如果没有完善，跳转到信息完善页面
-        if username is not None:
-            user_topic = self.__get_all_current_user_topics(username)
+        if user_name is not None:
+            user_topic = self.__get_all_current_user_topics(user_name)
             self.render("applications.html",
                         controller=self.render_controller,
-                        username=username,
+                        user_name=user_name,
                         user_topic=user_topic,
                         )
 
@@ -37,10 +37,10 @@ class ApplicationsHandler(BaseHandler):
         topic_name = self.get_argument("topic_name")
         topic_brief = self.get_argument("topic_brief")
         topic_date = self.get_argument("topic_date")
-        username = self.get_current_user()
+        user_name = self.get_current_user()
 
         if operation == "apply_issues":
-            ret = self.__add_topics(username, topic_name, topic_brief, topic_date)
+            ret = self.__add_topics(user_name, topic_name, topic_brief, topic_date)
             if ret is True:
                 response["status"] = True
                 response["message"] = "新增成功！"
@@ -54,16 +54,16 @@ class ApplicationsHandler(BaseHandler):
                 self.write(json.dumps(response))
                 return
 
-    def __get_all_current_user_topics(self, username):
+    def __get_all_current_user_topics(self, user_name):
         user_tpoic = []
-        topics_module = TopicsModule.get_all_topics()
+        topics_module = IssuesInfoModule.get_all_issues_info()
         if topics_module is None:
             return user_tpoic
 
         for topics in topics_module:
-            if topics.username == username:
+            if topics.user_name == user_name:
                 tmp = {
-                    "topic_id": topics.id, "name": topics.username, "image": topics.image, "title": topics.title,
+                    "topic_id": topics.id, "name": topics.user_name, "image": topics.image, "title": topics.title,
                     "current": topics.current, "finish": topics.finish,  "time": topics.datetime,
                     "description": topics.brief
                        }
@@ -72,14 +72,14 @@ class ApplicationsHandler(BaseHandler):
         return user_tpoic
 
     def __add_topics(self, topic_user, topic_name, topic_brief, topic_date):
-        rule = self.db.query(TopicsModule).filter(TopicsModule.title == topic_name).first()
+        rule = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.title == topic_name).first()
         if rule is not None:
             logging.error("current topics is exit")
             return False
 
-        topic_module = TopicsModule()
-        topic_module.username = topic_user
-        topic_module.nickname = "unknown"
+        topic_module = IssuesInfoModule()
+        topic_module.user_name = topic_user
+        topic_module.nick_name = "unknown"
         topic_module.title = topic_name
         topic_module.brief = topic_brief
         topic_module.datetime = topic_date

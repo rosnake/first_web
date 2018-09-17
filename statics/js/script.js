@@ -9,7 +9,7 @@ function debugMessage(msg) {
 
 $(document).ready(function () {
 	$("#login").click(function () {
-		var user = $("#username").val();
+		var user = $("#user_name").val();
 		var pwd = $("#password").val();
 		var verify_code = $("#verify_code").val();
 		var nextname = $("#login").val();
@@ -20,7 +20,7 @@ $(document).ready(function () {
 
 		console.log("nextname:" + nextname);
 		var pd = {
-			"username": user,
+			"user_name": user,
 			"password": pwd,
 			"next": nextname,
 			"verify_code": verify_code,
@@ -58,12 +58,12 @@ $(document).ready(function () {
 
 	$("#register").click(function () {
 		//alert('register')
-		var user = $("#username").val();
+		var user = $("#user_name").val();
 		var pwd = $("#password").val();
 		var conf = $("#confirm").val();
 
 		if (user == "") {
-			$("#username").focus();
+			$("#user_name").focus();
 			debugMessage("用户名不能为空.");
 			return false;
 		} else {
@@ -92,7 +92,7 @@ $(document).ready(function () {
 		//debugMessage("密码:"+pwd);
 		//alert(user);
 		var pd = {
-			"username": user,
+			"user_name": user,
 			"password": pwd,
 			"confirm": conf,
 			"_xsrf": getCookie("_xsrf")
@@ -110,7 +110,7 @@ $(document).ready(function () {
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
 					layer.msg("注册成功");
-					console.log("username:" + user);
+					console.log("user_name:" + user);
 					window.location.href = "/user?user=" + user;
 				} else {
 					layer.msg(obj.message);
@@ -124,13 +124,13 @@ $(document).ready(function () {
 
 	$("#modify_password").click(function () {
 		//alert('register')
-		var user = $("#username").val();
+		var user = $("#user_name").val();
 		var old_password = $("#old_password").val();
 		var new_password = $("#new_password").val();
 		var conf = $("#confirm").val();
 
 		if (user == "") {
-			$("#username").focus();
+			$("#user_name").focus();
 			debugMessage("用户名不能为空.");
 			return false;
 		} else {
@@ -171,7 +171,7 @@ $(document).ready(function () {
 		//debugMessage("密码:"+pwd);
 		//alert(user);
 		var pd = {
-			"username": user,
+			"user_name": user,
 			"old_password": old_password,
 			"new_password": new_password,
 			"confirm": conf,
@@ -250,7 +250,7 @@ $(document).ready(function () {
 	$("#id_user_other_info_submit").click(function () {
 		var user = $("#id_user_other_info_user").val();
 		var email = $("#id_user_other_info_email").val();
-		var nickname = $("#id_user_other_info_nickname").val();
+		var nick_name = $("#id_user_other_info_nick_name").val();
 		var department = $("#id_user_other_info_department").val();
 		var nextname = $("#id_user_other_info_submit").val();
 		if (nextname === "") {
@@ -265,8 +265,8 @@ $(document).ready(function () {
 			//debugMessage("用户名:"+user);
 		}
 
-		if (nickname == "") {
-			$("#id_user_other_info_nickname").focus();
+		if (nick_name == "") {
+			$("#id_user_other_info_nick_name").focus();
 			debugMessage("姓名不能为空");
 			return false;
 		}
@@ -278,9 +278,9 @@ $(document).ready(function () {
 		}
 
 		var pd = {
-			"username": user,
+			"user_name": user,
 			"email": email,
-			"nickname": nickname,
+			"nick_name": nick_name,
 			"department": department,
 			"_xsrf": getCookie("_xsrf")
 		};

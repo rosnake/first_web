@@ -2,7 +2,7 @@
 <!--自动转义-->
 {% autoescape None %}
 {% block header %}
-{{ modules.Header(username) }}
+{{ modules.Header(user_name) }}
 {% end %}
 
 {% block body %}
@@ -15,7 +15,7 @@
 {% for topics in  topics_table %}
 <div class="topics_current">
     {% if topics["current"] == True %}
-    <h5 class="username">议题主讲人：{{ topics["name"] }}</h5>
+    <h5 class="user_name">议题主讲人：{{ topics["name"] }}</h5>
     <div class="topic_details">
         <h4>议题:</h4>
         <div class="topic_title">{{ topics["title"]}}</div>
@@ -37,7 +37,7 @@
     {% if topics["finish"] == True %}
     <div class="topics">
         {% if topics["name"] != "" %}
-        <h5 class="username">议题主讲人：{{ topics["name"] }}</h5>
+        <h5 class="user_name">议题主讲人：{{ topics["name"] }}</h5>
         <div class="topic_details">
             <h4>议题:</h4>
             <div class="topic_title">{{ topics["title"]}}</div>

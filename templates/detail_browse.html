@@ -11,14 +11,14 @@
 <body>
     <div class="class_popup_edit_name">
         {% if point_stat is not None %}
-            <label class="label_popup_edit_name">用户ID：{{ point_stat["username"] }}</label>
+            <label class="label_popup_edit_name">用户ID：{{ point_stat["user_name"] }}</label>
         {% end %}
     </div>
     <div class="class_popup_browse_detail">
          <h3>当前分数明细如下：</h3>
         {% if point_stat is not None %}
             {% for key in point_stat %}
-                {% if key != "username" %}
+                {% if key != "user_name" %}
                 <label class="label_popup_browse_detail">{{ key }}: {{point_stat[key]}}分。</label>
                 <br>
                 {% end %}

@@ -17,7 +17,7 @@
 {% block body %}
     <form method="POST" class="login_form">
         {% raw xsrf_form_html() %}
-        <p><span>账号:</span><input type="text" id="username"/></p>
+        <p><span>账号:</span><input type="text" id="user_name"/></p>
         <p><span>密码:</span><input type="password" id="password" /></p>
         <p><span>验证码:</span><input type="text" id="verify_code"/></p>
         <img src="/verify_code" onclick='ChangeCode();' id="img_code">
