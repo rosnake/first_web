@@ -69,20 +69,20 @@ class AdminPointHandler(BaseHandler):
             for x in user_all:
                 self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == x.user_name).update({
                     ScoreInfoModule.user_name: x.user_name,
-                    ScoreInfoModule.nick_name: x.nick_name,
+                    ScoreInfoModule.chinese_name: x.chinese_name,
                 })
                 self.db.commit()
 
     def __get_all_points(self):
         points_tables = []
 
-        point_module = ScoreInfoModule.get_all_points()
+        point_module = ScoreInfoModule.get_all_score_info()
 
         if point_module is None:
             return None
 
         for point in point_module:
-            tmp = {"user_id": point.user_name, "user_name": point.nick_name, "user_point": point.current_point}
+            tmp = {"user_id": point.user_name, "user_name": point.chinese_name, "user_point": point.current_point}
             points_tables.append(tmp)
 
         return points_tables

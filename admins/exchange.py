@@ -54,6 +54,7 @@ class AdminExchangeHandler(BaseHandler):
             rule_id = self.get_argument("id")
             need_points = self.get_argument("need_points")
             min_points = self.get_argument("min_points")
+            logging.info(" rule_name:"+rule_name+" rule_id:"+rule_id+" need_points:"+need_points+" min_points:"+min_points)
 
         if operation == "add":
             ret = self.__add_exchange_rule(rule_name, need_points, min_points)
@@ -136,7 +137,7 @@ class AdminExchangeHandler(BaseHandler):
         if exchange_rule_module:
             for module in exchange_rule_module:
                 rule = {"rule_id": module.id, "rule_name": module.exchange_rule_name,
-                        "need_points": module.exchange_rule_points, "points_range": module.min_points}
+                        "need_points": module.exchange_rule_score, "points_range": module.exchange_min_score}
                 exchange_rule_tables.append(rule)
 
         return exchange_rule_tables
@@ -149,8 +150,8 @@ class AdminExchangeHandler(BaseHandler):
 
         exchange_rule = ExchangeRulesModule()
         exchange_rule.exchange_rule_name = rule_name
-        exchange_rule.exchange_rule_points = need_points
-        exchange_rule.min_points = min_points
+        exchange_rule.exchange_rule_score = need_points
+        exchange_rule.exchange_min_score = min_points
         self.db.add(exchange_rule)
         self.db.commit()
         return True
@@ -213,7 +214,7 @@ class AdminExchangeHandler(BaseHandler):
             con = False
             for x in exchange_all:
                 self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).filter(
-                    ExchangeApplyModule.exchange_accept == con).update({ExchangeApplyModule.current_score: point_modules.current_point - exchange_modules.need_points})
+                    ExchangeApplyModule.exchange_accept == con).update({ExchangeApplyModule.current_score: point_modules. current_point - exchange_modules.need_points})
                 self.db.commit()
 
             return True

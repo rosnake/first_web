@@ -92,29 +92,29 @@ class AdminTopicsHandler(BaseHandler):
         topics_tables = []
         for topics in topics_module:
             tmp = {
-                "topic_id": topics.id, "name": topics.user_name, "image": topics.image, "title": topics.title,
-                "current": topics.current, "finish": topics.finish,  "time": topics.datetime,
-                "description": topics.brief
+                "topic_id": topics.id, "name": topics.user_name, "image": topics.issues_image, "title": topics.issues_title,
+                "current": topics.current, "finish": topics.finish,  "time": topics.date_time,
+                "description": topics.issues_brief
                    }
             topics_tables.append(tmp)
 
         return topics_tables
 
     def __add_topics(self, topic_user, topic_name, topic_brief, topic_date):
-        rule = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.title == topic_name).first()
+        rule = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.issues_title == topic_name).first()
         if rule is not None:
             logging.error("current topics is exit")
             return False
 
         topic_module = IssuesInfoModule()
         topic_module.user_name = topic_user
-        topic_module.nick_name = "unknown"
-        topic_module.title = topic_name
-        topic_module.brief = topic_brief
-        topic_module.datetime = topic_date
+        topic_module.chinese_name = "unknown"
+        topic_module.issues_title = topic_name
+        topic_module.issues_brief = topic_brief
+        topic_module.date_time = topic_date
         topic_module.current = False
         topic_module.finish = False
-        topic_module.image = "null"
+        topic_module.issues_image = "null"
 
         self.db.add(topic_module)
         self.db.commit()
@@ -126,9 +126,9 @@ class AdminTopicsHandler(BaseHandler):
         if topic is not None:
             self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == topic_id).update({
                 IssuesInfoModule.user_name: topic_user,
-                IssuesInfoModule.title: topic_name,
-                IssuesInfoModule.brief: topic_brief,
-                IssuesInfoModule.datetime: topic_date,
+                IssuesInfoModule.issues_title: topic_name,
+                IssuesInfoModule.issues_brief: topic_brief,
+                IssuesInfoModule.date_time: topic_date,
                 })
 
             self.db.commit()

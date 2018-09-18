@@ -36,7 +36,7 @@ class AdminMemberHandler(BaseHandler):
         uid = self.get_argument("id")
         user_role = self.get_argument("role")
 
-        logging.info("operation:%s , user_name: %s, role:%s id: %s" % (operation, user_name, role, uid))
+        logging.info("operation:%s , user_name: %s, role:%s id: %s" % (operation, user_name, user_role, uid))
 
         if uid.isdigit() is False:
             response["status"] = False
@@ -188,7 +188,7 @@ class AdminMemberHandler(BaseHandler):
         if user is not None:
             self.db.query(UsersInfoModule).filter(UsersInfoModule.id == user_id).update({
                 UsersInfoModule.user_name: user_name,
-                UsersInfoModule.user_user_role: user_role,
+                UsersInfoModule.user_role: user_role,
             })
             self.db.commit()
             logging.info("modify user succeed")
@@ -212,17 +212,18 @@ class AdminMemberHandler(BaseHandler):
         user_moudle.address = "unknown"
         user_moudle.department = "unknown"
         user_moudle.email = "unknown"
+        user_moudle.chinese_name = "unknown"
         user_moudle.user_role = user_role
 
         self.db.add(user_moudle)
         self.db.commit()
 
-        # 更新积分表格
+        # 添加积分表格
         point_moudle = ScoreInfoModule()
         point_moudle.user_name = user_name
         point_moudle.current_point = 10
         point_moudle.last_point = 10
-        point_moudle.nick_name = user_moudle.nick_name
+        point_moudle.chinese_name = user_moudle.chinese_name
         self.db.add(point_moudle)
         self.db.commit()
 

@@ -70,7 +70,7 @@ class AdminOrganizerHandler(BaseHandler):
             return
 
     def __get_all_organizer_table(self):
-        organizer_module = OrganizerInfoModule.get_all_organizer()
+        organizer_module = OrganizerInfoModule.get_all_organizer_info()
         organizer_table = []
 
         if organizer_module:
@@ -82,7 +82,7 @@ class AdminOrganizerHandler(BaseHandler):
             return None
 
     def __delete_organizer_by_name(self, organizer_id):
-        organizer = self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.organizer == organizer_id).first()
+        organizer = self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.user_name == organizer_id).first()
 
         if organizer is not None:
             self.db.delete(organizer)
@@ -94,19 +94,19 @@ class AdminOrganizerHandler(BaseHandler):
             return False
 
     def __update_organizer_by_name(self, organizer_name, organizer_id, organizer_date):
-        organizer = self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.organizer == organizer_id).first()
+        organizer = self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.user_name == organizer_id).first()
 
         if organizer is not None:
-            self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.organizer == organizer_id).update({
+            self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.user_name == organizer_id).update({
                 OrganizerInfoModule.user_name: organizer_name,
-                OrganizerInfoModule.datetime: organizer_date,
+                OrganizerInfoModule.date_time: organizer_date,
             })
             self.db.commit()
             logging.info("update organizer succeed")
             return True
         else:
             organizer = OrganizerInfoModule()
-            organizer.user_name = organizer_name
+            organizer.chinese_name = organizer_name
             organizer.datetime = organizer_date
             organizer.organizer = organizer_id
             organizer.current = True
