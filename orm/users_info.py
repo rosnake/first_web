@@ -15,7 +15,7 @@ class UsersInfoModule(DataBase):
     id = Column(Integer, primary_key=True)
     user_name = Column(String(64), nullable=False, index=True)  # 用户名，工号
     chinese_name = Column(String(64), nullable=False, index=True)  # 中文名称
-    nick_name = Column(String(64), nullable=False, index=True)  # 昵称
+    chinese_name = Column(String(64), nullable=False, index=True)  # 昵称
     pass_word = Column(String(64), nullable=False)  # 密码
     email = Column(String(64), nullable=False, index=True)  # 邮箱
     department = Column(String(64), nullable=False, index=True)  # 部门

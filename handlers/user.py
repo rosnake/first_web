@@ -33,10 +33,10 @@ class UserHandler(BaseHandler):
         ret = {"status": True, "data": "", "error": ""}
         user_name = self.get_argument("user_name")
         email = self.get_argument("email")
-        nick_name = self.get_argument("nick_name")
+        chinese_name = self.get_argument("chinese_name")
         department = self.get_argument("department")
-        print("user_name:%s email:%s nick_name:%s department：%s" % (user_name, email, nick_name, department))
-        succeed = self.__set_user_info_by_user_name(user_name, email, nick_name, department)
+        print("user_name:%s email:%s chinese_name:%s department：%s" % (user_name, email, chinese_name, department))
+        succeed = self.__set_user_info_by_user_name(user_name, email, chinese_name, department)
 
         if succeed is True:
             logging.info("update user[%s] info succeed." % user_name)
@@ -47,11 +47,11 @@ class UserHandler(BaseHandler):
             ret["error"] = "更新用户信息失败！"
             self.write(json.dumps(ret))
 
-    def __set_user_info_by_user_name(self, user_name, email, nick_name, department):
-        if email is not None and nick_name is not None and department is not None:
+    def __set_user_info_by_user_name(self, user_name, email, chinese_name, department):
+        if email is not None and chinese_name is not None and department is not None:
             self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).update({
                 UsersInfoModule.email: email,
-                UsersInfoModule.nick_name: nick_name,
+                UsersInfoModule.chinese_name: chinese_name,
                 UsersInfoModule.department: department,
             })
             self.db.commit()

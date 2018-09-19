@@ -79,7 +79,7 @@ class ApplicationsHandler(BaseHandler):
 
         topic_module = IssuesInfoModule()
         topic_module.user_name = topic_user
-        topic_module.nick_name = "unknown"
+        topic_module.chinese_name = "unknown"
         topic_module.title = topic_name
         topic_module.brief = topic_brief
         topic_module.datetime = topic_date

@@ -43,9 +43,9 @@ class IndexHandler(BaseHandler):
         topics_tables = []
         for topics in topics_module:
             tmp = {
-                "topic_id": topics.id, "name": topics.user_name, "image": topics.image, "title": topics.title,
-                "current": topics.current, "finish": topics.finish, "time": topics.datetime,
-                "description": topics.brief
+                "topic_id": topics.id, "name": topics.user_name, "image": topics.issues_image, "title": topics.issues_title,
+                "current": topics.current, "finish": topics.finish, "time": topics.date_time,
+                "description": topics.issues_brief
             }
             topics_tables.append(tmp)
 
@@ -57,7 +57,7 @@ class IndexHandler(BaseHandler):
             for x in all_meeting:
                 if x.current_meeting is True:
                     current_meeting = {
-                        "meeting_id": x.id, "user_name": x.user_name, "nick_name": x.nick_name,
+                        "meeting_id": x.id, "user_name": x.user_name, "chinese_name": x.chinese_name,
                         "meeting_room": x.meeting_room, "topic_title": x.topic_title,
                         "meeting_date": x.meeting_date, "current_meeting": x.current_meeting
                     }

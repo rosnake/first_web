@@ -250,7 +250,7 @@ $(document).ready(function () {
 	$("#id_user_other_info_submit").click(function () {
 		var user = $("#id_user_other_info_user").val();
 		var email = $("#id_user_other_info_email").val();
-		var nick_name = $("#id_user_other_info_nick_name").val();
+		var chinese_name = $("#id_user_other_info_chinese_name").val();
 		var department = $("#id_user_other_info_department").val();
 		var nextname = $("#id_user_other_info_submit").val();
 		if (nextname === "") {
@@ -265,8 +265,8 @@ $(document).ready(function () {
 			//debugMessage("用户名:"+user);
 		}
 
-		if (nick_name == "") {
-			$("#id_user_other_info_nick_name").focus();
+		if (chinese_name == "") {
+			$("#id_user_other_info_chinese_name").focus();
 			debugMessage("姓名不能为空");
 			return false;
 		}
@@ -280,7 +280,7 @@ $(document).ready(function () {
 		var pd = {
 			"user_name": user,
 			"email": email,
-			"nick_name": nick_name,
+			"chinese_name": chinese_name,
 			"department": department,
 			"_xsrf": getCookie("_xsrf")
 		};

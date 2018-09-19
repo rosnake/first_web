@@ -39,9 +39,9 @@ class DataConsistency:
             for x in user_modules:
                 attendance = AttendanceModule()
                 attendance.user_name = x.user_name
-                attendance.nick_name = x.nick_name
+                attendance.chinese_name = x.chinese_name
                 attendance.absence_id = 0
-                attendance.attend = True
+                attendance.attended = True
                 attendance.absence_id = 0
                 self.db.add(attendance)
                 self.db.commit()

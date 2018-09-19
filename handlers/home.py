@@ -76,14 +76,14 @@ class HomeHandler(BaseHandler):
             return False
 
         date_kits = DateToolKits()
-        apply_time = date_kits.get_now_time()  # 申请时间
+        absence_apply_time = date_kits.get_now_time()  # 申请时间
 
         self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).update({
             AttendanceModule.absence_reason: mark.markname,
             AttendanceModule.absence_id: mark.id,
             AttendanceModule.attended: False,
             AttendanceModule.absence_apply_accept: False,
-            AttendanceModule.absence_apply_time: apply_time,
+            AttendanceModule.absence_apply_time: absence_apply_time,
             AttendanceModule.date_time: leave_date,
         })
 
@@ -102,7 +102,7 @@ class HomeHandler(BaseHandler):
 
         for point in point_module:
             tmp = {
-                "user_name": point.user_name, "nick_name": point.nick_name,
+                "user_name": point.user_name, "chinese_name": point.chinese_name,
                 "current_point": point.current_point, "last_point": point.last_point
             }
             points_tables.append(tmp)

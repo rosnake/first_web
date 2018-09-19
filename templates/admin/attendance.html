@@ -39,14 +39,14 @@
                 <tbody class="class_admin_context_table_body">
                 {% if attendance_tables is not None %}
                     {% for attendance in attendance_tables %}
-                        {% if attendance["attend"] == False and  attendance["absent_accept"] == False %}
+                        {% if attendance["attended"] == False and  attendance["absence_apply_accept"] == False %}
                     <tr>
                         <td id="id_admin_attendance_user_name">{{attendance["user_name"]}}</td>
-                        <td id="id_admin_attendance_nick_name">{{attendance["nick_name"]}}</td>
+                        <td id="id_admin_attendance_chinese_name">{{attendance["chinese_name"]}}</td>
                         <td id="id_admin_attendance_absence_id">{{attendance["absence_id"]}}</td>
                         <td id="id_admin_attendance_absence_reason">{{attendance["absence_reason"]}}</td>
                         <td id="id_admin_attendance_datetime">{{attendance["datetime"]}}</td>
-                        <td id="id_admin_attendance_apply_time">{{attendance["apply_time"]}}</td>
+                        <td id="id_admin_attendance_apply_time">{{attendance["absence_apply_time"]}}</td>
                         <td>
                         <div id="id_admin_attendance_table_button">
                             <input class="class_admin_context_table_button" id="id_admin_attendance_submit"  type="button" value="同意" >
@@ -75,10 +75,10 @@
             <tbody class="class_admin_context_table_body">
             {% if attendance_tables is not None %}
                 {% for attendance in attendance_tables %}
-                    {% if attendance["attend"] == True and attendance["signed"] == False %}
+                    {% if attendance["attended"] == True and attendance["checked_in"] == False %}
                 <tr>
                     <td id="id_admin_attendance_user_name">{{attendance["user_name"]}}</td>
-                    <td id="id_admin_attendance_nick_name">{{attendance["nick_name"]}}</td>
+                    <td id="id_admin_attendance_chinese_name">{{attendance["chinese_name"]}}</td>
                     <td>
                         <div id="id_admin_attendance_table_button">
                             <input class="class_admin_context_table_button" id="id_admin_attendance_absence"  type="button" value="缺席" >

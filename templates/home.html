@@ -34,7 +34,7 @@
     <table class="table_structure"  frame="box">
         <colgroup>
             <col class="col_home_user_name"/>
-            <col class="col_home_nick_name"/>
+            <col class="col_home_chinese_name"/>
             <col class="col_home_last_point"/>
             <col class="col_home_current_point"/>
             <col class="col_home_operation"/>
@@ -56,7 +56,7 @@
                 {% for point in points_table %}
                 <tr>
                     <td id="id_home_user_name">{{point["user_name"]}}</td>
-                    <td id="id_home_nick_name">{{point["nick_name"]}}</td>
+                    <td id="id_home_chinese_name">{{point["chinese_name"]}}</td>
                     <td id="id_home_last_point">{{point["last_point"]}}</td>
                     <td id="id_home_current_point">{{point["current_point"]}}</td>
                     <td>

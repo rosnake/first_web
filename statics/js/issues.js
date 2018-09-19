@@ -44,7 +44,7 @@ $(document).ready(function () {
 				"topic_name": admin_topic_title,
 				"topic_brief": topic_brief,
 				"topic_date": topic_date,
-				"topic_id": issues_id,
+				"issues_id": issues_id,
 				"_xsrf": getCookie("_xsrf")
 			};
 
@@ -115,7 +115,7 @@ $(document).ready(function () {
 		var topic_name = $("#id_input_topic_name").val();
 		var topic_brief = $("#id_input_topic_brief").val();
 		var topic_date = $("#id_admin_issues_date").val();
-		var topic_id = 0;
+		var issues_id = 0;
 		if (topic_user === "") {
 			$("#id_input_topic_user").focus();
 			layer.msg("主讲人不能为空");
@@ -146,7 +146,7 @@ $(document).ready(function () {
 			"topic_name": topic_name,
 			"topic_brief": topic_brief,
 			"topic_date": topic_date,
-			"topic_id": topic_id,
+			"issues_id": issues_id,
 			"_xsrf": getCookie("_xsrf")
 		};
 
@@ -184,7 +184,7 @@ $(document).ready(function () {
 	});
 
 	$('#id_admin_mod_issues_confirm').on('click', function () {
-		var topic_id = $("#id_admin_mod_issues").val();
+		var issues_id = $("#id_admin_mod_issues").val();
 		var topic_user = $("#id_input_topic_user").val();
 		var topic_name = $("#id_input_topic_name").val();
 		var topic_brief = $("#id_input_topic_brief").val();
@@ -220,11 +220,11 @@ $(document).ready(function () {
 			"topic_name": topic_name,
 			"topic_brief": topic_brief,
 			"topic_date": topic_date,
-			"topic_id": topic_id,
+			"issues_id": issues_id,
 			"_xsrf": getCookie("_xsrf")
 		};
 
-		console.log("topic_id" + topic_id + " topic_user:" + topic_user + " topic_name:" + topic_name + " topic_brief:" + topic_brief + " topic_date:" + topic_date);
+		console.log("issues_id" + issues_id + " topic_user:" + topic_user + " topic_name:" + topic_name + " topic_brief:" + topic_brief + " topic_date:" + topic_date);
 		$.ajax({
 			type: "post",
 			url: "/admin/topics",

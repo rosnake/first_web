@@ -34,7 +34,7 @@ def create_root_user():
         user_moudle.user_name = "admin"
         user_moudle.chinese_name = "根用户"
         user_moudle.pass_word = "admin123"
-        user_moudle.nick_name = "unknown"
+        user_moudle.chinese_name = "unknown"
         user_moudle.address = "unknown"
         user_moudle.department = "unknown"
         user_moudle.email = "unknown"

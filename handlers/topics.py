@@ -36,9 +36,9 @@ class TopicsHandler(BaseHandler):
         topics_tables = []
         for topics in topics_module:
             tmp = {
-                "topic_id": topics.id, "name": topics.user_name, "image": topics.image, "title": topics.title,
-                "current": topics.current, "finish": topics.finish,  "time": topics.datetime,
-                "description": topics.brief
+                "topic_id": topics.id, "name": topics.user_name, "image": topics.issues_image, "title": topics.issues_title,
+                "current": topics.current, "finish": topics.finish,  "time": topics.date_time,
+                "description": topics.issues_brief
                    }
             topics_tables.append(tmp)
 

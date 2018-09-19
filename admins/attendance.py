@@ -103,13 +103,13 @@ class AdminAttendanceHandler(BaseHandler):
                 return
 
     def __get_all_leave_reason(self):
-        deduct_module = ScoringCriteriaModule.get_all_scoring_criteria()
+        score_module = ScoringCriteriaModule.get_all_scoring_criteria()
 
         leave_reason = []
-        if deduct_module:
-            for x in deduct_module:
-                if x.points < 0:
-                    tmp = {"reason_id": x.id, "leave_reason": x.markname}
+        if score_module:
+            for x in score_module:
+                if x.score_value < 0:
+                    tmp = {"reason_id": x.id, "leave_reason": x.criteria_name}
                     leave_reason.append(tmp)
 
             return leave_reason
@@ -120,14 +120,14 @@ class AdminAttendanceHandler(BaseHandler):
         attendance = self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).first()
 
         if attendance is not None:
-            deduct = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == absent_id).first()
+            score_criteria = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == absent_id).first()
             #  更新积分表
             user_point = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
 
-            if user_point and deduct:
+            if user_point and score_criteria:
                 self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
                     ScoreInfoModule.last_point: user_point.current_point,
-                    ScoreInfoModule.current_point: user_point.current_point + deduct.points,
+                    ScoreInfoModule.current_point: user_point.current_point + score_criteria.score_value,
                 })
                 self.db.commit()
             else:
@@ -166,14 +166,14 @@ class AdminAttendanceHandler(BaseHandler):
         attendance = self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).first()
 
         if attendance is not None:
-            deduct = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == attendance.absence_id).first()
+            score_criteria = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == attendance.absence_id).first()
             #  更新积分表
-            user_point = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
+            user_score = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
 
-            if user_point and deduct:
+            if user_score and score_criteria:
                 self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
-                    ScoreInfoModule.last_point: user_point.current_point,
-                    ScoreInfoModule.current_point: user_point.current_point + deduct.points,
+                    ScoreInfoModule.last_point: user_score.current_point,
+                    ScoreInfoModule.current_point: user_score.current_point + score_criteria.score_value,
                 })
                 self.db.commit()
             else:
@@ -216,9 +216,10 @@ class AdminAttendanceHandler(BaseHandler):
         if attendance_modules:
             for x in attendance_modules:
                 tmp = {
-                    "attendance_id": id, "user_name": x.user_name, "nick_name": x.nick_name,"signed": x.signed,
-                    "absence_reason": x.absence_reason, "absence_id": x.absence_id, "attend": x.attend,
-                    "apply_time": x.apply_time, "datetime": x.datetime, "absent_accept": x.absent_accept,
+                    "attendance_id": id, "user_name": x.user_name, "chinese_name": x.chinese_name,
+                    "checked_in": x.checked_in, "absence_reason": x.absence_reason, "absence_id": x.absence_id,
+                    "attended": x.attended, "absence_apply_time": x.absence_apply_time,
+                    "datetime": x.date_time, "absence_apply_accept": x.absence_apply_accept,
                 }
                 attendance_tables.append(tmp)
 

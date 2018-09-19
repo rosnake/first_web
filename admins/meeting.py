@@ -36,14 +36,14 @@ class AdminMeetingHandler(BaseHandler):
         date_kits = DateToolKits()
 
         operation = self.get_argument("operation")
-        topic_id = self.get_argument("topic_id")
-        user_name = self.get_argument("user_name")
+        issues_id = self.get_argument("issues_id")
+        keynote_user_name = self.get_argument("keynote_user_name")
         meeting_room = self.get_argument("meeting_room")
         meeting_date = self.get_argument("meeting_date")
-        topic_title = self.get_argument("topic_title")
-        logging.info("topic_id: "+topic_id)
+        issues_title = self.get_argument("issues_title")
+        logging.info("issues_id: "+issues_id)
         if operation == "modify":
-            ret = self.__modify_meeting_info_by_topic_id(topic_id, meeting_room, meeting_date)
+            ret = self.__modify_meeting_info_by_issues_id(issues_id, meeting_room, meeting_date)
             if ret is True:
                 response["status"] = True
                 response["message"] = "修改成功！"
@@ -58,7 +58,7 @@ class AdminMeetingHandler(BaseHandler):
             return
 
         if operation == "add":
-            ret = self.__add_meeting_info(topic_id, user_name, meeting_room, meeting_date, topic_title)
+            ret = self.__add_meeting_info(issues_id, keynote_user_name, meeting_room, meeting_date, issues_title)
             if ret is True:
                 response["status"] = True
                 response["message"] = "修改成功！"
@@ -72,7 +72,7 @@ class AdminMeetingHandler(BaseHandler):
 
             return
         if operation == "set_current":
-            ret = self.__set_meeting_to_current(topic_id)
+            ret = self.__set_meeting_to_current(issues_id)
             if ret is True:
                 response["status"] = True
                 response["message"] = "修改成功！"
@@ -88,13 +88,13 @@ class AdminMeetingHandler(BaseHandler):
 
 
     def __get_meeting_table(self):
-        meeting_modules = MeetingInfoModule.get_all_meeting()
+        meeting_modules = MeetingInfoModule.get_all_meeting_info()
         meeting_table = []
 
         if meeting_modules:
             for x in meeting_modules:
-                tmp = {"meeting_id": x.id, "topic_id": x.topic_id, "topic_title": x.topic_title,
-                       "current_meeting": x.current_meeting, "user_name": x.user_name,
+                tmp = {"meeting_id": x.id, "issues_id": x.issues_id, "issues_title": x.issues_title,
+                       "current_meeting": x.current_meeting, "keynote_user_name": x.keynote_user_name,
                        "meeting_room": x.meeting_room, "meeting_date": x.meeting_date}
 
                 meeting_table.append(tmp)
@@ -102,53 +102,55 @@ class AdminMeetingHandler(BaseHandler):
         return meeting_table
 
     def __get_all_no_finish_topics(self):
-        topics_module = IssuesInfoModule.get_all_issues_info()
-        if topics_module is None:
+        issues_module = IssuesInfoModule.get_all_issues_info()
+        if issues_module is None:
             return None
 
-        topics_tables = []
-        for topics in topics_module:
-            if topics.finish is False:
+        issues_tables = []
+        for issues in issues_module:
+            if issues.finish is False:
                 tmp = {
-                    "topic_id": topics.id, "name": topics.user_name, "image": topics.image, "title": topics.title,
-                    "current": topics.current, "finish": topics.finish,  "time": topics.datetime,
-                    "description": topics.brief
+                    "issues_id": issues.id, "keynote_user_name": issues.user_name,
+                    "issues_image": issues.issues_image, "issues_brief": issues.issues_brief,
+                    "issues_title": issues.issues_title, "current_issues": issues.current,
+                    "issues_finish": issues.finish,  "present_time": issues.date_time,
+                    "keynote_chinese_name": issues.chinese_name,
                        }
-                topics_tables.append(tmp)
+                issues_tables.append(tmp)
 
-        return topics_tables
+        return issues_tables
 
-    def __add_meeting_info(self, topic_id, user_name, meeting_room, meeting_date, topic_title):
-        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.topic_id == topic_id).first()
+    def __add_meeting_info(self, issues_id, keynote_user_name, meeting_room, meeting_date, issues_title):
+        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).first()
         if meeting is not None:
             return False
 
-        user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).first()
+        user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == keynote_user_name).first()
         if user is not None:
-            nick_name = user.nick_name
+            chinese_name = user.chinese_name
         else:
-            nick_name = "unknown"
+            chinese_name = "unknown"
         meeting_info = MeetingInfoModule()
 
-        meeting_info.user_name = user_name
-        meeting_info.topic_id = topic_id
-        meeting_info.nick_name = nick_name
+        meeting_info.keynote_user_name = keynote_user_name
+        meeting_info.issues_id = issues_id
+        meeting_info.keynote_chinese_name = chinese_name
         meeting_info.meeting_room = meeting_room
         meeting_info.meeting_date = meeting_date
         meeting_info.current_meeting = False
-        meeting_info.topic_title = topic_title
+        meeting_info.issues_title = issues_title
 
         self.db.add(meeting_info)
         self.db.commit()
 
         return True
 
-    def __modify_meeting_info_by_topic_id(self, topic_id, meeting_room, meeting_date):
-        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.topic_id == topic_id).first()
+    def __modify_meeting_info_by_issues_id(self, issues_id, meeting_room, meeting_date):
+        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).first()
         if meeting is None:
             return False
 
-        self.db.query(MeetingInfoModule).filter(MeetingInfoModule.topic_id == topic_id).update({
+        self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).update({
             MeetingInfoModule.meeting_room: meeting_room,
             MeetingInfoModule.meeting_date: meeting_date,
         })
@@ -157,12 +159,12 @@ class AdminMeetingHandler(BaseHandler):
 
         return True
 
-    def __set_meeting_to_current(self, topic_id):
-        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.topic_id == topic_id).first()
+    def __set_meeting_to_current(self, issues_id):
+        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).first()
         if meeting is None:
             return False
 
-        self.db.query(MeetingInfoModule).filter(MeetingInfoModule.topic_id == topic_id).update({
+        self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).update({
             MeetingInfoModule.current_meeting: True,
         })
 

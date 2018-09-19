@@ -24,7 +24,7 @@ class MeetingInfoModule(DataBase):
     current_meeting = Column(Boolean, default=False, nullable=False)  # 是否是当前会议
 
     def __repr__(self):
-        return '%s(%r)' % (self.__class__.__name__, self.user_name)
+        return '%s(%r)' % (self.__class__.__name__, self.keynote_user_name)
 
     # 可以在类里面写别的方法,类似查询方法
     @classmethod

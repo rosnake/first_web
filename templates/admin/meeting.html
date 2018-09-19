@@ -40,12 +40,12 @@
          <tbody class="class_admin_context_table_body" id="id_admin_meeting_table_body">
         {% for meeting in meeting_tables %}
             <tr>
-                <td class="class_admin_context_table_td" ><input type="radio" name="select_id" value={{ meeting["topic_id"] }}></td>
-                <td class="class_admin_context_table_td" id="topic_id">{{ meeting["topic_id"] }}</td>
-                <td class="class_admin_context_table_td" id="topic_title">{{ meeting["topic_title"] }}</td>
-                <td class="class_admin_context_table_td" id="user_name">{{ meeting["user_name"] }}</td>
-                <td class="class_admin_context_table_td" id="meeting_room">{{ meeting["meeting_room"] }}</td>
-                <td class="class_admin_context_table_td" id="meeting_date">{{ meeting["meeting_date"] }}</td>
+                <td class="class_admin_context_table_td" ><input type="radio" name="select_id" value={{ meeting["issues_id"] }}></td>
+                <td class="class_admin_context_table_td" id="id_meeting_issues_id">{{ meeting["issues_id"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_issues_title">{{ meeting["issues_title"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_keynote_user_name">{{ meeting["keynote_user_name"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_room">{{ meeting["meeting_room"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_date">{{ meeting["meeting_date"] }}</td>
             </tr>
         {% end %}
         </tbody>
@@ -64,10 +64,10 @@
                     <h2 id="id_admin_meeting_edit_popup_title">会议更改</h2>
                 </div>
                 <div class="class_admin_popup_body" id="admin_popup_body">
-                    <p id="id_admin_meeting_topic_operation"></p>
-                    <p><span>话题编号:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_topic_id"  /></p>
-                    <p><span>话题:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_topic_title" /></p>
-                    <p><span>主讲人:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_user_name" /></p>
+                    <p id="id_admin_meeting_issues_operation"></p>
+                    <p><span>话题编号:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_issues_id"  /></p>
+                    <p><span>话题:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_issues_title" /></p>
+                    <p><span>主讲人:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_keynote_user_name" /></p>
                     <p><span>会议室:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_meeting_meeting_room"/></p>
                     <p><span>会议时间:</span><input type="date" class="class_admin_popup_body_input" id="id_admin_meeting_meeting_date"/></p>
                     <input type="button" class="class_admin_context_button" id="id_admin_meeting_popup_edit_submit" value="提交" />
@@ -99,10 +99,10 @@
                             <tbody class="class_admin_meeting_table_body" id="id_admin_meeting_select_table_body">
                             {% for topics in topics_tables %}
                                 <tr>
-                                    <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ topics["topic_id"] }}></td>
-                                    <td class="class_admin_context_table_td" id="id_meeting_topic_id">{{ topics["topic_id"] }}</td>
-                                    <td class="class_admin_context_table_td" id="id_meeting_user_name">{{ topics["name"] }}</td>
-                                    <td class="class_admin_context_table_td" id="id_meeting_topic_title">{{ topics["title"] }}</td>
+                                    <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ topics["issues_id"] }}></td>
+                                    <td class="class_admin_context_table_td" id="id_meeting_add_issues_id">{{ topics["issues_id"] }}</td>
+                                    <td class="class_admin_context_table_td" id="id_meeting_add_keynote_user_name">{{ topics["keynote_user_name"] }}</td>
+                                    <td class="class_admin_context_table_td" id="id_meeting_add_issues_title">{{ topics["issues_title"] }}</td>
                                 </tr>
                             {% end %}
                             </tbody>

@@ -20,7 +20,7 @@ class ExchangeRulesModule(DataBase):
     exchange_min_score = Column(Float, default=0.0, nullable=False, index=False)  # 最少分数
 
     def __repr__(self):
-        return '%s(%r)' % (self.__class__.__name__, self.user_name)
+        return '%s(%r)' % (self.__class__.__name__, self.exchange_rule_name)
 
     # 可以在类里面写别的方法,类似查询方法
     @classmethod

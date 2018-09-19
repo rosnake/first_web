@@ -208,7 +208,7 @@ class AdminMemberHandler(BaseHandler):
         user_moudle = UsersInfoModule()
         user_moudle.user_name = user_name
         user_moudle.pass_word = pass_word
-        user_moudle.nick_name = "unknown"
+        user_moudle.chinese_name = "unknown"
         user_moudle.address = "unknown"
         user_moudle.department = "unknown"
         user_moudle.email = "unknown"

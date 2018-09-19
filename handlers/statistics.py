@@ -112,10 +112,10 @@ class StatHandler(BaseHandler):
         presents_table = []
         if exchange_rules:
             for x in exchange_rules:
-                if current_point >= x.min_points:
+                if current_point >= x.exchange_min_score:
                     tmp = {
                         "present_id": x.id, "present_name": x.exchange_rule_name,
-                        "consume_point": x.exchange_rule_points, "min_points": x.min_points
+                        "consume_point": x.exchange_rule_score, "exchange_min_score": x.exchange_min_score
                     }
 
                     presents_table.append(tmp)
@@ -126,29 +126,29 @@ class StatHandler(BaseHandler):
             return presents_table
 
     def __exchange_apply_by_user_name(self, user_name, present_id):
-        present_min_points = self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.id == present_id).first()
+        present_exchange_min_score = self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.id == present_id).first()
 
-        if present_min_points is None:
+        if present_exchange_min_score is None:
             logging.info("present min point is None")
             return False
 
         current = self.__get_current_point(user_name)
-        if current < present_min_points.min_points:
-            logging.info("current point [%d], need point [%d]" % (current, present_min_points.min_points))
+        if current < present_exchange_min_score.exchange_min_score:
+            logging.info("current point [%d], need point [%d]" % (current, present_exchange_min_score.exchange_min_score))
             return False
 
         exchanged_modules = self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).\
-            filter(ExchangeApplyModule.exchange_accept == False).all()
+            filter(ExchangeApplyModule.exchange_accept is False).all()
         exchanged_point = 0
         if exchanged_modules:
             for x in exchanged_modules:
-                exchanged_point = exchanged_point + x.need_points
+                exchanged_point = exchanged_point + x.need_score
 
         logging.info("current point [%d], exchanged point [%d]" % (current, exchanged_point))
         current_point = current - exchanged_point
 
-        if current_point < present_min_points.min_points:
-            logging.info("current point [%d], need point [%d]" % (current_point, present_min_points.min_points))
+        if current_point < present_exchange_min_score.exchange_min_score:
+            logging.info("current point [%d], need point [%d]" % (current_point, present_exchange_min_score.exchange_min_score))
 
             return False
 
@@ -158,9 +158,9 @@ class StatHandler(BaseHandler):
         exchange_apply.exchange_status = "apply"
         exchange_apply.user_name = user_name
         exchange_apply.current_score = current
-        exchange_apply.exchange_item = present_min_points.exchange_rule_name
+        exchange_apply.exchange_item = present_exchange_min_score.exchange_rule_name
         exchange_apply.datetime = date_kits.get_now_time()
-        exchange_apply.need_points = present_min_points.exchange_rule_points
+        exchange_apply.need_score = present_exchange_min_score.exchange_rule_points
         self.db.add(exchange_apply)
         self.db.commit()
         return True

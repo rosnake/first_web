@@ -40,8 +40,8 @@ class AdminExchangeHandler(BaseHandler):
         response["data"] = date_kits.get_now_day_str()
         rule_name = "none"
         rule_id = 0
-        need_points = 0
-        min_points = 0
+        need_score = 0
+        exchange_min_score = 0
         exchange_id = 0
         user_name = "none"
         operation = self.get_argument("operation")
@@ -52,12 +52,12 @@ class AdminExchangeHandler(BaseHandler):
         else:
             rule_name = self.get_argument("rule_name")
             rule_id = self.get_argument("id")
-            need_points = self.get_argument("need_points")
-            min_points = self.get_argument("min_points")
-            logging.info(" rule_name:"+rule_name+" rule_id:"+rule_id+" need_points:"+need_points+" min_points:"+min_points)
+            need_score = self.get_argument("need_score")
+            exchange_min_score = self.get_argument("exchange_min_score")
+            logging.info(" rule_name:"+rule_name+" rule_id:"+rule_id+" need_score:"+need_score+" exchange_min_score:"+exchange_min_score)
 
         if operation == "add":
-            ret = self.__add_exchange_rule(rule_name, need_points, min_points)
+            ret = self.__add_exchange_rule(rule_name, need_score, exchange_min_score)
             if ret is True:
                 response["status"] = True
                 response["message"] = "新增成功！"
@@ -87,7 +87,7 @@ class AdminExchangeHandler(BaseHandler):
                 return
 
         if operation == "modify":
-            ret = self.__modify_rule_by_id(rule_id, need_points, min_points)
+            ret = self.__modify_rule_by_id(rule_id, need_score, exchange_min_score)
             if ret is True:
                 response["status"] = True
                 response["message"] = "删除成功！"
@@ -137,12 +137,12 @@ class AdminExchangeHandler(BaseHandler):
         if exchange_rule_module:
             for module in exchange_rule_module:
                 rule = {"rule_id": module.id, "rule_name": module.exchange_rule_name,
-                        "need_points": module.exchange_rule_score, "points_range": module.exchange_min_score}
+                        "need_score": module.exchange_rule_score, "points_range": module.exchange_min_score}
                 exchange_rule_tables.append(rule)
 
         return exchange_rule_tables
 
-    def __add_exchange_rule(self, rule_name, need_points, min_points):
+    def __add_exchange_rule(self, rule_name, need_score, exchange_min_score):
         rule = self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.exchange_rule_name == rule_name).first()
         if rule is not None:
             logging.error("current exchange rule is exit")
@@ -150,8 +150,8 @@ class AdminExchangeHandler(BaseHandler):
 
         exchange_rule = ExchangeRulesModule()
         exchange_rule.exchange_rule_name = rule_name
-        exchange_rule.exchange_rule_score = need_points
-        exchange_rule.exchange_min_score = min_points
+        exchange_rule.exchange_rule_score = need_score
+        exchange_rule.exchange_min_score = exchange_min_score
         self.db.add(exchange_rule)
         self.db.commit()
         return True
@@ -168,12 +168,12 @@ class AdminExchangeHandler(BaseHandler):
             logging.error("delete exchange rule failed")
             return False
 
-    def __modify_rule_by_id(self, rule_id, need_points, min_point):
+    def __modify_rule_by_id(self, rule_id, need_score, min_point):
         rule = self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.id == rule_id).first()
 
         if rule is not None:
             self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.id == rule_id).update({
-                ExchangeRulesModule.exchange_rule_score: need_points,
+                ExchangeRulesModule.exchange_rule_score: need_score,
                 ExchangeRulesModule.exchange_min_score: min_point,
             })
             self.db.commit()
@@ -206,7 +206,7 @@ class AdminExchangeHandler(BaseHandler):
             self.db.commit()
 
             self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
-                ScoreInfoModule.current_point: point_modules.current_point - exchange_modules.need_points,
+                ScoreInfoModule.current_point: point_modules.current_point - exchange_modules.need_score,
             })
             self.db.commit()
 
