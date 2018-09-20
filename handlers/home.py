@@ -103,7 +103,7 @@ class HomeHandler(BaseHandler):
         for point in point_module:
             tmp = {
                 "user_name": point.user_name, "chinese_name": point.chinese_name,
-                "current_point": point.current_point, "last_point": point.last_point
+                "current_scores": point.current_scores, "last_scores": point.last_scores
             }
             points_tables.append(tmp)
 

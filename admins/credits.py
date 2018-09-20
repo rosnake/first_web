@@ -12,19 +12,19 @@ from admins.decorator import admin_post_auth
 
 
 # 继承 base.py 中的类 BaseHandler
-class AdminPointHandler(BaseHandler):
+class AdminCreditsHandler(BaseHandler):
     """
     用于积分管理
     """
 
-    @admin_get_auth("/admin/point", False)
+    @admin_get_auth("/admin/credits", False)
     def get(self):
         user_name = self.get_current_user()
         if user_name is not None:
             self.__update_point_info()
             point_tables = self.__get_all_points()
             if point_tables is not None:
-                self.render("admin/point.html",
+                self.render("admin/credits.html",
                             controller=self.render_controller,
                             user_name=user_name,
                             point_tables=point_tables,
@@ -82,7 +82,7 @@ class AdminPointHandler(BaseHandler):
             return None
 
         for point in point_module:
-            tmp = {"user_id": point.user_name, "user_name": point.chinese_name, "user_point": point.current_point}
+            tmp = {"user_id": point.user_name, "user_name": point.chinese_name, "user_point": point.current_scores}
             points_tables.append(tmp)
 
         return points_tables
@@ -92,8 +92,8 @@ class AdminPointHandler(BaseHandler):
 
         if user_point:
             self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
-                ScoreInfoModule.last_point: user_point.current_point,
-                ScoreInfoModule.current_point: point,
+                ScoreInfoModule.last_scores: user_point.current_scores,
+                ScoreInfoModule.current_scores: point,
             })
             self.db.commit()
             return True

@@ -1,7 +1,7 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-from session.config import SessionConfig
+from config.session_settings import SessionConfig
 from hashlib import sha1
 import os
 import time

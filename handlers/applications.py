@@ -63,16 +63,17 @@ class ApplicationsHandler(BaseHandler):
         for topics in topics_module:
             if topics.user_name == user_name:
                 tmp = {
-                    "topic_id": topics.id, "name": topics.user_name, "image": topics.image, "title": topics.title,
-                    "current": topics.current, "finish": topics.finish,  "time": topics.datetime,
-                    "description": topics.brief
+                    "issues_id": topics.id, "user_name": topics.user_name, "image": topics.issues_image,
+                    "issues_title": topics.issues_title, "current_issues": topics.current,
+                    "issues_finish": topics.finish,  "date_time": topics.date_time,
+                    "issues_brief": topics.issues_brief
                        }
                 user_tpoic.append(tmp)
 
         return user_tpoic
 
     def __add_topics(self, topic_user, topic_name, topic_brief, topic_date):
-        rule = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.title == topic_name).first()
+        rule = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.issues_title == topic_name).first()
         if rule is not None:
             logging.error("current topics is exit")
             return False
@@ -80,12 +81,12 @@ class ApplicationsHandler(BaseHandler):
         topic_module = IssuesInfoModule()
         topic_module.user_name = topic_user
         topic_module.chinese_name = "unknown"
-        topic_module.title = topic_name
-        topic_module.brief = topic_brief
-        topic_module.datetime = topic_date
+        topic_module.issues_title = topic_name
+        topic_module.issues_brief = topic_brief
+        topic_module.date_time = topic_date
         topic_module.current = False
         topic_module.finish = False
-        topic_module.image = "null"
+        topic_module.issues_image = "null"
 
         self.db.add(topic_module)
         self.db.commit()

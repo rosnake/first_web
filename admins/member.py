@@ -221,8 +221,8 @@ class AdminMemberHandler(BaseHandler):
         # 添加积分表格
         point_moudle = ScoreInfoModule()
         point_moudle.user_name = user_name
-        point_moudle.current_point = 10
-        point_moudle.last_point = 10
+        point_moudle.current_scores = 10
+        point_moudle.last_scores = 10
         point_moudle.chinese_name = user_moudle.chinese_name
         self.db.add(point_moudle)
         self.db.commit()

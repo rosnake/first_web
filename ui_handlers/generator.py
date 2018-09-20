@@ -7,15 +7,6 @@ import tornado.web
 import sys     # utf-8，兼容汉字
 
 
-# 人员信息模板
-class PersonModule(tornado.web.UIModule):
-    def render(self, person):
-        return self.render_string("modules/person.html", person=person)
-
-    def css_files(self):
-        return "css/person.css"
-
-
 # 导航模板
 class NavigationModule(tornado.web.UIModule):
     def render(self, controller):
@@ -26,9 +17,9 @@ class NavigationModule(tornado.web.UIModule):
 
 
 # 导航模板
-class AdminModule(tornado.web.UIModule):
+class AdminSidebarModule(tornado.web.UIModule):
     def render(self, controller):
-        return self.render_string("modules/admin_navigation.html", controller=controller)
+        return self.render_string("modules/admin_sidebar.html", controller=controller)
 
     def css_files(self):
         return "css/admin.css"
@@ -43,11 +34,4 @@ class HeaderModule(tornado.web.UIModule):
         return "css/header.css"
 
 
-# UI模板入口
-ui = [
-    {"Person": PersonModule},
-    {"Navigation": NavigationModule, },
-    {"Admin": AdminModule, },
-    {"Header": HeaderModule, }
-    ]
 

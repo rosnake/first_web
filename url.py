@@ -24,11 +24,11 @@ from handlers.login import VerifyHandler
 from handlers.modify_pwd import ModifyPassWordHandler
 from admins.admin import AdminHandler
 from admins.topics import AdminTopicsHandler
-from admins.deduct import AdminDeductHandler
+from admins.discipline import AdminDisciplineHandler
 from admins.exchange import AdminExchangeHandler
 from admins.member import AdminMemberHandler
 from admins.organizer import AdminOrganizerHandler
-from admins.points import AdminPointHandler
+from admins.credits import AdminCreditsHandler
 from admins.issues import AdminIssuesHandler
 from admins.issues_modify import AdminIssuesModifyHandler
 from admins.explorer import AdminExplorerHandler
@@ -60,10 +60,10 @@ url = [
     (r'/admin', AdminHandler),
     (r'/about', AboutHandler),
     (r'/admin/topics', AdminTopicsHandler),
-    (r'/admin/point', AdminPointHandler),
+    (r'/admin/credits', AdminCreditsHandler),
     (r'/admin/organizer', AdminOrganizerHandler),
     (r'/admin/member', AdminMemberHandler),
-    (r'/admin/deduct', AdminDeductHandler),
+    (r'/admin/discipline', AdminDisciplineHandler),
     (r'/admin/exchange', AdminExchangeHandler),
     (r'/admin/issues', AdminIssuesHandler),
     (r'/admin/issues_modify', AdminIssuesModifyHandler),

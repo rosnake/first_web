@@ -27,7 +27,7 @@ class AdminExplorerHandler(BaseHandler):
 class FileDownLoadHandler(BaseHandler):
     @admin_get_auth("/admin/explorer", True)
     def get(self):
-        filename = "file/export.xlsx"
+        filename = "file_store/export.xlsx"
         print(filename)
         self.set_header('Content-Type', 'application/octet-stream')
         self.set_header('Content-Disposition', ('attachment; filename=%s' % filename).encode('utf-8'))
@@ -51,7 +51,7 @@ class FileUpLoadHandler(BaseHandler):
         for meta in file_metas:                                 # 循环文件信息
             file_name = meta['filename']                        # 获取文件的名称
             import os                                           # 引入os路径处理模块
-            with open(os.path.join('file', file_name), 'wb') as up:            # os拼接文件保存路径，以字节码模式打开
+            with open(os.path.join('file_store', file_name), 'wb') as up:            # os拼接文件保存路径，以字节码模式打开
                 up.write(meta['body'])
 
         self.write(json.dumps(ret))

@@ -113,7 +113,7 @@ $(document).ready(function () {
 			};
 			$.ajax({
 				type: "POST",
-				url: "/admin/point",
+				url: "/admin/credits",
 				data: post_date,
 				success: function (arg) {
 					console.log(arg);

@@ -22,7 +22,7 @@
         }
     </style>
 {% if controller["authorized"] == True %}
-    <h3> 您当前积分为：{{ current_point }} </h3>
+    <h3> 您当前积分为：{{ current_scores }} </h3>
     <div class="class_popup_browse_detail">
          <h3>当前分数明细如下：</h3>
         {% if point_stat is not None %}
@@ -69,7 +69,7 @@
     <div id="points_exchange">
     <h2> 积分兑换</h2>
         {% if len(presents_table) %}
-            <h3> 您当前积分为：{{ current_point }} .</h3>
+            <h3> 您当前积分为：{{ current_scores }} .</h3>
             <p>您当前可以兑换物品为：</p>
                 <table class="class_handle_context_table"  frame="box">
                     <thead class="class_handle_context_table_head">
@@ -86,7 +86,7 @@
                         </tr>
                         {% if presents_table is not None %}
                             {% for present in presents_table %}
-                                {% set exchange_after = current_point - present["consume_point"] %}
+                                {% set exchange_after = current_scores - present["consume_point"] %}
                             <tr>
                                 <td id="id_popup_item_transactor">{{present["present_name"]}}</td>
                                 <td id="id_popup_item_mark_name">{{present["consume_point"]}}</td>

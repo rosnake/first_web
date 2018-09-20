@@ -190,7 +190,7 @@ $(document).ready(function () {
 			return;
 		}
 		console.log("rule_id: " + rule_id);
-		console.log("click admin deduct delete");
+		console.log("click admin discipline delete");
 		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
 		var ttr = $("input:checked").parents('tr');
 		//console.log(ttr);

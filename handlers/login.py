@@ -9,7 +9,7 @@ from methods.image_generator import VerifyImage  # 导入验证码图片生成�
 from methods.controller import PageController  # 导入页面控制器
 from methods.toolkits import DateToolKits
 from orm.users_info import UsersInfoModule
-from methods.config import GlobalConfig
+from config.debug import DebugConfig
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -46,7 +46,7 @@ class LoginHandler(BaseHandler):
         render_controller = page_controller.get_render_controller()
 
         # 为了调试，注销验证码验证
-        if GlobalConfig.DEBUG is True:
+        if DebugConfig.DEBUG is True:
             verify_code_client = verify_code_server
 
         if verify_code_server != verify_code_client:

@@ -16,7 +16,7 @@ class ExchangeApplyModule(DataBase):
 
     id = Column(Integer, primary_key=True)
     user_name = Column(String(64), nullable=False, index=True)  # 分数项目名称
-    current_score = Column(Float, default=0.0, nullable=False, index=False)  # 当前分数
+    current_scores = Column(Float, default=0.0, nullable=False, index=False)  # 当前分数
     exchange_item = Column(String(64), nullable=False, index=True)  # 兑换项目名称
     need_score = Column(Float, default=0.0, nullable=False, index=False)  # 需要分数
     exchange_accept = Column(Boolean, default=False, nullable=False)  # 兑换申请是否已经被接受

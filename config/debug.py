@@ -5,5 +5,5 @@
 """
 
 
-class GlobalConfig:
+class DebugConfig:
         DEBUG = True  # 调试标记

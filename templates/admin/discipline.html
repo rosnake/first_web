@@ -2,7 +2,7 @@
 <!--自动转义-->
 {% block external_lib %}
     <script src="{{static_url("layer/layer.js")}}"></script>
-    <script src="{{static_url("js/deduct.js")}}"></script>
+    <script src="{{static_url("js/discipline.js")}}"></script>
 {% end %}
 {% autoescape None %}
 {% block header %}
@@ -20,7 +20,7 @@
              background: #ffc94e; /* 设置背景色 */
         }
     </style>
-    {{ modules.Admin(controller) }}
+    {{ modules.AdminSidebar(controller) }}
     <div class="class_admin_context">
         <h3>当前所有扣分项目如下：</h3>
         <form class="class_admin_context_form" id="admin_member_form" name="member_form">

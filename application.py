@@ -2,10 +2,10 @@
 # coding=utf-8
 
 from url import url
-from ui import ui
+from ui_mapping import ui
 import tornado.web
 import os
-from methods.config import GlobalConfig
+from config.debug import DebugConfig
 
 settings = dict(
     web_title=u"Learning System",
@@ -20,6 +20,6 @@ settings = dict(
 application = tornado.web.Application(
     handlers=url,
     ui_modules=ui,
-    debug= GlobalConfig.DEBUG,
+    debug=DebugConfig.DEBUG,
     **settings
     )

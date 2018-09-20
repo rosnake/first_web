@@ -28,9 +28,9 @@ class StatHandler(BaseHandler):
         if user_name is not None:
             history_table = self.__get_point_history_by_user_name(user_name)
             point_stat = self.__get_point_stat_by_user_name(user_name)
-            current_point = self.__get_current_point(user_name)
-            presents_table = self.__get_presents_table(current_point)
-            self.render("statistics.html", current_point=current_point, history_table=history_table,
+            current_scores = self.__get_current_point(user_name)
+            presents_table = self.__get_presents_table(current_scores)
+            self.render("statistics.html", current_scores=current_scores, history_table=history_table,
                         controller=self.render_controller, user_name=user_name, point_stat=point_stat,
                         presents_table=presents_table)
 
@@ -65,8 +65,8 @@ class StatHandler(BaseHandler):
         __current = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
 
         if __current:
-            logging.info("current point [%d]" % __current.current_point)
-            return __current.current_point
+            logging.info("current point [%d]" % __current.current_scores)
+            return __current.current_scores
 
         else:
             logging.info("current point [0]")
@@ -106,13 +106,13 @@ class StatHandler(BaseHandler):
         else:
             return user_point
 
-    def __get_presents_table(self, current_point):
+    def __get_presents_table(self, current_scores):
         exchange_rules = ExchangeRulesModule.get_all_exchange_rules()
 
         presents_table = []
         if exchange_rules:
             for x in exchange_rules:
-                if current_point >= x.exchange_min_score:
+                if current_scores >= x.exchange_min_score:
                     tmp = {
                         "present_id": x.id, "present_name": x.exchange_rule_name,
                         "consume_point": x.exchange_rule_score, "exchange_min_score": x.exchange_min_score
@@ -145,10 +145,10 @@ class StatHandler(BaseHandler):
                 exchanged_point = exchanged_point + x.need_score
 
         logging.info("current point [%d], exchanged point [%d]" % (current, exchanged_point))
-        current_point = current - exchanged_point
+        current_scores = current - exchanged_point
 
-        if current_point < present_exchange_min_score.exchange_min_score:
-            logging.info("current point [%d], need point [%d]" % (current_point, present_exchange_min_score.exchange_min_score))
+        if current_scores < present_exchange_min_score.exchange_min_score:
+            logging.info("current point [%d], need point [%d]" % (current_scores, present_exchange_min_score.exchange_min_score))
 
             return False
 
@@ -157,7 +157,7 @@ class StatHandler(BaseHandler):
         exchange_apply.exchange_accept = False
         exchange_apply.exchange_status = "apply"
         exchange_apply.user_name = user_name
-        exchange_apply.current_score = current
+        exchange_apply.current_scores = current
         exchange_apply.exchange_item = present_exchange_min_score.exchange_rule_name
         exchange_apply.datetime = date_kits.get_now_time()
         exchange_apply.need_score = present_exchange_min_score.exchange_rule_points

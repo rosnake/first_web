@@ -11,17 +11,17 @@ from admins.decorator import admin_post_auth
 
 
 # 继承 base.py 中的类 BaseHandler
-class AdminDeductHandler(BaseHandler):
+class AdminDisciplineHandler(BaseHandler):
     """
     用于扣分规则管理
     """
-    @admin_get_auth("/admin/deduct", True)
+    @admin_get_auth("/admin/discipline", True)
     def get(self):
         user_name = self.get_current_user()
 
         if user_name is not None:
             deduct_tables = self.__get_deduct_tables()
-            self.render("admin/deduct.html",
+            self.render("admin/discipline.html",
                         deduct_tables=deduct_tables,
                         controller=self.render_controller,
                         user_name=user_name,
@@ -85,8 +85,8 @@ class AdminDeductHandler(BaseHandler):
                 return
 
     def __add_deduct(self, deduct_name, deduct_points):
-        deduct = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.criteria_name == deduct_name).first()
-        if deduct is not None:
+        discipline = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.criteria_name == deduct_name).first()
+        if discipline is not None:
             logging.error("current is exit")
             return False
 
@@ -102,34 +102,34 @@ class AdminDeductHandler(BaseHandler):
         deduct_tables = []
         if deduct_module:
             for module in deduct_module:
-                deduct = {"deduct_id": module.id, "deduct_name": module.criteria_name,
+                discipline = {"deduct_id": module.id, "deduct_name": module.criteria_name,
                           "deduct_points": module.score_value}
-                deduct_tables.append(deduct)
+                deduct_tables.append(discipline)
 
         return deduct_tables
 
     def __delete_deduct_by_id(self, deduct_id):
-        deduct = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == deduct_id).first()
+        discipline = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == deduct_id).first()
 
-        if deduct is not None:
-            self.db.delete(deduct)
+        if discipline is not None:
+            self.db.delete(discipline)
             self.db.commit()
-            logging.info("delete deduct succeed")
+            logging.info("delete discipline succeed")
             return True
         else:
-            logging.error("delete deduct failed")
+            logging.error("delete discipline failed")
             return False
 
     def __modify_deduct_by_id(self, deduct_id, deduct_points):
-        deduct = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == deduct_id).first()
+        discipline = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == deduct_id).first()
 
-        if deduct is not None:
+        if discipline is not None:
             self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == deduct_id).update({
                 ScoringCriteriaModule.score_value: deduct_points,
             })
             self.db.commit()
-            logging.info("modify deduct succeed")
+            logging.info("modify discipline succeed")
             return True
         else:
-            logging.error("modify deduct failed")
+            logging.error("modify discipline failed")
             return False

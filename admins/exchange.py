@@ -157,10 +157,10 @@ class AdminExchangeHandler(BaseHandler):
         return True
 
     def __delete_rule_by_id(self, rule_id):
-        deduct = self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.id == rule_id).first()
+        discipline = self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.id == rule_id).first()
 
-        if deduct is not None:
-            self.db.delete(deduct)
+        if discipline is not None:
+            self.db.delete(discipline)
             self.db.commit()
             logging.info("delete exchange rule succeed")
             return True
@@ -189,7 +189,7 @@ class AdminExchangeHandler(BaseHandler):
 
         if exchange_modules:
             for x in exchange_modules:
-                tmp = {"exchange_id": x.id, "user_name": x.user_name, "user_points": x.current_score,
+                tmp = {"exchange_id": x.id, "user_name": x.user_name, "user_points": x.current_scores,
                        "exchange_item": x.exchange_item, "apply_date": x.datetime, "exchanged": x.exchange_accept}
                 exchange_table.append(tmp)
 
@@ -206,7 +206,7 @@ class AdminExchangeHandler(BaseHandler):
             self.db.commit()
 
             self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
-                ScoreInfoModule.current_point: point_modules.current_point - exchange_modules.need_score,
+                ScoreInfoModule.current_scores: point_modules.current_scores - exchange_modules.need_score,
             })
             self.db.commit()
 
@@ -214,7 +214,7 @@ class AdminExchangeHandler(BaseHandler):
             con = False
             for x in exchange_all:
                 self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).filter(
-                    ExchangeApplyModule.exchange_accept == con).update({ExchangeApplyModule.current_score: point_modules. current_point - exchange_modules.need_points})
+                    ExchangeApplyModule.exchange_accept == con).update({ExchangeApplyModule.current_scores: point_modules. current_scores - exchange_modules.need_points})
                 self.db.commit()
 
             return True

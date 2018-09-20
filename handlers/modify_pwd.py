@@ -24,8 +24,8 @@ class ModifyPassWordHandler(BaseHandler):  # 继承 base.py 中的类 BaseHandle
         response = {"status": True, "data": "", "message": "failed"}
         date_kits = DateToolKits()
         user_name = self.get_argument("user_name")
-        old_pass_word = self.get_argument("old_pass_word")
-        new_pass_word = self.get_argument("new_pass_word")
+        old_pass_word = self.get_argument("old_password")
+        new_pass_word = self.get_argument("new_password")
         confirm = self.get_argument("confirm")
         print("user_name:%s old_pass_word:%s new_pass_word:%s confirm:%s" % (user_name, old_pass_word, new_pass_word, confirm))
         if new_pass_word != confirm:

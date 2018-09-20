@@ -126,8 +126,8 @@ class AdminAttendanceHandler(BaseHandler):
 
             if user_point and score_criteria:
                 self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
-                    ScoreInfoModule.last_point: user_point.current_point,
-                    ScoreInfoModule.current_point: user_point.current_point + score_criteria.score_value,
+                    ScoreInfoModule.last_scores: user_point.current_scores,
+                    ScoreInfoModule.current_scores: user_point.current_scores + score_criteria.score_value,
                 })
                 self.db.commit()
             else:
@@ -172,8 +172,8 @@ class AdminAttendanceHandler(BaseHandler):
 
             if user_score and score_criteria:
                 self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
-                    ScoreInfoModule.last_point: user_score.current_point,
-                    ScoreInfoModule.current_point: user_score.current_point + score_criteria.score_value,
+                    ScoreInfoModule.last_scores: user_score.current_scores,
+                    ScoreInfoModule.current_scores: user_score.current_scores + score_criteria.score_value,
                 })
                 self.db.commit()
             else:

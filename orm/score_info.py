@@ -17,8 +17,8 @@ class ScoreInfoModule(DataBase):
     id = Column(Integer, primary_key=True)
     user_name = Column(String(64), nullable=False, index=True)  # 用户名，工号
     chinese_name = Column(String(64), nullable=False, index=True)  # 用户名，中文名
-    current_point = Column(Float, default=0.0, nullable=False, index=False)  # 当前积分
-    last_point = Column(Float, default=0.0, nullable=False, index=False)   # 上周积分
+    current_scores = Column(Float, default=0.0, nullable=False, index=False)  # 当前积分
+    last_scores = Column(Float, default=0.0, nullable=False, index=False)   # 上周积分
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.user_name)

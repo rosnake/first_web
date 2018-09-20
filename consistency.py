@@ -6,7 +6,6 @@ from methods.debug import *
 from orm.db_base import dbSession
 from orm.attendance import AttendanceModule
 from orm.users_info import UsersInfoModule
-from multiprocessing import Process
 import os
 
 

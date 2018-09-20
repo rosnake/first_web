@@ -26,15 +26,15 @@
     {% for topic in user_topic %}
     <div class="topics">
 
-            {% if topic["name"] != "" %}
-            <h5 class="user_name">议题主讲人：{{ topic["name"] }}</h5>
+            {% if topic["user_name"] != "" %}
+            <h5 class="user_name">议题主讲人：{{ topic["user_name"] }}</h5>
             <div class="topic_details">
                 <h4>议题:</h4>
-                <div class="topic_title">{{ topic["title"]}}</div>
+                <div class="topic_title">{{ topic["issues_title"]}}</div>
                 <h4>议题简介:</h4>
-                <div class="topic_description">{% raw topic["description"] %}</div>
+                <div class="topic_description">{% raw topic["issues_brief"] %}</div>
                 <h4>议题时间:</h4>
-                <div class="topic_time">{% raw topic["time"] %}</div>
+                <div class="topic_time">{% raw topic["date_time"] %}</div>
             </div>
             {% end %}
     </div>

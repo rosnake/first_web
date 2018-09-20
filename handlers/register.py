@@ -32,28 +32,30 @@ class RegisterHandler(BaseHandler):
         print("user_name:%s password:%s confirm:%s" % (user_name, password, confirm))
         # 先查询用户是否存在
         user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).first()
-        print(user)
         succeed = False
         # 不存在创建用户
         if user is None:
-            user_moudle = UsersInfoModule()
-            user_moudle.user_name = user_name
-            user_moudle.password = password
-            user_moudle.chinese_name = "unknown"
-            user_moudle.address = "unknown"
-            user_moudle.department = "unknown"
-            user_moudle.email = "unknown"
-            user_moudle.user_role = "normal"
-            user_moudle.pwd_modified = True
-            self.db.add(user_moudle)
+            user_module = UsersInfoModule()
+            user_module.user_name = user_name
+            user_module.pass_word = password
+            user_module.chinese_name = "unknown"
+            user_module.address = "unknown"
+            user_module.department = "unknown"
+            user_module.email = "unknown"
+            user_module.user_role = "normal"
+            user_module.nick_name = "unknown"
+            user_module.pwd_modified = True
+            user_module.change_pwd_count = 0
+            self.db.add(user_module)
             self.db.commit()
+
             # 更新积分表格
-            point_moudle = ScoreInfoModule()
-            point_moudle.user_name = user_name
-            point_moudle.current_point = 10
-            point_moudle.last_point = 10
-            point_moudle.chinese_name = user_moudle.chinese_name
-            self.db.add(point_moudle)
+            scores_module = ScoreInfoModule()
+            scores_module.user_name = user_name
+            scores_module.current_scores = 10
+            scores_module.last_scores = 10
+            scores_module.chinese_name = user_module.chinese_name
+            self.db.add(scores_module)
             self.db.commit()
             succeed = True
 
