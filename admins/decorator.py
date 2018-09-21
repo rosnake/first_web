@@ -5,7 +5,6 @@ import json
 from methods.toolkits import DateToolKits
 from methods.debug import *
 # 导入页面控制器
-from methods.controller import PageController
 
 """
 该装饰器用户用户访问页面的权限管理。
@@ -41,8 +40,6 @@ def admin_get_auth(jump_page, admin_only):
 
             #  4、完成页面控制器的初始化
             logging.info("[decorator]:prepare page controller")
-            page_controller = PageController()
-            self.render_controller = page_controller.get_render_controller()
             self.render_controller["index"] = False
             self.render_controller["login"] = False
             if self.session["authorized"] is not None:

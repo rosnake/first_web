@@ -25,7 +25,10 @@ class AdminIssuesModifyHandler(BaseHandler):
         if user_name is not None:
             issues_table = self.__get_topics_by_id(issues_id)
             if issues_table is not None:
-                self.render("admin/issues_modify.html", controller=self.render_controller, issues_table=issues_table)
+                self.render("admin/issues_modify.html", controller=self.render_controller,
+                            issues_table=issues_table,
+                            language_mapping=self.language_mapping,
+                            )
 
     @admin_post_auth(False)
     def post(self):

@@ -24,6 +24,7 @@ class AdminTopicsHandler(BaseHandler):
                         controller=self.render_controller,
                         user_name=user_name,
                         user_topic_tables=user_topic_tables,
+                        language_mapping=self.language_mapping,
                         )
 
     @admin_post_auth(False)

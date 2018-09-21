@@ -22,7 +22,9 @@ class AdminProhibitHandler(BaseHandler):
         render_controller["login"] = False
         render_controller["admin"] = self.session["admin"]
         render_controller["organizer"] = self.session["organizer"]
-        self.render("admin/prohibit.html", controller=render_controller)
+        self.render("admin/prohibit.html", controller=render_controller,
+                    language_mapping=self.language_mapping,
+                    )
 
     def post(self):
         pass

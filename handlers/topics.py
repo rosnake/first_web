@@ -22,6 +22,7 @@ class TopicsHandler(BaseHandler):
                         controller=self.render_controller,
                         user_name=user_name,
                         topics_table=user_topic_tables,
+                        language_mapping=self.language_mapping,
                         )
 
     @handles_post_auth

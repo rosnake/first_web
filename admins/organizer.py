@@ -24,6 +24,7 @@ class AdminOrganizerHandler(BaseHandler):
                         controller=self.render_controller,
                         user_name=user_name,
                         organizer_tables=organizer_tables,
+                        language_mapping=self.language_mapping,
                         )
 
     @admin_post_auth(False)

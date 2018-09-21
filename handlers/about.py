@@ -18,4 +18,5 @@ class AboutHandler(BaseHandler):
             self.render("about.html",
                         controller=self.render_controller,
                         user_name=user_name,
+                        language_mapping=self.language_mapping,
                         )

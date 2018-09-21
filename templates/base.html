@@ -24,15 +24,16 @@
 
         <div id="entry">
             {% if controller["index"] == False %}
-                {% raw _('<a href="%(url)s">首页</a>') % {"url": "/"} %}
+                <a href="/">{{ language_mapping["index"]["name"] }}</a>
             {% end %}
             {% if controller["login"] == False %}
                 {% if controller["authorized"] == False %}
-                    {% raw _('<a href="%(url)s">登录</a>') % {"url": "/login"} %}
-                    {% raw _('<a href="%(url)s">注册</a>') % {"url": "/register"} %}
+                    <a href={{ language_mapping["index"]["link"] }}>{{ language_mapping["index"]["name"] }}</a>
+                    <a href={{ language_mapping["login"]["link"] }}>{{ language_mapping["login"]["name"] }}</a>
+                    <a href={{ language_mapping["register"]["link"] }}>{{ language_mapping["register"]["name"] }}</a>
                 {% else %}
-                    {% raw _('<a href="%(url)s">修改密码</a>') % {"url": "/modify_password"} %}
-                    {% raw _('<a href="%(url)s">退出</a>') % {"url": "/logout"} %}
+                    <a href={{ language_mapping["mod_pwd"]["link"] }}>{{ language_mapping["mod_pwd"]["name"] }}</a>
+                    <a href={{ language_mapping["logout"]["link"] }}>{{ language_mapping["logout"]["name"] }}</a>
                 {%end %}
             {% end %}
         </div>
@@ -40,7 +41,7 @@
     <!-- 导航模板-->
     <!--自动转义-->
     {% autoescape None %}
-    {{ modules.Navigation(controller) }}
+    {{ modules.Navigation(controller, language_mapping) }}
     <!-- 网页头部区域-->
     <div id="base_header">
         {% block header %}{% end %}

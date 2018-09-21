@@ -5,6 +5,7 @@ import json
 from handlers.base import BaseHandler
 from orm.users_info import UsersInfoModule
 from orm.score_info import ScoreInfoModule
+from orm.attendance import AttendanceModule
 from methods.debug import *
 from methods.toolkits import DateToolKits
 import random
@@ -25,7 +26,9 @@ class AdminMemberHandler(BaseHandler):
         if user_name is not None:
             user_tables = self.__get_all_user_info()
             self.render("admin/member.html", user_tables=user_tables,
-                        controller=self.render_controller, user_name=user_name)
+                        controller=self.render_controller, user_name=user_name,
+                        language_mapping=self.language_mapping,
+                        )
 
     @admin_post_auth(False)
     def post(self):
@@ -156,10 +159,21 @@ class AdminMemberHandler(BaseHandler):
 
     def __delete_user_by_name(self, user_name):
         user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).first()
+        score = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
+        attendance = self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).first()
 
         if user is not None:
+
             self.db.delete(user)
             self.db.commit()
+
+            if score is not None:
+                self.db.delete(score)
+                self.db.commit()
+
+            if attendance is not None:
+                self.db.delete(attendance)
+                self.db.commit()
             logging.info("delete user succeed")
             return True
         else:
@@ -205,26 +219,39 @@ class AdminMemberHandler(BaseHandler):
             return False
 
         pass_word = ''.join(random.sample(string.ascii_letters + string.digits, 8))
-        user_moudle = UsersInfoModule()
-        user_moudle.user_name = user_name
-        user_moudle.pass_word = pass_word
-        user_moudle.chinese_name = "unknown"
-        user_moudle.address = "unknown"
-        user_moudle.department = "unknown"
-        user_moudle.email = "unknown"
-        user_moudle.chinese_name = "unknown"
-        user_moudle.user_role = user_role
+        user_module = UsersInfoModule()
+        user_module.user_name = user_name
+        user_module.pass_word = pass_word
+        user_module.chinese_name = "unknown"
+        user_module.address = "unknown"
+        user_module.department = "unknown"
+        user_module.email = "unknown"
+        user_module.chinese_name = "unknown"
+        user_module.user_role = user_role
+        user_module.nick_name = "unknown"
 
-        self.db.add(user_moudle)
+        self.db.add(user_module)
         self.db.commit()
 
         # 添加积分表格
-        point_moudle = ScoreInfoModule()
-        point_moudle.user_name = user_name
-        point_moudle.current_scores = 10
-        point_moudle.last_scores = 10
-        point_moudle.chinese_name = user_moudle.chinese_name
-        self.db.add(point_moudle)
+        point_module = ScoreInfoModule()
+        point_module.user_name = user_name
+        point_module.current_scores = 10
+        point_module.last_scores = 10
+        point_module.chinese_name = user_module.chinese_name
+        self.db.add(point_module)
+        self.db.commit()
+
+        attendance = AttendanceModule()
+        attendance.user_name = user_name
+        attendance.chinese_name = user_module.chinese_name
+        attendance.absence_reason = "unknown"
+        attendance.absence_id = 0
+        attendance.attended = True
+        attendance.checked_in = True
+        attendance.absence_apply_accept = True
+
+        self.db.add(attendance)
         self.db.commit()
 
         return True

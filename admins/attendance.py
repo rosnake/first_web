@@ -30,6 +30,7 @@ class AdminAttendanceHandler(BaseHandler):
                         controller=self.render_controller,
                         user_name=user_name,
                         leave_reason=leave_reason,
+                        language_mapping=self.language_mapping,
                         )
 
     @admin_post_auth(False)

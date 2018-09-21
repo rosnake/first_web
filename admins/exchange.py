@@ -31,6 +31,7 @@ class AdminExchangeHandler(BaseHandler):
                         exchange_rule_tables=exchange_rule_tables,
                         controller=self.render_controller,
                         user_name=user_name,
+                        language_mapping=self.language_mapping,
                         )
 
     @admin_post_auth(False)

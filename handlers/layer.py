@@ -41,23 +41,7 @@ class LayerHandler(BaseHandler):
 
     @handles_post_auth
     def post(self):
-        ret = {"status": True, "data": "", "error": "succeed"}
-        user_name = self.get_argument("user_name")
-        password = self.get_argument("password")
-
-        print("user_name:%s password:%s " % (user_name, password))
-
-        succeed = True
-        if (succeed):
-            debug_msg(LayerHandler, sys._getframe().f_lineno, "redirect home page")
-            # self.render("home.html")
-            self.write(json.dumps(ret))
-        else:
-            debug_msg(LayerHandler, sys._getframe().f_lineno, "错误处理")
-            # self.render("home.html")
-            ret["status"] = False
-            ret["error"] = "密码错误！"
-            self.write(json.dumps(ret))
+        pass
 
     def __get_point_history_by_user_name(self, user_name):
         history_module = self.db.query(ScoringHistoryModule).filter(ScoringHistoryModule.user_name == user_name).all()
@@ -66,8 +50,8 @@ class LayerHandler(BaseHandler):
         if history_module:
             for history in history_module:
                 tmp = {
-                    "transactor": history.transactor, "mark_name": history.mark_name,
-                    "points": history.points, "datetime": history.datetime,
+                    "transactor": history.transactor, "mark_name": history.criteria_name,
+                    "points": history.score_value, "datetime": history.date_time,
                 }
                 history_table.append(tmp)
 
@@ -77,34 +61,35 @@ class LayerHandler(BaseHandler):
 
     def __get_point_stat_by_user_name(self, user_name):
         history_module = self.db.query(ScoringHistoryModule).filter(ScoringHistoryModule.user_name == user_name).all()
-        mark_module = ScoringCriteriaModule.get_all_scoring_criteria()
+        criteria_module = ScoringCriteriaModule.get_all_scoring_criteria()
 
-        user_point = {}
-        user_point["user_name"] = user_name
-        if history_module and mark_module:
-            user_point = {}
-            for x in mark_module:
-                point = 0
-                for y in history_module:
-                    if x.id == y.mark_id:
-                        point = point + y.points
+        user_score = {}
+        user = {'user_name': user_name}
+        user_score.update(user)
+        if history_module and criteria_module:
+            for criteria in criteria_module:
+                score = 0
+                for history in history_module:
+                    if criteria.id == history.criteria_id:
+                        score = score + history.score_value  # 根据历史记录计算当前项已扣分总数
 
-                        user_point[x.markname] = point
+                criteria_score = {criteria.criteria_name: score}
+                user_score.update(criteria_score)
 
-            return user_point
+            return user_score
 
         else:
-            return user_point
+            return user_score
 
     def __get_all_leave_reason(self):
-        deduct_module = ScoringCriteriaModule.get_all_scoring_criteria()
+        criteria_module = ScoringCriteriaModule.get_all_scoring_criteria()
 
         leave_reason = []
 
-        if deduct_module:
-            for x in deduct_module:
-                if x.points < 0:
-                    tmp = {"reason_id": x.id, "leave_reason": x.markname}
+        if criteria_module:
+            for criteria in criteria_module:
+                if criteria.score_value < 0:
+                    tmp = {"reason_id": criteria.id, "leave_reason": criteria.criteria_name}
                     leave_reason.append(tmp)
 
             return leave_reason

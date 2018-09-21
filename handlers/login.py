@@ -26,7 +26,9 @@ class LoginHandler(BaseHandler):
         render_controller["authorized"] = False
 
         logging.info("get login page")
-        self.render("login.html", controller=render_controller, nextname=next_name)
+        self.render("login.html", controller=render_controller, nextname=next_name,
+                    language_mapping=self.language_mapping,
+                    )
 
     def post(self):
         response = {"status": True, "data": "", "message": "failed"}

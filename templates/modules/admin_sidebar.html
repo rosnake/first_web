@@ -1,17 +1,17 @@
 <div class="admin_navigation">
     <ul class="ul_admin_navigation" id="id_admin_sidebar_nav">
         {% if controller["admin"] == True %}
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_member"><a href="/admin/member">成员管理</a></li>
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_deduct"><a href="/admin/discipline">扣分项管理</a></li>
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_exchange"><a href="/admin/exchange">积分兑换</a></li>
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_explorer"><a href="/admin/explorer">文件管理</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_member"><a href={{ language_mapping["member"]["link"] }}>{{ language_mapping["member"]["name"] }}</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_deduct"><a href={{ language_mapping["discipline"]["link"] }}>{{ language_mapping["discipline"]["name"] }}</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_exchange"><a href={{ language_mapping["exchange"]["link"] }}>{{ language_mapping["exchange"]["name"] }}</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_explorer"><a href={{ language_mapping["explorer"]["link"] }}>{{ language_mapping["explorer"]["name"] }}</a></li>
         {% end %}
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_topics"><a href="/admin/topics">话题管理</a></li>
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_point"><a href="/admin/credits">积分管理</a></li>
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_organizer"><a href="/admin/organizer">组织者管理</a></li>
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_meeting"><a href="/admin/meeting">会议管理</a></li>
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_attendance"><a href="/admin/attendance">出勤管理</a></li>
-        <li class="li_admin_navigation" id="id_admin_sidebar_nav_evaluating"><a href="/admin/evaluating">评价管理</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_topics"><a href={{ language_mapping["topics"]["link"] }}>{{ language_mapping["topics"]["name"] }}</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_point"><a href={{ language_mapping["credits"]["link"] }}>{{ language_mapping["credits"]["name"] }}</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_organizer"><a href={{ language_mapping["organizer"]["link"] }}>{{ language_mapping["organizer"]["name"] }}</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_meeting"><a href={{ language_mapping["meeting"]["link"] }}>{{ language_mapping["meeting"]["name"] }}</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_attendance"><a href={{ language_mapping["attendance"]["link"] }}>{{ language_mapping["attendance"]["name"] }}</a></li>
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_evaluating"><a href={{ language_mapping["evaluating"]["link"] }}>{{ language_mapping["evaluating"]["name"] }}</a></li>
 
     </ul>
 </div>

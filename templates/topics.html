@@ -2,7 +2,7 @@
 <!--自动转义-->
 {% autoescape None %}
 {% block header %}
-{{ modules.Header(user_name) }}
+{{ modules.Header(user_name, language_mapping) }}
 {% end %}
 
 {% block body %}
@@ -24,7 +24,26 @@
         <h4>议题时间:</h4>
         <div class="topic_time">{% raw topics["time"] %}</div>
     </div>
+    <input type="button" class="class_admin_context_button" id="admin_user_issues_evaluation" value="我要打分" />
     {% end %}
+        
+    <div class="class_admin_popup_background" id="id_admin_issues_evaluation_popup_background">
+        <div class="class_admin_popup_content" id="id_admin_issues_evaluation_popup_frontend" >
+            <div class="class_admin_popup_title" id="id_admin_issues_evaluation_popup_close">
+                <h2 id="id_admin_issues_evaluation_sub_title">评分</h2>
+            </div>
+            <div class="class_admin_popup_body" id="id_admin_issues_evaluation_popup_body">
+                <p id="id_admin_issues_evaluation_operation"></p>
+                <p id="id_admin_issues_evaluation_id"></p>
+                <p><span>扣分项目:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_name"  /></p>
+                <p><span>扣分分数:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_point"  /></p>
+                <input type="button" class="class_admin_context_button" id="id_admin_issues_evaluation_submit" value="提交" />
+                <input type="button" class="class_admin_context_button" id="id_admin_issues_evaluation_cancel" value="取消" />
+            </div>
+
+        </div>
+    </div>
+
 </div>
 {% end %}
 

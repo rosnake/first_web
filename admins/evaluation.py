@@ -21,11 +21,30 @@ class AdminEvaluatingHandler(BaseHandler):
     def get(self):
         user_name = self.get_current_user()
         if user_name is not None:
+            user_issues_tables = self.__get_all_issues_info()
             self.render("admin/evaluation.html",
                         controller=self.render_controller,
                         user_name=user_name,
+                        language_mapping=self.language_mapping,
+                        user_issues_tables=user_issues_tables,
                         )
 
     @admin_post_auth(False)
     def post(self):
         pass
+
+    def __get_all_issues_info(self):
+        topics_module = IssuesInfoModule.get_all_issues_info()
+        if topics_module is None:
+            return None
+
+        topics_tables = []
+        for topics in topics_module:
+            tmp = {
+                "topic_id": topics.id, "name": topics.user_name, "image": topics.issues_image, "title": topics.issues_title,
+                "current": topics.current, "finish": topics.finish,  "time": topics.date_time,
+                "description": topics.issues_brief
+                   }
+            topics_tables.append(tmp)
+
+        return topics_tables

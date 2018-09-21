@@ -37,7 +37,10 @@ class HomeHandler(BaseHandler):
 
         points_table = self.__get_all_point_tables()
 
-        self.render("home.html", points_table=points_table, controller=self.render_controller, user_name=user_name)
+        self.render("home.html", points_table=points_table, controller=self.render_controller,
+                    user_name=user_name,
+                    language_mapping=self.language_mapping,
+                    )
 
     @handles_post_auth
     def post(self):
@@ -67,20 +70,22 @@ class HomeHandler(BaseHandler):
             return
 
     def __leave_apply_by_id(self, user_name, leave_id, leave_date):
-        mark = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == leave_id).first()
-        if mark is None:
+        criteria = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == leave_id).first()
+        if criteria is None:
+            logging.error("not scoring criteria exist, leave_id = %s" % leave_id)
             return False
         attendance = self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).first()
 
         if attendance is None:
+            logging.error("not attendance exist user_name=%s" % user_name)
             return False
 
         date_kits = DateToolKits()
         absence_apply_time = date_kits.get_now_time()  # 申请时间
 
         self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).update({
-            AttendanceModule.absence_reason: mark.markname,
-            AttendanceModule.absence_id: mark.id,
+            AttendanceModule.absence_reason: criteria.criteria_name,
+            AttendanceModule.absence_id: criteria.id,
             AttendanceModule.attended: False,
             AttendanceModule.absence_apply_accept: False,
             AttendanceModule.absence_apply_time: absence_apply_time,

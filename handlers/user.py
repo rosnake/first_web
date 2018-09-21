@@ -26,7 +26,10 @@ class UserHandler(BaseHandler):
 
         if user_name is not None:
 
-            self.render("user.html", controller=self.render_controller, user_name=user_name, next=next_name)
+            self.render("user.html", controller=self.render_controller, user_name=user_name,
+                        next=next_name,
+                        language_mapping=self.language_mapping,
+                        )
 
     @handles_post_auth
     def post(self):

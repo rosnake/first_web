@@ -32,7 +32,9 @@ class StatHandler(BaseHandler):
             presents_table = self.__get_presents_table(current_scores)
             self.render("statistics.html", current_scores=current_scores, history_table=history_table,
                         controller=self.render_controller, user_name=user_name, point_stat=point_stat,
-                        presents_table=presents_table)
+                        presents_table=presents_table,
+                        language_mapping=self.language_mapping,
+                        )
 
     @handles_post_auth
     def post(self):

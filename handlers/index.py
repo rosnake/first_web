@@ -30,6 +30,7 @@ class IndexHandler(BaseHandler):
                     controller=render_controller,
                     current_meeting=current_meeting,
                     user_name=user_name,
+                    language_mapping=self.language_mapping,
                     )
 
     def post(self):

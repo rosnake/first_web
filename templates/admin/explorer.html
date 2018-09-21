@@ -6,7 +6,7 @@
 {% end %}
 {% autoescape None %}
 {% block header %}
-{{ modules.Header(user_name) }}
+{{ modules.Header(user_name, language_mapping) }}
 {% end %}
 
 {% block body %}
@@ -20,7 +20,7 @@
              background: #ffc94e; /* 设置背景色 */
         }
     </style>
-    {{ modules.AdminSidebar(controller) }}
+    {{ modules.AdminSidebar(controller, language_mapping) }}
     <div class="class_admin_context">
         <!--<input class="class_admin_file_upload_text" type="text" name="upload"/>-->
         <div class="class_admin_context_file">

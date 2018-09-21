@@ -1,13 +1,13 @@
 <div class="navigation">
     <ul id="menu">
-        <li id="id_nav_home"><a href="/home">主页</a></li>
-        <li id="id_nav_topics"><a href="/topics">议题信息</a></li>
-        <li id="id_nav_statistics"><a href="/statistics">我的积分</a></li>
-        <li id="id_nav_applications"><a href="/applications">议题申报</a></li>
+        <li id="id_nav_home"><a href={{ language_mapping["home"]["link"] }}>{{ language_mapping["home"]["name"] }}</a></li>
+        <li id="id_nav_topics"><a href={{ language_mapping["issues"]["link"] }}>{{ language_mapping["issues"]["name"] }}</a></li>
+        <li id="id_nav_statistics"><a href={{ language_mapping["statistics"]["link"] }}>{{ language_mapping["statistics"]["name"] }}</a></li>
+        <li id="id_nav_applications"><a href={{ language_mapping["apply"]["link"] }}>{{ language_mapping["apply"]["name"] }}</a></li>
         {% if controller["admin"] == True or controller["organizer"] == True %}
-        <li id="id_nav_admin"><a href="/admin" class="last">管理</a></li>
+        <li id="id_nav_admin"><a href={{ language_mapping["admin"]["link"] }}>{{ language_mapping["admin"]["name"] }}</a></li>
         {% else %}
-        <li id="id_nav_about"><a href="/about" class="last">关于</a></li>
+        <li id="id_nav_about"><a href={{ language_mapping["about"]["link"] }}>{{ language_mapping["about"]["name"] }}</a></li>
         {% end %}
     </ul>
 </div>

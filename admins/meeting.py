@@ -28,6 +28,7 @@ class AdminMeetingHandler(BaseHandler):
                         controller=self.render_controller,
                         topics_tables=topics_tables,
                         user_name=user_name,
+                        language_mapping=self.language_mapping,
                         )
 
     @admin_post_auth(False)

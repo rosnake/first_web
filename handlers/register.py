@@ -3,11 +3,11 @@
 
 from methods.debug import *
 import json
-import sys
 from handlers.base import BaseHandler
 from orm.users_info import UsersInfoModule
 from orm.score_info import ScoreInfoModule
 from methods.controller import PageController
+from orm.attendance import AttendanceModule
 
 #  继承 base.py 中的类 BaseHandler
 class RegisterHandler(BaseHandler):
@@ -22,7 +22,9 @@ class RegisterHandler(BaseHandler):
         render_controller["admin"] = False
         render_controller["organizer"] = False
 
-        self.render("register.html",controller=render_controller)
+        self.render("register.html", controller=render_controller,
+                    language_mapping=self.language_mapping,
+                    )
         
     def post(self):
         ret = {"status": True, "data": "", "message": ""}
@@ -59,6 +61,17 @@ class RegisterHandler(BaseHandler):
             self.db.commit()
             succeed = True
 
+            attendance = AttendanceModule()
+            attendance.user_name = user_name
+            attendance.chinese_name = user_module.chinese_name
+            attendance.absence_reason = "unknown"
+            attendance.absence_id = 0
+            attendance.attended = True
+            attendance.checked_in = True
+            attendance.absence_apply_accept = True
+
+            self.db.add(attendance)
+            self.db.commit()
         if succeed is True:
             self.write(json.dumps(ret))
         else:

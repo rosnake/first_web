@@ -16,7 +16,9 @@ class AdminIssuesHandler(BaseHandler):
     def get(self):
         user_name = self.get_current_user()
         if user_name is not None:
-            self.render("admin/issues.html", controller=self.render_controller)
+            self.render("admin/issues.html", controller=self.render_controller,
+                        language_mapping=self.language_mapping,
+                        )
 
     @admin_post_auth(False)
     def post(self):

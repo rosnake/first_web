@@ -6,6 +6,8 @@ from session.session import SessionFactory
 from methods.debug import *
 from orm.db_base import dbSession
 from orm.users_info import UsersInfoModule
+from config.language import LanguageMapping
+from methods.controller import PageController
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -21,6 +23,11 @@ class BaseHandler(tornado.web.RequestHandler):
         logging.info("[initialize]:get session handler and init db")
         self.session = SessionFactory.get_session_handler(self)
         self.db = dbSession
+        # 准备多语言
+        self.language_mapping = LanguageMapping().get_mapping_table()
+        # 准备页面控制器
+        page_controller = PageController()
+        self.render_controller = page_controller.get_render_controller()
 
     def on_finish(self):
         logging.info("[finish]:clear cookie and close db")

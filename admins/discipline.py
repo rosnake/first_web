@@ -25,6 +25,7 @@ class AdminDisciplineHandler(BaseHandler):
                         deduct_tables=deduct_tables,
                         controller=self.render_controller,
                         user_name=user_name,
+                        language_mapping=self.language_mapping,
                         )
 
     @admin_post_auth(False)
