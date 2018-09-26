@@ -5,6 +5,9 @@ from handlers.base import BaseHandler
 from orm.issues_info import IssuesInfoModule
 from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
+from methods.toolkits import DateToolKits
+from methods.debug import *
+import json
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -27,7 +30,25 @@ class TopicsHandler(BaseHandler):
 
     @handles_post_auth
     def post(self):
-        pass
+        response = {"status": True, "data": "", "message": "failed"}
+        date_kits = DateToolKits()
+        response["data"] = date_kits.get_now_day_str()
+
+        operation = self.get_argument("operation")
+        issues_id = self.get_argument("issues_id")
+        prepare_score = self.get_argument("prepare_score")
+        novel_score = self.get_argument("novel_score")
+        report_score = self.get_argument("report_score")
+
+        logging.info("operation:%s, issues_id:%s,prepare_score:%s,novel_score:%s,report_score:%s"
+                     % (operation, issues_id, prepare_score, novel_score,report_score))
+
+        # 需要根据具体情况定
+        response["status"] = True
+        response["message"] = "评价成功！"
+        response["data"] = date_kits.get_now_day_str()
+        self.write(json.dumps(response))
+        return
 
     def __get_all_issues_info(self):
         topics_module = IssuesInfoModule.get_all_issues_info()

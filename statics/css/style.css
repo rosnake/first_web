@@ -496,3 +496,78 @@ body {
     margin-top: 15px;
     border: 1px solid #a2ffe9;
 }
+
+/*管理界面弹窗布局*/
+.class_evaluate_popup_background {
+	display: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.class_evaluate_popup_content {
+    position: absolute;
+    left: 40%;
+    top: 30%;
+	background:#eeeeee;
+	width: 600px;
+	z-index: 1;
+	overflow: auto;
+    border-radius:8px;
+}
+
+.class_evaluate_popup_body {
+	background: #f3f7df;
+	margin: auto;
+	padding: 0 20px;
+    text-align: center;
+}
+
+.class_evaluate_popup_title {
+	padding: 5px;
+	background: #ffc94e;
+}
+
+.class_evaluate_popup_title h2 {
+	margin: 10px 0;
+	color: white;
+	padding-left: 15px;
+}
+
+.class_evaluate_popup_body h3 {
+	margin: 0 0px;
+	padding-top: 15px;
+}
+
+.class_evaluate_popup_body span{
+    width: 120px;
+    height: 25px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 15px;
+    display:-moz-inline-box; /* css注释：for ff2 */
+    display:inline-block;
+}
+.class_evaluate_popup_body_input{
+    width: 200px;
+    height: 25px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 15px;
+    border-radius:5px;
+}
+
+.class_evaluate_context_button
+{
+    //right: 200px;
+    width: 180px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 15px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #009f95;
+}

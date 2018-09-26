@@ -38,7 +38,7 @@ class AdminTopicsHandler(BaseHandler):
         topic_name = self.get_argument("topic_name")
         topic_brief = self.get_argument("topic_brief")
         topic_date = self.get_argument("topic_date")
-        topic_id = self.get_argument("topic_id")
+        topic_id = self.get_argument("issues_id")
 
         if operation == "add":
             ret = self.__add_topics(topic_user, topic_name, topic_brief, topic_date)
@@ -113,7 +113,7 @@ class AdminTopicsHandler(BaseHandler):
         topic_module.issues_title = topic_name
         topic_module.issues_brief = topic_brief
         topic_module.date_time = topic_date
-        topic_module.current = False
+        topic_module.current = True
         topic_module.finish = False
         topic_module.issues_image = "null"
 

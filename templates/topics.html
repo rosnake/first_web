@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 <!--自动转义-->
+{% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/topic.js")}}"></script>
+{% end %}
+
 {% autoescape None %}
 {% block header %}
 {{ modules.Header(user_name, language_mapping) }}
@@ -11,10 +16,14 @@
              background: #ffc94e; /* 设置背景色 */
         }
     </style>
-<h3> 本周议题：</h3>
+<h3> 本周议题:</h3>
 {% for topics in  topics_table %}
 <div class="topics_current">
     {% if topics["current"] == True %}
+    <div class="class_context_topic_id">
+        <input type="radio" name="select_id" id="id_issues" value={{ topics["topic_id"] }}>
+        <label class="class_context_topic_details_id">议题编号:{% raw topics["topic_id"] %}</label>
+    </div>
     <h5 class="user_name">议题主讲人：{{ topics["name"] }}</h5>
     <div class="topic_details">
         <h4>议题:</h4>
@@ -24,28 +33,50 @@
         <h4>议题时间:</h4>
         <div class="topic_time">{% raw topics["time"] %}</div>
     </div>
-    <input type="button" class="class_admin_context_button" id="admin_user_issues_evaluation" value="我要打分" />
     {% end %}
-        
-    <div class="class_admin_popup_background" id="id_admin_issues_evaluation_popup_background">
-        <div class="class_admin_popup_content" id="id_admin_issues_evaluation_popup_frontend" >
-            <div class="class_admin_popup_title" id="id_admin_issues_evaluation_popup_close">
-                <h2 id="id_admin_issues_evaluation_sub_title">评分</h2>
+
+</div>
+{% end %}
+    <input type="button" class="class_evaluate_context_button" id="id_user_issues_evaluation" value="我要打分" />
+
+    <div class="class_evaluate_popup_background" id="id_issues_evaluation_popup_background">
+        <div class="class_evaluate_popup_content" id="id_issues_evaluation_popup_frontend" >
+            <div class="class_evaluate_popup_title" id="id_issues_evaluation_popup_close">
+                <h2 id="id_issues_evaluation_sub_title">评分</h2>
             </div>
-            <div class="class_admin_popup_body" id="id_admin_issues_evaluation_popup_body">
-                <p id="id_admin_issues_evaluation_operation"></p>
-                <p id="id_admin_issues_evaluation_id"></p>
-                <p><span>扣分项目:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_name"  /></p>
-                <p><span>扣分分数:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_point"  /></p>
-                <input type="button" class="class_admin_context_button" id="id_admin_issues_evaluation_submit" value="提交" />
-                <input type="button" class="class_admin_context_button" id="id_admin_issues_evaluation_cancel" value="取消" />
+            <div class="class_evaluate_popup_body" id="id_issues_evaluation_popup_body">
+                <p id="id_issues_evaluation_operation"></p>
+                <p id="id_issues_evaluation_id"></p>
+                <p><span>准备是否充分:</span>
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="5">5分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="4">4分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="3" checked>3分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="2">2分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="1">1分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="0">0分
+                </p>
+                <p><span>议题是否新颖:</span>
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="5">5分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="4">4分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="3" checked>3分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="2">2分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="1">1分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="0">0分
+                </p>
+                <p><span>议题是否精彩:</span>
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="5">5分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="4">4分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="3" checked>3分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="2">2分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="1">1分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="0">0分
+                </p>
+                <input type="button" class="class_evaluate_context_button" id="id_issues_evaluation_submit" value="提交" />
+                <input type="button" class="class_evaluate_context_button" id="id_issues_evaluation_cancel" value="取消" />
             </div>
 
         </div>
     </div>
-
-</div>
-{% end %}
 
 <h3> 历史议题信息：</h3>
 

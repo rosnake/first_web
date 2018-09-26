@@ -96,4 +96,76 @@ $(document).ready(function () {
 		}, 1000);
 	});
 
+
+    $('#id_user_issues_evaluation').on('click', function () {
+		var issues_object = $('input[name="select_id"]:checked ');
+		var issues_id = issues_object.val();
+		if ((typeof issues_id) === 'undefined') {
+			layer.msg("当前未选择任何项目");
+			console.log("current not select any id");
+			return;
+		}
+		var issues_id = issues_object.val();
+		console.log("issues_id:"+issues_id);
+        $('#id_issues_evaluation_id').val(issues_id);
+		$('#id_issues_evaluation_popup_background').show();
+    });
+
+    $('#id_issues_evaluation_submit').on('click', function () {
+        var issues_id = $('#id_issues_evaluation_id').val();
+        var issues_id = $('#id_issues_evaluation_id').val();
+        var issues_id = $('#id_issues_evaluation_id').val();
+        var issues_id = $('#id_issues_evaluation_id').val();
+        var prepare_score = $("input[name='issues_prepare_score']:checked").val()
+        var novel_score = $("input[name='issues_novel']:checked").val()
+        var report_score = $("input[name='issues_report_score']:checked").val()
+
+        console.log("issues_id:"+issues_id+" prepare_score:"+prepare_score+" novel_score:"+novel_score+" report_score:"+report_score);
+        var submit_data = {
+            "operation": "evaluate",
+            "issues_id": issues_id,
+            "prepare_score": prepare_score,
+            "novel_score": novel_score,
+            "report_score": report_score,
+            "_xsrf": getCookie("_xsrf")
+        };
+
+        $.ajax({
+            type: "post",
+            url: "/topics",
+            data: submit_data,
+            cache: false,
+            success: function (arg) {
+                console.log(arg);
+                //arg是字符串
+                var obj = JSON.parse(arg);
+                if (obj.status) {
+                    layer.msg("打分成功");
+                    console.log("issues_id:" + issues_id);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    layer.msg(obj.message);
+                }
+            },
+            error: function (arg) {
+                console.log(arg);
+                layer.msg("未知的错误");
+            }
+        });
+
+		$('#id_issues_evaluation_popup_background').hide();
+		$('#id_issues_evaluation_id').val("");
+        $('input:radio[name="likea"]').removeAttr('checked');
+        $('input:radio[name="likea"]').removeAttr('checked');
+        $('input:radio[name="likea"]').removeAttr('checked');
+    });
+
+    $('#id_issues_evaluation_cancel').on('click', function () {
+
+		$('#id_issues_evaluation_popup_background').hide();
+		$('#id_issues_evaluation_id').val("");
+
+    });
 });
