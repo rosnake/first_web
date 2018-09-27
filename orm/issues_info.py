@@ -1,7 +1,7 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float
 from orm.db_base import dbSession
 from orm.db_base import DataBase
 from datetime import datetime
@@ -20,9 +20,12 @@ class IssuesInfoModule(DataBase):
     issues_title = Column(String(64), nullable=False)  # 议题名称
     issues_brief = Column(String(64), nullable=True, index=False)  # 议题简介
     issues_image = Column(String(64), nullable=True, index=False)  # 议题图片路径
+    issues_score = Column(Float, default=0.0, nullable=False, index=False)  # 议题得分
+    issues_meeting_room = Column(String(64), nullable=True, index=False)  # 议题会议室
     date_time = Column(DateTime, default=datetime.now())
-    finish = Column(Boolean, default=False, nullable=False)
-    current = Column(Boolean, default=False, nullable=False)
+    finish = Column(Boolean, default=False, nullable=False)  # 议题是否结束
+    current = Column(Boolean, default=False, nullable=False)  # 是否是本周议题
+    issues_evaluate_finish = Column(Boolean, default=False, nullable=False)  # 议题评价是否结束
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.user_name)

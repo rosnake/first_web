@@ -113,12 +113,9 @@ $(document).ready(function () {
 
     $('#id_issues_evaluation_submit').on('click', function () {
         var issues_id = $('#id_issues_evaluation_id').val();
-        var issues_id = $('#id_issues_evaluation_id').val();
-        var issues_id = $('#id_issues_evaluation_id').val();
-        var issues_id = $('#id_issues_evaluation_id').val();
-        var prepare_score = $("input[name='issues_prepare_score']:checked").val()
-        var novel_score = $("input[name='issues_novel']:checked").val()
-        var report_score = $("input[name='issues_report_score']:checked").val()
+        var prepare_score = $("input[name='issues_prepare_score']:checked").val();
+        var novel_score = $("input[name='issues_novel']:checked").val();
+        var report_score = $("input[name='issues_report_score']:checked").val();
 
         console.log("issues_id:"+issues_id+" prepare_score:"+prepare_score+" novel_score:"+novel_score+" report_score:"+report_score);
         var submit_data = {
@@ -157,9 +154,9 @@ $(document).ready(function () {
 
 		$('#id_issues_evaluation_popup_background').hide();
 		$('#id_issues_evaluation_id').val("");
-        $('input:radio[name="likea"]').removeAttr('checked');
-        $('input:radio[name="likea"]').removeAttr('checked');
-        $('input:radio[name="likea"]').removeAttr('checked');
+        $('input:radio[name="issues_prepare_score"]').removeAttr('checked');
+        $('input:radio[name="issues_novel"]').removeAttr('checked');
+        $('input:radio[name="issues_report_score"]').removeAttr('checked');
     });
 
     $('#id_issues_evaluation_cancel').on('click', function () {
