@@ -23,6 +23,16 @@
     </style>
     {{ modules.AdminSidebar(controller, language_mapping) }}
     <div class="class_admin_context">
+    {% if user_exchange_tables is not None %}
+        {% if len(user_exchange_tables) == 0 %}
+            {% set exchange_is_null = True %}
+        {% else %}
+            {% set exchange_is_null = False %}
+        {% end %}
+    {% end %}
+    {% if exchange_is_null %}
+        <h3>当前无用户申请积分兑换</h3>
+    {% else %}
         <h3>当前有如下用户申请积分兑换，请处理：</h3>
         <form class="class_admin_context_form" id="admin_member_form" name="member_form">
         <table class="class_admin_context_table" id="admin_member_table">
@@ -57,6 +67,7 @@
             <input type="button" class="class_admin_context_button" id="id_admin_exchange_accept" value="兑换" />
             <input type="button" class="class_admin_context_button" id="id_admin_exchange_reject" value="驳回"/>
         </div>
+    {% end %}
 
         <h3>当前所有积分兑换规则如下：</h3>
         <form class="class_admin_context_form" id="admin_member_form" name="member_form">

@@ -39,6 +39,7 @@
         </thead>
          <tbody class="class_admin_context_table_body" id="id_admin_meeting_table_body">
         {% for meeting in meeting_tables %}
+            {% if meeting["current_meeting"] is True %}
             <tr>
                 <td class="class_admin_context_table_td" ><input type="radio" name="select_id" value={{ meeting["issues_id"] }}></td>
                 <td class="class_admin_context_table_td" id="id_meeting_issues_id">{{ meeting["issues_id"] }}</td>
@@ -47,15 +48,52 @@
                 <td class="class_admin_context_table_td" id="id_meeting_room">{{ meeting["meeting_room"] }}</td>
                 <td class="class_admin_context_table_td" id="id_meeting_date">{{ meeting["meeting_date"] }}</td>
             </tr>
+            {% end %}
         {% end %}
         </tbody>
     </table>
-        </form>
-        <div class="class_admin_context_button_layout">
-            <input type="button" class="class_admin_context_button" id="id_admin_meeting_add" value="增加"/>
-            <input type="button" class="class_admin_context_button" id="id_admin_meeting_mod" value="修改"/>
-            <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_current" value="设置为当前"/>
-        </div>
+    </form>
+    <div class="class_admin_context_button_layout">
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_add" value="增加"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_mod" value="修改"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_del" value="删除"/>
+    </div>
+
+    <div class="class_admin_context_button_layout">
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_current" value="设置为当前"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_finish" value="结束会议"/>
+    </div>
+
+    <h3>已结束会议信息如下</h3>
+    <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+        <table class="class_admin_context_table" id="admin_member_table">
+        <thead class="class_admin_context_table_head" id="admin_member_table_head">
+            <tr>
+                <th></th>
+                <th>议题ID</th>
+                <th>议题</th>
+                <th>用户名</th>
+                <th>会议室</th>
+                <th>时间</th>
+            </tr>
+        </thead>
+         <tbody class="class_admin_context_table_body" id="id_admin_meeting_table_body">
+        {% for meeting in meeting_tables %}
+            {% if meeting["meeting_finish"] is True %}
+            <tr>
+                <td class="class_admin_context_table_td" >{{ meeting["issues_id"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_issues_id">{{ meeting["issues_id"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_issues_title">{{ meeting["issues_title"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_keynote_user_name">{{ meeting["keynote_user_name"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_room">{{ meeting["meeting_room"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_date">{{ meeting["meeting_date"] }}</td>
+            </tr>
+            {% end %}
+        {% end %}
+        </tbody>
+        </table>
+    </form>
+
 
         <!-- 弹窗内容开始 -->
         <div class="class_admin_popup_background" id="id_admin_meeting_edit_popup_background">
@@ -112,7 +150,7 @@
                     <input type="button" class="class_admin_context_button" id="id_admin_meeting_select_confirm" value="确认"/>
                     <input type="button" class="class_admin_context_button" id="id_admin_meeting_select_cancel" value="取消"/>
                     {% else %}
-                    <p><span>当前无议题，无法添加会议信息，如下添加会议信息，请先添加议题</span></p>
+                    <p><span>当前无议题，无法添加会议信息，如需添加会议信息，请先添加议题</span></p>
                     <input type="button" class="class_admin_context_button" id="id_admin_meeting_select_cancel" value="取消"/>
                     {% end %}
 

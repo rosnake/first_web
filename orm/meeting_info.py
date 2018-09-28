@@ -21,7 +21,8 @@ class MeetingInfoModule(DataBase):
     meeting_room = Column(String(64), nullable=False, index=True)  # 会议室
     issues_title = Column(String(64), nullable=False, index=True)  # 议题ID
     meeting_date = Column(DateTime, default=datetime.now())  # 会议时间
-    current_meeting = Column(Boolean, default=False, nullable=False)  # 是否是当前会议
+    current_meeting = Column(Boolean, default=True, nullable=False)  # 是否是当前会议
+    meeting_finish = Column(Boolean, default=False, nullable=False)  # 会议是否结束
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.keynote_user_name)

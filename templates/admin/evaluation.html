@@ -2,6 +2,8 @@
 <!--自动转义-->
 {% block external_lib %}
     <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/evaluation.js")}}"></script>
+
 {% end %}
 {% autoescape None %}
 {% block header %}
@@ -21,34 +23,34 @@
     </style>
     {{ modules.AdminSidebar(controller, language_mapping) }}
     <div class="class_admin_context">
-        <h3>当前已完成议题，请评分：</h3>
+        <h3>以下议题已结束，待评价：</h3>
     {% for issues in  user_issues_tables %}
-        {% if issues["finish"] == True and  issues["current"] == True %}
+        {% if issues["finish"] == True and  issues["issues_evaluate_finish"] == False %}
         <div class="class_admin_context_topic">
-            {% if issues["name"] != "" %}
+            {% if issues["keynote_user_name"] != "" %}
             <!--
-            <input type="radio" name="select_id" value={{ issues["topic_id"] }}>
+            <input type="radio" name="select_id" value={{ issues["issues_id"] }}>
              -->
             <div class="class_admin_context_topic_id">
-                <input type="radio" name="select_id" id="id_admin_issues" value={{ issues["topic_id"] }}>
-                <label class="class_admin_context_topic_details_id">议题编号:{% raw issues["topic_id"] %}</label>
+                <input type="radio" name="select_id" id="id_admin_issues" value={{ issues["issues_id"] }}>
+                <label class="class_admin_context_topic_details_id">议题编号:{% raw issues["issues_id"] %}</label>
             </div>
             <div class="class_admin_context_topic_details">
                 <div>
                     <label class="class_admin_context_details_label">主 讲 人：</label>
-                    <p class="class_admin_context_details_paragraph" id="id_admin_issues_keynote_user_name">{% raw issues["name"] %}</p>
+                    <p class="class_admin_context_details_paragraph" id="id_admin_issues_keynote_user_name">{% raw issues["keynote_user_name"] %}</p>
                 </div>
                 <div>
                     <label class="class_admin_context_details_label">议&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp题:</label>
-                    <p class="class_admin_context_details_paragraph" id="id_admin_topic_title">{% raw issues["title"] %} </p>
+                    <p class="class_admin_context_details_paragraph" id="id_admin_topic_title">{% raw issues["issues_title"] %} </p>
                 </div>
                 <div>
                     <label class="class_admin_context_details_label">议题简介:</label>
-                    <p class="class_admin_context_details_paragraph" >{% raw issues["description"] %}</p>
+                    <p class="class_admin_context_details_paragraph" >{% raw issues["issues_brief"] %}</p>
                 </div>
                 <div>
                     <label class="class_admin_context_details_label">议题时间: </label>
-                    <p class="class_admin_context_details_paragraph">{% raw issues["time"]%}</p>
+                    <p class="class_admin_context_details_paragraph">{% raw issues["date_time"]%}</p>
                 </div>
             </div>
             {% end %}
@@ -59,7 +61,7 @@
     {% end %}
 
         <div class="class_admin_context_button_layout">
-            <input type="button" class="class_admin_context_button" id="admin_user_issues_evaluation" value="结束打分" />
+            <input type="button" class="class_admin_context_button" id="id_admin_user_issues_evaluation_finish" value="结束打分" />
         </div>
     </div>
 

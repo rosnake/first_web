@@ -21,22 +21,44 @@
 <div class="topics_current">
     {% if topics["current"] == True %}
     <div class="class_context_topic_id">
-        <input type="radio" name="select_id" id="id_issues" value={{ topics["topic_id"] }}>
-        <label class="class_context_topic_details_id">议题编号:{% raw topics["topic_id"] %}</label>
+        <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
     </div>
-    <h5 class="user_name">议题主讲人：{{ topics["name"] }}</h5>
+    <h5 class="user_name">议题主讲人：{{ topics["keynote_user_name"] }}</h5>
     <div class="topic_details">
         <h4>议题:</h4>
-        <div class="topic_title">{{ topics["title"]}}</div>
+        <div class="topic_title">{{ topics["issues_title"]}}</div>
         <h4>议题简介:</h4>
-        <div class="topic_description">{% raw topics["description"] %}</div>
+        <div class="topic_description">{% raw topics["issues_brief"] %}</div>
         <h4>议题时间:</h4>
-        <div class="topic_time">{% raw topics["time"] %}</div>
+        <div class="topic_time">{% raw topics["date_time"] %}</div>
     </div>
     {% end %}
 
 </div>
 {% end %}
+
+<h3> 待评价议题:</h3>
+{% for topics in  topics_table %}
+<div class="topics_current">
+    {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
+    <div class="class_context_topic_id">
+        <input type="radio" name="select_id" id="id_issues" value={{ topics["issues_id"] }}>
+        <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
+    </div>
+    <h5 class="user_name">议题主讲人：{{ topics["keynote_user_name"] }}</h5>
+    <div class="topic_details">
+        <h4>议题:</h4>
+        <div class="topic_title">{{ topics["issues_title"]}}</div>
+        <h4>议题简介:</h4>
+        <div class="topic_description">{% raw topics["issues_brief"] %}</div>
+        <h4>议题时间:</h4>
+        <div class="topic_time">{% raw topics["date_time"] %}</div>
+    </div>
+    {% end %}
+
+</div>
+{% end %}
+
     <input type="button" class="class_evaluate_context_button" id="id_user_issues_evaluation" value="我要打分" />
 
     <div class="class_evaluate_popup_background" id="id_issues_evaluation_popup_background">
@@ -86,15 +108,15 @@
     {% end %}
     {% if topics["finish"] == True %}
     <div class="topics">
-        {% if topics["name"] != "" %}
-        <h5 class="user_name">议题主讲人：{{ topics["name"] }}</h5>
+        {% if topics["keynote_user_name"] != "" %}
+        <h5 class="user_name">议题主讲人：{{ topics["keynote_user_name"] }}</h5>
         <div class="topic_details">
             <h4>议题:</h4>
-            <div class="topic_title">{{ topics["title"]}}</div>
+            <div class="topic_title">{{ topics["issues_title"]}}</div>
             <h4>议题简介:</h4>
-            <div class="topic_description">{% raw topics["description"] %}</div>
+            <div class="topic_description">{% raw topics["issues_brief"] %}</div>
             <h4>议题时间:</h4>
-            <div class="topic_time">{% raw topics["time"] %}</div>
+            <div class="topic_time">{% raw topics["date_time"] %}</div>
         </div>
         {% end %}
     </div>

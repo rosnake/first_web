@@ -88,6 +88,7 @@ class ApplicationsHandler(BaseHandler):
         topic_module.current = False
         topic_module.finish = False
         topic_module.issues_image = "null"
+        topic_module.voluntary_apply = True
 
         self.db.add(topic_module)
         self.db.commit()

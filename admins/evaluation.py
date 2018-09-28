@@ -34,17 +34,20 @@ class AdminEvaluatingHandler(BaseHandler):
         pass
 
     def __get_all_issues_info(self):
-        topics_module = IssuesInfoModule.get_all_issues_info()
-        if topics_module is None:
+        issues_module = IssuesInfoModule.get_all_issues_info()
+        if issues_module is None:
             return None
 
-        topics_tables = []
-        for topics in topics_module:
+        issues_tables = []
+        for issues in issues_module:
             tmp = {
-                "topic_id": topics.id, "name": topics.user_name, "image": topics.issues_image, "title": topics.issues_title,
-                "current": topics.current, "finish": topics.finish,  "time": topics.date_time,
-                "description": topics.issues_brief
+                "issues_id": issues.id, "keynote_user_name": issues.user_name, "issues_image": issues.issues_image,
+                "issues_title": issues.issues_title, "keynote_chinese_name": issues.chinese_name,
+                "current": issues.current, "finish": issues.finish,  "date_time": issues.date_time,
+                "issues_brief": issues.issues_brief, "issues_score": issues.issues_score,
+                "issues_meeting_room": issues.issues_meeting_room,
+                "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply
                    }
-            topics_tables.append(tmp)
+            issues_tables.append(tmp)
 
-        return topics_tables
+        return issues_tables

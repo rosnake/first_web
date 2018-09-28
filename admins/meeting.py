@@ -72,21 +72,51 @@ class AdminMeetingHandler(BaseHandler):
                 self.write(json.dumps(response))
 
             return
-        if operation == "set_current":
-            ret = self.__set_meeting_to_current(issues_id)
+
+        if operation == "del":
+            ret = self.__delete_meeting_info_by_id(issues_id)
             if ret is True:
                 response["status"] = True
-                response["message"] = "修改成功！"
+                response["message"] = "删除当前会议成功！"
                 response["data"] = date_kits.get_now_day_str()
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
-                response["message"] = "修改失败！"
+                response["message"] = "删除当前会议失败！"
                 response["data"] = date_kits.get_now_day_str()
                 self.write(json.dumps(response))
 
             return
 
+        if operation == "set_current":
+            ret = self.__set_meeting_to_current(issues_id)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "设置为当前议题成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+            else:
+                response["status"] = False
+                response["message"] = "设置当前议题失败！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+
+            return
+
+        if operation == "issues_finish":
+            ret = self.__finish_current_meeting(issues_id)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "结束当前会议成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+            else:
+                response["status"] = False
+                response["message"] = "结束当前会议失败！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+
+            return
 
     def __get_meeting_table(self):
         meeting_modules = MeetingInfoModule.get_all_meeting_info()
@@ -96,7 +126,9 @@ class AdminMeetingHandler(BaseHandler):
             for x in meeting_modules:
                 tmp = {"meeting_id": x.id, "issues_id": x.issues_id, "issues_title": x.issues_title,
                        "current_meeting": x.current_meeting, "keynote_user_name": x.keynote_user_name,
-                       "meeting_room": x.meeting_room, "meeting_date": x.meeting_date}
+                       "meeting_room": x.meeting_room, "meeting_date": x.meeting_date,
+                       "meeting_finish": x.meeting_finish
+                       }
 
                 meeting_table.append(tmp)
 
@@ -144,6 +176,11 @@ class AdminMeetingHandler(BaseHandler):
         self.db.add(meeting_info)
         self.db.commit()
 
+        self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
+            IssuesInfoModule.issues_meeting_room: meeting_room,
+        })
+        self.db.commit()
+
         return True
 
     def __modify_meeting_info_by_issues_id(self, issues_id, meeting_room, meeting_date):
@@ -165,10 +202,57 @@ class AdminMeetingHandler(BaseHandler):
         if meeting is None:
             return False
 
+        issues = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).first()
+        if issues is None:
+            return False
+
+        self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
+            IssuesInfoModule.current: True,
+        })
+        self.db.commit()
+
         self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).update({
             MeetingInfoModule.current_meeting: True,
         })
 
+        self.db.commit()
+
+        return True
+
+    def __finish_current_meeting(self, issues_id):
+        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).first()
+        if meeting is None:
+            return False
+
+        issues = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).first()
+        if issues is None:
+            return False
+
+        self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
+            IssuesInfoModule.current: False,
+            IssuesInfoModule.issues_evaluate_finish: False,
+            IssuesInfoModule.finish: True,
+
+        })
+        self.db.commit()
+
+        self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).update({
+            MeetingInfoModule.current_meeting: False,
+            MeetingInfoModule.meeting_finish: True,
+
+        })
+
+        self.db.commit()
+
+        return True
+
+    def __delete_meeting_info_by_id(self, issues_id):
+        logging.info("issues_id:"+issues_id)
+        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).first()
+        if meeting is None:
+            return False
+
+        self.db.delete(meeting)
         self.db.commit()
 
         return True

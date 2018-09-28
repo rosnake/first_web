@@ -191,33 +191,33 @@ $(document).ready(function () {
 			return false 为 跳出整个 each
 			 */
 
-			if ($(this).attr('id') === "issues_id") {
+			if ($(this).attr('id') === "id_meeting_issues_id") {
 				issues_id = $(this).text();
 				console.log("issues_id:" + issues_id);
 			}
 
-			if ($(this).attr('id') === "keynote_user_name") {
+			if ($(this).attr('id') === "id_meeting_keynote_user_name") {
 				keynote_user_name = $(this).text();
-				console.log("keynote_user_name:" + keynote_user_name);
+				console.log("user_name:" + keynote_user_name);
 			}
 
-			if ($(this).attr('id') === "meeting_room") {
+			if ($(this).attr('id') === "id_meeting_room") {
 				meeting_room = $(this).text();
 				console.log("meeting_room:" + meeting_room);
 			}
 
-			if ($(this).attr('id') === "meeting_date") {
+			if ($(this).attr('id') === "id_meeting_date") {
 				meeting_date = $(this).text();
 				console.log("meeting_date:" + meeting_date);
 			}
 
-			if ($(this).attr('id') === "issues_title") {
+			if ($(this).attr('id') === "id_meeting_issues_title") {
 				issues_title = $(this).text();
 				console.log("issues_title:" + issues_title);
 			}
 		});
 
-		operation = "set_current";
+		var operation = "set_current";
 		console.log("operation:" + operation + " issues_id: " + issues_id + " keynote_user_name: " + keynote_user_name +
 			" meeting_date: " + meeting_date + " meeting_room: " + meeting_room);
 
@@ -325,5 +325,195 @@ $(document).ready(function () {
 		console.log("id_admin_meeting_select_cancel");
 		$('#id_meeting_select_popup_background').hide();
 	});
+
+	$('#id_admin_meeting_del').on('click', function () {
+		var issues_id = $('#id_admin_meeting_table_body input[name="select_id"]:checked ').val();
+		if ((typeof issues_id) === 'undefined') {
+			layer.msg("当前未选择任何项目");
+			console.log("current not select any id");
+			return;
+		}
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		var ttr = $("input:checked").parents('tr');
+		//console.log(ttr);
+
+		/*当前行使用find方法找到每一个td列
+		each方法为每一个td设置function
+		 */
+		var issues_id = "";
+		var keynote_user_name = "";
+		var meeting_room = "";
+		var meeting_date = "";
+		var issues_title = "";
+
+		ttr.find("td").each(function () {
+			/*过滤 td中的元素
+			checkbox 、 button、text 不需要执行append
+			注意 return 为 跳出当前 each
+			return false 为 跳出整个 each
+			 */
+
+			if ($(this).attr('id') === "id_meeting_issues_id") {
+				issues_id = $(this).text();
+				console.log("issues_id:" + issues_id);
+			}
+
+			if ($(this).attr('id') === "id_meeting_keynote_user_name") {
+				keynote_user_name = $(this).text();
+				console.log("user_name:" + keynote_user_name);
+			}
+
+			if ($(this).attr('id') === "id_meeting_room") {
+				meeting_room = $(this).text();
+				console.log("meeting_room:" + meeting_room);
+			}
+
+			if ($(this).attr('id') === "id_meeting_date") {
+				meeting_date = $(this).text();
+				console.log("meeting_date:" + meeting_date);
+			}
+
+			if ($(this).attr('id') === "id_meeting_issues_title") {
+				issues_title = $(this).text();
+				console.log("issues_title:" + issues_title);
+			}
+		});
+
+		var operation = "del";
+		console.log("operation:" + operation + " issues_id: " + issues_id + " keynote_user_name: " + keynote_user_name +
+			" meeting_date: " + meeting_date + " meeting_room: " + meeting_room);
+
+		var submit_data = {
+			"operation": operation,
+			"issues_id": issues_id,
+			"keynote_user_name": keynote_user_name,
+			"meeting_room": meeting_room,
+			"meeting_date": meeting_date,
+			"issues_title": issues_title,
+			"_xsrf": getCookie("_xsrf")
+		};
+
+		$.ajax({
+			type: "post",
+			url: "/admin/meeting",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					layer.msg(obj.message);
+					console.log("issues_id:" + issues_id);
+					setTimeout(function () {
+						window.location.reload();
+					}, 1000);
+				} else {
+					layer.msg(obj.message);
+				}
+			},
+			error: function (arg) {
+				console.log(arg);
+				layer.msg("未知的错误");
+			}
+		});
+	});
+
+	$('#id_admin_meeting_set_finish').on('click', function () {
+		var issues_id = $('#id_admin_meeting_table_body input[name="select_id"]:checked ').val();
+		if ((typeof issues_id) === 'undefined') {
+			layer.msg("当前未选择任何项目");
+			console.log("current not select any id");
+			return;
+		}
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		var ttr = $("input:checked").parents('tr');
+		//console.log(ttr);
+
+		/*当前行使用find方法找到每一个td列
+		each方法为每一个td设置function
+		 */
+		var issues_id = "";
+		var keynote_user_name = "";
+		var meeting_room = "";
+		var meeting_date = "";
+		var issues_title = "";
+
+		ttr.find("td").each(function () {
+			/*过滤 td中的元素
+			checkbox 、 button、text 不需要执行append
+			注意 return 为 跳出当前 each
+			return false 为 跳出整个 each
+			 */
+
+			if ($(this).attr('id') === "id_meeting_issues_id") {
+				issues_id = $(this).text();
+				console.log("issues_id:" + issues_id);
+			}
+
+			if ($(this).attr('id') === "id_meeting_keynote_user_name") {
+				keynote_user_name = $(this).text();
+				console.log("user_name:" + keynote_user_name);
+			}
+
+			if ($(this).attr('id') === "id_meeting_room") {
+				meeting_room = $(this).text();
+				console.log("meeting_room:" + meeting_room);
+			}
+
+			if ($(this).attr('id') === "id_meeting_date") {
+				meeting_date = $(this).text();
+				console.log("meeting_date:" + meeting_date);
+			}
+
+			if ($(this).attr('id') === "id_meeting_issues_title") {
+				issues_title = $(this).text();
+				console.log("issues_title:" + issues_title);
+			}
+		});
+
+		var operation = "issues_finish";
+		console.log("operation:" + operation + " issues_id: " + issues_id + " keynote_user_name: " + keynote_user_name +
+			" meeting_date: " + meeting_date + " meeting_room: " + meeting_room);
+
+		var submit_data = {
+			"operation": operation,
+			"issues_id": issues_id,
+			"keynote_user_name": keynote_user_name,
+			"meeting_room": meeting_room,
+			"meeting_date": meeting_date,
+			"issues_title": issues_title,
+			"_xsrf": getCookie("_xsrf")
+		};
+
+		$.ajax({
+			type: "post",
+			url: "/admin/meeting",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					layer.msg(obj.message);
+					console.log("issues_id:" + issues_id);
+					setTimeout(function () {
+						window.location.reload();
+					}, 1000);
+				} else {
+					layer.msg(obj.message);
+				}
+			},
+			error: function (arg) {
+				console.log(arg);
+				layer.msg("未知的错误");
+			}
+		});
+	});
+
+
+
+
 
 });
