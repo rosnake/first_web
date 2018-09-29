@@ -58,8 +58,8 @@ class IndexHandler(BaseHandler):
             for x in all_meeting:
                 if x.current_meeting is True:
                     current_meeting = {
-                        "meeting_id": x.id, "user_name": x.user_name, "chinese_name": x.chinese_name,
-                        "meeting_room": x.meeting_room, "topic_title": x.topic_title,
+                        "meeting_id": x.id, "user_name": x.keynote_user_name, "chinese_name": x.keynote_chinese_name,
+                        "meeting_room": x.meeting_room, "topic_title": x.issues_title,
                         "meeting_date": x.meeting_date, "current_meeting": x.current_meeting
                     }
                     return current_meeting

@@ -23,9 +23,11 @@
     </style>
     {{ modules.AdminSidebar(controller, language_mapping) }}
     <div class="class_admin_context">
-        <h3>以下议题已结束，待评价：</h3>
+    <h3>以下议题已结束，待评价：</h3>
+    {% set issues_finish = False %}
     {% for issues in  user_issues_tables %}
         {% if issues["finish"] == True and  issues["issues_evaluate_finish"] == False %}
+        {% set issues_finish = True %}
         <div class="class_admin_context_topic">
             {% if issues["keynote_user_name"] != "" %}
             <!--
@@ -58,6 +60,9 @@
 
         <p></p>
         {% end %}
+    {% end %}
+    {% if issues_finish is False %}
+        <p>当前无结束议题</p>
     {% end %}
 
         <div class="class_admin_context_button_layout">

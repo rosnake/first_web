@@ -16,50 +16,94 @@
              background: #ffc94e; /* 设置背景色 */
         }
     </style>
-<h3> 本周议题:</h3>
-{% for topics in  topics_table %}
-<div class="topics_current">
-    {% if topics["current"] == True %}
-    <div class="class_context_topic_id">
-        <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
-    </div>
-    <h5 class="user_name">议题主讲人：{{ topics["keynote_user_name"] }}</h5>
-    <div class="topic_details">
-        <h4>议题:</h4>
-        <div class="topic_title">{{ topics["issues_title"]}}</div>
-        <h4>议题简介:</h4>
-        <div class="topic_description">{% raw topics["issues_brief"] %}</div>
-        <h4>议题时间:</h4>
-        <div class="topic_time">{% raw topics["date_time"] %}</div>
-    </div>
+<div>
+    <h3> 本周议题:</h3>
+    {% set current_issues = False %}
+    {% for topics in  topics_table %}
+        {% if topics["current"] == True %}
+            {% set current_issues = True %}
+        {% end %}
     {% end %}
-
-</div>
-{% end %}
-
-<h3> 待评价议题:</h3>
-{% for topics in  topics_table %}
-<div class="topics_current">
-    {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
-    <div class="class_context_topic_id">
-        <input type="radio" name="select_id" id="id_issues" value={{ topics["issues_id"] }}>
-        <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
-    </div>
-    <h5 class="user_name">议题主讲人：{{ topics["keynote_user_name"] }}</h5>
-    <div class="topic_details">
-        <h4>议题:</h4>
-        <div class="topic_title">{{ topics["issues_title"]}}</div>
-        <h4>议题简介:</h4>
-        <div class="topic_description">{% raw topics["issues_brief"] %}</div>
-        <h4>议题时间:</h4>
-        <div class="topic_time">{% raw topics["date_time"] %}</div>
-    </div>
+    {% if current_issues is False %}
+        <p> 当前无议题</p>
     {% end %}
-
+    {% for topics in  topics_table %}
+        {% if topics["current"] == True %}
+        <div class="topics_current">
+            <div class="class_context_topic_id">
+                <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
+            </div>
+            <h5 class="user_name">议题主讲人：{{ topics["keynote_user_name"] }}</h5>
+            <div class="topic_details">
+                <h4>议题:</h4>
+                <div class="topic_title">{{ topics["issues_title"]}}</div>
+                <h4>议题简介:</h4>
+                <div class="topic_description">{% raw topics["issues_brief"] %}</div>
+                <h4>议题时间:</h4>
+                <div class="topic_time">{% raw topics["date_time"] %}</div>
+            </div>
+        </div>
+        {% end %}
+    {% end %}
 </div>
-{% end %}
 
+<div>
+    <h3> 待评价议题:</h3>
+    {% set wait_evaluate_issues = False %}
+    {% for topics in  topics_table %}
+        {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
+            {% set wait_evaluate_issues = True %}
+        {% end %}
+    {% end %}
+    {% if wait_evaluate_issues is False %}
+        <p> 当前无待评价议题</p>
+    {% end %}
+    {% for topics in  topics_table %}
+        {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
+        <div class="topics_current">
+            <div class="class_context_topic_id">
+                <input type="radio" name="select_id" id="id_issues" value={{ topics["issues_id"] }}>
+                <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
+            </div>
+            <h5 class="user_name">议题主讲人：{{ topics["keynote_user_name"] }}</h5>
+            <div class="topic_details">
+                <h4>议题:</h4>
+                <div class="topic_title">{{ topics["issues_title"]}}</div>
+                <h4>议题简介:</h4>
+                <div class="topic_description">{% raw topics["issues_brief"] %}</div>
+                <h4>议题时间:</h4>
+                <div class="topic_time">{% raw topics["date_time"] %}</div>
+            </div>
+        </div>
+        {% end %}
+    {% end %}
     <input type="button" class="class_evaluate_context_button" id="id_user_issues_evaluation" value="我要打分" />
+</div>
+
+<div>
+    <h3> 历史议题信息：</h3>
+    {% for topics in  topics_table %}
+        {% if topics["finish"] == True and topics["issues_evaluate_finish"] == True %}
+        <div class="topics_history">
+            <div class="topics">
+                {% if topics["keynote_user_name"] != "" %}
+                <h5 class="user_name">议题主讲人：{{ topics["keynote_user_name"] }}</h5>
+                <div class="topic_details">
+                    <h4>议题:</h4>
+                    <div class="topic_title">{{ topics["issues_title"]}}</div>
+                    <h4>议题简介:</h4>
+                    <div class="topic_description">{% raw topics["issues_brief"] %}</div>
+                    <h4>议题时间:</h4>
+                    <div class="topic_time">{% raw topics["date_time"] %}</div>
+                    <h4>议题得分:</h4>
+                    <div class="topic_time">{% raw topics["issues_score"] %}</div>
+                </div>
+                {% end %}
+            </div>
+        </div>
+        {% end %}
+    {% end %}
+</div>
 
     <div class="class_evaluate_popup_background" id="id_issues_evaluation_popup_background">
         <div class="class_evaluate_popup_content" id="id_issues_evaluation_popup_frontend" >
@@ -99,29 +143,5 @@
 
         </div>
     </div>
-
-<h3> 历史议题信息：</h3>
-
-{% for topics in  topics_table %}
-    {% if topics["current"] == True %}
-        {%  continue %}
-    {% end %}
-    {% if topics["finish"] == True %}
-    <div class="topics">
-        {% if topics["keynote_user_name"] != "" %}
-        <h5 class="user_name">议题主讲人：{{ topics["keynote_user_name"] }}</h5>
-        <div class="topic_details">
-            <h4>议题:</h4>
-            <div class="topic_title">{{ topics["issues_title"]}}</div>
-            <h4>议题简介:</h4>
-            <div class="topic_description">{% raw topics["issues_brief"] %}</div>
-            <h4>议题时间:</h4>
-            <div class="topic_time">{% raw topics["date_time"] %}</div>
-        </div>
-        {% end %}
-    </div>
-    {% end %}
-    <p></p>
-{% end %}
 
 {% end %}

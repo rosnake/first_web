@@ -18,35 +18,67 @@
         }
     </style>
 {% if controller["authorized"] == True %}
+
     {% if len(user_topic) == 0 %}
     <h3> 您当前没有申报议题</h3>
     <p><input class="class_user_handle_button_style" type="BUTTON" value="申报议题" id="applications" /></p>
     {% else %}
-    <h3> 您当前已申报的议题如下：</h3>
+    {% set current_apply = False %}
     {% for topic in user_topic %}
-    <div class="topics">
-
-            {% if topic["user_name"] != "" %}
-            <h5 class="user_name">议题主讲人：{{ topic["user_name"] }}</h5>
-            <div class="topic_details">
-                <h4>议题:</h4>
-                <div class="topic_title">{{ topic["issues_title"]}}</div>
-                <h4>议题简介:</h4>
-                <div class="topic_description">{% raw topic["issues_brief"] %}</div>
-                <h4>议题时间:</h4>
-                <div class="topic_time">{% raw topic["date_time"] %}</div>
-            </div>
-            {% end %}
-    </div>
+        {% if topic["finish"] is False  %}
+        {% set current_apply = True %}
+        {% end %}
+    {% end %}
+    {% if current_apply is False %}
+        <h3> 您当前没有申报议题 </h3>
+    {% else %}
+        <h3> 您当前已申报的议题如下：</h3>
+    {% end %}
+    {% for topic in user_topic %}
+        {% if topic["finish"] is False %}
+        <div class="topics">
+                {% if topic["keynote_user_name"] != "" %}
+                <h5 class="user_name">议题主讲人：{{ topic["keynote_user_name"] }}</h5>
+                <div class="topic_details">
+                    <h4>议题:</h4>
+                    <div class="topic_title">{{ topic["issues_title"]}}</div>
+                    <h4>议题简介:</h4>
+                    <div class="topic_description">{% raw topic["issues_brief"] %}</div>
+                    <h4>议题时间:</h4>
+                    <div class="topic_time">{% raw topic["date_time"] %}</div>
+                </div>
+                {% end %}
+        </div>
+        {% end %}
     {% end %}
     <div id="request_topics">
         <p>如需继续申请议题，请点击下面继续申请按钮.</p>
         <p><input  class="class_user_handle_button_style" type="BUTTON" value="继续申报" id="applications_continue" /></p>
     </div>
 
-
+    <h3> 您历史申报议题信息如下 </h3>
+    {% for topic in user_topic %}
+        {% if topic["finish"] is True %}
+        <div class="topics">
+                {% if topic["keynote_user_name"] != "" %}
+                <h5 class="user_name">议题主讲人：{{ topic["keynote_user_name"] }}</h5>
+                <div class="topic_details">
+                    <h4>议题:</h4>
+                    <div class="topic_title">{{ topic["issues_title"]}}</div>
+                    <h4>议题简介:</h4>
+                    <div class="topic_description">{% raw topic["issues_brief"] %}</div>
+                    <h4>议题时间:</h4>
+                    <div class="topic_time">{% raw topic["date_time"] %}</div>
+                </div>
+                {% end %}
+        </div>
+        {% end %}
     {% end %}
+
+    {% end %} <!--if len(user_topic) == 0-->
+
 {% else %}
     <p> 您未登录，请先登录 </p>
 {% end %}
+
 {% end %}

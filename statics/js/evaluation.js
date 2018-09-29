@@ -12,17 +12,13 @@ $(document).ready(function () {
 			console.log("current not select any id");
 			return;
 		}
-		var admin_topic_user_name = issues_object.parents('div').children('#id_admin_topic_user_name').html();
-		var admin_topic_title = issues_object.parents('div').children('.topic_details').children('#id_admin_topic_title').html();
 
 		var operation = "evaluate_finish";
-		console.log("operation:" + operation + " issues_id: " + issues_id + " admin_topic_title: " + admin_topic_title +
-			" admin_topic_user_name: " + admin_topic_user_name);
+		console.log("operation:" + operation + " issues_id: " + issues_id);
 
 		var submit_data = {
 			"operation": operation,
 			"issues_id": issues_id,
-			"issues_title": admin_topic_title,
 			"_xsrf": getCookie("_xsrf")
 		};
 

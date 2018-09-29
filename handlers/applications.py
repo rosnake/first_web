@@ -56,22 +56,23 @@ class ApplicationsHandler(BaseHandler):
                 return
 
     def __get_all_current_user_topics(self, user_name):
-        user_tpoic = []
-        topics_module = IssuesInfoModule.get_all_issues_info()
-        if topics_module is None:
-            return user_tpoic
+        issues_module = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.user_name == user_name).all()
+        if issues_module is None:
+            return None
 
-        for topics in topics_module:
-            if topics.user_name == user_name:
-                tmp = {
-                    "issues_id": topics.id, "user_name": topics.user_name, "image": topics.issues_image,
-                    "issues_title": topics.issues_title, "current_issues": topics.current,
-                    "issues_finish": topics.finish,  "date_time": topics.date_time,
-                    "issues_brief": topics.issues_brief
-                       }
-                user_tpoic.append(tmp)
+        issues_tables = []
+        for issues in issues_module:
+            tmp = {
+                "issues_id": issues.id, "keynote_user_name": issues.user_name, "issues_image": issues.issues_image,
+                "issues_title": issues.issues_title, "keynote_chinese_name": issues.chinese_name,
+                "current": issues.current, "finish": issues.finish,  "date_time": issues.date_time,
+                "issues_brief": issues.issues_brief, "issues_score": issues.issues_score,
+                "issues_meeting_room": issues.issues_meeting_room,
+                "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply
+                   }
+            issues_tables.append(tmp)
 
-        return user_tpoic
+        return issues_tables
 
     def __add_topics(self, topic_user, topic_name, topic_brief, topic_date):
         rule = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.issues_title == topic_name).first()
@@ -89,6 +90,7 @@ class ApplicationsHandler(BaseHandler):
         topic_module.finish = False
         topic_module.issues_image = "null"
         topic_module.voluntary_apply = True
+        topic_module.is_system_user = True
 
         self.db.add(topic_module)
         self.db.commit()

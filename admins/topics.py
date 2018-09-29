@@ -8,6 +8,7 @@ from orm.issues_info import IssuesInfoModule
 from methods.debug import *
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
+from orm.users_info import UsersInfoModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -105,9 +106,9 @@ class AdminTopicsHandler(BaseHandler):
         return issues_tables
 
     def __add_topics(self, topic_user, topic_name, topic_brief, topic_date):
-        rule = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.issues_title == topic_name).first()
-        if rule is not None:
-            logging.error("current topics is exit")
+        issues = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.issues_title == topic_name).first()
+        if issues is not None:
+            logging.error("current issues is exit")
             return False
 
         topic_module = IssuesInfoModule()
@@ -120,7 +121,11 @@ class AdminTopicsHandler(BaseHandler):
         topic_module.finish = False
         topic_module.issues_image = "null"
         topic_module.voluntary_apply = False
-
+        user_info = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == topic_user).first()
+        if user_info is not None:
+            topic_module.is_system_user = True
+        else:
+            topic_module.is_system_user = False
         self.db.add(topic_module)
         self.db.commit()
         return True
@@ -129,12 +134,19 @@ class AdminTopicsHandler(BaseHandler):
         topic = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == topic_id).first()
 
         if topic is not None:
+            user_info = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == topic_user).first()
+            if user_info is not None:
+                is_system_user = True
+            else:
+                is_system_user = False
+
             self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == topic_id).update({
                 IssuesInfoModule.user_name: topic_user,
                 IssuesInfoModule.issues_title: topic_name,
                 IssuesInfoModule.issues_brief: topic_brief,
                 IssuesInfoModule.date_time: topic_date,
-                })
+                IssuesInfoModule.is_system_user: is_system_user,
+            })
 
             self.db.commit()
             logging.info("modify topic succeed")

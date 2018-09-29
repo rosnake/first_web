@@ -13,7 +13,7 @@ from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
 
 
-#继承 base.py 中的类 BaseHandler
+# 继承 base.py 中的类 BaseHandler
 
 class HomeHandler(BaseHandler):
     """

@@ -25,9 +25,9 @@ class IssuesInfoModule(DataBase):
     date_time = Column(DateTime, default=datetime.now())
     finish = Column(Boolean, default=False, nullable=False)  # 议题是否结束
     current = Column(Boolean, default=False, nullable=False)  # 是否是本周议题
+    is_system_user = Column(Boolean, default=False, nullable=False)  # 是否是系统存在用户
     issues_evaluate_finish = Column(Boolean, default=False, nullable=False)  # 议题评价是否结束
     voluntary_apply = Column(Boolean, default=False, nullable=False)  # 是否是主动申请
-
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.user_name)
