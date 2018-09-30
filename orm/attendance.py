@@ -24,6 +24,8 @@ class AttendanceModule(DataBase):
     checked_in = Column(Boolean, default=False, nullable=False, index=False)  # 是否已签到
     absence_apply_accept = Column(Boolean, default=False, nullable=False, index=False)  # 请假申请是否接受
     absence_apply_time = Column(DateTime, default=datetime.now())  # 缺席申请时间
+    meeting_date_time = Column(DateTime, default=datetime.now())  # 会议时间
+    current_attendance = Column(Boolean, default=False, nullable=False, index=False)  # 当前签到表
     date_time = Column(DateTime, default=datetime.now())  # 当前时间
 
     def __repr__(self):

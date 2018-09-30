@@ -336,4 +336,39 @@ $(document).ready(function () {
 		$("#id_admin_attendance_edit_sub_title").text("");
 		$('#id_admin_attendance_edit_popup_background').hide();
 	});
+
+	$('#id_admin_attendance_start_sign').on('click', function () {
+		console.log("id_admin_attendance_start_sign");
+
+		var submit_data = {
+			"operation": "start_sign",
+			"_xsrf": getCookie("_xsrf")
+		};
+
+		$.ajax({
+			type: "post",
+			url: "/admin/attendance",
+			data: submit_data,
+			cache: false,
+			success: function (arg) {
+				console.log(arg);
+				//arg是字符串
+				var obj = JSON.parse(arg);
+				if (obj.status) {
+					layer.msg("启动签到成功");
+					setTimeout(function () {
+						window.location.reload();
+					}, 1000);
+				} else {
+					layer.msg(obj.message);
+				}
+			},
+			error: function (arg) {
+				layer.msg("未知的错误");
+			}
+		});
+
+
+    });
+
 });

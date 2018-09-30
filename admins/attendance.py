@@ -38,7 +38,7 @@ class AdminAttendanceHandler(BaseHandler):
         response = {"status": True, "data": "", "message": "failed"}
         date_kits = DateToolKits()
         operation = self.get_argument("operation")
-        user_name = self.get_argument("user_name")
+        user_name = self.get_argument("user_name", "unknown")
         absent_id = self.get_argument("absent_id", -1)
 
         logging.info("operation:%s , user_name: %s" % (operation, user_name))
@@ -90,6 +90,21 @@ class AdminAttendanceHandler(BaseHandler):
 
         if operation == "absent":
             ret = self.__set_attendance_absent_by_user_name(user_name, absent_id)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "处理成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "签到失败"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+
+        if operation == "start_sign":
+            ret = self.__start_attendance_sign()
             if ret is True:
                 response["status"] = True
                 response["message"] = "处理成功！"
@@ -225,3 +240,21 @@ class AdminAttendanceHandler(BaseHandler):
                 attendance_tables.append(tmp)
 
         return attendance_tables
+
+    def __start_attendance_sign(self):
+        attendance_modules = AttendanceModule.get_all_attendance_info()
+
+        if attendance_modules is None:
+            return False
+
+        for attendance in attendance_modules:
+            if attendance.current_attendance is False:
+                self.db.query(AttendanceModule).filter(AttendanceModule.user_name == attendance.user_name).update({
+                    AttendanceModule.checked_in: False,
+                    AttendanceModule.attended: True,
+                    AttendanceModule.absence_apply_accept: False,
+                    AttendanceModule.current_attendance: True,
+                })
+                self.db.commit()
+
+        return True

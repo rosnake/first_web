@@ -6,6 +6,7 @@ from methods.toolkits import DateToolKits
 from methods.debug import *
 from orm.meeting_info import MeetingInfoModule
 from orm.issues_info import IssuesInfoModule
+from orm.attendance import AttendanceModule
 import json
 from orm.users_info import UsersInfoModule
 from admins.decorator import admin_get_auth
@@ -241,8 +242,16 @@ class AdminMeetingHandler(BaseHandler):
             MeetingInfoModule.meeting_finish: True,
 
         })
-
         self.db.commit()
+
+        attendance_modules = AttendanceModule.get_all_attendance_info()
+        if attendance_modules is not None:
+            for attendance in attendance_modules:
+                if attendance.current_attendance is True:
+                    self.db.query(AttendanceModule).filter(AttendanceModule.user_name == attendance.user_name).update({
+                        AttendanceModule.current_attendance: False,
+                    })
+                    self.db.commit()
 
         return True
 

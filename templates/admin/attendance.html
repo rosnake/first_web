@@ -22,6 +22,9 @@
     </style>
     {{ modules.AdminSidebar(controller, language_mapping) }}
     <div class="class_admin_context">
+        <div class="class_admin_context_topic_details">
+            <input type="button" class="class_admin_context_button" id="id_admin_attendance_start_sign" value="启动签到" />
+        </div>
         <h3>当前有如下用户请假，请处理：</h3>
         <form class="class_admin_context_form" id="id_admin_context_attendance_leave_form">
             <table class="class_admin_context_table" id="id_admin_context_attendance_leave_table" frame="box">
