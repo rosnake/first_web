@@ -18,6 +18,7 @@ class ScoringCriteriaModule(DataBase):
     criteria_name = Column(String(64), nullable=False, index=True)  # 分数项目名称
     score_value = Column(Float, default=0.0, nullable=False, index=False)  # 对应分数
     take_effect = Column(Boolean, default=True, nullable=False)  # 积分规则是否有效
+    subtraction = Column(Boolean, default=True, nullable=False)  # 是否是扣分项目
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.criteria_name)

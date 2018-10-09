@@ -38,10 +38,16 @@ class AdminDisciplineHandler(BaseHandler):
         deduct_name = self.get_argument("deduct_name")
         deduct_id = self.get_argument("id")
         deduct_points = self.get_argument("deduct_points")
+        str_subtraction = self.get_argument("subtraction")
+
+        subtraction = True
+        if str_subtraction == "false":
+            subtraction = False
+
         print(type(deduct_points))
 
         if operation == "add":
-            ret = self.__add_deduct(deduct_name, deduct_points)
+            ret = self.__add_deduct(deduct_name, deduct_points, subtraction)
             if ret is True:
                 response["status"] = True
                 response["message"] = "新增成功！"
@@ -85,7 +91,7 @@ class AdminDisciplineHandler(BaseHandler):
                 self.write(json.dumps(response))
                 return
 
-    def __add_deduct(self, deduct_name, deduct_points):
+    def __add_deduct(self, deduct_name, deduct_points, subtraction):
         discipline = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.criteria_name == deduct_name).first()
         if discipline is not None:
             logging.error("current is exit")
@@ -94,6 +100,7 @@ class AdminDisciplineHandler(BaseHandler):
         mark = ScoringCriteriaModule()
         mark.criteria_name = deduct_name
         mark.score_value = deduct_points
+        mark.subtraction = subtraction
         self.db.add(mark)
         self.db.commit()
         return True
@@ -104,7 +111,7 @@ class AdminDisciplineHandler(BaseHandler):
         if deduct_module:
             for module in deduct_module:
                 discipline = {"deduct_id": module.id, "deduct_name": module.criteria_name,
-                          "deduct_points": module.score_value}
+                              "subtraction": module.subtraction, "deduct_points": module.score_value}
                 deduct_tables.append(discipline)
 
         return deduct_tables

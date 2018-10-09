@@ -22,15 +22,17 @@
     </style>
     {{ modules.AdminSidebar(controller, language_mapping) }}
     <div class="class_admin_context">
-        <h3>当前所有扣分项目如下：</h3>
+        <h3>当前所有积分规则如下：</h3>
         <form class="class_admin_context_form" id="admin_member_form" name="member_form">
         <table class="class_admin_context_table" id="admin_member_table">
         <thead class="class_admin_context_table_head" id="admin_member_table_head">
             <tr>
                 <th></th>
                 <th>项目编号</th>
-                <th>扣分项目</th>
-                <th>扣减分数</th>
+                <th>积分项目</th>
+                <th>积分分数</th>
+                <th>是否扣分项</th>
+
             </tr>
         </thead>
         <tbody class="class_admin_context_table_body" id="admin_member_table_body">
@@ -40,6 +42,7 @@
                 <td class="class_admin_context_table_td" id="deduct_id">{{ deduct_table["deduct_id"] }}</td>
                 <td class="class_admin_context_table_td" id="deduct_name">{{ deduct_table["deduct_name"] }}</td>
                 <td class="class_admin_context_table_td" id="deduct_points">{{ deduct_table["deduct_points"] }}</td>
+                <td class="class_admin_context_table_td" id="deduct_subtraction">{{ deduct_table["subtraction"] }}</td>
             </tr>
         {% end %}
         </tbody>
@@ -60,8 +63,12 @@
             <div class="class_admin_popup_body" id="id_admin_deduct_edit_popup_body">
                 <p id="id_admin_deduct_edit_operation"></p>
                 <p id="id_admin_deduct_edit_deduct_id"></p>
-                <p><span>扣分项目:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_name"  /></p>
-                <p><span>扣分分数:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_point"  /></p>
+                <p><span>积分项目:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_name"  /></p>
+                <p><span>积分分数:</span><input type="text" class="class_admin_popup_body_input" id="id_admin_deduct_edit_deduct_point"  /></p>
+                <p><span>项目选择:</span>
+                    <input class="class_admin_popup_radio" type="radio" name="admin_popup_sub_item" value="true" checked>扣分项
+                    <input class="class_admin_popup_radio" type="radio" name="admin_popup_sub_item" value="false">加分项
+                </p>
                 <input type="button" class="class_admin_context_button" id="id_admin_deduct_edit_submit" value="提交" />
                 <input type="button" class="class_admin_context_button" id="id_admin_deduct_edit_cancel" value="取消" />
             </div>

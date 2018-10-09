@@ -3,7 +3,7 @@ $(document).ready(function () {
 		$('#id_admin_deduct_edit_deduct_id').val("0");
 		$('#id_admin_deduct_edit_operation').val("add");
 		$('#id_admin_deduct_edit_popup_background').show();
-		$("#id_admin_deduct_edit_sub_title").text("增加扣分项目");
+		$("#id_admin_deduct_edit_sub_title").text("增加积分项目");
 	});
 
 	$('#id_admin_deduct_del').on('click', function () {
@@ -154,6 +154,7 @@ $(document).ready(function () {
 		var deduct_id = $("#id_admin_deduct_edit_deduct_id").val();
 		var deduct_name = $("#id_admin_deduct_edit_deduct_name").val();
 		var deduct_points = $("#id_admin_deduct_edit_deduct_point").val();
+		var is_subtraction = $("input[name='admin_popup_sub_item']:checked").val();
 
 		if (deduct_name == "") {
 			$("#id_admin_deduct_edit_deduct_name").focus();
@@ -166,21 +167,38 @@ $(document).ready(function () {
 			layer.msg("扣分值不能为空.");
 			return false;
 		}
-		if (deduct_points >= 0) {
-			$("#id_admin_deduct_edit_deduct_point").focus();
-			layer.msg("扣分值不能大于0.");
-			return false;
+
+		if(is_subtraction === "true")
+		{
+			console.log("is_subtraction is True");
+			if (deduct_points >= 0) {
+				$("#id_admin_deduct_edit_deduct_point").focus();
+				layer.msg("扣分值不能大于0.");
+				return false;
+			}
+		}
+
+		if(is_subtraction === "false")
+		{
+			console.log("is_subtraction is false");
+			if (deduct_points <= 0) {
+				$("#id_admin_deduct_edit_deduct_point").focus();
+				layer.msg("加分项目不能小于0.");
+				return false;
+			}
 		}
 
 		var submit_data = {
 			"operation": operation,
 			"deduct_name": deduct_name,
 			"deduct_points": deduct_points,
+			"subtraction": is_subtraction,
 			"id": deduct_id,
 			"_xsrf": getCookie("_xsrf")
 		};
 
-		console.log("operation:" + operation + "deduct_name:" + deduct_name + " deduct_points:" + deduct_points + " deduct_id:" + deduct_id);
+		console.log("operation:" + operation + "deduct_name:" + deduct_name + " deduct_points:"
+			+ deduct_points + " deduct_id:" + deduct_id + " subtraction:"+ is_subtraction);
 
 		$.ajax({
 			type: "post",

@@ -7,7 +7,7 @@
 class LanguageMapping:
     language_mapping_chinese = {
         "member":     {"link": "/admin/member",     "name": "成员管理"},
-        "discipline": {"link": "/admin/discipline", "name": "扣分项管理"},
+        "discipline": {"link": "/admin/discipline", "name": "积分项管理"},
         "exchange":   {"link": "/admin/exchange",   "name": "积分兑换"},
         "explorer":   {"link": "/admin/explorer",   "name": "文件管理"},
         "topics":     {"link": "/admin/topics",     "name": "话题管理"},
@@ -18,7 +18,7 @@ class LanguageMapping:
         "evaluating": {"link": "/admin/evaluating", "name": "评价管理"},
 
         "index":      {"link": "/index",            "name": "首页"},
-        "home":       {"link": "/home",             "name": "主页"},
+        "home":       {"link": "/home",             "name": "个人主页"},
         "issues":     {"link": "/topics",           "name": "议题信息"},
         "statistics": {"link": "/statistics",       "name": "我的积分"},
         "apply":      {"link": "/applications",     "name": "议题申报"},
