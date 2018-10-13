@@ -28,6 +28,7 @@ class StatHandler(BaseHandler):
         if user_name is not None:
             history_table = self.__get_point_history_by_user_name(user_name)
             point_stat = self.__get_point_stat_by_user_name(user_name)
+            print(point_stat)
             current_scores = self.__get_current_point(user_name)
             presents_table = self.__get_presents_table(current_scores)
             self.render("statistics.html", current_scores=current_scores, history_table=history_table,
@@ -81,8 +82,8 @@ class StatHandler(BaseHandler):
         if history_module:
             for history in history_module:
                 tmp = {
-                    "transactor": history.transactor, "mark_name": history.mark_name,
-                    "points": history.points, "datetime": history.datetime,
+                    "transactor": history.transactor, "mark_name": history.criteria_name,
+                    "points": history.score_value, "datetime": history.date_time,
                 }
                 history_table.append(tmp)
 
@@ -94,14 +95,14 @@ class StatHandler(BaseHandler):
         history_module = self.db.query(ScoringHistoryModule).filter(ScoringHistoryModule.user_name == user_name).all()
         mark_module = ScoringCriteriaModule.get_all_scoring_criteria()
         user_point = dict()
-        user_point.update({"user_name": user_name})
+
         if history_module and mark_module:
             for x in mark_module:
                 point = 0
                 for y in history_module:
-                    if x.id == y.mark_id:
-                        point = point + y.points
-                        user_point.update({x.markname: point})
+                    if x.id == y.criteria_id:
+                        point = point + y.score_value
+                        user_point.update({x.criteria_name: point})
 
             return user_point
 

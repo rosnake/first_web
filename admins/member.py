@@ -52,6 +52,7 @@ class AdminMemberHandler(BaseHandler):
         user_id = int(str_tmp)
 
         auth = self.__auth_check_by_user_name(self.session["user_name"])
+
         if auth is False:
             response["status"] = False
             response["message"] = "您无权限操作！"
@@ -121,7 +122,16 @@ class AdminMemberHandler(BaseHandler):
                 return
 
     def __show_user_pass_word(self, user_name):
+        current_user = self.get_current_user()
+        current = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == current_user).first()
         user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).first()
+        if current is not None and user is not None:
+            if current.user_role != "root" and user.user_role == "root":
+                logging.error("can not show root user password")
+                return False, "无权限查看root用户密码"
+        else:
+            logging.error("current user is not exist")
+            return False, "当前用户不存在"
 
         if user is not None:
             if user.pwd_modified is False:
@@ -163,6 +173,9 @@ class AdminMemberHandler(BaseHandler):
         attendance = self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).first()
 
         if user is not None:
+            if user.user_role == "root":
+                logging.error("can not delete root user")
+                return False
 
             self.db.delete(user)
             self.db.commit()
@@ -186,7 +199,7 @@ class AdminMemberHandler(BaseHandler):
 
         if user is not None:
             logging.info("current user is not none")
-            if user.user_role == "admin":
+            if user.user_role == "admin" or user.user_role == "root":
                 logging.info("current user user_role is admin")
                 return True
             else:
@@ -197,9 +210,21 @@ class AdminMemberHandler(BaseHandler):
             return False
 
     def __modify_user_info_by_id(self, user_id, user_name, user_role):
+        if user_role == "root":
+            logging.error("can not add root user")
+            return False
+
+        if user_role != "normal" or user_role != "admin":
+            logging.error("can not add another user")
+            return False
+
         user = self.db.query(UsersInfoModule).filter(UsersInfoModule.id == user_id).first()
 
         if user is not None:
+            if user.user_role == "root":
+                logging.error("can not alter root user")
+                return False
+
             self.db.query(UsersInfoModule).filter(UsersInfoModule.id == user_id).update({
                 UsersInfoModule.user_name: user_name,
                 UsersInfoModule.user_role: user_role,
@@ -212,6 +237,14 @@ class AdminMemberHandler(BaseHandler):
             return False
 
     def __add_user(self, user_name, user_role):
+
+        if user_role == "root":
+            logging.error("can not add root user")
+            return False
+
+        if user_role != "normal" and user_role != "admin":
+            logging.error("can not add another user")
+            return False
 
         user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).first()
         if user is not None:

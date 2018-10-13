@@ -8,6 +8,7 @@ from methods.toolkits import DateToolKits
 from orm.organizer_info import OrganizerInfoModule
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
+from orm.users_info import UsersInfoModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -20,11 +21,13 @@ class AdminOrganizerHandler(BaseHandler):
         user_name = self.get_current_user()
         if user_name is not None:
             organizer_tables = self.__get_all_organizer_table()
+            user_tables = self.__get_all_user_table()
             self.render("admin/organizer.html",
                         controller=self.render_controller,
                         user_name=user_name,
                         organizer_tables=organizer_tables,
                         language_mapping=self.language_mapping,
+                        user_tables=user_tables,
                         )
 
     @admin_post_auth(False)
@@ -37,34 +40,18 @@ class AdminOrganizerHandler(BaseHandler):
         organizer_date = self.get_argument("time_date")
 
         logging.info(" organizer_id: " + organizer_id + " organizer_name: "
-                      + organizer_name + " organizer_date:" + organizer_date)
+                     + organizer_name + " organizer_date:" + organizer_date)
 
-        if operation == "delete":
-            ret = self.__delete_organizer_by_name(organizer_id)
-
+        if operation == "assign":
+            ret = self.__assign_organizer_by_name(organizer_name, organizer_id, organizer_date)
             if ret is True:
                 response["status"] = True
-                response["message"] = "删除成功！"
+                response["message"] = "指定成功！"
                 response["data"] = date_kits.get_now_day_str()
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
-                response["message"] = "删除失败！"
-                response["data"] = date_kits.get_now_day_str()
-                self.write(json.dumps(response))
-
-            return
-
-        if operation == "update":
-            ret = self.__update_organizer_by_name(organizer_name, organizer_id, organizer_date)
-            if ret is True:
-                response["status"] = True
-                response["message"] = "修改成功！"
-                response["data"] = date_kits.get_now_day_str()
-                self.write(json.dumps(response))
-            else:
-                response["status"] = False
-                response["message"] = "修改失败！"
+                response["message"] = "指定失败！"
                 response["data"] = date_kits.get_now_day_str()
                 self.write(json.dumps(response))
 
@@ -75,32 +62,48 @@ class AdminOrganizerHandler(BaseHandler):
         organizer_table = []
 
         if organizer_module:
-            for x in organizer_module:
-                tmp = {"organizer_id": x.organizer, "organizer_name": x.user_name, "date": x.datetime}
+            for organizer in organizer_module:
+                tmp = {"organizer_id": organizer.user_name, "organizer_name": organizer.chinese_name,
+                       "date": organizer.date_time, "current": organizer.current}
                 organizer_table.append(tmp)
             return organizer_table
         else:
             return None
 
-    def __delete_organizer_by_name(self, organizer_id):
-        organizer = self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.user_name == organizer_id).first()
+    def __get_all_user_table(self):
+        user_module = UsersInfoModule.get_all_users_info()
+        user_table = []
 
-        if organizer is not None:
-            self.db.delete(organizer)
-            self.db.commit()
-            logging.info("delete organizer succeed")
-            return True
+        if user_module:
+            for user in user_module:
+                if user.user_role != "root":
+
+                    tmp = {"user_id": user.id, "user_name": user.user_name, "chinese_name": user.chinese_name}
+                    user_table.append(tmp)
+
+            return user_table
         else:
-            logging.error("delete organizer failed")
-            return False
+            return None
 
-    def __update_organizer_by_name(self, organizer_name, organizer_id, organizer_date):
+    def __assign_organizer_by_name(self, organizer_name, organizer_id, organizer_date):
+        # 1.更新其他组织者为非当前
+        organizer_module = OrganizerInfoModule.get_all_organizer_info()
+        if organizer_module:
+            for organizer in organizer_module:
+                if organizer.current is True:
+                    self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.user_name == organizer.user_name).update({
+                        OrganizerInfoModule.current: False,
+                    })
+                    self.db.commit()
+
+        # 2.更新当前组织者表格
         organizer = self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.user_name == organizer_id).first()
 
         if organizer is not None:
             self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.user_name == organizer_id).update({
-                OrganizerInfoModule.user_name: organizer_name,
+                OrganizerInfoModule.chinese_name: organizer_name,
                 OrganizerInfoModule.date_time: organizer_date,
+                OrganizerInfoModule.current: True,
             })
             self.db.commit()
             logging.info("update organizer succeed")
@@ -108,8 +111,8 @@ class AdminOrganizerHandler(BaseHandler):
         else:
             organizer = OrganizerInfoModule()
             organizer.chinese_name = organizer_name
-            organizer.datetime = organizer_date
-            organizer.organizer = organizer_id
+            organizer.date_time = organizer_date
+            organizer.user_name = organizer_id
             organizer.current = True
 
             self.db.add(organizer)

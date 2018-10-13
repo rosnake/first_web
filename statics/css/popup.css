@@ -50,7 +50,7 @@
 
 .class_popup_edit_item
 {
-    width: 120px;
+    width: 320px;
     float: left;
     padding-top: 10px;
     font-size: 20px;
@@ -58,9 +58,21 @@
 
 #id_edit_detail
 {
-    border-radius: 20px;
+    border-radius: 5px;
     background-color: #d3fffd;
-    height: 50px;
+    height: 80px;
+}
+
+#id_popup_leave_apply_submit
+{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 10px;
+    border: 1px solid #a2ffe9;
 }
 
 .class_edit_input_block
@@ -73,6 +85,16 @@
 {
     font-size: 15px;
     height: 30px;
+    width: 100px;
+    border-radius: 2px;
+}
+
+#id_popup_leave_apply_date
+{
+    font-size: 10px;
+    height: 28px;
+    width: 200px;
+    border-radius: 2px;
 }
 
 .class_popup_submit

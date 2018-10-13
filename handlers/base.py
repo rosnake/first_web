@@ -8,6 +8,7 @@ from orm.db_base import dbSession
 from orm.users_info import UsersInfoModule
 from config.language import LanguageMapping
 from methods.controller import PageController
+from orm.organizer_info import OrganizerInfoModule
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -59,14 +60,24 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def get_user_role(self, user_name):
         user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).first()
+        organizer = self.db.query(OrganizerInfoModule).filter(OrganizerInfoModule.user_name == user_name).first()
 
         if user is None:
             return False, False
 
-        if user.user_role == "admin":
-            return True, False
-        elif user.user_role == "organizer":
-            return False, True
+        admin_role = False
+        organizer_role = False
+
+        if organizer:
+            if organizer.current is True:
+                organizer_role = True
+
+        if user.user_role == "root":
+            admin_role = True
+        elif user.user_role == "admin":
+            admin_role = True
         else:
-            return False, False
+            admin_role = False
+
+        return admin_role, organizer_role
 

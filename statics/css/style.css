@@ -61,16 +61,67 @@ body {
     animation:mymove 5s infinite;
 }
 
-.topics_current
+.class_index_meeting_info
 {
-    width: 1000px;
-    border: 2px solid #61ac95;
+    border-radius: 5px;
+    border: 2px solid #ffc94e;
+}
+.class_index_meeting_info h2
+{
+    background-color: #eed49b;
+    margin: 5px;
+    border-radius: 2px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.class_index_current_info
+{
+    border: 2px solid #6adbbf;
+    margin-top: 20px;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 2px;
+}
+
+.class_index_current_info h3
+{
+    background-color: #f3f7df;
+    margin: 2px;
+    border-radius: 2px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.class_issues_info
+{
+    background-color: #ceeeda;
+    border-radius: 2px;
+    padding-top: 2px;
+}
+
+.class_issues_info h5
+{
+    background-color: #bbe1ee;
+    margin: 2px;
+    border-radius: 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.class_issues_meeting_info span
+{
+    font-family: "Arial", sans-serif;
+    font-weight: bolder;
 }
 
 .topics
 {
     width: 1000px;
     border: 2px solid #aca647;
+    margin-bottom: 10px;
 }
 #copyright
 {
@@ -402,17 +453,28 @@ body {
     border: 1px solid #009f95;
 }
 
+.class_stat_detail_info
+{
+    border: 2px solid #9bee7e;
+    margin: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
 .class_handle_context_table
 {
-    margin-left: 20px;
-    width: 800px;
+    margin: 5px;
+    width: 960px;
     line-height: 2em;
-    font-family: Arial;
+    font-family: "Arial", sans-serif;
     border-collapse: collapse;
+    border-radius: 5px;
+    text-align: center;
 }
 .class_handle_context_table_head{
     text-align: center;
     font-size: 1.2em;
+    border-radius: 5px;
 }
 
 .class_handle_context_table_head tr {
@@ -471,8 +533,9 @@ body {
 
 #points_exchange
 {
-    margin-top: 20px;
-    border: 2px solid #345eee;
+    border: 2px solid #82c6ee;
+    border-radius: 3px;
+    margin: 10px;
 }
 #points_exchange h2
 {
@@ -481,8 +544,13 @@ body {
 
 #id_home_leave
 {
+    border-radius:5px;
+    border: 2px solid #8effe4;
+    background-color: #f3f7df;
     margin-top: 10px;
     margin-bottom: 10px;
+    padding-bottom: 20px;
+    text-align: center;
 }
 
 #id_home_leave_apply
@@ -493,8 +561,15 @@ body {
     font-family: "Arial Unicode MS",sans-serif;
     font-size: 20px;
     border-radius:5px;
-    margin-top: 15px;
+    margin-top: 10px;
     border: 1px solid #a2ffe9;
+}
+
+.class_wait_for_evaluate_issues
+{
+    margin-top: 10px;
+    border: 2px solid #9bee7e;
+    border-radius: 2px;
 }
 
 /*管理界面弹窗布局*/
@@ -538,7 +613,7 @@ body {
 }
 
 .class_evaluate_popup_body h3 {
-	margin: 0 0px;
+	margin: 1px;
 	padding-top: 15px;
 }
 
@@ -570,4 +645,19 @@ body {
     margin-right: 20px;
     margin-bottom: 30px;
     border: 1px solid #009f95;
+}
+
+.class_stat_info
+{
+    border: 2px solid #aaeed8;
+    border-radius:5px;
+    padding-bottom: 10px;
+}
+
+.class_stat_info h3
+{
+    background-color: #f3f7df;
+    padding-bottom: 10px;
+    padding-top: 5px;
+    margin: 10px;
 }

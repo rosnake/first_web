@@ -22,40 +22,66 @@
     </style>
     {{ modules.AdminSidebar(controller, language_mapping) }}
     <div class="class_admin_context">
-        <h3>下月组织处为：</h3>
+        <h3>当前组织者信息：</h3>
 
         <form class="class_admin_context_form" id="admin_member_form" name="member_form">
-        <table class="class_admin_context_table" id="admin_member_table">
-        <thead class="class_admin_context_table_head" id="admin_member_table_head">
-            <tr>
-                <th></th>
-                <th>组织者ID</th>
-                <th>用户名</th>
-                <th>时间</th>
-            </tr>
-        </thead>
-        <tbody id="admin_member_table_body">
-        {% if organizer_tables is not None %}
-            {% for organizer_table in organizer_tables %}
+            <table class="class_admin_context_table" id="admin_member_table">
+            <thead class="class_admin_context_table_head" id="admin_member_table_head">
                 <tr>
-                    <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ organizer_table["organizer_id"] }}></td>
-                    <td class="class_admin_context_table_td" id="organizer_id">{{ organizer_table["organizer_id"] }}</td>
-                    <td class="class_admin_context_table_td" id="organizer_name">{{ organizer_table["organizer_name"] }}</td>
-                    <td class="class_admin_context_table_td" id="date">{{ organizer_table["date"] }}</td>
+                    <th></th>
+                    <th>组织者ID</th>
+                    <th>用户名</th>
+                    <th>时间</th>
                 </tr>
+            </thead>
+            <tbody id="admin_member_table_body">
+            {% if organizer_tables is not None %}
+                {% for organizer_table in organizer_tables %}
+                    {% if organizer_table["current"] == True %}
+                    <tr>
+                        <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ organizer_table["organizer_id"] }}></td>
+                        <td class="class_admin_context_table_td" id="organizer_id">{{ organizer_table["organizer_id"] }}</td>
+                        <td class="class_admin_context_table_td" id="organizer_name">{{ organizer_table["organizer_name"] }}</td>
+                        <td class="class_admin_context_table_td" id="date">{{ organizer_table["date"] }}</td>
+                    </tr>
+                    {% end %}
+                {% end %}
             {% end %}
-        {% end %}
-        </tbody>
-    </table>
+            </tbody>
+            </table>
         </form>
+
+        <h3>历史组织者信息：</h3>
+
+        <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+            <table class="class_admin_context_table" id="admin_member_table">
+            <thead class="class_admin_context_table_head" id="admin_member_table_head">
+                <tr>
+                    <th></th>
+                    <th>组织者ID</th>
+                    <th>用户名</th>
+                    <th>时间</th>
+                </tr>
+            </thead>
+            <tbody id="admin_member_table_body">
+            {% if organizer_tables is not None %}
+                {% for organizer_table in organizer_tables %}
+                    {% if organizer_table["current"] == False %}
+                    <tr>
+                        <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ organizer_table["organizer_id"] }}></td>
+                        <td class="class_admin_context_table_td" id="organizer_id">{{ organizer_table["organizer_id"] }}</td>
+                        <td class="class_admin_context_table_td" id="organizer_name">{{ organizer_table["organizer_name"] }}</td>
+                        <td class="class_admin_context_table_td" id="date">{{ organizer_table["date"] }}</td>
+                    </tr>
+                    {% end %}
+                {% end %}
+            {% end %}
+            </tbody>
+            </table>
+        </form>
+
         <div class="class_admin_context_button_layout">
-           {% if controller["admin"] ==  True %}
-            <input type="button" class="class_admin_context_button" id="id_admin_organizer_add" value="增加组织者" />
-            <input type="button" class="class_admin_context_button" id="id_admin_organizer_del" value="删除组织者"/>
-            <input type="button" class="class_admin_context_button" id="id_admin_organizer_mod" value="修改组织者" />
-        {% elif controller["organizer"] == True %}
-        <input type="button" class="class_admin_context_button" id="id_admin_organizer_assign" value="指定组织者" />
-        {% end %}
+        <input type="button" class="class_admin_context_button" id="id_admin_organizer_assign" value="设定组织者" />
         </div>
 
 
@@ -78,6 +104,51 @@
             </div>
         </div>
         <!-- 弹窗内容结束 -->
+
+        <!-- 弹窗内容开始 -->
+        <div class="class_admin_popup_background" id="id_admin_organizer_select_popup_background">
+            <div class="class_admin_popup_content" id="id_admin_organizer_select_popup_frontend">
+                <div class="class_admin_popup_title" id="id_admin_organizer_select_popup_close">
+                    <h2 id="id_organizer_select_popup_title">组织者添加</h2>
+                </div>
+                <div class="class_admin_popup_body" id="id_admin_organizer_select_popup_body">
+
+                    <form class="class_admin_meeting_form" id="admin_member_form">
+                        {% if len(user_tables) %}
+                        <table class="class_admin_meeting_table" id="id_admin_organizer_select_popup_table">
+                            <thead class="class_admin_meeting_table_head" id="id_admin_organizer_select_popup_table_head">
+                            <tr>
+                                <th>选择</th>
+                                <th>用户ID</th>
+                                <th>用户名</th>
+                            </tr>
+                            </thead>
+                            <tbody class="class_admin_meeting_table_body" id="id_admin_organizer_select_popup_table_body">
+                            {% for user in user_tables %}
+                                <tr>
+                                    <td class="class_admin_context_table_td"><input type="radio" name="select_id" value={{ user["user_id"] }}></td>
+                                    <td class="class_admin_context_table_td" id="id_admin_organizer_select_user_name">{{ user["user_name"] }}</td>
+                                    <td class="class_admin_context_table_td" id="id_admin_organizer_select_chinese_name">{{ user["chinese_name"] }}</td>
+                                </tr>
+                            {% end %}
+                            </tbody>
+                        </table>
+
+                    <br />
+                    <input type="button" class="class_admin_context_button" id="id_admin_popup_organizer_select_confirm" value="确定" />
+                    <input type="button" class="class_admin_context_button" id="id_admin_popup_organizer_select_cancel" value="取消" />
+                    {% else %}
+                    <p><span>当前无用户信息</span></p>
+                    <input type="button" class="class_admin_context_button" id="id_admin_popup_organizer_select_cancel" value="取消"/>
+                    {% end %}
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <!-- 弹窗内容结束 -->
+
 
 
     </div>

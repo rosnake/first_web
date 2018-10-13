@@ -60,6 +60,22 @@ class LoginHandler(BaseHandler):
             return
 
         del self.session["verify_code"]
+
+        _user_name = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).first()
+
+        if _user_name is None:
+            logging.info("login failed,user name:" + user_name + "is not exist")
+            render_controller["index"] = False
+            render_controller["authorized"] = False
+            render_controller["login"] = True
+            logging.info("用户名不存在")
+            response["status"] = False
+            response["message"] = "用户名不存在！"
+            response["data"] = date_kits.get_now_day_str()
+
+            self.write(json.dumps(response))
+            return
+
         user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).filter(
             UsersInfoModule.pass_word == pass_word).first()
         print(user)
@@ -86,6 +102,7 @@ class LoginHandler(BaseHandler):
             response["data"] = date_kits.get_now_day_str()
 
             self.write(json.dumps(response))
+            return
 
 
 class VerifyHandler(BaseHandler):

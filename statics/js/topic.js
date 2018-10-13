@@ -25,7 +25,7 @@ $(document).ready(function () {
 				title: '议题申报',
 				maxmin: true,
 				shadeClose: true, //点击遮罩关闭层
-				area: ['800px', '520px'],
+				area: ['800px', '420px'],
 				//content: '/layer?user='+user
 				content: '/issues'
 			});

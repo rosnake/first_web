@@ -21,6 +21,8 @@
              background: #ffc94e; /* 设置背景色 */
         }
     </style>
+
+<div class="class_stat_info">
 {% if controller["authorized"] == True %}
     <h3> 您当前积分为：{{ current_scores }} </h3>
     <div class="class_popup_browse_detail">
@@ -34,11 +36,8 @@
             {% end %}
         {% end %}
     </div>
-    <div id="edit_title">
-        <h3>分数变动明细如下：</h3>
-    </div>
 
-    <div class="class_popup_browse">
+    <div class="class_stat_detail_info">
     <table class="class_handle_context_table"  frame="box">
         <thead class="class_handle_context_table_head">
         <tr id="id_popup_table_title">
@@ -47,10 +46,10 @@
         </thead>
         <tbody class="class_handle_context_table_body">
             <tr id="id_popup_table_item_name">
-                <th>用户ID</th>
-                <th>姓名</th>
-                <th>上周分数</th>
-                <th>当前分数</th>
+                <th>操作人</th>
+                <th>积分规则</th>
+                <th>规则分数</th>
+                <th>变动时间</th>
             </tr>
             {% if history_table is not None %}
                 {% for history in history_table %}
@@ -118,5 +117,5 @@
 {% else %}
 <p> 您未登录，如需查看积分，请先登录 </p>
 {% end %}
-
+</div> <!-- end of static -->
 {% end %}

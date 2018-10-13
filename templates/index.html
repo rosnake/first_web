@@ -6,36 +6,37 @@
 {% end %}
 
 {% block body %}
-<h3>本周会议信息</h3>
-<h3> 本周议题如下：</h3>
-
-{% for topics in  topics_table %}
-<div class="topics_current">
-    {% if topics["current"] == True %}
-    <h5 class="user_name">议题主讲人：{{ topics["name"] }}</h5>
-    <div class="topic_details">
-        <h4>议题:</h4>
-        <div class="topic_title">{{ topics["title"]}}</div>
-        <h4>议题简介:</h4>
-        <div class="topic_description">{% raw topics["description"] %}</div>
-        <h4>议题时间:</h4>
-        <div class="topic_time">{% raw topics["time"] %}</div>
+<div class="class_index_meeting_info">
+<h2>当前会议详细信息</h2>
+    <div class="class_index_current_info">
+    <h3> 当前议题信息</h3>
+    {% for topics in  topics_table %}
+    <div class="class_issues_info">
+        {% if topics["current"] == True %}
+        <h5 class="user_name">议题主讲人：{{ topics["name"] }}</h5>
+        <div class="topic_details">
+            <h4>议题:</h4>
+            <div class="topic_title">{{ topics["title"]}}</div>
+            <h4>议题简介:</h4>
+            <div class="topic_description">{% raw topics["description"] %}</div>
+            <h4>议题时间:</h4>
+            <div class="topic_time">{% raw topics["time"] %}</div>
+        </div>
+        {% end %}
     </div>
-    {% end %}
-</div>
-{% end %}
-<h3> 本周会议信息如下：</h3>
-{% if current_meeting is not None %}
-    <div class="topic_details">
-        <h4>议题:</h4>
-        <div class="topic_title">{{ current_meeting["topic_title"]}}</div>
-        <h4>会议时间:</h4>
-        <div class="topic_description">{% raw current_meeting["meeting_date"] %}</div>
-        <h4>会议地点:</h4>
-        <div class="topic_time">{% raw current_meeting["meeting_room"] %}</div>
+    {% end %}<!--block current topic end -->
     </div>
-{% else %}
-    <p>暂无本周会议室信息</p>
-{% end %}
-
-{% end %}
+    <div class="class_index_current_info">
+    <h3> 当前会议信息</h3>
+    {% if current_meeting is not None %}
+        <div class="class_issues_meeting_info">
+            <p><span>议题:</span>{{ current_meeting["topic_title"]}}</p>
+            <p><span>会议时间:</span>{% raw current_meeting["meeting_date"] %}</p>
+            <p><span>会议地点:</span> {% raw current_meeting["meeting_room"] %}</p>
+        </div>
+    {% else %}
+        <p>暂无本周会议室信息</p>
+    {% end %} <!--block current meeting end -->
+    </div>
+    </div>
+{% end %} <!--block body end -->

@@ -21,7 +21,7 @@ $(document).ready(function () {
 					title: '编辑',
 					maxmin: true,
 					shadeClose: true, //点击遮罩关闭层
-					area: ['800px', '520px'],
+					area: ['800px', '360px'],
 					//content: '/layer?user='+user
 					content: '/layer?user=' + user + '&operation=' + operation
 				});
@@ -140,15 +140,15 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
-					alert("提交成功");
+					layer.msg("提交成功");
 					console.log("user_name:" + user_name);
 					window.location.reload();
 				} else {
-					alert(obj.message);
+					layer.msg(obj.message);
 				}
 			},
 			error: function (arg) {
-				alert("未知的错误");
+				layer.msg("未知的错误");
 			}
 		});
 

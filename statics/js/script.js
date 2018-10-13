@@ -45,13 +45,23 @@ $(document).ready(function () {
 						window.location.href = nextname + "?user=" + user;
 					});
 				} else {
-					alert(obj.message);
-					window.location.href = "/login"
+				    layer.alert(obj.message, {
+						skin: 'layui-layer-molv' //样式类名
+					,
+						closeBtn: 0
+					}, function () {
+					    window.location.href = "/login"
+					});
 				}
 			},
 			error: function (arg) {
-				layer.msg("未知的错误");
-				window.location.href = "/login"
+				layer.alert("未知的错误", {
+						skin: 'layui-layer-molv' //样式类名
+					,
+						closeBtn: 0
+					}, function () {
+					    window.location.href = "/login"
+					});
 			}
 		});
 	});

@@ -1,7 +1,7 @@
 #!/usr/bin/env Python
 # coding=utf-8
 
-from config.db_settings import *
+from config.db_settings import DB_URI
 # 引入基本的包
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine

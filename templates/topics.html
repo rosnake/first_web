@@ -29,7 +29,7 @@
     {% end %}
     {% for topics in  topics_table %}
         {% if topics["current"] == True %}
-        <div class="topics_current">
+        <div class="class_issues_info">
             <div class="class_context_topic_id">
                 <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
             </div>
@@ -49,6 +49,7 @@
 
 <div>
     <h3> 待评价议题:</h3>
+    <div class="class_wait_for_evaluate_issues">
     {% set wait_evaluate_issues = False %}
     {% for topics in  topics_table %}
         {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
@@ -60,7 +61,7 @@
     {% end %}
     {% for topics in  topics_table %}
         {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
-        <div class="topics_current">
+        <div class="class_issues_info">
             <div class="class_context_topic_id">
                 <input type="radio" name="select_id" id="id_issues" value={{ topics["issues_id"] }}>
                 <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
@@ -77,7 +78,10 @@
         </div>
         {% end %}
     {% end %}
-    <input type="button" class="class_evaluate_context_button" id="id_user_issues_evaluation" value="我要打分" />
+        {% if wait_evaluate_issues is True %}
+        <input type="button" class="class_evaluate_context_button" id="id_user_issues_evaluation" value="我要打分" />
+        {% end %}
+    </div>
 </div>
 
 <div>

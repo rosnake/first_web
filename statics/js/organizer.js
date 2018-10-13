@@ -5,31 +5,28 @@ function getCookie(name) {
 
 $(document).ready(function () {
 
-	$('#id_admin_organizer_add').on('click', function () {
-		var myDate = new Date();
-		var current_date = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
-		$('#id_admin_organizer_edit_popup_background').show();
-		$('#id_admin_organizer_edit_operation').val("add");
-		$('#id_admin_organizer_edit_id').val("0");
-		$('#id_admin_organizer_date').text(current_date);
-		$("#id_admin_deduct_edit_sub_title").text("增加组织者");
+	$('#id_admin_organizer_assign').on('click', function () {
+
+		$('#id_admin_organizer_select_popup_background').show();
 
 	});
 
-	$('#id_admin_organizer_mod').on('click', function () {
-		var organizer_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
+	$('#id_admin_popup_organizer_select_confirm').on('click', function () {
+		var organizer_id = $('#id_admin_organizer_select_popup_table_body input[name="select_id"]:checked ').val();
 		if ((typeof organizer_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
 			console.log("current not select any id");
 			return;
 		}
-
-		$('#id_admin_organizer_edit_popup_background').show();
-		$("#id_admin_deduct_edit_sub_title").text("修改组织者");
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
 		var ttr = $("input:checked").parents('tr');
-		var organizer_name = "";
-		var organizer_id = "";
-		var organizer_date = "";
+		//console.log(ttr);
+
+		/*当前行使用find方法找到每一个td列
+		each方法为每一个td设置function
+		 */
+		var user_name = "";
+		var chinese_name = "";
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
 			checkbox 、 button、text 不需要执行append
@@ -37,103 +34,31 @@ $(document).ready(function () {
 			return false 为 跳出整个 each
 			 */
 
-			if ($(this).attr('id') === "organizer_id") {
-				organizer_id = $(this).text();
-				console.log("organizer_id:" + organizer_id);
+			if ($(this).attr('id') === "id_admin_organizer_select_user_name") {
+				user_name = $(this).text();
+				console.log("user_name:" + user_name);
 			}
 
-			if ($(this).attr('id') === "organizer_name") {
-				organizer_name = $(this).text();
-				console.log("organizer_name:" + organizer_name);
+			if ($(this).attr('id') === "id_admin_organizer_select_chinese_name") {
+				chinese_name = $(this).text();
+				console.log("chinese_name:" + chinese_name);
 			}
-			if ($(this).attr('id') === "date") {
-				organizer_date = $(this).text();
-				console.log("organizer_date:" + organizer_date);
-			}
-
 		});
 
-		$("#id_admin_organizer_name").val(organizer_name);
-		$("#id_admin_organizer_id").val(organizer_id);
-		$("#id_admin_organizer_date").val(organizer_date);
+		$('#id_admin_organizer_select_popup_background').hide();
+
+
+		$('#id_admin_organizer_edit_popup_background').show();
+		$("#id_admin_deduct_edit_sub_title").text("指定组织者");
+
+		$("#id_admin_organizer_name").val(chinese_name);
+		$("#id_admin_organizer_id").val(user_name);
+		$("#id_admin_organizer_name").attr("readonly", true);
+		$("#id_admin_organizer_id").attr("readonly", true);
 	});
 
-	$('#id_admin_organizer_del').on('click', function () {
-		var organizer_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
-		if ((typeof organizer_id) === 'undefined') {
-			layer.msg("当前未选择任何项目");
-			console.log("current not select any id");
-			return;
-		}
-		var ttr = $("input:checked").parents('tr');
-
-		var organizer_name = "";
-		var organizer_id = "";
-		var time_date = "";
-		ttr.find("td").each(function () {
-			/*过滤 td中的元素
-			checkbox 、 button、text 不需要执行append
-			注意 return 为 跳出当前 each
-			return false 为 跳出整个 each
-			 */
-
-			if ($(this).attr('id') === "organizer_id") {
-				organizer_id = $(this).text();
-				console.log("organizer_id:" + organizer_id);
-			}
-
-			if ($(this).attr('id') === "organizer_name") {
-				organizer_name = $(this).text();
-				console.log("organizer_name:" + organizer_name);
-			}
-			if ($(this).attr('id') === "date") {
-				time_date = $(this).text();
-				console.log("time_date:" + time_date);
-			}
-		});
-
-		layer.confirm("是否删除【" + organizer_name + "】?", {
-			btn: ['删除', '取消']//按钮
-		}, function () {
-			console.log(" organizer_id: " + organizer_id + " organizer_name: " + organizer_name + " time_date:" + time_date);
-			var submit_data = {
-				"operation": "delete",
-				"organizer_name": organizer_name,
-				"organizer_id": organizer_id,
-				"time_date": time_date,
-				"_xsrf": getCookie("_xsrf")
-			};
-
-			$.ajax({
-				type: "post",
-				url: "/admin/organizer",
-				data: submit_data,
-				cache: false,
-				success: function (arg) {
-					console.log(arg);
-					//arg是字符串
-					var obj = JSON.parse(arg);
-					if (obj.status) {
-						layer.msg("提交成功");
-						console.log("organizer_name:" + organizer_name);
-						setTimeout(function () {
-							window.location.reload();
-						}, 1000);
-					} else {
-						layer.msg(obj.message);
-					}
-				},
-				error: function (arg) {
-					var obj = JSON.parse(arg);
-					layer.msg(obj.message);
-				}
-			});
-
-		}, function () {
-			layer.msg("删除【" + organizer_name + "】操作已为您取消", {
-				icon: 0
-			});
-		});
+	$('#id_admin_popup_organizer_select_cancel').on('click', function () {
+		$('#id_admin_organizer_select_popup_background').hide();
 	});
 
 	$('#id_admin_popup_organizer_submit').on('click', function () {
@@ -161,7 +86,7 @@ $(document).ready(function () {
 		}
 
 		var submit_data = {
-			"operation": "update",
+			"operation": "assign",
 			"organizer_name": organizer_name,
 			"organizer_id": organizer_id,
 			"time_date": time_date,
@@ -194,7 +119,7 @@ $(document).ready(function () {
 		});
 
 		setTimeout(function () {
-			window.location.reload();
+			//window.location.reload();
 		}, 1000);
 		$('#admin_popup_background').hide();
 		$("#id_admin_organizer_name").val("");
