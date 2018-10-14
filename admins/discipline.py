@@ -8,6 +8,7 @@ from methods.debug import *
 import json
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
+from orm.operation_history import OperationHistoryModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -52,6 +53,8 @@ class AdminDisciplineHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "新增成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "add credits rule: " + deduct_name
+                self.__record_operation_history(self.session["user_name"], opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -67,6 +70,8 @@ class AdminDisciplineHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "删除成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "delete credits rule: " + deduct_name
+                self.__record_operation_history(self.session["user_name"], opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -82,6 +87,8 @@ class AdminDisciplineHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "删除成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "modify credits rule"
+                self.__record_operation_history(self.session["user_name"], opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -141,3 +148,13 @@ class AdminDisciplineHandler(BaseHandler):
         else:
             logging.error("modify discipline failed")
             return False
+
+    def __record_operation_history(self, impact_user, operation):
+        # 记录操作历史
+        history = OperationHistoryModule()
+        history.operation_user_name = self.session["user_name"]
+        history.operation_details = operation
+        history.impact_user_name = impact_user
+
+        self.db.add(history)
+        self.db.commit()

@@ -10,6 +10,7 @@ from orm.exchange_apply import ExchangeApplyModule
 from orm.score_info import ScoreInfoModule
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
+from orm.operation_history import OperationHistoryModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -63,6 +64,8 @@ class AdminExchangeHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "新增成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "add exchange rule: " + rule_name
+                self.__record_operation_history(self.session["user_name"], opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -78,6 +81,9 @@ class AdminExchangeHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "删除成功！"
                 response["data"] = date_kits.get_now_day_str()
+
+                opt = "delete exchange rule"
+                self.__record_operation_history(self.session["user_name"], opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -93,6 +99,8 @@ class AdminExchangeHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "删除成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "modify exchange rule"
+                self.__record_operation_history(self.session["user_name"], opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -108,6 +116,8 @@ class AdminExchangeHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "兑换成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "confirm exchanged"
+                self.__record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -123,6 +133,8 @@ class AdminExchangeHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "取消兑换成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "reject exchanged"
+                self.__record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -189,9 +201,10 @@ class AdminExchangeHandler(BaseHandler):
         exchange_table = []
 
         if exchange_modules:
-            for x in exchange_modules:
-                tmp = {"exchange_id": x.id, "user_name": x.user_name, "user_points": x.current_scores,
-                       "exchange_item": x.exchange_item, "apply_date": x.datetime, "exchanged": x.exchange_accept}
+            for exchange in exchange_modules:
+                tmp = {"exchange_id": exchange.id, "user_name": exchange.user_name,
+                       "user_points": exchange.current_scores, "exchange_item": exchange.exchange_item,
+                       "apply_date": exchange.date_time, "exchanged": exchange.exchange_accept}
                 exchange_table.append(tmp)
 
         return exchange_table
@@ -215,7 +228,7 @@ class AdminExchangeHandler(BaseHandler):
             con = False
             for x in exchange_all:
                 self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).filter(
-                    ExchangeApplyModule.exchange_accept == con).update({ExchangeApplyModule.current_scores: point_modules. current_scores - exchange_modules.need_points})
+                    ExchangeApplyModule.exchange_accept == con).update({ExchangeApplyModule.current_scores: point_modules.current_scores - exchange_modules.need_score})
                 self.db.commit()
 
             return True
@@ -235,3 +248,12 @@ class AdminExchangeHandler(BaseHandler):
         else:
             return False
 
+    def __record_operation_history(self, impact_user, operation):
+        # 记录操作历史
+        history = OperationHistoryModule()
+        history.operation_user_name = self.session["user_name"]
+        history.operation_details = operation
+        history.impact_user_name = impact_user
+
+        self.db.add(history)
+        self.db.commit()

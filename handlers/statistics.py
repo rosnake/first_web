@@ -93,20 +93,22 @@ class StatHandler(BaseHandler):
 
     def __get_point_stat_by_user_name(self, user_name):
         history_module = self.db.query(ScoringHistoryModule).filter(ScoringHistoryModule.user_name == user_name).all()
-        mark_module = ScoringCriteriaModule.get_all_scoring_criteria()
+        criteria_module = ScoringCriteriaModule.get_all_scoring_criteria()
         user_point = dict()
 
-        if history_module and mark_module:
-            for x in mark_module:
+        if history_module and criteria_module:
+            for criteria in criteria_module:
                 point = 0
-                for y in history_module:
-                    if x.id == y.criteria_id:
-                        point = point + y.score_value
-                        user_point.update({x.criteria_name: point})
+                for history in history_module:
+                    if criteria.id == history.criteria_id:
+                        logging.info("history id %s, criteria id:%s" % (history.criteria_id, criteria.id))
+                        point = point + history.score_value
+                        user_point.update({criteria.criteria_name: point})
 
             return user_point
 
         else:
+            logging.error("history or criteria is none,return none")
             return user_point
 
     def __get_presents_table(self, current_scores):
@@ -163,7 +165,7 @@ class StatHandler(BaseHandler):
         exchange_apply.current_scores = current
         exchange_apply.exchange_item = present_exchange_min_score.exchange_rule_name
         exchange_apply.datetime = date_kits.get_now_time()
-        exchange_apply.need_score = present_exchange_min_score.exchange_rule_points
+        exchange_apply.need_score = present_exchange_min_score.exchange_min_score
         self.db.add(exchange_apply)
         self.db.commit()
         return True

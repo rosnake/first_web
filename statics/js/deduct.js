@@ -55,6 +55,7 @@ $(document).ready(function () {
 				"deduct_name": deduct_name,
 				"deduct_points": deduct_points,
 				"id": deduct_id,
+				"subtraction":"false",
 				"_xsrf": getCookie("_xsrf")
 			};
 

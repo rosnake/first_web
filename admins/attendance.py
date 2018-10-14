@@ -246,10 +246,12 @@ class AdminAttendanceHandler(BaseHandler):
         attendance_modules = AttendanceModule.get_all_attendance_info()
 
         if attendance_modules is None:
+            logging.error("attendance is none")
             return False
 
         for attendance in attendance_modules:
             if attendance.current_attendance is False:
+                logging.info("current change %s attendance status" % attendance.user_name)
                 self.db.query(AttendanceModule).filter(AttendanceModule.user_name == attendance.user_name).update({
                     AttendanceModule.checked_in: False,
                     AttendanceModule.attended: True,

@@ -47,13 +47,13 @@ def drop_db_table():
     logging.info("execute: "+sql)
     conn_cursor.execute(sql)  # 如果表存在则删除
 
-    sql = "drop table if exists " + ScoringCriteriaModule.__tablename__
-    logging.info("execute: "+sql)
-    conn_cursor.execute(sql)  # 如果表存在则删除
+    # sql = "drop table if exists " + ScoringCriteriaModule.__tablename__
+    # logging.info("execute: "+sql)
+    # conn_cursor.execute(sql)  # 如果表存在则删除
 
-    sql = "drop table if exists " + ExchangeRulesModule.__tablename__
-    logging.info("execute: "+sql)
-    conn_cursor.execute(sql)  # 如果表存在则删除
+    # sql = "drop table if exists " + ExchangeRulesModule.__tablename__
+    # logging.info("execute: "+sql)
+    # conn_cursor.execute(sql)  # 如果表存在则删除
 
     sql = "drop table if exists " + AttendanceModule.__tablename__
     logging.info("execute: "+sql)

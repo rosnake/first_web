@@ -225,8 +225,8 @@ $(document).ready(function () {
 			var submit_data = {
 				"operation": "delete",
 				"rule_name": "null",
-				"need_points": "0",
-				"min_points": "0",
+				"need_score": "0",
+				"exchange_min_score": "0",
 				"id": rule_id,
 				"_xsrf": getCookie("_xsrf")
 			};
@@ -281,7 +281,7 @@ $(document).ready(function () {
 		each方法为每一个td设置function
 		 */
 		var rule_id = "";
-		var need_points = "";
+		var need_score = "";
 		var rule_name = "";
 		var points_range = "";
 		ttr.find("td").each(function () {
@@ -301,20 +301,20 @@ $(document).ready(function () {
 				console.log("rule_name:" + rule_name);
 			}
 
-			if ($(this).attr('id') === "need_points") {
-				need_points = $(this).text();
-				console.log("need_points:" + need_points);
+			if ($(this).attr('id') === "need_score") {
+				need_score = $(this).text();
+				console.log("need_score:" + need_score);
 			}
 
 			if ($(this).attr('id') === "points_range") {
 				points_range = $(this).text();
-				console.log("need_points:" + points_range);
+				console.log("need_score:" + points_range);
 			}
 		});
 
 		$("#id_admin_exchange_popup_rule_id").val(rule_id);
 		$("#id_admin_exchange_popup_rule_name").val(rule_name);
-		$("#id_admin_exchange_popup_rule_points").val(need_points);
+		$("#id_admin_exchange_popup_rule_points").val(need_score);
 		$("#id_admin_exchange_popup_rule_range").val(points_range);
 		$("#id_admin_exchange_edit_operation").val("modify");
 		$("#id_admin_exchange_popup_rule_id").attr("readonly", true);
@@ -327,7 +327,7 @@ $(document).ready(function () {
 	$('#id_admin_exchange_edit_submit').on('click', function () {
 		var rule_id = $("#id_admin_exchange_popup_rule_id").val();
 		var rule_name = $("#id_admin_exchange_popup_rule_name").val();
-		var need_points = $("#id_admin_exchange_popup_rule_points").val();
+		var need_score = $("#id_admin_exchange_popup_rule_points").val();
 		var points_range = $("#id_admin_exchange_popup_rule_range").val();
 		var operation = $("#id_admin_exchange_edit_operation").val();
 
@@ -343,19 +343,19 @@ $(document).ready(function () {
 			return false;
 		}
 
-		if (need_points == "") {
+		if (need_score == "") {
 			$("#id_admin_exchange_popup_rule_points").focus();
 			layer.msg("兑换积分不能为空");
 			return false;
 		}
 
-		if (isRealNum(need_points) === false) {
+		if (isRealNum(need_score) === false) {
 			$("#id_admin_exchange_popup_rule_points").focus();
 			layer.msg("兑换积分只能是数字");
 			return false;
 		}
 
-		if (need_points < 0) {
+		if (need_score < 0) {
 			$("#id_admin_exchange_popup_rule_points").focus();
 			layer.msg("兑换积分不能为负数");
 			return false;
@@ -381,13 +381,13 @@ $(document).ready(function () {
 		var submit_data = {
 			"operation": operation,
 			"rule_name": rule_name,
-			"need_points": need_points,
-			"min_points": points_range,
+			"need_score": need_score,
+			"exchange_min_score": points_range,
 			"id": rule_id,
 			"_xsrf": getCookie("_xsrf")
 		};
 
-		console.log("operation:" + operation + " rule_name:" + rule_name + " need_points:" + need_points + " points_range:" + points_range + " rule_id:" + rule_id);
+		console.log("operation:" + operation + " rule_name:" + rule_name + " need_score:" + need_score + " points_range:" + points_range + " rule_id:" + rule_id);
 		$.ajax({
 			type: "post",
 			url: "/admin/exchange",

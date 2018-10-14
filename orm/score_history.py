@@ -15,7 +15,7 @@ class ScoringHistoryModule(DataBase):
 
     id = Column(Integer, primary_key=True)
     user_name = Column(String(64), nullable=False, index=True)  # 用户名
-    criteria_id = Column(String(64), nullable=False, index=True)  # 分数项目ID
+    criteria_id = Column(Integer, nullable=False, index=True)  # 分数项目ID
     criteria_name = Column(String(64), nullable=False, index=True)  # 分数项目名称
     score_value = Column(Float, default=0.0, nullable=False, index=False)  # 对应分数
     transactor = Column(String(64), nullable=False, index=True)  # 处理人

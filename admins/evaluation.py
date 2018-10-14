@@ -11,6 +11,8 @@ import json
 from orm.evaluation_info import EvaluationInfoModule
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
+from orm.score_criteria import ScoringCriteriaModule
+from orm.operation_history import OperationHistoryModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -129,7 +131,22 @@ class AdminEvaluatingHandler(BaseHandler):
         # 3、更新用户得分信息
         real_score = last_score
         if issues.voluntary_apply is True:
-            real_score = last_score + 2
+            score_rule = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.criteria_name == "主动申报") \
+                .first()
+            if score_rule:
+                real_score = last_score + score_rule.score_value
+                logging.info("current issues is apply, add %d" % score_rule.score_value)
+                history_module = ScoringHistoryModule()
+                history_module.user_name = issues.user_name
+                history_module.criteria_id = score_rule.id
+                history_module.criteria_name = score_rule.criteria_name
+                history_module.score_value = score_rule.score_value  # 对应分数
+                history_module.transactor = self.get_current_user()  # 处理人
+                history_module.date_time = date_time  # 处理时间
+                self.db.add(history_module)
+                self.db.commit()
+                opt = "add issues apply score"
+                self.__record_operation_history(issues.user_name, opt)
 
         user_point = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == issues.user_name).first()
 
@@ -144,22 +161,30 @@ class AdminEvaluatingHandler(BaseHandler):
             logging.info("update user score failed")
 
         # 4、更新用户得分历史信息
-        history_module = ScoringHistoryModule()
-        history_module.user_name = issues.user_name
-        history_module.criteria_id = issues.issues_title
-        history_module.criteria_name = "议题得分"
-        history_module.score_value = last_score  # 对应分数
-        history_module.transactor = self.get_current_user()  # 处理人
-        history_module.date_time = date_time  # 处理时间
-        self.db.add(history_module)
-        self.db.commit()
-
-        if issues.voluntary_apply is True:
-            history_module.criteria_name = "主动申报"
-            history_module.score_value = 2  # 对应分数
+        score_rule = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.criteria_name == "议题得分") \
+            .first()
+        if score_rule:
+            history_module = ScoringHistoryModule()
+            history_module.user_name = issues.user_name
+            history_module.criteria_id = score_rule.id
+            history_module.criteria_name = score_rule.criteria_name
+            history_module.score_value = last_score  # 对应分数
+            history_module.transactor = self.get_current_user()  # 处理人
+            history_module.date_time = date_time  # 处理时间
             self.db.add(history_module)
             self.db.commit()
 
-        # 5、更新操作记录
+            opt = "add issues score"
+            self.__record_operation_history(issues.user_name, opt)
 
         return True
+
+    def __record_operation_history(self, impact_user, operation):
+        # 记录操作历史
+        history = OperationHistoryModule()
+        history.operation_user_name = self.session["user_name"]
+        history.operation_details = operation
+        history.impact_user_name = impact_user
+
+        self.db.add(history)
+        self.db.commit()
