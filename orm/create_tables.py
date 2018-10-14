@@ -30,7 +30,7 @@ def create_all_tables():
 
 def create_root_user():
     # 先查询用户是否存在
-    user = dbSession.query(UsersInfoModule).filter(UsersInfoModule.user_name == "root").first()
+    user = dbSession.query(UsersInfoModule).filter(UsersInfoModule.user_role == "root").first()
     # 不存在创建用户
     if user is None:
         user_module = UsersInfoModule()
