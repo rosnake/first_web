@@ -16,6 +16,7 @@ class LanguageMapping:
         "meeting":    {"link": "/admin/meeting",    "name": "会议管理"},
         "attendance": {"link": "/admin/attendance", "name": "出勤管理"},
         "evaluating": {"link": "/admin/evaluating", "name": "评价管理"},
+        "history":    {"link": "/admin/history",    "name": "操作历史"},
 
         "index":      {"link": "/index",            "name": "首页"},
         "home":       {"link": "/home",             "name": "个人主页"},
@@ -42,6 +43,7 @@ class LanguageMapping:
         "meeting":    {"link": "/admin/meeting",    "name": "meeting"},
         "attendance": {"link": "/admin/attendance", "name": "attendance"},
         "evaluating": {"link": "/admin/evaluating", "name": "evaluating"},
+        "history":    {"link": "/admin/history",     "name": "history"},
 
         "index":      {"link": "/index",            "name": "index"},
         "home":       {"link": "/home",             "name": "home"},

@@ -34,7 +34,7 @@ $(document).ready(function () {
 	$('#id_applications_confirm').on('click', function () {
 		var topic_name = $("#id_input_topic_name").val();
 		var topic_brief = $("#id_input_topic_brief").val();
-		var topic_date = $('#id_select_topic_date option:selected').text(); //选中的文本
+		var topic_date = $("#id_select_topic_date").val(); //选中的文本
 		console.log("topic_name:" + topic_name);
 		console.log("topic_brief: " + topic_brief);
 		console.log("topic_date: " + topic_date);

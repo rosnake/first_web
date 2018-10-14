@@ -1,6 +1,7 @@
 <div class="admin_navigation">
     <ul class="ul_admin_navigation" id="id_admin_sidebar_nav">
         {% if controller["admin"] == True %}
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_history"><a href={{ language_mapping["history"]["link"] }}>{{ language_mapping["history"]["name"] }}</a></li>
         <li class="li_admin_navigation" id="id_admin_sidebar_nav_member"><a href={{ language_mapping["member"]["link"] }}>{{ language_mapping["member"]["name"] }}</a></li>
         <li class="li_admin_navigation" id="id_admin_sidebar_nav_deduct"><a href={{ language_mapping["discipline"]["link"] }}>{{ language_mapping["discipline"]["name"] }}</a></li>
         <li class="li_admin_navigation" id="id_admin_sidebar_nav_exchange"><a href={{ language_mapping["exchange"]["link"] }}>{{ language_mapping["exchange"]["name"] }}</a></li>

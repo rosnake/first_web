@@ -8,6 +8,8 @@ from orm.users_info import UsersInfoModule
 from orm.score_info import ScoreInfoModule
 from methods.controller import PageController
 from orm.attendance import AttendanceModule
+from orm.operation_history import OperationHistoryModule
+
 
 #  继承 base.py 中的类 BaseHandler
 class RegisterHandler(BaseHandler):
@@ -72,6 +74,23 @@ class RegisterHandler(BaseHandler):
 
             self.db.add(attendance)
             self.db.commit()
+
+            # 更新session信息
+            self.set_current_user(user_name)
+            self.session["authorized"] = True
+            self.session["user_name"] = user_name
+            self.session["admin"] = False
+            self.session["organizer"] = False
+
+            # 记录操作历史
+            history = OperationHistoryModule()
+            history.operation_user_name = user_name
+            history.operation_details = "register a new user"
+            history.impact_user_name = user_name
+
+            self.db.add(history)
+            self.db.commit()
+
         if succeed is True:
             self.write(json.dumps(ret))
         else:

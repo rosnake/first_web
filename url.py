@@ -38,6 +38,7 @@ from admins.meeting import AdminMeetingHandler
 from admins.attendance import AdminAttendanceHandler
 from admins.prohibit import AdminProhibitHandler
 from admins.evaluation import AdminEvaluatingHandler
+from admins.history import AdminHistoryHandler
 importlib.reload(sys)
 
 # 一个URL列表
@@ -74,4 +75,5 @@ url = [
     (r'/admin/attendance', AdminAttendanceHandler),
     (r'/admin/prohibit', AdminProhibitHandler),
     (r'/admin/evaluating', AdminEvaluatingHandler),
+    (r'/admin/history', AdminHistoryHandler),
 ]

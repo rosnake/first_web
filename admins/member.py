@@ -12,6 +12,7 @@ import random
 import string
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
+from orm.operation_history import OperationHistoryModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -68,6 +69,8 @@ class AdminMemberHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "删除成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "delete user"
+                self.__record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
@@ -84,6 +87,8 @@ class AdminMemberHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "修改成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "modify user role to " + user_role
+                self.__record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
@@ -99,6 +104,8 @@ class AdminMemberHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "新增成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "add  user"
+                self.__record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
@@ -113,6 +120,8 @@ class AdminMemberHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = pass_word
                 response["data"] = date_kits.get_now_day_str()
+                opt = "show user password"
+                self.__record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
@@ -211,11 +220,11 @@ class AdminMemberHandler(BaseHandler):
 
     def __modify_user_info_by_id(self, user_id, user_name, user_role):
         if user_role == "root":
-            logging.error("can not add root user")
+            logging.error("can not modify user role to root")
             return False
 
-        if user_role != "normal" or user_role != "admin":
-            logging.error("can not add another user")
+        if user_role != "normal" and user_role != "admin":
+            logging.error("can not modify user role to %s" % user_role)
             return False
 
         user = self.db.query(UsersInfoModule).filter(UsersInfoModule.id == user_id).first()
@@ -289,7 +298,14 @@ class AdminMemberHandler(BaseHandler):
 
         return True
 
+    def __record_operation_history(self, impact_user, operation):
+        # 记录操作历史
+        history = OperationHistoryModule()
+        history.operation_user_name = self.session["user_name"]
+        history.operation_details = operation
+        history.impact_user_name = impact_user
 
-
+        self.db.add(history)
+        self.db.commit()
 
 

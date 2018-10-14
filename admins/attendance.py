@@ -231,13 +231,14 @@ class AdminAttendanceHandler(BaseHandler):
 
         if attendance_modules:
             for x in attendance_modules:
-                tmp = {
-                    "attendance_id": id, "user_name": x.user_name, "chinese_name": x.chinese_name,
-                    "checked_in": x.checked_in, "absence_reason": x.absence_reason, "absence_id": x.absence_id,
-                    "attended": x.attended, "absence_apply_time": x.absence_apply_time,
-                    "datetime": x.date_time, "absence_apply_accept": x.absence_apply_accept,
-                }
-                attendance_tables.append(tmp)
+                if x.user_name != "admin":
+                    tmp = {
+                        "attendance_id": id, "user_name": x.user_name, "chinese_name": x.chinese_name,
+                        "checked_in": x.checked_in, "absence_reason": x.absence_reason, "absence_id": x.absence_id,
+                        "attended": x.attended, "absence_apply_time": x.absence_apply_time,
+                        "datetime": x.date_time, "absence_apply_accept": x.absence_apply_accept,
+                    }
+                    attendance_tables.append(tmp)
 
         return attendance_tables
 

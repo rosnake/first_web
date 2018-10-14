@@ -8,6 +8,7 @@ import json
 from methods.debug import *
 from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
+from orm.operation_history import OperationHistoryModule
 
 
 #继承 base.py 中的类 BaseHandler
@@ -46,6 +47,8 @@ class ApplicationsHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "新增成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt="apply a issues, title: " + topic_name
+                self.__record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -95,3 +98,13 @@ class ApplicationsHandler(BaseHandler):
         self.db.add(topic_module)
         self.db.commit()
         return True
+
+    def __record_operation_history(self, impact_user, operation):
+        # 记录操作历史
+        history = OperationHistoryModule()
+        history.operation_user_name = self.session["user_name"]
+        history.operation_details = operation
+        history.impact_user_name = impact_user
+
+        self.db.add(history)
+        self.db.commit()

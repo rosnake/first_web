@@ -74,7 +74,7 @@ $(document).ready(function () {
 
 		if (user == "") {
 			$("#user_name").focus();
-			debugMessage("用户名不能为空.");
+			layer.msg("用户名不能为空.");
 			return false;
 		} else {
 			//debugMessage("用户名:"+user);
@@ -82,20 +82,20 @@ $(document).ready(function () {
 		//验证密码是否合理
 		if (pwd.length < 6) {
 			$("#password").focus();
-			debugMessage("密码不能小于6位数." + pwd.length);
+			layer.msg("密码不能小于6位数." + pwd.length);
 			return false;
 		}
 
 		if (pwd == "") {
 			$("#password").focus();
-			debugMessage("密码不能为空");
+			layer.msg("密码不能为空");
 			return false;
 		}
 
 		//验证密码与确认密码是否相等
 		if (pwd != conf) {
 			$("#password").focus();
-			debugMessage("两次输入密码不一致" + "pwd:" + pwd + "conf:" + conf);
+			layer.msg("两次输入密码不一致" + "pwd:" + pwd + "conf:" + conf);
 			return false;
 		}
 
@@ -119,9 +119,14 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
-					layer.msg("注册成功");
 					console.log("user_name:" + user);
+					layer.alert("注册成功", {
+						skin: 'layui-layer-molv' //样式类名
+					,
+						closeBtn: 0
+					}, function () {
 					window.location.href = "/user?user=" + user;
+					});
 				} else {
 					layer.msg(obj.message);
 				}
