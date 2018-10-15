@@ -13,6 +13,8 @@
         <li class="li_admin_navigation" id="id_admin_sidebar_nav_meeting"><a href={{ language_mapping["meeting"]["link"] }}>{{ language_mapping["meeting"]["name"] }}</a></li>
         <li class="li_admin_navigation" id="id_admin_sidebar_nav_attendance"><a href={{ language_mapping["attendance"]["link"] }}>{{ language_mapping["attendance"]["name"] }}</a></li>
         <li class="li_admin_navigation" id="id_admin_sidebar_nav_evaluating"><a href={{ language_mapping["evaluating"]["link"] }}>{{ language_mapping["evaluating"]["name"] }}</a></li>
-
+        {% if controller["admin"] == True %}
+        <li class="li_admin_navigation" id="id_admin_sidebar_nav_opinions"><a href={{ language_mapping["opinions"]["link"] }}>{{ language_mapping["opinions"]["name"] }}</a></li>
+        {% end %}
     </ul>
 </div>

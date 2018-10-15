@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+<!--自动转义-->
+{% autoescape None %}
+{% block header %}
+{{ modules.Header(user_name, language_mapping) }}
+{% end %}
+{% block body %}
+    <style type="text/css">
+        #id_nav_feedback a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
+<h3>意见反馈</h3>
+
+{% end %}

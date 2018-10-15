@@ -22,6 +22,7 @@ from handlers.applications import ApplicationsHandler
 from handlers.issues import IssuesHandler
 from handlers.login import VerifyHandler
 from handlers.modify_pwd import ModifyPassWordHandler
+from handlers.feedback import FeedBackHandler
 from admins.admin import AdminHandler
 from admins.topics import AdminTopicsHandler
 from admins.discipline import AdminDisciplineHandler
@@ -39,6 +40,7 @@ from admins.attendance import AdminAttendanceHandler
 from admins.prohibit import AdminProhibitHandler
 from admins.evaluation import AdminEvaluatingHandler
 from admins.history import AdminHistoryHandler
+from admins.opinions import AdminOpinionsHandler
 importlib.reload(sys)
 
 # 一个URL列表
@@ -60,6 +62,7 @@ url = [
     (r'/modify_password', ModifyPassWordHandler),
     (r'/admin', AdminHandler),
     (r'/about', AboutHandler),
+    (r'/feedback', FeedBackHandler),
     (r'/admin/topics', AdminTopicsHandler),
     (r'/admin/credits', AdminCreditsHandler),
     (r'/admin/organizer', AdminOrganizerHandler),
@@ -76,4 +79,5 @@ url = [
     (r'/admin/prohibit', AdminProhibitHandler),
     (r'/admin/evaluating', AdminEvaluatingHandler),
     (r'/admin/history', AdminHistoryHandler),
+    (r'/admin/opinions', AdminOpinionsHandler),
 ]

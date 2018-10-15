@@ -14,7 +14,7 @@
 #menu a
 {
     display:block;
-    width:199px;
+    width:165px;
     line-height:30px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
     text-align:center; /* 居中对齐文字 */
     background: #25788f; /* 设置背景色 */

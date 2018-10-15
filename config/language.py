@@ -17,7 +17,8 @@ class LanguageMapping:
         "attendance": {"link": "/admin/attendance", "name": "出勤管理"},
         "evaluating": {"link": "/admin/evaluating", "name": "评价管理"},
         "history":    {"link": "/admin/history",    "name": "操作历史"},
-
+        "opinions":   {"link": "/admin/opinions",   "name": "意见管理"},
+        
         "index":      {"link": "/index",            "name": "首页"},
         "home":       {"link": "/home",             "name": "个人主页"},
         "issues":     {"link": "/topics",           "name": "议题信息"},
@@ -25,6 +26,7 @@ class LanguageMapping:
         "apply":      {"link": "/applications",     "name": "议题申报"},
         "admin":      {"link": "/admin",            "name": "管理"},
         "about":      {"link": "/about",            "name": "关于"},
+        "feedback":   {"link": "/feedback",         "name": "意见反馈"},
 
         "login":      {"link": "/about",            "name": "登录"},
         "register":   {"link": "/register",         "name": "注册"},
@@ -43,8 +45,9 @@ class LanguageMapping:
         "meeting":    {"link": "/admin/meeting",    "name": "meeting"},
         "attendance": {"link": "/admin/attendance", "name": "attendance"},
         "evaluating": {"link": "/admin/evaluating", "name": "evaluating"},
-        "history":    {"link": "/admin/history",     "name": "history"},
-
+        "history":    {"link": "/admin/history",    "name": "history"},
+        "opinions":   {"link": "/admin/opinions",   "name": "opinions"},
+        
         "index":      {"link": "/index",            "name": "index"},
         "home":       {"link": "/home",             "name": "home"},
         "issues":     {"link": "/topics",           "name": "topics"},
@@ -52,6 +55,7 @@ class LanguageMapping:
         "apply":      {"link": "/applications",     "name": "applications"},
         "admin":      {"link": "/admin",            "name": "admin"},
         "about":      {"link": "/about",            "name": "about"},
+        "feedback":   {"link": "/feedback",         "name": "feedback"},
 
         "login":      {"link": "/login",            "name": "login"},
         "register":   {"link": "/register",         "name": "register"},
