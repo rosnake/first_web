@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 <!--自动转义-->
 {% autoescape None %}
+<!-- 引入第三方js库-->
+{% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/feedback.js")}}"></script>
+{% end %}
+
 {% block header %}
 {{ modules.Header(user_name, language_mapping) }}
 {% end %}
@@ -11,5 +17,23 @@
         }
     </style>
 <h3>意见反馈</h3>
+<div class="class_user_feedback">
+    <div class="class_user_feedback_item">
+        <label class="class_user_feedback_label">问题描述:</label>
+        <input type="text" id="id_user_feedback_title">
+    </div>
+    <div class="class_user_feedback_item">
+        <label class="class_user_feedback_label">详细描述:</label>
+        <textarea rows="4" cols="20" id="id_user_feedback_details">
+        </textarea>
+    </div>
+
+   <div class="class_applications_confirm">
+    <input class="class_user_feedback_button" type="BUTTON" value="提交" id="id_user_feedback_confirm" />
+</div>
+
+</div>
+
+
 
 {% end %}

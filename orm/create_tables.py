@@ -17,6 +17,7 @@ from orm.score_history import ScoringHistoryModule
 from orm.meeting_info import MeetingInfoModule
 from orm.evaluation_info import EvaluationInfoModule
 from orm.operation_history import OperationHistoryModule
+from orm.feedback import FeedBackModule
 
 
 # 将创建好的数据表类，映射到数据库的表中

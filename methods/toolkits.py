@@ -23,4 +23,7 @@ class DateToolKits:
         self.now_time = datetime.datetime.now()
         return self.now_time
 
-
+    def get_now_str(self):
+        now_time = datetime.datetime.now()
+        self.now_second_str = now_time.strftime('%Y%m%d%H%M%S')  # 现在
+        return self.now_second_str
