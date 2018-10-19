@@ -1,7 +1,8 @@
 {% extends "../base.html" %}
 <!--自动转义-->
 {% block external_lib %}
-    <script src="{{static_url("js/admin.js")}}"></script>
+    <script src="{{static_url("js/feedback.js")}}"></script>
+    <script src="{{static_url("layer/layer.js")}}"></script>
     <link rel="stylesheet" href="{{ static_url("css/admin.css") }}" type="text/css">
 {% end %}
 {% autoescape None %}
@@ -23,11 +24,79 @@
     {{ modules.AdminSidebar(controller, language_mapping) }}
     <div class="class_admin_context">
         <!--<input class="class_admin_file_upload_text" type="text" name="upload"/>-->
-        <div class="class_admin_context_file">
-            <div class="class_admin_context_file_title" >
-                <h2>意见管理</h2>
-            </div>
-        </div>
+        <h3>当前所有未结束意见</h3>
+
+        <form class="class_admin_context_form" id="admin_feedback_form" name="feedback_form">
+        <table class="class_admin_context_table"  id="admin_feedback_table">
+        <thead class="class_admin_context_table_head" id="admin_feedback_table_head">
+            <tr>
+                <th>意见编号</th>
+                <th>意见简述</th>
+                <th>反馈日期</th>
+                <th>反馈用户</th>
+                <th>状态</th>
+                <th>操作</th>
+
+            </tr>
+        </thead>
+        <tbody class="class_admin_context_table_body" id="id_admin_feedback_table_body">
+        {% for opinions in opinions_tables %}
+        {% if opinions["feedback_status"] != "closed" %}
+            <tr>
+                <td id="id_admin_opinions_serial_number">{{opinions["serial_number"]}}</td>
+                <td id="id_admin_opinions_issues_title">{{opinions["issues_title"]}}</td>
+                <td id="id_admin_opinions_report_date">{{opinions["report_date"]}}</td>
+                <td id="id_admin_opinions_report_user_name">{{opinions["report_user_name"]}}</td>
+                <td id="id_admin_opinions_feedback_status">{{opinions["feedback_status"]}}</td>
+                <td>
+                <div id="id_admin_attendance_table_button">
+                    <input class="class_admin_context_table_button" id="id_admin_opinions_browse"  type="button" value="查看问题" >
+                </div>
+                </td>
+            </tr>
+        {% end %}
+        {% end %}
+        </tbody>
+    </table>
+        </form>
+
+        <h3>当前所有完成的意见</h3>
+
+        <form class="class_admin_context_form" id="admin_feedback_form" name="feedback_form">
+        <table class="class_admin_context_table"  id="admin_feedback_table">
+        <thead class="class_admin_context_table_head" id="admin_feedback_table_head">
+            <tr>
+                <th>意见编号</th>
+                <th>意见简述</th>
+                <th>反馈日期</th>
+                <th>反馈用户</th>
+                <th>状态</th>
+                <th>操作</th>
+
+            </tr>
+        </thead>
+        <tbody class="class_admin_context_table_body" id="id_admin_feedback_table_body">
+        {% for opinions in opinions_tables %}
+        {% if opinions["feedback_status"] == "closed" %}
+            <tr>
+                <td id="id_admin_opinions_serial_number">{{opinions["serial_number"]}}</td>
+                <td id="id_admin_opinions_issues_title">{{opinions["issues_title"]}}</td>
+                <td id="id_admin_opinions_report_date">{{opinions["report_date"]}}</td>
+                <td id="id_admin_opinions_report_user_name">{{opinions["report_user_name"]}}</td>
+                <td id="id_admin_opinions_feedback_status">{{opinions["feedback_status"]}}</td>
+                <td>
+                <div id="id_admin_attendance_table_button">
+                    <input class="class_admin_context_table_button" id="id_admin_opinions_browse"  type="button" value="查看问题" >
+                </div>
+                </td>
+            </tr>
+        {% end %}
+        {% end %}
+        </tbody>
+    </table>
+        </form>
+
+
     </div>
 
 </div> <!--end of admin body-->

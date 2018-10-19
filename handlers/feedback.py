@@ -22,10 +22,12 @@ class FeedBackHandler(BaseHandler):
         user_name = self.get_current_user()
 
         if user_name is not None:
+            opinions_tables = self.__get_opinions_tables_by_current_user()
             self.render("feedback.html",
                         controller=self.render_controller,
                         user_name=user_name,
                         language_mapping=self.language_mapping,
+                        opinions_tables=opinions_tables,
                         )
 
     @handles_post_auth
@@ -77,3 +79,20 @@ class FeedBackHandler(BaseHandler):
         self.db.commit()
 
         return True
+
+    def __get_opinions_tables_by_current_user(self):
+        opinions_tables = []
+        current_user = self.get_current_user()
+
+        opinion_modules = self.db.query(FeedBackModule).filter(FeedBackModule.report_user_name == current_user).all()
+        if opinion_modules is not None:
+            for opinion in opinion_modules:
+                tmp = {"feedback_id": opinion.id, "serial_number": opinion.serial_number,
+                       "issues_title": opinion.issues_title, "issues_details": opinion.issues_details,
+                       "report_date": opinion.report_date, "resolved_date": opinion.resolved_date,
+                       "solution_methods": opinion.solution_methods, "feedback_status": opinion.status,
+                       "report_user_name": opinion.report_user_name, "resolved_user_name": opinion.resolved_user_name
+                       }
+                opinions_tables.append(tmp)
+
+        return opinions_tables

@@ -41,6 +41,7 @@ from admins.prohibit import AdminProhibitHandler
 from admins.evaluation import AdminEvaluatingHandler
 from admins.history import AdminHistoryHandler
 from admins.opinions import AdminOpinionsHandler
+from admins.opinions_popup import AdminOpinionsPopupHandler
 importlib.reload(sys)
 
 # 一个URL列表
@@ -80,4 +81,5 @@ url = [
     (r'/admin/evaluating', AdminEvaluatingHandler),
     (r'/admin/history', AdminHistoryHandler),
     (r'/admin/opinions', AdminOpinionsHandler),
+    (r'/admin/opinions_popup', AdminOpinionsPopupHandler),
 ]
