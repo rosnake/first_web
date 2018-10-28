@@ -32,13 +32,25 @@ class FeedBackHandler(BaseHandler):
 
     @handles_post_auth
     def post(self):
+
+        operation = "none"
+        feedback_title = "none"
+        feedback_details = "none"
+        serial_number = "0"
+
         response = {"status": True, "data": "", "message": "failed"}
         date_kits = DateToolKits()
         operation = self.get_argument("operation")
-        feedback_title = self.get_argument("feedback_title")
-        feedback_details = self.get_argument("feedback_details", "none")
 
-        logging.info("operation:%s , feedback_title: %s, feedback_details:%s" % (operation, feedback_title, feedback_details))
+        if operation == "feedback":
+            feedback_title = self.get_argument("feedback_title", "none")
+            feedback_details = self.get_argument("feedback_details", "none")
+            logging.info("operation:%s , feedback_title: %s, feedback_details:%s" % (operation, feedback_title,
+                                                                                     feedback_details))
+
+        else:
+            serial_number = self.get_argument("serial_number", "0")
+            logging.info("operation:%s , serial_number:%s" % (operation, serial_number))
 
         if operation == "feedback":
             ret = self.__feedback_process(feedback_title, feedback_details)
@@ -50,6 +62,36 @@ class FeedBackHandler(BaseHandler):
             else:
                 response["status"] = False
                 response["message"] = "反馈失败！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+
+            return
+
+        if operation == "succeed":
+            ret = self.__feedback_regression_succeed_process(serial_number)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "提交成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+            else:
+                response["status"] = False
+                response["message"] = "提交失败！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+
+            return
+
+        if operation == "failure":
+            ret = self.__feedback_regression_failure_process(serial_number)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "提交成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+            else:
+                response["status"] = False
+                response["message"] = "提交失败！"
                 response["data"] = date_kits.get_now_day_str()
                 self.write(json.dumps(response))
 
@@ -96,3 +138,27 @@ class FeedBackHandler(BaseHandler):
                 opinions_tables.append(tmp)
 
         return opinions_tables
+
+    def __feedback_regression_succeed_process(self, serial_number):
+        opinion_modules = self.db.query(FeedBackModule).filter(FeedBackModule.serial_number == serial_number).first()
+        if opinion_modules is not None:
+            self.db.query(FeedBackModule).filter(FeedBackModule.serial_number == serial_number).update({
+                FeedBackModule.status: "closed",
+            })
+            self.db.commit()
+
+            return True
+        else:
+            return False
+
+    def __feedback_regression_failure_process(self, serial_number):
+        opinion_modules = self.db.query(FeedBackModule).filter(FeedBackModule.serial_number == serial_number).first()
+        if opinion_modules is not None:
+            self.db.query(FeedBackModule).filter(FeedBackModule.serial_number == serial_number).update({
+                FeedBackModule.status: "reopen",
+            })
+            self.db.commit()
+
+            return True
+        else:
+            return False

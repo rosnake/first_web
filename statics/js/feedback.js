@@ -173,4 +173,108 @@ $(document).ready(function () {
 		parent.layer.close(index); //再执行关闭
 	});
 
+	var serial_number = 0;
+
+	$('input[value="回归通过"]').click(function () {
+	    console.log("click regression succeed");
+        var button = $(this);
+        var serial_number = button.attr('id');
+        console.log("serial_number:"+ serial_number);
+
+		layer.confirm("确认【" + serial_number + "】是否回归通过?", {
+			btn: ['确认', '取消']//按钮
+		}, function () {
+			var submit_data = {
+				"operation": "succeed",
+				"serial_number":serial_number,
+				"_xsrf": getCookie("_xsrf")
+			};
+
+			console.log("operation:succeed,serial_number:" + serial_number );
+
+			$.ajax({
+				type: "post",
+				url: "/feedback",
+				data: submit_data,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						layer.msg("提交成功", {
+							icon: 1
+						});
+						console.log("serial_number:" + serial_number);
+						setTimeout(function () {
+							window.location.reload();
+						}, 1000);
+					} else {
+						alert(obj.message);
+					}
+				},
+				error: function (arg) {
+					layer.msg("未知的错误");
+				}
+			});
+
+		}, function () {
+			layer.msg("回归【" + serial_number + "】操作已为您取消", {
+				icon: 0
+			});
+		});
+
+	}); // end of  class_user_feedback_regression_succeed
+
+
+	$('input[value="回归失败"]').click(function () {
+        console.log("click regression failure");
+        var button = $(this);
+        var serial_number = button.attr('id');
+        console.log("serial_number:"+ serial_number);
+
+		layer.confirm("确认【" + serial_number + "】是否回归失败?", {
+			btn: ['确认', '取消']//按钮
+		}, function () {
+			var submit_data = {
+				"operation": "failure",
+				"serial_number":serial_number,
+				"_xsrf": getCookie("_xsrf")
+			};
+
+			console.log("operation:succeed,serial_number:" + serial_number );
+
+			$.ajax({
+				type: "post",
+				url: "/feedback",
+				data: submit_data,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						layer.msg("提交成功", {
+							icon: 1
+						});
+						console.log("serial_number:" + serial_number);
+						setTimeout(function () {
+							window.location.reload();
+						}, 1000);
+					} else {
+						alert(obj.message);
+					}
+				},
+				error: function (arg) {
+					layer.msg("未知的错误");
+				}
+			});
+
+		}, function () {
+			layer.msg("回归不通过【" + serial_number + "】操作已为您取消", {
+				icon: 0
+			});
+		});
+
+	}); // end of class_user_feedback_regression_failure
 });//end of documents ready

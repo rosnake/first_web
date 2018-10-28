@@ -1,0 +1,165 @@
+/*以下为反馈页面布局*/
+.class_user_feedback
+{
+   // border: 1px solid #ee7777;
+}
+
+.class_user_feedback_opinions_regression
+{
+    //border: 1px solid #36db45;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-height: 20px;
+}
+.class_opinions_history
+{
+    //border: 1px solid #36db45;
+    margin-top: 20px;
+}
+
+.class_feedback_history_opinions
+{
+    border: 2px solid #aaeed8;
+    border-radius: 2px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #fefefa;
+}
+
+.class_user_feedback_item
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.class_user_feedback_label{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+}
+
+.class_user_feedback_current
+{
+    border: 2px solid #1dbbdb;
+    border-radius: 2px;
+    padding: 10px;
+}
+#id_user_feedback_title{
+    width: 800px;
+    height: 25px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 15px;
+    border-radius:2px;
+}
+
+#id_user_feedback_details{
+    width: 800px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 15px;
+    border-radius:5px;
+}
+
+.class_user_feedback_input
+{
+    border-style:none;
+    border-radius: 2px;
+}
+
+.class_admin_popup_opinions_label
+{
+    right: 200px;
+    width: 300px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 16px;
+    border-radius:5px;
+}
+.class_user_feedback_input
+{
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 16px;
+}
+
+.class_admin_popup_opinions_layout
+{
+    margin-top: 5px;
+}
+
+.class_admin_popup_opinions_details
+{
+    margin-top: 15px;
+}
+
+.class_admin_popup_opinions_details label
+{
+    display: block;
+    float: left;
+}
+
+.class_user_feedback_text_area
+{
+    width: 900px;
+    border: 1px solid #000000;
+    border-radius:5px;
+    font-size: 20px;
+}
+
+.class_user_feedback_regression_button_layout{
+    text-align: center;
+    margin-top: 20px;
+    //border: 1px solid #db5341;
+}
+
+.class_user_feedback_regression_button
+{
+    //right: 200px;
+    width: 180px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 15px;
+    margin-right: 40px;
+    margin-bottom: 30px;
+    border: 1px solid #009f95;
+}
+
+/*admin*/
+
+.class_admin_popup_opinions_label{
+    right: 200px;
+    width: 200px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+}
+
+.class_admin_popup_opinions_input
+{
+    border-style:none;
+    border-radius: 2px;
+}
+
+.class_admin_popup_opinions_text_area
+{
+    width: 780px;
+    border: 1px solid #000000;
+    border-radius:5px;
+    font-size: 20px;
+}
+
+#id_admin_opinions_resolved_status
+{
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 15px;
+    border-radius:5px;
+}
+
+#id_admin_opinions_issues_details
+{
+    border-style:none;
+}

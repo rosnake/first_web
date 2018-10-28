@@ -5,6 +5,7 @@
 {% block external_lib %}
     <script src="{{static_url("layer/layer.js")}}"></script>
     <script src="{{static_url("js/feedback.js")}}"></script>
+    <link rel="stylesheet" href="{{ static_url("css/feedback.css") }}" type="text/css">
 {% end %}
 
 {% block header %}
@@ -18,58 +19,116 @@
     </style>
 <h3>意见反馈</h3>
 <div class="class_user_feedback">
-    <div class="class_user_feedback_item">
-        <label class="class_user_feedback_label">问题描述:</label>
-        <input type="text" id="id_user_feedback_title">
-    </div>
-    <div class="class_user_feedback_item">
-        <label class="class_user_feedback_label">详细描述:</label>
-        <textarea rows="4" cols="20" id="id_user_feedback_details">
-        </textarea>
+    <div class="class_user_feedback_current">
+        <div class="class_user_feedback_item">
+            <label class="class_user_feedback_label">问题描述:</label>
+            <input type="text" id="id_user_feedback_title">
+        </div>
+        <div class="class_user_feedback_item">
+            <label class="class_user_feedback_label">详细描述:</label>
+            <textarea rows="4" cols="20" id="id_user_feedback_details">
+            </textarea>
+        </div>
+
+        <div class="class_user_feedback_regression_button_layout">
+            <input class="class_user_feedback_regression_button" type="BUTTON" value="提交" id="id_user_feedback_confirm" />
+        </div>
     </div>
 
-   <div class="class_applications_confirm">
-    <input class="class_user_feedback_button" type="BUTTON" value="提交" id="id_user_feedback_confirm" />
-</div>
-
-   <div class="class_opinions_history">
-    {% for opinions in opinions_tables %}
+     <div class="class_user_feedback_opinions_regression">
+         <h3>当前需要回归的问题</h3>
+        {% for opinions in opinions_tables %}
+        {% if opinions["feedback_status"] == "resolved" %}
      <div class="class_feedback_history_opinions">
         <div class="class_admin_popup_opinions_layout">
             <label class="class_admin_popup_opinions_label">问题编号:</label>
-            <input type="text" readonly="readonly" id="id_admin_opinions_report_serial_number" value={{ opinions["serial_number"] }}>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_report_serial_number" value={{ opinions["serial_number"] }}>
             <label class="class_admin_popup_opinions_label">当前状态:</label>
-            <input type="text" readonly="readonly" id="id_admin_opinions_report_status" value={{ opinions["feedback_status"]}}>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_report_status" value={{ opinions["feedback_status"]}}>
         </div>
 
         <div class="class_admin_popup_opinions_layout">
             <label class="class_admin_popup_opinions_label">反馈用户:</label>
-            <input type="text" readonly="readonly" id="id_admin_opinions_report_user" value={{ opinions["report_user_name"]}}>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_report_user" value={{ opinions["report_user_name"]}}>
 
             <label class="class_admin_popup_opinions_label">反馈时间:</label>
-            <input type="text" readonly="readonly" id="id_admin_opinions_report_date" value={{ opinions["report_date"]}}>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_report_date" value={{ opinions["report_date"]}}>
+            <label class="class_admin_popup_opinions_label">解决时间:</label>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_resolved_date" value={{ opinions["resolved_date"]}}>
         </div>
 
         <div class="class_admin_popup_opinions_layout">
             <label class="class_admin_popup_opinions_label">问题简述:</label>
-            <input type="text" readonly="readonly" id="id_admin_opinions_issues_title" value={{ opinions["issues_title"]}}>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_issues_title" value={{ opinions["issues_title"]}}>
         </div>
 
         <div class="class_admin_popup_opinions_details">
-            <label class="applications_label">问题详细描述:</label>
-            <textarea rows="4" cols="20" id="id_admin_opinions_issues_details">
+            <label class="class_admin_popup_opinions_label">详细描述:</label>
+            <textarea class="class_user_feedback_text_area" rows="4" cols="20" id="id_admin_opinions_issues_details">
             {% raw opinions["issues_details"] %}
             </textarea>
         </div>
 
         <div class="class_admin_popup_opinions_details">
-            <label class="applications_label">解决方案:</label>
-            <textarea rows="4" cols="20" id="id_admin_opinions_solution_methods">
+            <label class="class_admin_popup_opinions_label">解决方案:</label>
+            <textarea class="class_user_feedback_text_area" rows="4" cols="20" id="id_admin_opinions_solution_methods">
+                {% raw opinions["solution_methods"] %}
+            </textarea>
+        </div>
+        <div class="class_user_feedback_regression_button_layout">
+            <input type="button" class="class_user_feedback_regression_button" id={{ opinions["serial_number"] }} value="回归通过"/>
+            <input type="button" class="class_user_feedback_regression_button" id={{ opinions["serial_number"] }} value="回归失败"/>
+        </div>
+    </div>
+       {% end %} <!-- end of if condition-->
+    {% end %} <!-- end of for each-->
+
+     </div>
+
+   <div class="class_opinions_history">
+   <h3>反馈历史问题信息</h3>
+    {% for opinions in opinions_tables %}
+       {% if opinions["feedback_status"] == "closed" %}
+     <div class="class_feedback_history_opinions">
+        <div class="class_admin_popup_opinions_layout">
+            <label class="class_admin_popup_opinions_label">问题编号:</label>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_report_serial_number" value={{ opinions["serial_number"] }}>
+            <label class="class_admin_popup_opinions_label">当前状态:</label>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_report_status" value={{ opinions["feedback_status"]}}>
+        </div>
+
+        <div class="class_admin_popup_opinions_layout">
+            <label class="class_admin_popup_opinions_label">反馈用户:</label>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_report_user" value={{ opinions["report_user_name"]}}>
+
+            <label class="class_admin_popup_opinions_label">反馈时间:</label>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_report_date" value={{ opinions["report_date"]}}>
+            <label class="class_admin_popup_opinions_label">解决时间:</label>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_resolved_date" value={{ opinions["resolved_date"]}}>
+        </div>
+
+        <div class="class_admin_popup_opinions_layout">
+            <label class="class_admin_popup_opinions_label">问题简述:</label>
+            <input class="class_user_feedback_input" type="text" readonly="readonly" id="id_admin_opinions_issues_title" value={{ opinions["issues_title"]}}>
+        </div>
+
+        <div class="class_admin_popup_opinions_details">
+            <label class="class_admin_popup_opinions_label">详细描述:</label>
+            <textarea class="class_user_feedback_text_area" rows="4" cols="20" id="id_admin_opinions_issues_details">
+            {% raw opinions["issues_details"] %}
+            </textarea>
+        </div>
+
+        <div class="class_admin_popup_opinions_details">
+            <label class="class_admin_popup_opinions_label">解决方案:</label>
+            <textarea class="class_user_feedback_text_area" rows="4" cols="20" id="id_admin_opinions_solution_methods">
+                {% raw opinions["solution_methods"] %}
             </textarea>
         </div>
 
     </div>
-    {% end %}
+       {% end %} <!-- end of if condition-->
+    {% end %} <!-- end of for each-->
 
 </div>
 
