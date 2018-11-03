@@ -65,7 +65,7 @@ class AdminExchangeHandler(BaseHandler):
                 response["message"] = "新增成功！"
                 response["data"] = date_kits.get_now_day_str()
                 opt = "add exchange rule: " + rule_name
-                self.__record_operation_history(self.session["user_name"], opt)
+                self.record_operation_history(self.session["user_name"], opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -83,7 +83,7 @@ class AdminExchangeHandler(BaseHandler):
                 response["data"] = date_kits.get_now_day_str()
 
                 opt = "delete exchange rule"
-                self.__record_operation_history(self.session["user_name"], opt)
+                self.record_operation_history(self.session["user_name"], opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -100,7 +100,7 @@ class AdminExchangeHandler(BaseHandler):
                 response["message"] = "删除成功！"
                 response["data"] = date_kits.get_now_day_str()
                 opt = "modify exchange rule"
-                self.__record_operation_history(self.session["user_name"], opt)
+                self.record_operation_history(self.session["user_name"], opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -117,7 +117,7 @@ class AdminExchangeHandler(BaseHandler):
                 response["message"] = "兑换成功！"
                 response["data"] = date_kits.get_now_day_str()
                 opt = "confirm exchanged"
-                self.__record_operation_history(user_name, opt)
+                self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -134,7 +134,7 @@ class AdminExchangeHandler(BaseHandler):
                 response["message"] = "取消兑换成功！"
                 response["data"] = date_kits.get_now_day_str()
                 opt = "reject exchanged"
-                self.__record_operation_history(user_name, opt)
+                self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -248,12 +248,3 @@ class AdminExchangeHandler(BaseHandler):
         else:
             return False
 
-    def __record_operation_history(self, impact_user, operation):
-        # 记录操作历史
-        history = OperationHistoryModule()
-        history.operation_user_name = self.session["user_name"]
-        history.operation_details = operation
-        history.impact_user_name = impact_user
-
-        self.db.add(history)
-        self.db.commit()

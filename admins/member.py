@@ -70,7 +70,7 @@ class AdminMemberHandler(BaseHandler):
                 response["message"] = "删除成功！"
                 response["data"] = date_kits.get_now_day_str()
                 opt = "delete user"
-                self.__record_operation_history(user_name, opt)
+                self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
@@ -88,7 +88,7 @@ class AdminMemberHandler(BaseHandler):
                 response["message"] = "修改成功！"
                 response["data"] = date_kits.get_now_day_str()
                 opt = "modify user role to " + user_role
-                self.__record_operation_history(user_name, opt)
+                self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
@@ -105,7 +105,7 @@ class AdminMemberHandler(BaseHandler):
                 response["message"] = "新增成功！"
                 response["data"] = date_kits.get_now_day_str()
                 opt = "add  user"
-                self.__record_operation_history(user_name, opt)
+                self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
@@ -121,7 +121,7 @@ class AdminMemberHandler(BaseHandler):
                 response["message"] = pass_word
                 response["data"] = date_kits.get_now_day_str()
                 opt = "show user password"
-                self.__record_operation_history(user_name, opt)
+                self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
             else:
                 response["status"] = False
@@ -298,14 +298,5 @@ class AdminMemberHandler(BaseHandler):
 
         return True
 
-    def __record_operation_history(self, impact_user, operation):
-        # 记录操作历史
-        history = OperationHistoryModule()
-        history.operation_user_name = self.session["user_name"]
-        history.operation_details = operation
-        history.impact_user_name = impact_user
-
-        self.db.add(history)
-        self.db.commit()
 
 

@@ -20,7 +20,12 @@ class AdminOpinionsPopupHandler(BaseHandler):
     def get(self):
         # 用户渲染表格模板的数据接口
         # 后续该接口需要从数据库读取
-        serial_number = self.get_argument("serial_number")
+        serial_number = self.get_argument("serial_number", "none")
+        # 无效编号，回到主界面
+        if serial_number == "none":
+            self.redirect("/admin/opinions")
+            return
+
         logging.info("[opinions_popup]:serial_number:"+serial_number)
         user_name = self.get_current_user()
         if user_name is not None:

@@ -146,7 +146,7 @@ class AdminEvaluatingHandler(BaseHandler):
                 self.db.add(history_module)
                 self.db.commit()
                 opt = "add issues apply score"
-                self.__record_operation_history(issues.user_name, opt)
+                self.record_operation_history(issues.user_name, opt)
 
         user_point = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == issues.user_name).first()
 
@@ -175,16 +175,7 @@ class AdminEvaluatingHandler(BaseHandler):
             self.db.commit()
 
             opt = "add issues score"
-            self.__record_operation_history(issues.user_name, opt)
+            self.record_operation_history(issues.user_name, opt)
 
         return True
 
-    def __record_operation_history(self, impact_user, operation):
-        # 记录操作历史
-        history = OperationHistoryModule()
-        history.operation_user_name = self.session["user_name"]
-        history.operation_details = operation
-        history.impact_user_name = impact_user
-
-        self.db.add(history)
-        self.db.commit()

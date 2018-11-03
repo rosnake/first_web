@@ -4,6 +4,17 @@ function getCookie(name) {
 	return x ? x[1] : undefined;
 }
 
+//判断当前选择时间是否小于是当前实际时间
+function contrastTime(select_time) {
+	var d = new Date();
+	var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();//获取当前实际日期
+	if (Date.parse(str) > Date.parse(select_time)) {//时间戳对比
+	       return true;
+	}
+	return false;
+}
+
+
 $(document).ready(function () {
 	//弹出一个iframe层
 	$("#applications").click(function () {
@@ -54,6 +65,12 @@ $(document).ready(function () {
 		if (topic_date === "") {
 			$("#id_select_topic_date").focus();
 			layer.msg("议题时间不能为空");
+			return false;
+		}
+
+		if (contrastTime() === true){
+			$("#id_select_topic_date").focus();
+			layer.msg("时间不能早于当前时间");
 			return false;
 		}
 		var submit_data = {

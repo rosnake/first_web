@@ -41,14 +41,26 @@ class ApplicationsHandler(BaseHandler):
         topic_date = self.get_argument("topic_date")
         user_name = self.get_current_user()
 
+        logging.info(topic_date)
+        time_diff = date_kits.cac_time_diff_with_current_by_str(topic_date)
+        logging.info("time diff:" + str(time_diff))
+        valid_time = date_kits.check_time_is_ok(topic_date)
+
+        if valid_time is False:
+            response["status"] = False
+            response["message"] = "选择时间不能早已当前时间！"
+            response["data"] = date_kits.get_now_day_str()
+            self.write(json.dumps(response))
+            return
+
         if operation == "apply_issues":
             ret = self.__add_topics(user_name, topic_name, topic_brief, topic_date)
             if ret is True:
                 response["status"] = True
                 response["message"] = "新增成功！"
                 response["data"] = date_kits.get_now_day_str()
-                opt="apply a issues, title: " + topic_name
-                self.__record_operation_history(user_name, opt)
+                opt = "apply a issues, title: " + topic_name
+                self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -99,12 +111,3 @@ class ApplicationsHandler(BaseHandler):
         self.db.commit()
         return True
 
-    def __record_operation_history(self, impact_user, operation):
-        # 记录操作历史
-        history = OperationHistoryModule()
-        history.operation_user_name = self.session["user_name"]
-        history.operation_details = operation
-        history.impact_user_name = impact_user
-
-        self.db.add(history)
-        self.db.commit()

@@ -9,6 +9,7 @@ from orm.users_info import UsersInfoModule
 from config.language import LanguageMapping
 from methods.controller import PageController
 from orm.organizer_info import OrganizerInfoModule
+from orm.operation_history import OperationHistoryModule
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -81,3 +82,12 @@ class BaseHandler(tornado.web.RequestHandler):
 
         return admin_role, organizer_role
 
+    def record_operation_history(self, impact_user, operation):
+        # 记录操作历史
+        history = OperationHistoryModule()
+        history.operation_user_name = self.session["user_name"]
+        history.operation_details = operation
+        history.impact_user_name = impact_user
+
+        self.db.add(history)
+        self.db.commit()
