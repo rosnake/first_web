@@ -45,7 +45,7 @@ class TopicsHandler(BaseHandler):
                      % (operation, issues_id, prepare_score, novel_score, report_score))
 
         if operation == "evaluate":
-            ret = self.__evaluate_by_issues_id( issues_id, prepare_score, novel_score, report_score)
+            ret = self.__evaluate_by_issues_id(issues_id, prepare_score, novel_score, report_score)
             if ret is True:
                 response["status"] = True
                 response["message"] = "评价成功！"

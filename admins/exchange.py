@@ -213,23 +213,29 @@ class AdminExchangeHandler(BaseHandler):
         exchange_modules = self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.id == exchange_id).first()
         point_modules = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
         if exchange_modules and point_modules:
+            # 更新扣分信息表
             self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.id == exchange_id).update({
                 ExchangeApplyModule.exchange_accept: True,
                 ExchangeApplyModule.exchange_status: "confirm",
             })
+            logging.info("confirm %s exchange by id %s" % (user_name, exchange_id))
             self.db.commit()
 
+            # 更新用户积分信息
+            logging.info("current scores %d, need scores %d" % (point_modules.current_scores, exchange_modules.need_score))
             self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
                 ScoreInfoModule.current_scores: point_modules.current_scores - exchange_modules.need_score,
             })
             self.db.commit()
 
+            # 更新未兑换的积分信息
             exchange_all = self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).all()
-            con = False
-            for x in exchange_all:
-                self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).filter(
-                    ExchangeApplyModule.exchange_accept == con).update({ExchangeApplyModule.current_scores: point_modules.current_scores - exchange_modules.need_score})
-                self.db.commit()
+            for exchange in exchange_all:
+                if exchange.exchange_accept is False and exchange.user_name == user_name:
+                    self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.id == exchange.id).update({
+                            ExchangeApplyModule.current_scores: point_modules.current_scores - exchange_modules.need_score
+                        })
+                    self.db.commit()
 
             return True
 

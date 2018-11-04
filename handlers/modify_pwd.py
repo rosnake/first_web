@@ -49,6 +49,8 @@ class ModifyPassWordHandler(BaseHandler):  # 继承 base.py 中的类 BaseHandle
             response["status"] = True
             response["message"] = "修改密码成功！"
             response["data"] = date_kits.get_now_day_str()
+            opt = "modify password by " + user_name
+            self.record_operation_history(user_name, opt)
             self.write(json.dumps(response))
         else:
             response["status"] = False

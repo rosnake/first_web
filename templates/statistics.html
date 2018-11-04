@@ -25,7 +25,7 @@
 <div class="class_stat_info">
 {% if controller["authorized"] == True %}
     <h3> 您当前积分为：{{ current_scores }} </h3>
-    <div class="class_popup_browse_detail">
+    <div id="id_stat_detail">
          <h3>当前分数明细如下：</h3>
         {% if point_stat is not None %}
             {% for key in point_stat %}
@@ -113,6 +113,48 @@
         </div>
     <input type="button" class="class_points_exchange_user" id="id_points_exchange_user" value="积分兑换"/>
     {% end %}
+    </div>
+    <div id="id_current_exchange_table">
+        {% if user_exchange_tables is not None %}
+        {% if len(user_exchange_tables) == 0 %}
+            {% set exchange_is_not_null = False %}
+        {% else %}
+            {% set exchange_is_not_null = True %}
+        {% end %}
+        {% end %}
+        {% if exchange_is_not_null %}
+        <h3>您当前申请的积分兑换如下：</h3>
+        <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+        <table class="class_handle_context_table" id="admin_member_table">
+        <thead class="class_handle_context_table_head">
+            <tr id="id_popup_table_title">
+                <th colspan="4">兑换详情</th>
+            </tr>
+        </thead>
+        <tbody class="class_handle_context_table_body" id="admin_user_exchange_table_body">
+        <tr id="id_popup_table_item_name">
+            <th>兑换编号</th>
+            <th>当前积分</th>
+            <th>兑换物品</th>
+            <th>申请时间</th>
+        </tr>
+        {% for user_exchange_table in user_exchange_tables %}
+            {% if  user_exchange_table["exchanged"] is False %}
+            <tr>
+                <td class="class_admin_context_table_td" id="exchange_id">{{ user_exchange_table["exchange_id"] }}</td>
+                <td class="class_admin_context_table_td" id="user_points">{{ user_exchange_table["user_points"] }}</td>
+                <td class="class_admin_context_table_td" id="exchange_item">{{ user_exchange_table["exchange_item"] }}</td>
+                <td class="class_admin_context_table_td" id="apply_date">{{ user_exchange_table["apply_date"] }}</td>
+            </tr>
+            {% end %}
+        {% end %}
+        </tbody>
+    </table>
+        </form>
+    {% else %}
+        <h3>您当前暂未申请积分兑换</h3>
+    {% end %}
+
     </div>
 {% else %}
 <p> 您未登录，如需查看积分，请先登录 </p>

@@ -28,6 +28,7 @@ class StatHandler(BaseHandler):
         if user_name is not None:
             history_table = self.__get_point_history_by_user_name(user_name)
             point_stat = self.__get_point_stat_by_user_name(user_name)
+            user_exchange_tables = self.__get_current_user_exchange_tables(user_name)
             print(point_stat)
             current_scores = self.__get_current_point(user_name)
             presents_table = self.__get_presents_table(current_scores)
@@ -35,6 +36,7 @@ class StatHandler(BaseHandler):
                         controller=self.render_controller, user_name=user_name, point_stat=point_stat,
                         presents_table=presents_table,
                         language_mapping=self.language_mapping,
+                        user_exchange_tables=user_exchange_tables,
                         )
 
     @handles_post_auth
@@ -55,6 +57,8 @@ class StatHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "申请成功！"
                 response["data"] = date_kits.get_now_day_str()
+                opt = "apply a exchange, username: " + user_name
+                self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
                 return
             else:
@@ -131,15 +135,15 @@ class StatHandler(BaseHandler):
             return presents_table
 
     def __exchange_apply_by_user_name(self, user_name, present_id):
-        present_exchange_min_score = self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.id == present_id).first()
+        present_exchange = self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.id == present_id).first()
 
-        if present_exchange_min_score is None:
+        if present_exchange is None:
             logging.info("present min point is None")
             return False
 
         current = self.__get_current_point(user_name)
-        if current < present_exchange_min_score.exchange_min_score:
-            logging.info("current point [%d], need point [%d]" % (current, present_exchange_min_score.exchange_min_score))
+        if current < present_exchange.exchange_min_score:
+            logging.info("current point [%d], need point [%d]" % (current, present_exchange.exchange_min_score))
             return False
 
         exchanged_modules = self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).\
@@ -152,8 +156,8 @@ class StatHandler(BaseHandler):
         logging.info("current point [%d], exchanged point [%d]" % (current, exchanged_point))
         current_scores = current - exchanged_point
 
-        if current_scores < present_exchange_min_score.exchange_min_score:
-            logging.info("current point [%d], need point [%d]" % (current_scores, present_exchange_min_score.exchange_min_score))
+        if current_scores < present_exchange.exchange_min_score:
+            logging.info("current point [%d], need point [%d]" % (current_scores, present_exchange.exchange_min_score))
 
             return False
 
@@ -163,10 +167,24 @@ class StatHandler(BaseHandler):
         exchange_apply.exchange_status = "apply"
         exchange_apply.user_name = user_name
         exchange_apply.current_scores = current
-        exchange_apply.exchange_item = present_exchange_min_score.exchange_rule_name
+        exchange_apply.exchange_item = present_exchange.exchange_rule_name
         exchange_apply.datetime = date_kits.get_now_time()
-        exchange_apply.need_score = present_exchange_min_score.exchange_min_score
+        exchange_apply.need_score = present_exchange.exchange_min_score
         self.db.add(exchange_apply)
         self.db.commit()
         return True
 
+    def __get_current_user_exchange_tables(self, user_name):
+        exchange_modules = self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).all()
+        exchange_table = []
+
+        if exchange_modules:
+            logging.info("exchange modules is not null")
+            for exchange in exchange_modules:
+                tmp = {"exchange_id": exchange.id, "user_name": exchange.user_name,
+                       "user_points": exchange.current_scores, "exchange_item": exchange.exchange_item,
+                       "apply_date": exchange.date_time, "exchanged": exchange.exchange_accept}
+                exchange_table.append(tmp)
+        else:
+            logging.info("exchange modules is null")
+        return exchange_table
