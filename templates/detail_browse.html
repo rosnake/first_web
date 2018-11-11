@@ -15,36 +15,59 @@
         {% end %}
     </div>
     <div class="class_popup_browse_detail">
-         <h3>当前分数明细如下：</h3>
         {% if point_stat is not None %}
+            <table class="class_popup_table_score_detail"  frame="box">
+                <thead>
+                <tr id="id_popup_table_title">
+                    <th colspan="6">当前分数明细</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr id="id_popup_table_score_detail_item_name">
+                        <th>序号</th>
+                        <th>项目</th>
+                        <th>分数</th>
+                        <th>序号</th>
+                        <th>项目</th>
+                        <th>分数</th>
+                    </tr>
+            {% set index = 0 %}
             {% for key in point_stat %}
                 {% if key != "user_name" %}
-                <label class="label_popup_browse_detail">{{ key }}: {{point_stat[key]}}分。</label>
-                <br>
-                {% end %}
-            {% end %}
-        {% end %}
-    </div>
-    <div id="edit_title">
-        <h3>分数变动明细如下：</h3>
+                    {% set index = index + 1 %}
+                    {% if index % 2 == 1 %}
+                        <tr>
+                    {% end %} <!-- end of if index -->
+                        <td id="id_popup_table_score_detail_index">{{ index }}</td>
+                        <td id="id_popup_table_score_detail_key">{{ key }}</td>
+                        <td id="id_popup_table_score_detail_value">{{point_stat[key]}}</td>
+                    {% if index % 2 == 0 %}
+                        </tr>
+                    {% end %} <!-- end of if index -->
+            {% end %} <!-- end of if key -->
+        {% end %}<!-- end of for key -->
+        {% if index % 2 == 1 %}
+        {% set index = index + 1 %}
+        <td id="id_popup_table_score_detail_index">{{ index }}</td>
+        <td id="id_popup_table_score_detail_key"></td>
+        <td id="id_popup_table_score_detail_value"></td>
+        </tr>
+        {% end %}<!-- end of if index -->
+    {% end %} <!-- end of if point_stat -->
+            </tbody>
+        </table>
     </div>
 
-    <div class="class_popup_browse">
-    <table class="class_popup_table_structure"  frame="box">
-        <colgroup>
-            <col class="col_history_table_transactor"/>
-            <col class="col_history_table_mark_name"/>
-            <col class="col_history_table_points"/>
-            <col class="col_history_table_datetime"/>
-        </colgroup>
+    <div class="class_popup_browse_score_change_detail">
+    <table class="class_popup_table_score_detail"  frame="box">
         <thead>
         <tr id="id_popup_table_title">
-            <th colspan="4">分数详情</th>
+            <th colspan="4">分数变动详情</th>
         </tr>
         </thead>
         <tbody>
-            <tr id="id_popup_table_item_name">
-                <th>用户ID</th>
+            <tr id="id_popup_table_score_detail_item_name">
+                <th>处理人ID</th>
                 <th>姓名</th>
                 <th>上周分数</th>
                 <th>当前分数</th>

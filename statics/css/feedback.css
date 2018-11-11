@@ -144,9 +144,14 @@
     border-radius: 2px;
 }
 
+#id_admin_opinions_issues_title
+{
+    width: 760px;
+}
+
 .class_admin_popup_opinions_text_area
 {
-    width: 780px;
+    width: 760px;
     border: 1px solid #000000;
     border-radius:5px;
     font-size: 20px;

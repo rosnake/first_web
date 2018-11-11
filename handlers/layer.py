@@ -66,19 +66,29 @@ class LayerHandler(BaseHandler):
         user_score = {}
         user = {'user_name': user_name}
         user_score.update(user)
-        if history_module and criteria_module:
-            for criteria in criteria_module:
-                score = 0
-                for history in history_module:
-                    if criteria.id == history.criteria_id:
-                        score = score + history.score_value  # 根据历史记录计算当前项已扣分总数
 
-                criteria_score = {criteria.criteria_name: score}
-                user_score.update(criteria_score)
+        if history_module:
+            if criteria_module:
+                for criteria in criteria_module:
+                    score = 0
+                    for history in history_module:
+                        if criteria.id == history.criteria_id:
+                            score = score + history.score_value  # 根据历史记录计算当前项已扣分总数
 
-            return user_score
+                    criteria_score = {criteria.criteria_name: score}
+                    user_score.update(criteria_score)
 
+                return user_score
+
+            else:
+                return user_score
         else:
+            if criteria_module:
+                for criteria in criteria_module:
+                    score = 0
+                    criteria_score = {criteria.criteria_name: score}
+                    user_score.update(criteria_score)
+
             return user_score
 
     def __get_all_leave_reason(self):

@@ -63,7 +63,7 @@
         <h3>当前所有完成的意见</h3>
 
         <form class="class_admin_context_form" id="admin_feedback_form" name="feedback_form">
-        <table class="class_admin_context_table"  id="admin_feedback_table">
+        <table class="class_admin_context_table"  id="admin_feedback_table_finish">
         <thead class="class_admin_context_table_head" id="admin_feedback_table_head">
             <tr>
                 <th>意见编号</th>
@@ -71,6 +71,7 @@
                 <th>反馈日期</th>
                 <th>反馈用户</th>
                 <th>状态</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody class="class_admin_context_table_body" id="id_admin_feedback_table_body">
@@ -82,6 +83,11 @@
                 <td id="id_admin_opinions_report_date">{{opinions["report_date"]}}</td>
                 <td id="id_admin_opinions_report_user_name">{{opinions["report_user_name"]}}</td>
                 <td id="id_admin_opinions_feedback_status">{{opinions["feedback_status"]}}</td>
+                <td>
+                <div id="id_admin_attendance_table_button">
+                    <input class="class_admin_context_table_button" id="id_admin_opinions_delete_history"  type="button" value="删除记录" >
+                </div>
+                </td>
             </tr>
         {% end %}
         {% end %}

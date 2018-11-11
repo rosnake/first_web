@@ -116,7 +116,7 @@ class AdminExchangeHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "兑换成功！"
                 response["data"] = date_kits.get_now_day_str()
-                opt = "confirm exchanged"
+                opt = "confirm exchanged,id:"+exchange_id
                 self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
                 return
@@ -133,7 +133,7 @@ class AdminExchangeHandler(BaseHandler):
                 response["status"] = True
                 response["message"] = "取消兑换成功！"
                 response["data"] = date_kits.get_now_day_str()
-                opt = "reject exchanged"
+                opt = "reject exchanged,id:"+exchange_id
                 self.record_operation_history(user_name, opt)
                 self.write(json.dumps(response))
                 return

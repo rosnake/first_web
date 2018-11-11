@@ -275,6 +275,64 @@ $(document).ready(function () {
 				icon: 0
 			});
 		});
-
 	}); // end of class_user_feedback_regression_failure
+
+    $("#admin_feedback_table_finish td").click(function(){
+        var current_column = $(this).parent().find("td").index($(this)[0]); //获取当前点击的列
+        if (current_column === 5) // 点击第六列的事件
+        {
+            var  current_row = $(this).parent().parent().find("tr").index($(this).parent()[0]); // 获取当前点击的行
+            console.log("第" + (current_row + 1) + "行，第" + (current_column + 1) + "列");
+            var feedback_history = $("#admin_feedback_table_finish").find("tr").eq(current_row+1).find("td").eq(0).text();
+
+            layer.confirm("是否删除【" + feedback_history + "】记录?", {
+			    btn: ['删除', '取消']//按钮
+            }, function () {
+                var submit_data = {
+                    "operation": "delete_history",
+                    "serial_number": feedback_history,
+                    "subtraction":"false",
+                    "_xsrf": getCookie("_xsrf")
+                };
+
+                console.log("operation:delete history ,id:" + feedback_history);
+
+                $.ajax({
+                    type: "post",
+                    url: "/admin/opinions",
+                    data: submit_data,
+                    cache: false,
+                    success: function (arg) {
+                        console.log(arg);
+                        //arg是字符串
+                        var obj = JSON.parse(arg);
+                        if (obj.status) {
+                            layer.msg("删除成功", {
+                                icon: 1
+                            });
+                            console.log("feedback_history:" + feedback_history);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            alert(obj.message);
+                        }
+                    },
+                    error: function (arg) {
+                        alert("未知的错误");
+                    }
+                });
+
+            }, function () {
+                layer.msg("删除【" + feedback_history + "】记录操作已为您取消", {
+                    icon: 0
+                });
+            });
+
+
+        }
+
+    }); // end of click table
+
+
 });//end of documents ready
