@@ -29,9 +29,9 @@ class StatHandler(BaseHandler):
             history_table = self.__get_point_history_by_user_name(user_name)
             point_stat = self.__get_point_stat_by_user_name(user_name)
             user_exchange_tables = self.__get_current_user_exchange_tables(user_name)
-            print(point_stat)
+            # print(point_stat)
             current_scores = self.__get_current_point(user_name)
-            presents_table = self.__get_presents_table(current_scores)
+            presents_table = self.__get_presents_table(current_scores["exchange"])
             self.render("statistics.html", current_scores=current_scores, history_table=history_table,
                         controller=self.render_controller, user_name=user_name, point_stat=point_stat,
                         presents_table=presents_table,
@@ -70,14 +70,28 @@ class StatHandler(BaseHandler):
 
     def __get_current_point(self, user_name):
         __current = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
+        __exchange = self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).all()
+        __current_scores = 0
+        __exchange_score = 0
+        __exchanged_score = 0
 
         if __current:
             logging.info("current point [%d]" % __current.current_scores)
-            return __current.current_scores
+            __current_scores = __current.current_scores
+            if __exchange:
+                for x in __exchange:
+                    if x.exchange_accept is False:
+                        __exchanged_score = __exchanged_score + x.need_score
+                        logging.info("---->exchanged score:%d" % __exchanged_score)
 
+            __exchange_score = __current_scores - __exchanged_score
+            current_scores = {"current": __current_scores, "exchange": __exchange_score}
         else:
-            logging.info("current point [0]")
-            return 0
+            current_scores = {"current": 0, "exchange": 0}
+
+        logging.info("current total score:%d, exchanged score:%d,current exchange available score:%d"
+                     % (__current_scores, __exchanged_score, __exchange_score))
+        return current_scores
 
     def __get_point_history_by_user_name(self, user_name):
         history_module = self.db.query(ScoringHistoryModule).filter(ScoringHistoryModule.user_name == user_name).all()
@@ -137,39 +151,28 @@ class StatHandler(BaseHandler):
     def __exchange_apply_by_user_name(self, user_name, present_id):
         present_exchange = self.db.query(ExchangeRulesModule).filter(ExchangeRulesModule.id == present_id).first()
 
+        # 1、判断规则是否存在
         if present_exchange is None:
             logging.info("present min point is None")
             return False
-
+        # 2、判断当前可兑换积分是否满足当前需要兑换物品的最小积分
         current = self.__get_current_point(user_name)
-        if current < present_exchange.exchange_min_score:
-            logging.info("current point [%d], need point [%d]" % (current, present_exchange.exchange_min_score))
+        if current["exchange"] < present_exchange.exchange_min_score:
+            logging.info("current point [%d], need point [%d]"
+                         % (current["exchange"], present_exchange.exchange_min_score))
             return False
 
-        exchanged_modules = self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.user_name == user_name).\
-            filter(ExchangeApplyModule.exchange_accept is False).all()
-        exchanged_point = 0
-        if exchanged_modules:
-            for x in exchanged_modules:
-                exchanged_point = exchanged_point + x.need_score
-
-        logging.info("current point [%d], exchanged point [%d]" % (current, exchanged_point))
-        current_scores = current - exchanged_point
-
-        if current_scores < present_exchange.exchange_min_score:
-            logging.info("current point [%d], need point [%d]" % (current_scores, present_exchange.exchange_min_score))
-
-            return False
+        logging.info("current point [%d], exchanged point [%d]" % (current["current"], current["exchange"]))
 
         date_kits = DateToolKits()
         exchange_apply = ExchangeApplyModule()
         exchange_apply.exchange_accept = False
         exchange_apply.exchange_status = "apply"
         exchange_apply.user_name = user_name
-        exchange_apply.current_scores = current
+        exchange_apply.current_scores = current["current"]
         exchange_apply.exchange_item = present_exchange.exchange_rule_name
         exchange_apply.datetime = date_kits.get_now_time()
-        exchange_apply.need_score = present_exchange.exchange_min_score
+        exchange_apply.need_score = present_exchange.exchange_rule_score
         self.db.add(exchange_apply)
         self.db.commit()
         return True

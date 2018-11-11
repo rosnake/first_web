@@ -221,10 +221,12 @@ class AdminExchangeHandler(BaseHandler):
             logging.info("confirm %s exchange by id %s" % (user_name, exchange_id))
             self.db.commit()
 
+            current_score = point_modules.current_scores - exchange_modules.need_score
+            logging.info("current score info:%d" % current_score)
             # 更新用户积分信息
             logging.info("current scores %d, need scores %d" % (point_modules.current_scores, exchange_modules.need_score))
             self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
-                ScoreInfoModule.current_scores: point_modules.current_scores - exchange_modules.need_score,
+                ScoreInfoModule.current_scores: current_score,
             })
             self.db.commit()
 
@@ -233,7 +235,7 @@ class AdminExchangeHandler(BaseHandler):
             for exchange in exchange_all:
                 if exchange.exchange_accept is False and exchange.user_name == user_name:
                     self.db.query(ExchangeApplyModule).filter(ExchangeApplyModule.id == exchange.id).update({
-                            ExchangeApplyModule.current_scores: point_modules.current_scores - exchange_modules.need_score
+                            ExchangeApplyModule.current_scores: current_score,
                         })
                     self.db.commit()
 
