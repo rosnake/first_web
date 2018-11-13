@@ -3,6 +3,16 @@ function getCookie(name) {
 	return x ? x[1] : undefined;
 }
 
+//判断当前选择时间是否小于是当前实际时间
+function contrastTime(select_time) {
+	var d = new Date();
+	var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();//获取当前实际日期
+	if (Date.parse(str) > Date.parse(select_time)) {//时间戳对比
+	       return true;
+	}
+	return false;
+}
+
 $(document).ready(function () {
 
 	$('#id_admin_organizer_assign').on('click', function () {
@@ -85,6 +95,12 @@ $(document).ready(function () {
 			return false;
 		}
 
+		if (contrastTime(time_date) === true){
+			$("#id_popup_leave_apply_date").focus();
+			console.log("时间不能早于当前时间");
+			layer.msg("时间不能早于当前时间");
+			return false;
+		}
 		var submit_data = {
 			"operation": "assign",
 			"organizer_name": organizer_name,

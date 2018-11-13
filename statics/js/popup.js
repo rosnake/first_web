@@ -5,6 +5,16 @@ function getCookie(name) {
 	return x ? x[1] : undefined;
 }
 
+//判断当前选择时间是否小于是当前实际时间
+function contrastTime(select_time) {
+	var d = new Date();
+	var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();//获取当前实际日期
+	if (Date.parse(str) > Date.parse(select_time)) {//时间戳对比
+	       return true;
+	}
+	return false;
+}
+
 $(document).ready(function () {
 	//弹出一个iframe层
 	//标签+属性选择所有<编辑>按钮
@@ -119,6 +129,12 @@ $(document).ready(function () {
 			return;
 		}
 
+		if (contrastTime(leave_date) === true){
+			$("#id_popup_leave_apply_date").focus();
+			console.log("时间不能早于当前时间");
+			layer.msg("时间不能早于当前时间");
+			return;
+		}
 		var submit_data = {
 			"operation": "absent_apply",
 			"user_name": user_name,

@@ -68,7 +68,7 @@ $(document).ready(function () {
 			return false;
 		}
 
-		if (contrastTime() === true){
+		if (contrastTime(topic_date) === true){
 			$("#id_select_topic_date").focus();
 			layer.msg("时间不能早于当前时间");
 			return false;

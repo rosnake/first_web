@@ -54,6 +54,19 @@ class HomeHandler(BaseHandler):
         logging.info("operation:%s , user_name: %s, leave_id:%s leave_date: %s" % (operation, user_name, leave_id, leave_date))
 
         if operation == "absent_apply":
+            logging.info(leave_date)
+            time_diff = date_kits.cac_time_diff_with_current_by_str(leave_date)
+            logging.info("time diff:" + str(time_diff))
+            valid_time = date_kits.check_time_is_ok(leave_date)
+
+            if valid_time is False:
+                response["status"] = False
+                response["message"] = "选择时间不能早已当前时间！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                logging.info("time out of range")
+                return
+
             ret = self.__leave_apply_by_id(user_name, leave_id, leave_date)
 
             if ret is True:
