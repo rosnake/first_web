@@ -56,57 +56,26 @@ $(document).ready(function () {
         }); // end of ajax
     }); //end of id click
 
-	$('input[value="查看问题"]').click(function () {
-		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="查看问题"]').index($(this)) + 1;
-		console.log(numId);
-		//选择表格中的所有tr 通过eq方法取得当前tr
-		var ttr = $('table tr').eq(numId);
-		console.log(ttr);
+    $(".class_admin_context_table_button",this).click(function(){
+	    var id =$(this).attr("id");
+	    if(id ==="id_admin_opinions_browse") {
+            var serial_number = $(this).parents("tr").find("#id_admin_opinions_serial_number").html();
+		    console.log(serial_number);
 
-		/*当前行使用find方法找到每一个td列
-		each方法为每一个td设置function
-		 */
-		var serial_number = "0";
-		ttr.find("td").each(function () {
-			/*过滤 td中的元素
-			checkbox 、 button、text 不需要执行append
-			注意 return 为 跳出当前 each
-			return false 为 跳出整个 each
-			 */
-			if ($(this).children("input[type='checkbox']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='button']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='text']").length > 0) {
-				return;
-			}
-
-			var id = $(this).attr('id');
-			var tdVal = $(this).html();
-			//console.log(id);
-			//console.log(tdVal);
-			if (id == "id_admin_opinions_serial_number") {
-				serial_number = tdVal;
-			}
-		});
-
-		console.log(serial_number);
-		if (serial_number == "") {
+		    if (serial_number == "") {
 			layer.msg('编号不能为空');
-		} else {
-			var index = layer.open({
-					type: 2, //iframe 层
-					title: '查看详细信息',
-					maxmin: true,
-					shadeClose: true, //点击遮罩关闭层
-					area: ['800px', '520px'],
-					content: '/admin/opinions_popup?serial_number=' + serial_number
-				});
-		}
-	});
+            } else {
+                var index = layer.open({
+                        type: 2, //iframe 层
+                        title: '查看详细信息',
+                        maxmin: true,
+                        shadeClose: true, //点击遮罩关闭层
+                        area: ['800px', '520px'],
+                        content: '/admin/opinions_popup?serial_number=' + serial_number +  '&status=other'
+                    });
+            }
+	    }
+    });
 
 	$('#id_admin_opinions_solution_submit').on('click', function () {
         var serial_number = $("#id_admin_opinions_report_serial_number").val();
@@ -277,13 +246,10 @@ $(document).ready(function () {
 		});
 	}); // end of class_user_feedback_regression_failure
 
-    $("#admin_feedback_table_finish td").click(function(){
-        var current_column = $(this).parent().find("td").index($(this)[0]); //获取当前点击的列
-        if (current_column === 5) // 点击第六列的事件
-        {
-            var  current_row = $(this).parent().parent().find("tr").index($(this).parent()[0]); // 获取当前点击的行
-            console.log("第" + (current_row + 1) + "行，第" + (current_column + 1) + "列");
-            var feedback_history = $("#admin_feedback_table_finish").find("tr").eq(current_row+1).find("td").eq(0).text();
+    $(".class_admin_context_table_button",this).click(function() {
+        var id = $(this).attr("id");
+        if (id === "id_admin_opinions_delete_history") {
+            var feedback_history = $(this).parents("tr").find("#id_admin_opinions_serial_number").html();
 
             layer.confirm("是否删除【" + feedback_history + "】记录?", {
 			    btn: ['删除', '取消']//按钮
@@ -328,11 +294,29 @@ $(document).ready(function () {
                     icon: 0
                 });
             });
-
-
         }
-
     }); // end of click table
+
+    $(".class_admin_context_table_button",this).click(function(){
+	    var id =$(this).attr("id");
+	    if(id ==="id_admin_opinions_browse_history") {
+            var serial_number = $(this).parents("tr").find("#id_admin_opinions_serial_number").html();
+		    console.log(serial_number);
+
+		    if (serial_number == "") {
+			layer.msg('编号不能为空');
+            } else {
+                var index = layer.open({
+                        type: 2, //iframe 层
+                        title: '查看详细信息',
+                        maxmin: true,
+                        shadeClose: true, //点击遮罩关闭层
+                        area: ['800px', '520px'],
+                        content: '/admin/opinions_popup?serial_number=' + serial_number+ '&status=closed'
+                    });
+            }
+	    }
+    });
 
 
 });//end of documents ready

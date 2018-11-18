@@ -154,8 +154,42 @@
     {% else %}
         <h3>您当前暂未申请积分兑换</h3>
     {% end %}
+    </div>
+
+    <div id="id_exchanged_history_table">
+        {% if exchanged_history is not None %}
+        <h3>您历史申请的积分兑换如下：</h3>
+        <form class="class_admin_context_form" id="admin_member_form" name="member_form">
+        <table class="class_handle_context_table" id="admin_member_table">
+        <thead class="class_handle_context_table_head">
+            <tr id="id_popup_table_title">
+                <th colspan="5">兑换历史详情</th>
+            </tr>
+        </thead>
+        <tbody class="class_handle_context_table_body" id="admin_user_exchange_table_body">
+        <tr id="id_popup_table_item_name">
+            <th>记录编号</th>
+            <th>兑换物品</th>
+            <th>消耗积分</th>
+            <th>处理人</th>
+            <th>兑换时间</th>
+        </tr>
+        {% for exchanged in exchanged_history %}
+            <tr>
+                <td class="class_admin_context_table_td" id="id_admin_exchanged_history_id">{{ exchanged["history_id"] }}</td>
+                <td class="class_admin_context_table_td" id="id_admin_exchanged_rule_name">{{ exchanged["exchange_rule_name"] }}</td>
+                <td class="class_admin_context_table_td" id="id_admin_exchanged_score">{{ exchanged["exchange_rule_score"] }}</td>
+                <td class="class_admin_context_table_td" id="id_admin_exchanged_transactor">{{ exchanged["exchanged_transactor"] }}</td>
+                <td class="class_admin_context_table_td" id="id_admin_exchanged_date_time">{{ exchanged["exchanged_date_time"] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+        </form>
+    {% end %}
 
     </div>
+
 {% else %}
 <p> 您未登录，如需查看积分，请先登录 </p>
 {% end %}

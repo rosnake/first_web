@@ -21,6 +21,11 @@ class AdminOpinionsPopupHandler(BaseHandler):
         # 用户渲染表格模板的数据接口
         # 后续该接口需要从数据库读取
         serial_number = self.get_argument("serial_number", "none")
+        status = self.get_argument("status", "closed")
+
+        page_button_hide = False
+        if status == "closed":
+            page_button_hide = True
         # 无效编号，回到主界面
         if serial_number == "none":
             self.redirect("/admin/opinions")
@@ -35,6 +40,7 @@ class AdminOpinionsPopupHandler(BaseHandler):
                             controller=self.render_controller,
                             opinions=opinions,
                             language_mapping=self.language_mapping,
+                            page_button_hide=page_button_hide,
                             )
 
     @admin_post_auth(False)

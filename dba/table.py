@@ -17,7 +17,8 @@ from orm.meeting_info import MeetingInfoModule
 from orm.evaluation_info import EvaluationInfoModule
 from orm.operation_history import OperationHistoryModule
 from orm.users_info import UsersInfoModule
-
+from orm.exchanged_history import ExchangedHistoryModule
+from config.debug import DebugConfig
 
 def drop_db_table():
     port = int(DbSetting.listen_port)
@@ -47,14 +48,6 @@ def drop_db_table():
     logging.info("execute: "+sql)
     conn_cursor.execute(sql)  # 如果表存在则删除
 
-    # sql = "drop table if exists " + ScoringCriteriaModule.__tablename__
-    # logging.info("execute: "+sql)
-    # conn_cursor.execute(sql)  # 如果表存在则删除
-
-    # sql = "drop table if exists " + ExchangeRulesModule.__tablename__
-    # logging.info("execute: "+sql)
-    # conn_cursor.execute(sql)  # 如果表存在则删除
-
     sql = "drop table if exists " + AttendanceModule.__tablename__
     logging.info("execute: "+sql)
     conn_cursor.execute(sql)  # 如果表存在则删除
@@ -78,6 +71,21 @@ def drop_db_table():
     sql = "drop table if exists " + UsersInfoModule.__tablename__
     logging.info("execute: "+sql)
     conn_cursor.execute(sql)  # 如果表存在则删除
+
+
+    sql = "drop table if exists " + ExchangedHistoryModule.__tablename__
+    logging.info("execute: "+sql)
+    conn_cursor.execute(sql)  # 如果表存在则删除
+
+    if DebugConfig.DEBUG is not True:
+
+        sql = "drop table if exists " + ScoringCriteriaModule.__tablename__
+        logging.info("execute: "+sql)
+        conn_cursor.execute(sql)  # 如果表存在则删除
+
+        sql = "drop table if exists " + ExchangeRulesModule.__tablename__
+        logging.info("execute: "+sql)
+        conn_cursor.execute(sql)  # 如果表存在则删除
 
     conn_cursor.close()  # 关闭游标连接
     connect.close()  # 关闭数据库服务器连接 释放内存

@@ -27,6 +27,7 @@ class AttendanceModule(DataBase):
     meeting_date_time = Column(DateTime, default=datetime.now())  # 会议时间
     current_attendance = Column(Boolean, default=False, nullable=False, index=False)  # 当前签到表
     date_time = Column(DateTime, default=datetime.now())  # 当前时间
+    checked_in_time = Column(DateTime, default=datetime.now())  # 当前时间
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.user_name)

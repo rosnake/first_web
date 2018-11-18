@@ -24,6 +24,7 @@
     <div class="class_admin_context">
         <div class="class_admin_context_topic_details">
             <input type="button" class="class_admin_context_button" id="id_admin_attendance_start_sign" value="启动签到" />
+            <input type="button" class="class_admin_context_button" id="id_admin_attendance_reset_sign_table" value="复位签到表" />
         </div>
         <h3>当前有如下用户请假，请处理：</h3>
         <form class="class_admin_context_form" id="id_admin_context_attendance_leave_form">
@@ -64,6 +65,41 @@
             </table>
         </form>
 
+        <h3>当前已审批通过请假人员名单：</h3>
+        <form class="class_admin_context_form" id="id_admin_context_attendance_leave_form">
+            <table class="class_admin_context_table" id="id_admin_context_attendance_leave_table" frame="box">
+                <thead class="class_admin_context_table_head">
+                    <tr id="id_admin_context_table_head">
+                        <th>用户ID</th>
+                        <th>姓名</th>
+                        <th>编号</th>
+                        <th>请假事由</th>
+                        <th>请假日期</th>
+                        <th>申请时间</th>
+                        <th>签到时间</th>
+
+                    </tr>
+                </thead>
+                <tbody class="class_admin_context_table_body">
+                {% if attendance_tables is not None %}
+                    {% for attendance in attendance_tables %}
+                        {% if attendance["checked_in"] == True and  attendance["absence_apply_accept"] == True %}
+                    <tr>
+                        <td id="id_admin_attendance_user_name">{{attendance["user_name"]}}</td>
+                        <td id="id_admin_attendance_chinese_name">{{attendance["chinese_name"]}}</td>
+                        <td id="id_admin_attendance_absence_id">{{attendance["absence_id"]}}</td>
+                        <td id="id_admin_attendance_absence_reason">{{attendance["absence_reason"]}}</td>
+                        <td id="id_admin_attendance_datetime">{{attendance["datetime"]}}</td>
+                        <td id="id_admin_attendance_apply_time">{{attendance["absence_apply_time"]}}</td>
+                        <td id="id_admin_attendance_checked_in_time">{{attendance["checked_in_time"]}}</td>
+
+                    </tr>
+                        {% end %}
+                    {% end %}
+                {% end %}
+                </tbody>
+            </table>
+        </form>
         <h3>出勤签到：</h3>
         <form class="class_admin_context_form" id="id_admin_context_attendance_sign_form" name="member_form">
             <table class="class_admin_context_table" id="id_admin_context_attendance_sign_table"  frame="box">
@@ -96,6 +132,33 @@
             </tbody>
             </table>
         </form>
+        <h3>当前已签到人员名单：</h3>
+        <form class="class_admin_context_form" id="id_admin_context_attendance_leave_form">
+            <table class="class_admin_context_table" id="id_admin_context_attendance_leave_table" frame="box">
+                <thead class="class_admin_context_table_head">
+                    <tr id="id_admin_context_table_head">
+                        <th>用户ID</th>
+                        <th>姓名</th>
+                        <th>签到时间</th>
+                    </tr>
+                </thead>
+                <tbody class="class_admin_context_table_body">
+                {% if attendance_tables is not None %}
+                    {% for attendance in attendance_tables %}
+                        {% if attendance["checked_in"] == True and  attendance["absence_apply_accept"] == False %}
+                    <tr>
+                        <td id="id_admin_attendance_user_name">{{attendance["user_name"]}}</td>
+                        <td id="id_admin_attendance_chinese_name">{{attendance["chinese_name"]}}</td>
+                        <td id="id_admin_attendance_checked_in_time">{{attendance["checked_in_time"]}}</td>
+                    </tr>
+                        {% end %}
+                    {% end %}
+                {% end %}
+                </tbody>
+            </table>
+        </form>
+
+
                 <!-- 弹窗内容开始 -->
         <div class="class_admin_popup_background" id="id_admin_attendance_edit_popup_background">
             <div  class="class_admin_popup_content" id="id_admin_attendance_edit_popup_frontend">

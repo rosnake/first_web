@@ -12,6 +12,7 @@ from orm.exchange_apply import ExchangeApplyModule
 from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
 from methods.debug import *
+from orm.exchanged_history import ExchangedHistoryModule
 # 继承 base.py 中的类 BaseHandler
 
 
@@ -29,6 +30,7 @@ class StatHandler(BaseHandler):
             history_table = self.__get_point_history_by_user_name(user_name)
             point_stat = self.__get_point_stat_by_user_name(user_name)
             user_exchange_tables = self.__get_current_user_exchange_tables(user_name)
+            exchanged_history = self.__get_user_exchanged_history_by_username(user_name)
             # print(point_stat)
             current_scores = self.__get_current_point(user_name)
             presents_table = self.__get_presents_table(current_scores["exchange"])
@@ -37,6 +39,7 @@ class StatHandler(BaseHandler):
                         presents_table=presents_table,
                         language_mapping=self.language_mapping,
                         user_exchange_tables=user_exchange_tables,
+                        exchanged_history=exchanged_history,
                         )
 
     @handles_post_auth
@@ -191,3 +194,22 @@ class StatHandler(BaseHandler):
         else:
             logging.info("exchange modules is null")
         return exchange_table
+
+    def __get_user_exchanged_history_by_username(self, user_name):
+        exchangeds = self.db.query(ExchangedHistoryModule).filter(ExchangedHistoryModule.user_name == user_name).all()
+        exchanged_history = []
+
+        if exchangeds:
+            logging.info("exchanged history is not null")
+            for exchanged in exchangeds:
+                tmp = {"history_id": exchanged.id, "user_name": exchanged.user_name,
+                       "exchange_rule_name": exchanged.exchange_rule_name,
+                       "exchange_rule_score": exchanged.exchange_rule_score,
+                       "exchanged_transactor": exchanged.exchanged_transactor,
+                       "exchanged_date_time": exchanged.exchanged_date_time}
+
+                exchanged_history.append(tmp)
+        else:
+            logging.info("exchanged history modules is null")
+
+        return exchanged_history

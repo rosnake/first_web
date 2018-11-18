@@ -118,6 +118,28 @@ class AdminAttendanceHandler(BaseHandler):
                 self.write(json.dumps(response))
                 return
 
+        if operation == "reset_sign_table":
+            ret = self.__reset_attendance_sign_tables()
+            if ret is True:
+                response["status"] = True
+                response["message"] = "复位签到表成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+            else:
+                response["status"] = False
+                response["message"] = "复位签到表失败"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+                return
+
+        response["status"] = False
+        response["message"] = "找不到对应的操作！"
+        response["data"] = date_kits.get_now_day_str()
+        self.write(json.dumps(response))
+
+        return
+
     def __get_all_leave_reason(self):
         score_module = ScoringCriteriaModule.get_all_scoring_criteria()
 
@@ -164,12 +186,14 @@ class AdminAttendanceHandler(BaseHandler):
 
     def __attendance_sign_by_user_name(self, user_name):
         attendance = self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).first()
+        date_kits = DateToolKits()
 
         if attendance is not None:
             self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).update({
                 AttendanceModule.checked_in: True,
                 AttendanceModule.attended: True,
                 AttendanceModule.absence_apply_accept: False,
+                AttendanceModule.checked_in_time: date_kits.get_now_str()
             })
             self.db.commit()
             logging.info("modify attendance succeed")
@@ -195,11 +219,12 @@ class AdminAttendanceHandler(BaseHandler):
             else:
                 return False
 
+            date_kits = DateToolKits()
             self.db.query(AttendanceModule).filter(AttendanceModule.user_name == user_name).update({
                 AttendanceModule.checked_in: True,
                 AttendanceModule.attended: True,
                 AttendanceModule.absence_apply_accept: True,
-
+                AttendanceModule.checked_in_time: date_kits.get_now_str(),
             })
             self.db.commit()
             logging.info("modify attendance succeed")
@@ -235,8 +260,8 @@ class AdminAttendanceHandler(BaseHandler):
                     tmp = {
                         "attendance_id": id, "user_name": x.user_name, "chinese_name": x.chinese_name,
                         "checked_in": x.checked_in, "absence_reason": x.absence_reason, "absence_id": x.absence_id,
-                        "attended": x.attended, "absence_apply_time": x.absence_apply_time,
-                        "datetime": x.date_time, "absence_apply_accept": x.absence_apply_accept,
+                        "attended": x.attended, "absence_apply_time": x.absence_apply_time, "datetime": x.date_time,
+                        "absence_apply_accept": x.absence_apply_accept, "checked_in_time": x.checked_in_time,
                     }
                     attendance_tables.append(tmp)
 
@@ -261,3 +286,22 @@ class AdminAttendanceHandler(BaseHandler):
                 self.db.commit()
 
         return True
+
+    def __reset_attendance_sign_tables(self):
+        attendance_modules = AttendanceModule.get_all_attendance_info()
+
+        if attendance_modules is None:
+            logging.error("attendance is none")
+            return False
+
+        for attendance in attendance_modules:
+            self.db.query(AttendanceModule).filter(AttendanceModule.user_name == attendance.user_name).update({
+                AttendanceModule.checked_in: False,
+                AttendanceModule.attended: True,
+                AttendanceModule.absence_apply_accept: False,
+                AttendanceModule.current_attendance: True,
+            })
+            self.db.commit()
+
+        return True
+

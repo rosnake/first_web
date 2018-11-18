@@ -14,278 +14,154 @@ function isDigitNumber(inputData) {
 }
 
 $(document).ready(function () {
-	$('input[value="同意"]').click(function () {
-		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="同意"]').index($(this)) + 1;
-		console.log(numId);
-		//选择表格中的所有tr 通过eq方法取得当前tr
-		var ttr = $('table tr').eq(numId);
-		console.log(ttr);
+	$(".class_admin_context_table_button",this).click(function(){
+	    var id =$(this).attr("id");
+	    if(id ==="id_admin_attendance_submit") {
+            var user = $(this).parents("tr").find("#id_admin_attendance_user_name").html();
+		    var operation = "leave_accept";
+            console.log("user name:"+ user + " operation:"+operation);
 
-		/*当前行使用find方法找到每一个td列
-		each方法为每一个td设置function
-		 */
-		var user = "";
-		var operation = "leave_accept";
-		ttr.find("td").each(function () {
-			/*过滤 td中的元素
-			checkbox 、 button、text 不需要执行append
-			注意 return 为 跳出当前 each
-			return false 为 跳出整个 each
-			 */
-			if ($(this).children("input[type='checkbox']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='button']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='text']").length > 0) {
-				return;
-			}
+            if (user == "") {
+                layer.msg('用户名不能为空');
+                return false;
+            }
+            var submit_data = {
+                "operation": operation,
+                "user_name": user,
+                "_xsrf": getCookie("_xsrf")
+            };
 
-			var id = $(this).attr('id');
-			var tdVal = $(this).html();
-			//console.log(id);
-			//console.log(tdVal);
-			if (id == "id_admin_attendance_user_name") {
-				user = tdVal;
-			}
-		});
-
-		console.log(user);
-		if (user == "") {
-			layer.msg('用户名不能为空');
-			return false;
-		}
-		var submit_data = {
-			"operation": operation,
-			"user_name": user,
-			"_xsrf": getCookie("_xsrf")
-		};
-
-		$.ajax({
-			type: "post",
-			url: "/admin/attendance",
-			data: submit_data,
-			cache: false,
-			success: function (arg) {
-				console.log(arg);
-				//arg是字符串
-				var obj = JSON.parse(arg);
-				if (obj.status) {
-					layer.msg("提交成功");
-					console.log("user:" + user);
-					setTimeout(function () {
-						window.location.reload();
-					}, 1000);
-				} else {
-					layer.msg(obj.message);
-				}
-			},
-			error: function (arg) {
-				layer.msg("未知的错误");
-			}
-		});
+            $.ajax({
+                type: "post",
+                url: "/admin/attendance",
+                data: submit_data,
+                cache: false,
+                success: function (arg) {
+                    console.log(arg);
+                    //arg是字符串
+                    var obj = JSON.parse(arg);
+                    if (obj.status) {
+                        layer.msg("提交成功");
+                        console.log("user:" + user);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        layer.msg(obj.message);
+                    }
+                },
+                error: function (arg) {
+                    layer.msg("未知的错误");
+                }
+            });
+	    }
 
 	});
 
-	$('input[value="驳回"]').click(function () {
-		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="驳回"]').index($(this)) + 1;
-		console.log(numId);
-		//选择表格中的所有tr 通过eq方法取得当前tr
-		var ttr = $('table tr').eq(numId);
-		console.log(ttr);
+	$(".class_admin_context_table_button",this).click(function(){
+	    var id =$(this).attr("id");
+	    if(id ==="id_admin_attendance_cancel") {
+            var user = $(this).parents("tr").find("#id_admin_attendance_user_name").html();
+            var operation = "leave_reject";
+            console.log("user name:"+ user + " operation:"+operation);
 
-		/*当前行使用find方法找到每一个td列
-		each方法为每一个td设置function
-		 */
-		var user = "";
-		var operation = "leave_reject";
-		ttr.find("td").each(function () {
-			/*过滤 td中的元素
-			checkbox 、 button、text 不需要执行append
-			注意 return 为 跳出当前 each
-			return false 为 跳出整个 each
-			 */
-			if ($(this).children("input[type='checkbox']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='button']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='text']").length > 0) {
-				return;
-			}
-
-			var id = $(this).attr('id');
-			var tdVal = $(this).html();
-			//console.log(id);
-			//console.log(tdVal);
-			if (id == "id_admin_attendance_user_name") {
-				user = tdVal;
-			}
-		});
-
-		console.log(user);
-		if (user == "") {
+            if (user == "") {
 			layer.msg('用户名不能为空');
 			return false;
-		}
-		var submit_data = {
-			"operation": operation,
-			"user_name": user,
-			"_xsrf": getCookie("_xsrf")
-		};
+            }
+            var submit_data = {
+                "operation": operation,
+                "user_name": user,
+                "_xsrf": getCookie("_xsrf")
+            };
 
-		$.ajax({
-			type: "post",
-			url: "/admin/attendance",
-			data: submit_data,
-			cache: false,
-			success: function (arg) {
-				console.log(arg);
-				//arg是字符串
-				var obj = JSON.parse(arg);
-				if (obj.status) {
-					layer.msg("提交成功");
-					console.log("user:" + user);
-					setTimeout(function () {
-						window.location.reload();
-					}, 1000);
-				} else {
-					layer.msg(obj.message);
-				}
-			},
-			error: function (arg) {
-				layer.msg("未知的错误");
-			}
-		});
+            $.ajax({
+                type: "post",
+                url: "/admin/attendance",
+                data: submit_data,
+                cache: false,
+                success: function (arg) {
+                    console.log(arg);
+                    //arg是字符串
+                    var obj = JSON.parse(arg);
+                    if (obj.status) {
+                        layer.msg("提交成功");
+                        console.log("user:" + user);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        layer.msg(obj.message);
+                    }
+                },
+                error: function (arg) {
+                    layer.msg("未知的错误");
+                }
+            });
+        }
 
 	});
 
-	$('input[value="已到"]').click(function () {
-		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="已到"]').index($(this)) + 2;
-		console.log(numId);
-		//选择表格中的所有tr 通过eq方法取得当前tr
-		var ttr = $('table tr').eq(numId);
-		console.log(ttr);
+	$(".class_admin_context_table_button",this).click(function(){
+	    var id =$(this).attr("id");
+	    if(id ==="id_admin_attendance_sign_in")
+        {
+            var user = $(this).parents("tr").find("#id_admin_attendance_user_name").html();
+            var operation = "sign";
+            console.log("user name:"+ user + " operation:"+operation);
 
-		/*当前行使用find方法找到每一个td列
-		each方法为每一个td设置function
-		 */
-		var user = "";
-		var operation = "sign";
-		ttr.find("td").each(function () {
-			/*过滤 td中的元素
-			checkbox 、 button、text 不需要执行append
-			注意 return 为 跳出当前 each
-			return false 为 跳出整个 each
-			 */
-			if ($(this).children("input[type='checkbox']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='button']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='text']").length > 0) {
-				return;
-			}
+            if (user == "") {
+                layer.msg('用户名不能为空');
+                return false;
+		    }
 
-			var id = $(this).attr('id');
-			var tdVal = $(this).html();
-			//console.log(id);
-			//console.log(tdVal);
-			if (id == "id_admin_attendance_user_name") {
-				user = tdVal;
-			}
-		});
+            var submit_data = {
+                "operation": operation,
+                "user_name": user,
+                "_xsrf": getCookie("_xsrf")
+            };
 
-		console.log(user);
-		if (user == "") {
-			layer.msg('用户名不能为空');
-			return false;
-		}
+            $.ajax({
+                type: "post",
+                url: "/admin/attendance",
+                data: submit_data,
+                cache: false,
+                success: function (arg) {
+                    console.log(arg);
+                    //arg是字符串
+                    var obj = JSON.parse(arg);
+                    if (obj.status) {
+                        layer.msg("签到成功");
+                        console.log("user:" + user);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        layer.msg(obj.message);
+                    }
+                },
+                error: function (arg) {
+                    layer.msg("未知的错误");
+                }
+            });
+        }
+    });
 
-		var submit_data = {
-			"operation": operation,
-			"user_name": user,
-			"_xsrf": getCookie("_xsrf")
-		};
+	$(".class_admin_context_table_button",this).click(function(){
+	    var id =$(this).attr("id");
+	    if(id ==="id_admin_attendance_absence")
+        {
+            var user = $(this).parents("tr").find("#id_admin_attendance_user_name").html();
 
-		$.ajax({
-			type: "post",
-			url: "/admin/attendance",
-			data: submit_data,
-			cache: false,
-			success: function (arg) {
-				console.log(arg);
-				//arg是字符串
-				var obj = JSON.parse(arg);
-				if (obj.status) {
-					layer.msg("签到成功");
-					console.log("user:" + user);
-					setTimeout(function () {
-						window.location.reload();
-					}, 1000);
-				} else {
-					layer.msg(obj.message);
-				}
-			},
-			error: function (arg) {
-				layer.msg("未知的错误");
-			}
-		});
-
-	});
-
-	$('input[value="缺席"]').click(function () {
-		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="缺席"]').index($(this)) + 2;
-		console.log(numId);
-		//选择表格中的所有tr 通过eq方法取得当前tr
-		var ttr = $('table tr').eq(numId);
-		console.log(ttr);
-
-		/*当前行使用find方法找到每一个td列
-		each方法为每一个td设置function
-		 */
-		var user = "";
-		var operation = "absent";
-		ttr.find("td").each(function () {
-			/*过滤 td中的元素
-			checkbox 、 button、text 不需要执行append
-			注意 return 为 跳出当前 each
-			return false 为 跳出整个 each
-			 */
-			if ($(this).children("input[type='checkbox']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='button']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='text']").length > 0) {
-				return;
-			}
-
-			var id = $(this).attr('id');
-			var tdVal = $(this).html();
-
-			if (id == "id_admin_attendance_user_name") {
-				user = tdVal;
-			}
-		});
-
-		console.log("absent:" + user);
-		if (user == "") {
-			layer.msg('用户名不能为空');
-			return false;
-		}
-		$('#id_admin_attendance_popup_user_name').val(user);
-		$('#id_admin_attendance_popup_user_name').attr("readonly", true);
-		$('#id_admin_attendance_edit_popup_background').show();
-
+            console.log("absent:" + user);
+            if (user == "") {
+                layer.msg('用户名不能为空');
+                return false;
+            }
+            $('#id_admin_attendance_popup_user_name').val(user);
+            $('#id_admin_attendance_popup_user_name').attr("readonly", true);
+            $('#id_admin_attendance_edit_popup_background').show();
+        }
 	});
 
 	$('#id_admin_attendance_edit_submit').on('click', function () {
@@ -367,8 +243,49 @@ $(document).ready(function () {
 				layer.msg("未知的错误");
 			}
 		});
-
-
     });
+
+	$('#id_admin_attendance_reset_sign_table').on('click', function () {
+		console.log("id_admin_attendance_reset_sign_table");
+
+		layer.confirm("是否复位签到表?", {
+			btn: ['复位', '取消']//按钮
+		}, function () {
+            var submit_data = {
+                "operation": "reset_sign_table",
+                "_xsrf": getCookie("_xsrf")
+            };
+
+            $.ajax({
+                type: "post",
+                url: "/admin/attendance",
+                data: submit_data,
+                cache: false,
+                success: function (arg) {
+                    console.log(arg);
+                    //arg是字符串
+                    var obj = JSON.parse(arg);
+                    if (obj.status) {
+                        layer.msg("复位签到表成功");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        layer.msg(obj.message);
+                    }
+                },
+                error: function (arg) {
+                    layer.msg("未知的错误");
+                }
+            });
+
+		}, function () {
+			layer.msg("复位签到表操作已为您取消", {
+				icon: 0
+			});
+		});
+
+    }); //end of sign table
+
 
 });

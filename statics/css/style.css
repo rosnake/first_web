@@ -552,6 +552,16 @@ body {
     text-align: center;
 }
 
+#id_exchanged_history_table
+{
+    border: 2px solid #ccee8e;
+    border-radius: 3px;
+    margin: 10px;
+}
+#id_exchanged_history_table h2 {
+    text-align: center;
+}
+
 #id_stat_detail
 {
     border: 2px solid #82c6ee;

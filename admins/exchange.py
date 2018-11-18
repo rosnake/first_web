@@ -10,7 +10,7 @@ from orm.exchange_apply import ExchangeApplyModule
 from orm.score_info import ScoreInfoModule
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
-from orm.operation_history import OperationHistoryModule
+from orm.exchanged_history import ExchangedHistoryModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -239,8 +239,17 @@ class AdminExchangeHandler(BaseHandler):
                         })
                     self.db.commit()
 
-            return True
+            # 更新积分历史记录信息
+            exchanged_module = ExchangedHistoryModule()
+            exchanged_module.user_name = user_name
+            exchanged_module.exchange_rule_name = exchange_modules.exchange_item
+            exchanged_module.exchange_rule_score = exchange_modules.need_score
+            exchanged_module.exchanged_transactor = self.get_current_user()
 
+            self.db.add(exchanged_module)
+            self.db.commit()
+
+            return True
         else:
             return False
 
