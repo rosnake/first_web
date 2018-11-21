@@ -43,6 +43,7 @@ $(document).ready(function () {
 		var meeting_room = "";
 		var meeting_date = "";
 		var issues_title = "";
+		var current_issues_flags = "";
 
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
@@ -75,13 +76,39 @@ $(document).ready(function () {
 				issues_title = $(this).text();
 				console.log("issues_title:" + issues_title);
 			}
+
+			if ($(this).attr('id') === "id_meeting_issues_current_flags") {
+				current_issues_flags = $(this).text();
+				console.log("current_issues_flags:" + current_issues_flags);
+			}
 		});
+
+		if (current_issues_flags == "True")
+        {
+            console.log(" is current issues,can not modify it");
+            return;
+        }
+        var now = new Date();
+        //格式化日，如果小于9，前面补0
+        var day = ("0" + now.getDate()).slice(-2);
+        //格式化月，如果小于9，前面补0
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        //拼装完整日期格式
+        var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+        console.log(today);
+
+        var strArray = meeting_date.split(" ");
+        var date_time = strArray[0];
+        if (contrastTime(date_time) === true){
+			date_time = today;
+		}
 
 		$("#id_admin_meeting_issues_id").val(issues_id);
 		$('#id_admin_meeting_issues_title').val(issues_title);
 		$("#id_admin_meeting_keynote_user_name").val(keynote_user_name);
 		$("#id_admin_meeting_meeting_room").val(meeting_room);
-		$("#id_admin_meeting_meeting_date").val(meeting_date);
+		$("#id_admin_meeting_meeting_date").val(date_time);
 		$("#id_admin_meeting_issues_operation").val("modify");
 		$("#id_admin_meeting_issues_id").attr("readonly", true);
 		$('#id_admin_meeting_edit_popup_background').show();
@@ -123,7 +150,7 @@ $(document).ready(function () {
 			layer.msg("时间不能为空");
 			return false;
 		}
-		if (contrastTime(time_date) === true){
+		if (contrastTime(meeting_date) === true){
 			$("#id_popup_leave_apply_date").focus();
 			console.log("时间不能早于当前时间");
 			layer.msg("时间不能早于当前时间");
@@ -302,6 +329,8 @@ $(document).ready(function () {
 		var issues_id = "";
 		var keynote_user_name = "";
 		var issues_title = "";
+		var issues_date_time = "";
+
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
 			checkbox 、 button、text 不需要执行append
@@ -323,12 +352,34 @@ $(document).ready(function () {
 				issues_title = $(this).text();
 				console.log("issues_title:" + issues_title);
 			}
+
+			if ($(this).attr('id') === "id_meeting_add_issues_date_time") {
+				issues_date_time = $(this).text();
+				console.log("issues_date_time:" + issues_date_time);
+			}
 		});
+
+        var now = new Date();
+        //格式化日，如果小于9，前面补0
+        var day = ("0" + now.getDate()).slice(-2);
+        //格式化月，如果小于9，前面补0
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        //拼装完整日期格式
+        var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+        console.log(today);
+
+        var strArray = issues_date_time.split(" ");
+        var date_time = strArray[0];
+        if (contrastTime(date_time) === true){
+			date_time = today;
+		}
 
 		$("#id_admin_meeting_issues_operation").val("add");
 		$("#id_admin_meeting_issues_id").val(issues_id);
 		$("#id_admin_meeting_keynote_user_name").val(keynote_user_name);
 		$('#id_admin_meeting_issues_title').val(issues_title);
+		$('#id_admin_meeting_meeting_date').val(date_time);
 		$("#id_admin_meeting_issues_id").attr("readonly", true);
 		$("#id_admin_meeting_keynote_user_name").attr("readonly", true);
 		$('#id_meeting_select_popup_background').hide();
@@ -361,6 +412,7 @@ $(document).ready(function () {
 		var meeting_room = "";
 		var meeting_date = "";
 		var issues_title = "";
+        var current_issues_flags = "";
 
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
@@ -393,12 +445,26 @@ $(document).ready(function () {
 				issues_title = $(this).text();
 				console.log("issues_title:" + issues_title);
 			}
+
+			if ($(this).attr('id') === "id_meeting_issues_current_flags") {
+				current_issues_flags = $(this).text();
+				console.log("current_issues_flags:" + current_issues_flags);
+			}
 		});
+
+		if (current_issues_flags == "True")
+        {
+            console.log(" is current issues,can not delete it");
+            return;
+        }
 
 		var operation = "del";
 		console.log("operation:" + operation + " issues_id: " + issues_id + " keynote_user_name: " + keynote_user_name +
 			" meeting_date: " + meeting_date + " meeting_room: " + meeting_room);
 
+		layer.confirm("是否删除【" + issues_title + "】?", {
+			btn: ['删除', '取消']//按钮
+		}, function () {
 		var submit_data = {
 			"operation": operation,
 			"issues_id": issues_id,
@@ -432,6 +498,12 @@ $(document).ready(function () {
 				console.log(arg);
 				layer.msg("未知的错误");
 			}
+		});
+
+		}, function () {
+			layer.msg("删除【" + issues_title + "】操作已为您取消", {
+				icon: 0
+			});
 		});
 	});
 
@@ -454,6 +526,7 @@ $(document).ready(function () {
 		var meeting_room = "";
 		var meeting_date = "";
 		var issues_title = "";
+		var current_issues_flags = "";
 
 		ttr.find("td").each(function () {
 			/*过滤 td中的元素
@@ -486,50 +559,187 @@ $(document).ready(function () {
 				issues_title = $(this).text();
 				console.log("issues_title:" + issues_title);
 			}
+
+			if ($(this).attr('id') === "id_meeting_issues_current_flags") {
+				current_issues_flags = $(this).text();
+				console.log("current_issues_flags:" + current_issues_flags);
+			}
+
 		});
+
+		if (current_issues_flags == "False")
+        {
+            console.log(" is not current issues,can not set it");
+            return;
+        }
+
+        if (contrastTime(meeting_date) === false){
+			layer.msg("议题时间未到，不能结束");
+			return false;
+		}
 
 		var operation = "issues_finish";
 		console.log("operation:" + operation + " issues_id: " + issues_id + " keynote_user_name: " + keynote_user_name +
 			" meeting_date: " + meeting_date + " meeting_room: " + meeting_room);
 
-		var submit_data = {
-			"operation": operation,
-			"issues_id": issues_id,
-			"keynote_user_name": keynote_user_name,
-			"meeting_room": meeting_room,
-			"meeting_date": meeting_date,
-			"issues_title": issues_title,
-			"_xsrf": getCookie("_xsrf")
-		};
+		layer.confirm("是否设置【" + issues_title + "】为当前议题?", {
+			btn: ['是', '否']//按钮
+		}, function () {
+            var submit_data = {
+                "operation": operation,
+                "issues_id": issues_id,
+                "keynote_user_name": keynote_user_name,
+                "meeting_room": meeting_room,
+                "meeting_date": meeting_date,
+                "issues_title": issues_title,
+                "_xsrf": getCookie("_xsrf")
+            };
 
-		$.ajax({
-			type: "post",
-			url: "/admin/meeting",
-			data: submit_data,
-			cache: false,
-			success: function (arg) {
-				console.log(arg);
-				//arg是字符串
-				var obj = JSON.parse(arg);
-				if (obj.status) {
-					layer.msg(obj.message);
-					console.log("issues_id:" + issues_id);
-					setTimeout(function () {
-						window.location.reload();
-					}, 1000);
-				} else {
-					layer.msg(obj.message);
-				}
-			},
-			error: function (arg) {
-				console.log(arg);
-				layer.msg("未知的错误");
-			}
+            $.ajax({
+                type: "post",
+                url: "/admin/meeting",
+                data: submit_data,
+                cache: false,
+                success: function (arg) {
+                    console.log(arg);
+                    //arg是字符串
+                    var obj = JSON.parse(arg);
+                    if (obj.status) {
+                        layer.msg(obj.message);
+                        console.log("issues_id:" + issues_id);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        layer.msg(obj.message);
+                    }
+                },
+                error: function (arg) {
+                    console.log(arg);
+                    layer.msg("未知的错误");
+                }
+            });
+
+		}, function () {
+			layer.msg("取消设置【" + issues_title + "】为当前议题", {
+				icon: 0
+			});
 		});
 	});
 
 
+	$('#id_admin_meeting_cancel_current').on('click', function () {
+		var issues_id = $('#id_admin_meeting_table_body input[name="select_id"]:checked ').val();
+		if ((typeof issues_id) === 'undefined') {
+			layer.msg("当前未选择任何项目");
+			console.log("current not select any id");
+			return;
+		}
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		var ttr = $("input:checked").parents('tr');
+		//console.log(ttr);
 
+		/*当前行使用find方法找到每一个td列
+		each方法为每一个td设置function
+		 */
+		var issues_id = "";
+		var keynote_user_name = "";
+		var meeting_room = "";
+		var meeting_date = "";
+		var issues_title = "";
+		var current_issues_flags = "";
 
+		ttr.find("td").each(function () {
+			/*过滤 td中的元素
+			checkbox 、 button、text 不需要执行append
+			注意 return 为 跳出当前 each
+			return false 为 跳出整个 each
+			 */
+
+			if ($(this).attr('id') === "id_meeting_issues_id") {
+				issues_id = $(this).text();
+				console.log("issues_id:" + issues_id);
+			}
+
+			if ($(this).attr('id') === "id_meeting_keynote_user_name") {
+				keynote_user_name = $(this).text();
+				console.log("user_name:" + keynote_user_name);
+			}
+
+			if ($(this).attr('id') === "id_meeting_room") {
+				meeting_room = $(this).text();
+				console.log("meeting_room:" + meeting_room);
+			}
+
+			if ($(this).attr('id') === "id_meeting_date") {
+				meeting_date = $(this).text();
+				console.log("meeting_date:" + meeting_date);
+			}
+
+			if ($(this).attr('id') === "id_meeting_issues_title") {
+				issues_title = $(this).text();
+				console.log("issues_title:" + issues_title);
+			}
+
+			if ($(this).attr('id') === "id_meeting_issues_current_flags") {
+				current_issues_flags = $(this).text();
+				console.log("current_issues_flags:" + current_issues_flags);
+			}
+
+		});
+
+		if (current_issues_flags == "False")
+        {
+            console.log(" is not current issues,can not set it");
+            return;
+        }
+		var operation = "issues_cancel";
+		console.log("operation:" + operation + " issues_id: " + issues_id + " keynote_user_name: " + keynote_user_name +
+			" meeting_date: " + meeting_date + " meeting_room: " + meeting_room);
+
+		layer.confirm("是否取消【" + issues_title + "】为当前议题?", {
+			btn: ['是', '否']//按钮
+		}, function () {
+            var submit_data = {
+                "operation": operation,
+                "issues_id": issues_id,
+                "keynote_user_name": keynote_user_name,
+                "meeting_room": meeting_room,
+                "meeting_date": meeting_date,
+                "issues_title": issues_title,
+                "_xsrf": getCookie("_xsrf")
+            };
+
+            $.ajax({
+                type: "post",
+                url: "/admin/meeting",
+                data: submit_data,
+                cache: false,
+                success: function (arg) {
+                    console.log(arg);
+                    //arg是字符串
+                    var obj = JSON.parse(arg);
+                    if (obj.status) {
+                        layer.msg(obj.message);
+                        console.log("issues_id:" + issues_id);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        layer.msg(obj.message);
+                    }
+                },
+                error: function (arg) {
+                    console.log(arg);
+                    layer.msg("未知的错误");
+                }
+            });
+
+		}, function () {
+			layer.msg("放弃取消【" + issues_title + "】为当前议题", {
+				icon: 0
+			});
+		});
+	});
 
 });

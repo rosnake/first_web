@@ -119,6 +119,22 @@ class AdminMeetingHandler(BaseHandler):
 
             return
 
+        if operation == "issues_cancel":
+            ret = self.__cancel_current_meeting(issues_id)
+            if ret is True:
+                response["status"] = True
+                response["message"] = "取消当前会议成功！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+            else:
+                response["status"] = False
+                response["message"] = "取消当前会议失败！"
+                response["data"] = date_kits.get_now_day_str()
+                self.write(json.dumps(response))
+
+            return
+
+
     def __get_meeting_table(self):
         meeting_modules = MeetingInfoModule.get_all_meeting_info()
         meeting_table = []
@@ -209,6 +225,7 @@ class AdminMeetingHandler(BaseHandler):
 
         self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
             IssuesInfoModule.current: True,
+            IssuesInfoModule.date_time: meeting.meeting_date,
         })
         self.db.commit()
 
@@ -262,6 +279,28 @@ class AdminMeetingHandler(BaseHandler):
             return False
 
         self.db.delete(meeting)
+        self.db.commit()
+
+        return True
+
+    def __cancel_current_meeting(self, issues_id):
+        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).first()
+        if meeting is None:
+            return False
+
+        issues = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).first()
+        if issues is None:
+            return False
+
+        self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
+            IssuesInfoModule.current: False,
+        })
+        self.db.commit()
+
+        self.db.query(MeetingInfoModule).filter(MeetingInfoModule.issues_id == issues_id).update({
+            MeetingInfoModule.current_meeting: False,
+        })
+
         self.db.commit()
 
         return True

@@ -35,6 +35,7 @@
                 <th>用户名</th>
                 <th>会议室</th>
                 <th>时间</th>
+                <th>当前</th>
             </tr>
         </thead>
          <tbody class="class_admin_context_table_body" id="id_admin_meeting_table_body">
@@ -47,6 +48,7 @@
                 <td class="class_admin_context_table_td" id="id_meeting_keynote_user_name">{{ meeting["keynote_user_name"] }}</td>
                 <td class="class_admin_context_table_td" id="id_meeting_room">{{ meeting["meeting_room"] }}</td>
                 <td class="class_admin_context_table_td" id="id_meeting_date">{{ meeting["meeting_date"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_issues_current_flags" >{{ meeting["current_meeting"] }}</td>
             </tr>
             {% end %}
         {% end %}
@@ -55,6 +57,7 @@
     </form>
     <div class="class_admin_context_button_layout">
         <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_finish" value="结束会议"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_cancel_current" value="取消会议"/>
     </div>
     <h3>所有未结束会议信息如下</h3>
     <form class="class_admin_context_form" id="admin_member_form" name="member_form">
@@ -67,6 +70,7 @@
                 <th>用户名</th>
                 <th>会议室</th>
                 <th>时间</th>
+                <th>当前</th>
             </tr>
         </thead>
          <tbody class="class_admin_context_table_body" id="id_admin_meeting_table_body">
@@ -82,6 +86,7 @@
                 <td class="class_admin_context_table_td" id="id_meeting_keynote_user_name">{{ meeting["keynote_user_name"] }}</td>
                 <td class="class_admin_context_table_td" id="id_meeting_room">{{ meeting["meeting_room"] }}</td>
                 <td class="class_admin_context_table_td" id="id_meeting_date">{{ meeting["meeting_date"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_issues_current_flags" >{{ meeting["current_meeting"] }}</td>
             </tr>
             {% end %}
         {% end %}
@@ -167,6 +172,8 @@
                                 <th>议题ID</th>
                                 <th>用户名</th>
                                 <th>议题简介</th>
+                                <th>议题时间</th>
+
                             </tr>
                             </thead>
                             <tbody class="class_admin_meeting_table_body" id="id_admin_meeting_select_table_body">
@@ -176,6 +183,8 @@
                                     <td class="class_admin_context_table_td" id="id_meeting_add_issues_id">{{ topics["issues_id"] }}</td>
                                     <td class="class_admin_context_table_td" id="id_meeting_add_keynote_user_name">{{ topics["keynote_user_name"] }}</td>
                                     <td class="class_admin_context_table_td" id="id_meeting_add_issues_title">{{ topics["issues_title"] }}</td>
+                                    <td class="class_admin_context_table_td" id="id_meeting_add_issues_date_time">{{ topics["present_time"] }}</td>
+
                                 </tr>
                             {% end %}
                             </tbody>
