@@ -45,6 +45,17 @@ class DateToolKits:
 
         return time_diff
 
+    def cac_time_diff_by_date(self, date_time_src, date_time_dst):
+        pass
+
+    def compare_time_src_less_then_dest(self, date_time_src, date_time_dst):
+        startTime = datetime.datetime.strftime(date_time_src, "%Y%m%d")
+        endTime = datetime.datetime.strftime(date_time_dst, "%Y%m%d")
+        if float(startTime) >= float(endTime):
+            return False
+        else:
+            return True
+
     def cac_time_diff_with_current_by_str(self, string_time):
         str_date_time = self.get_now_day_str()
         time_diff = self.cac_time_diff_by_str(string_time, str_date_time)

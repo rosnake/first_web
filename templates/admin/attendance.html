@@ -22,6 +22,31 @@
     </style>
     {{ modules.AdminSidebar(controller, language_mapping) }}
     <div class="class_admin_context">
+        {% if current_meeting_flags == True %}
+        <h3> 本周会议信息如下</h3>
+        <form class="class_admin_context_form" id="id_handle_member_form" name="member_form">
+        <table class="class_admin_context_table" id="id_handle__member_table">
+        <thead class="class_admin_context_table_head" id="id_handle__member_table_head">
+            <tr>
+                <th>主讲人</th>
+                <th>议题</th>
+                <th>会议室</th>
+                <th>时间</th>
+            </tr>
+        </thead>
+         <tbody class="class_admin_context_table_body" id="id_handle_meeting_table_body">
+        {% for meeting in meeting_info %}
+            <tr>
+                <td class="class_admin_context_table_td" id="id_meeting_keynote_user_name">{{ meeting["keynote_user_name"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_issues_title">{{ meeting["issues_title"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_room">{{ meeting["meeting_room"] }}</td>
+                <td class="class_admin_context_table_td" id="id_meeting_date">{{ meeting["meeting_date"] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+    </form>
+
         <div class="class_admin_context_topic_details">
             <input type="button" class="class_admin_context_button" id="id_admin_attendance_start_sign" value="启动签到" />
             <input type="button" class="class_admin_context_button" id="id_admin_attendance_reset_sign_table" value="复位签到表" />
@@ -186,7 +211,9 @@
             </div>
         </div>
         <!-- 弹窗内容结束 -->
-
+    {% else %}
+    <h3>当前暂未会议信息，请先添加会议信息</h3>
+    {% end %}
     </div>
 </div> <!--end of admin body-->
 

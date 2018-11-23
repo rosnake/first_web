@@ -59,8 +59,6 @@ class TopicsHandler(BaseHandler):
                 self.write(json.dumps(response))
                 return
 
-
-
     def __get_all_issues_info(self):
         issues_module = IssuesInfoModule.get_all_issues_info()
         if issues_module is None:
