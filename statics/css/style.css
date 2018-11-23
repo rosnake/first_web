@@ -491,7 +491,7 @@ body {
 }
 .class_handle_context_table_head th {
     font-weight: normal;
-    text-align: left;
+    text-align: center;
     padding: 0 10px;
 }
 .class_handle_context_table_body td {
@@ -575,6 +575,10 @@ body {
     font-size: 20px;
 }
 
+.class_handle_context_form
+{
+    text-align: center;
+}
 #id_home_leave
 {
     border-radius:5px;

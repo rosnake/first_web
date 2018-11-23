@@ -264,39 +264,48 @@ $(document).ready(function () {
 		console.log("operation:" + operation + " issues_id: " + issues_id + " keynote_user_name: " + keynote_user_name +
 			" meeting_date: " + meeting_date + " meeting_room: " + meeting_room);
 
-		var submit_data = {
-			"operation": operation,
-			"issues_id": issues_id,
-			"keynote_user_name": keynote_user_name,
-			"meeting_room": meeting_room,
-			"meeting_date": meeting_date,
-			"issues_title": issues_title,
-			"_xsrf": getCookie("_xsrf")
-		};
+		layer.confirm("是否设置【" + issues_title + "】为当前议题?", {
+			btn: ['是', '否']//按钮
+		}, function () {
+			var submit_data = {
+				"operation": operation,
+				"issues_id": issues_id,
+				"keynote_user_name": keynote_user_name,
+				"meeting_room": meeting_room,
+				"meeting_date": meeting_date,
+				"issues_title": issues_title,
+				"_xsrf": getCookie("_xsrf")
+			};
 
-		$.ajax({
-			type: "post",
-			url: "/admin/meeting",
-			data: submit_data,
-			cache: false,
-			success: function (arg) {
-				console.log(arg);
-				//arg是字符串
-				var obj = JSON.parse(arg);
-				if (obj.status) {
-					layer.msg("提交成功");
-					console.log("issues_id:" + issues_id);
-					setTimeout(function () {
-						window.location.reload();
-					}, 1000);
-				} else {
-					layer.msg(obj.message);
+			$.ajax({
+				type: "post",
+				url: "/admin/meeting",
+				data: submit_data,
+				cache: false,
+				success: function (arg) {
+					console.log(arg);
+					//arg是字符串
+					var obj = JSON.parse(arg);
+					if (obj.status) {
+						layer.msg("提交成功");
+						console.log("issues_id:" + issues_id);
+						setTimeout(function () {
+							window.location.reload();
+						}, 1000);
+					} else {
+						layer.msg(obj.message);
+					}
+				},
+				error: function (arg) {
+					console.log(arg);
+					layer.msg("未知的错误");
 				}
-			},
-			error: function (arg) {
-				console.log(arg);
-				layer.msg("未知的错误");
-			}
+			});
+
+		}, function () {
+			layer.msg("取消设置【" + issues_title + "】为当前议题", {
+				icon: 0
+			});
 		});
 	});
 

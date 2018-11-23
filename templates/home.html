@@ -25,9 +25,36 @@
         }
     </style>
 <div id="id_home_leave">
-    <h3> 如果您有事无法出席，请点击下面按钮请假</h3>
+    {% if current_meeting_flags == True %}
+    <h3> 本周会议信息如下</h3>
+        <form class="class_handle_context_form" id="id_handle_member_form" name="member_form">
+        <table class="class_handle_context_table" id="id_handle__member_table">
+        <thead class="class_handle_context_table_head" id="id_handle__member_table_head">
+            <tr>
+                <th>主讲人</th>
+                <th>议题</th>
+                <th>会议室</th>
+                <th>时间</th>
+            </tr>
+        </thead>
+         <tbody class="class_handle_context_table_body" id="id_handle_meeting_table_body">
+        {% for meeting in meeting_info %}
+            <tr>
+                <td class="class_handle_context_table_td" id="id_meeting_keynote_user_name">{{ meeting["keynote_user_name"] }}</td>
+                <td class="class_handle_context_table_td" id="id_meeting_issues_title">{{ meeting["issues_title"] }}</td>
+                <td class="class_handle_context_table_td" id="id_meeting_room">{{ meeting["meeting_room"] }}</td>
+                <td class="class_handle_context_table_td" id="id_meeting_date">{{ meeting["meeting_date"] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+    </form>
+    <h3>如果您有事无法出席，请点击下面按钮请假</h3>
     <option  id="id_span_home_user_name" value={{ user_name }}></option>
      <input type="button" class="class_home_leave" id="id_home_leave_apply" value="请假" />
+    {% else %}
+    <h3>当前无会议</h3>
+    {% end %}
 </div>
 
 <div id="info_tables">

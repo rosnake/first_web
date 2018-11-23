@@ -56,8 +56,8 @@
     </table>
     </form>
     <div class="class_admin_context_button_layout">
-        <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_finish" value="结束会议"/>
-        <input type="button" class="class_admin_context_button" id="id_admin_meeting_cancel_current" value="取消会议"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_finish" value="结束本周议题"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_cancel_current" value="取消本周议题"/>
     </div>
     <h3>所有未结束会议信息如下</h3>
     <form class="class_admin_context_form" id="admin_member_form" name="member_form">
@@ -95,13 +95,13 @@
     </form>
 
     <div class="class_admin_context_button_layout">
-        <input type="button" class="class_admin_context_button" id="id_admin_meeting_add" value="增加"/>
-        <input type="button" class="class_admin_context_button" id="id_admin_meeting_mod" value="修改"/>
-        <input type="button" class="class_admin_context_button" id="id_admin_meeting_del" value="删除"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_add" value="增加会议信息"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_mod" value="修改会议信息"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_del" value="删除会议信息"/>
     </div>
 
     <div class="class_admin_context_button_layout">
-        <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_current" value="设置为当前"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_meeting_set_current" value="设置为本周议题"/>
     </div>
 
     <h3>已结束会议信息如下</h3>
@@ -109,7 +109,6 @@
         <table class="class_admin_context_table" id="admin_member_table">
         <thead class="class_admin_context_table_head" id="admin_member_table_head">
             <tr>
-                <th></th>
                 <th>议题ID</th>
                 <th>议题</th>
                 <th>用户名</th>
@@ -121,7 +120,6 @@
         {% for meeting in meeting_tables %}
             {% if meeting["meeting_finish"] is True %}
             <tr>
-                <td class="class_admin_context_table_td" >{{ meeting["issues_id"] }}</td>
                 <td class="class_admin_context_table_td" id="id_meeting_issues_id">{{ meeting["issues_id"] }}</td>
                 <td class="class_admin_context_table_td" id="id_meeting_issues_title">{{ meeting["issues_title"] }}</td>
                 <td class="class_admin_context_table_td" id="id_meeting_keynote_user_name">{{ meeting["keynote_user_name"] }}</td>

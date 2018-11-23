@@ -11,6 +11,7 @@ from orm.score_criteria import ScoringCriteriaModule
 from orm.attendance import AttendanceModule
 from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
+from orm.meeting_info import MeetingInfoModule
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -36,10 +37,12 @@ class HomeHandler(BaseHandler):
                     return
 
         points_table = self.__get_all_point_tables()
-
+        current_meeting_flags, meeting_info = self.__get_current_meeting_info()
         self.render("home.html", points_table=points_table, controller=self.render_controller,
                     user_name=user_name,
                     language_mapping=self.language_mapping,
+                    current_meeting_flags=current_meeting_flags,
+                    meeting_info=meeting_info,
                     )
 
     @handles_post_auth
@@ -128,4 +131,18 @@ class HomeHandler(BaseHandler):
             points_tables.append(tmp)
 
         return points_tables
+
+    def __get_current_meeting_info(self):
+        meeting_info = []
+        current_meeting_flags = False
+        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.current_meeting == True).all()
+        if meeting:
+            for x in meeting:
+                logging.info("current meeting id:%d, issues_title:%s" % (x.id, x.issues_title))
+                tmp = {"meeting_id": x.id, "issues_title": x.issues_title, "keynote_user_name": x.keynote_user_name,
+                       "meeting_room": x.meeting_room, "meeting_date": x.meeting_date,
+                       }
+                meeting_info.append(tmp)
+            current_meeting_flags = True
+        return current_meeting_flags, meeting_info
 

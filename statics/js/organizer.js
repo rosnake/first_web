@@ -17,6 +17,16 @@ $(document).ready(function () {
 
 	$('#id_admin_organizer_assign').on('click', function () {
 
+	    var now = new Date();
+        //格式化日，如果小于9，前面补0
+        var day = ("0" + now.getDate()).slice(-2);
+        //格式化月，如果小于9，前面补0
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        //拼装完整日期格式
+        var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+        console.log(today);
+        $("#id_admin_organizer_date").val(today);
 		$('#id_admin_organizer_select_popup_background').show();
 
 	});
