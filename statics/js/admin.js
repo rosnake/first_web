@@ -15,11 +15,22 @@ function isDigitNumber(inputData) {
 
 $(document).ready(function () {
 	$('#id_admin_file_download').on('click', function () {
-		window.location.href = "/file/download"
+	    var table_name = $("#id_admin_file_download_item").val();
+	    console.log("table_name:"+table_name);
+		window.location.href = "/file/download?table_name=" + table_name
 	});
 
-	$('#id_admin_file_upload').on('click', function () {
-		var fileObj = $("#id_admin_upload_file")[0].files[0]; //获取上传文件名称
+    $('#id_admin_file_upload').on('click', function () {
+        var fileObj = $("#id_admin_upload_file")[0].files[0]; //获取上传文件名称
+        console.log(fileObj);
+        if (fileObj == null)
+        {
+            console.log("fileObj is null");
+            layer.msg("未选择任何文件");
+            $('#id_admin_upload_file').focus();
+            return false;
+        }
+
 		var form = new FormData(); //创建表单对象
 		form.append("k1", "v1"); //向表单对象添加name和value
 		form.append("file", fileObj); //向表单对象添加name和value,将上传文件名称添加到value

@@ -142,6 +142,13 @@ $(document).ready(function () {
 		parent.layer.close(index); //再执行关闭
 	});
 
+	$('#id_admin_opinions_solution_close').on('click', function () {
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        console.log(index);
+
+		parent.layer.close(index); //再执行关闭
+	});
+
 	var serial_number = 0;
 
 	$('input[value="回归通过"]').click(function () {

@@ -38,59 +38,28 @@ $(document).ready(function () {
 		}
 	});
 
-	$('input[value="详细信息"]').click(function () {
-		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
-		var numId = $('input[value="详细信息"]').index($(this)) + 2;
-		console.log(numId);
-		//选择表格中的所有tr 通过eq方法取得当前tr
-		var ttr = $('table tr').eq(numId);
-		console.log(ttr);
+	$(".class_handle_detail",this).click(function(){
+	    var id =$(this).attr("id");
+	    if(id ==="id_home_point_detail")
+        {
+            var user_name = $(this).parents("tr").find("#id_home_user_name").html();
+            console.log("user_name:"+user_name)
+		    var operation = "detail_browse";
 
-		/*当前行使用find方法找到每一个td列
-		each方法为每一个td设置function
-		 */
-		var user = "";
-		var operation = "detail_browse";
-		ttr.find("td").each(function () {
-			/*过滤 td中的元素
-			checkbox 、 button、text 不需要执行append
-			注意 return 为 跳出当前 each
-			return false 为 跳出整个 each
-			 */
-			if ($(this).children("input[type='checkbox']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='button']").length > 0) {
-				return;
-			}
-			if ($(this).children("input[type='text']").length > 0) {
-				return;
-			}
-
-			var id = $(this).attr('id');
-			var tdVal = $(this).html();
-			//console.log(id);
-			//console.log(tdVal);
-			if (id == "id_home_user_name") {
-				user = tdVal;
-			}
-		});
-
-		console.log(user);
-		if (user == "") {
-			layer.msg('用户名不能为空');
-		} else {
-			console.log(user);
-			var index = layer.open({
-					type: 2, //iframe 层
-					title: '查看详细信息',
-					maxmin: true,
-					shadeClose: true, //点击遮罩关闭层
-					area: ['800px', '520px'],
-					content: '/layer?user=' + user + '&operation=' + operation
-				});
-		}
-	});
+            if (user_name == "") {
+			    layer.msg('用户名不能为空');
+            } else {
+                var index = layer.open({
+                        type: 2, //iframe 层
+                        title: '查看详细信息',
+                        maxmin: true,
+                        shadeClose: true, //点击遮罩关闭层
+                        area: ['800px', '520px'],
+                        content: '/layer?user=' + user_name + '&operation=' + operation
+                    });
+            }
+        }
+    });
 
 	$('#popup').on('click', function () {
 		var user = $("#user_name").val();
