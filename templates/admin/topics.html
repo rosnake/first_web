@@ -47,7 +47,7 @@
                 <div class="class_admin_context_topic_details">
                     <div>
                         <label class="class_admin_context_details_label">主 讲 人：</label>
-                        <p class="class_admin_context_details_paragraph" id="id_admin_topic_user_name">{% raw topics["keynote_user_name"] %}</p>
+                        <p class="class_admin_context_details_paragraph" id="id_admin_topic_user_name">{% raw topics["keynote_chinese_name"] %} [ {% raw topics["keynote_user_name"] %} ]</p>
                     </div>
                     <div>
                         <label class="class_admin_context_details_label">议&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp题:</label>
@@ -70,9 +70,10 @@
         {% end %}
     {% end %}
     <div class="class_admin_context_button_layout">
-        <input type="button" class="class_admin_context_button" id="admin_user_topic_add" value="新增" />
+        <input type="button" class="class_admin_context_button" id="id_admin_user_topic_designate" value="指定议题" />
+        <input type="button" class="class_admin_context_button" id="id_admin_user_topic_invitation" value="特邀议题"/>
+        <input type="button" class="class_admin_context_button" id="id_admin_user_topic_mod" value="修改" />
         <input type="button" class="class_admin_context_button" id="id_admin_user_topic_del" value="删除"/>
-        <input type="button" class="class_admin_context_button" id="admin_user_topic_mod" value="修改" />
     </div>
 
     </div>

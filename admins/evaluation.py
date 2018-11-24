@@ -67,7 +67,7 @@ class AdminEvaluatingHandler(BaseHandler):
             tmp = {
                 "issues_id": issues.id, "keynote_user_name": issues.user_name, "issues_image": issues.issues_image,
                 "issues_title": issues.issues_title, "keynote_chinese_name": issues.chinese_name,
-                "current": issues.current, "finish": issues.finish,  "date_time": issues.date_time,
+                "current": issues.current, "finish": issues.finish,  "date_time": issues.expect_date_time,
                 "issues_brief": issues.issues_brief, "issues_score": issues.issues_score,
                 "issues_meeting_room": issues.issues_meeting_room,
                 "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply
@@ -130,52 +130,55 @@ class AdminEvaluatingHandler(BaseHandler):
 
         # 3、更新用户得分信息
         real_score = last_score
-        if issues.voluntary_apply is True:
-            score_rule = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.criteria_name == "主动申报") \
+        #  3.1 是否是系统用户
+        if issues.is_system_user is True:
+            #  3.2 是否是主动申请
+            if issues.voluntary_apply is True:
+                score_rule = self.db.query(ScoringCriteriaModule).\
+                    filter(ScoringCriteriaModule.criteria_name == "主动申报").first()
+                if score_rule:
+                    real_score = last_score + score_rule.score_value
+                    logging.info("current issues is apply, add %d" % score_rule.score_value)
+                    history_module = ScoringHistoryModule()
+                    history_module.user_name = issues.user_name
+                    history_module.criteria_id = score_rule.id
+                    history_module.criteria_name = score_rule.criteria_name
+                    history_module.score_value = score_rule.score_value  # 对应分数
+                    history_module.transactor = self.get_current_user()  # 处理人
+                    history_module.date_time = date_time  # 处理时间
+                    self.db.add(history_module)
+                    self.db.commit()
+                    opt = "add issues apply score"
+                    self.record_operation_history(issues.user_name, opt)
+
+            user_point = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == issues.user_name).first()
+
+            if user_point:
+                self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == issues.user_name).update({
+                    ScoreInfoModule.last_scores: user_point.current_scores,
+                    ScoreInfoModule.current_scores: user_point.current_scores + real_score,
+                })
+                self.db.commit()
+                logging.info("update user score Succeed")
+            else:
+                logging.info("update user score failed")
+
+            # 4、更新用户得分历史信息
+            score_rule = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.criteria_name == "议题得分") \
                 .first()
             if score_rule:
-                real_score = last_score + score_rule.score_value
-                logging.info("current issues is apply, add %d" % score_rule.score_value)
                 history_module = ScoringHistoryModule()
                 history_module.user_name = issues.user_name
                 history_module.criteria_id = score_rule.id
                 history_module.criteria_name = score_rule.criteria_name
-                history_module.score_value = score_rule.score_value  # 对应分数
+                history_module.score_value = last_score  # 对应分数
                 history_module.transactor = self.get_current_user()  # 处理人
                 history_module.date_time = date_time  # 处理时间
                 self.db.add(history_module)
                 self.db.commit()
-                opt = "add issues apply score"
+
+                opt = "add issues score"
                 self.record_operation_history(issues.user_name, opt)
-
-        user_point = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == issues.user_name).first()
-
-        if user_point:
-            self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == issues.user_name).update({
-                ScoreInfoModule.last_scores: user_point.current_scores,
-                ScoreInfoModule.current_scores: user_point.current_scores + real_score,
-            })
-            self.db.commit()
-            logging.info("update user score Succeed")
-        else:
-            logging.info("update user score failed")
-
-        # 4、更新用户得分历史信息
-        score_rule = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.criteria_name == "议题得分") \
-            .first()
-        if score_rule:
-            history_module = ScoringHistoryModule()
-            history_module.user_name = issues.user_name
-            history_module.criteria_id = score_rule.id
-            history_module.criteria_name = score_rule.criteria_name
-            history_module.score_value = last_score  # 对应分数
-            history_module.transactor = self.get_current_user()  # 处理人
-            history_module.date_time = date_time  # 处理时间
-            self.db.add(history_module)
-            self.db.commit()
-
-            opt = "add issues score"
-            self.record_operation_history(issues.user_name, opt)
 
         return True
 

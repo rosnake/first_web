@@ -65,7 +65,7 @@ class DateToolKits:
     def check_time_is_ok(self, string_time):
         time_diff = self.cac_time_diff_with_current_by_str(string_time)
 
-        if time_diff > 0:
+        if time_diff >= 0:
             return True
         else:
             return False

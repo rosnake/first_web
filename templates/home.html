@@ -40,7 +40,7 @@
          <tbody class="class_handle_context_table_body" id="id_handle_meeting_table_body">
         {% for meeting in meeting_info %}
             <tr>
-                <td class="class_handle_context_table_td" id="id_meeting_keynote_user_name">{{ meeting["keynote_user_name"] }}</td>
+                <td class="class_handle_context_table_td" id="id_meeting_keynote_user_name">{{ meeting["keynote_chinese_name"] }} [ {{ meeting["keynote_user_name"] }} ]</td>
                 <td class="class_handle_context_table_td" id="id_meeting_issues_title">{{ meeting["issues_title"] }}</td>
                 <td class="class_handle_context_table_td" id="id_meeting_room">{{ meeting["meeting_room"] }}</td>
                 <td class="class_handle_context_table_td" id="id_meeting_date">{{ meeting["meeting_date"] }}</td>

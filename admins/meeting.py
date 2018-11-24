@@ -163,7 +163,7 @@ class AdminMeetingHandler(BaseHandler):
                     "issues_id": issues.id, "keynote_user_name": issues.user_name,
                     "issues_image": issues.issues_image, "issues_brief": issues.issues_brief,
                     "issues_title": issues.issues_title, "current_issues": issues.current,
-                    "issues_finish": issues.finish,  "present_time": issues.date_time,
+                    "issues_finish": issues.finish,  "present_time": issues.expect_date_time,
                     "keynote_chinese_name": issues.chinese_name,
                        }
                 issues_tables.append(tmp)
@@ -225,7 +225,7 @@ class AdminMeetingHandler(BaseHandler):
 
         self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
             IssuesInfoModule.current: True,
-            IssuesInfoModule.date_time: meeting.meeting_date,
+            IssuesInfoModule.actual_date_time: meeting.meeting_date,
         })
         self.db.commit()
 
@@ -261,8 +261,13 @@ class AdminMeetingHandler(BaseHandler):
         })
         self.db.commit()
 
+        #  本周议题都结束后才复位签到信息
+        meeting = self.db.query(MeetingInfoModule).filter(MeetingInfoModule.current_meeting == True).first()
+        if meeting:
+            return True
+
         attendance_modules = AttendanceModule.get_all_attendance_info()
-        if attendance_modules is not None:
+        if attendance_modules:
             for attendance in attendance_modules:
                 if attendance.current_attendance is True:
                     self.db.query(AttendanceModule).filter(AttendanceModule.user_name == attendance.user_name).update({

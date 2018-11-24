@@ -41,7 +41,7 @@ class AdminIssuesModifyHandler(BaseHandler):
             tables = {
                 "topic_id": topics.id, "name": topics.user_name, "image": topics.issues_image,
                 "title": topics.issues_title, "current": topics.current, "finish": topics.finish,
-                "time": topics.date_time, "description": topics.issues_brief
+                "time": topics.expect_date_time, "description": topics.issues_brief
             }
 
             return tables

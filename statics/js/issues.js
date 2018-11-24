@@ -4,16 +4,26 @@ function getCookie(name) {
 }
 
 $(document).ready(function () {
-	$('#admin_user_topic_add').on('click', function () {
+	$('#id_admin_user_topic_designate').on('click', function () {
 		var index = layer.open({
 				type: 2, //iframe 层
-				title: '增加议题',
+				title: '指定议题',
 				maxmin: true,
 				shadeClose: true, //点击遮罩关闭层
 				area: ['800px', '520px'],
-				content: '/admin/issues'
+				content: '/admin/issues?type=designate'
 			});
+	});
 
+	$('#id_admin_user_topic_invitation').on('click', function () {
+		var index = layer.open({
+				type: 2, //iframe 层
+				title: '特邀议题',
+				maxmin: true,
+				shadeClose: true, //点击遮罩关闭层
+				area: ['800px', '520px'],
+				content: '/admin/issues?type=invitation'
+			});
 	});
 
 	$('#id_admin_user_topic_del').on('click', function () {
@@ -82,7 +92,7 @@ $(document).ready(function () {
 
 	});
 
-	$('#admin_user_topic_mod').on('click', function () {
+	$('#id_admin_user_topic_mod').on('click', function () {
 		var issues_object = $('input[name="select_id"]:checked ');
 		var issues_id = issues_object.val();
 		if ((typeof issues_id) === 'undefined') {
@@ -116,6 +126,18 @@ $(document).ready(function () {
 		var topic_brief = $("#id_input_topic_brief").val();
 		var topic_date = $("#id_admin_issues_date").val();
 		var issues_id = 0;
+        var issues_type = $('#id_admin_issues_type').html();
+
+		var check_user = $('#'+topic_user).html();
+		console.log("check_user:"+check_user+" issues_type:"+issues_type);
+
+		if(check_user ==null && issues_type === "designate")
+        {
+            $("#id_input_topic_user").focus();
+            layer.msg("系统找不到该用户");
+            return false;
+        }
+
 		if (topic_user === "") {
 			$("#id_input_topic_user").focus();
 			layer.msg("主讲人不能为空");
@@ -147,6 +169,7 @@ $(document).ready(function () {
 			"topic_brief": topic_brief,
 			"topic_date": topic_date,
 			"issues_id": issues_id,
+            "issues_type":issues_type,
 			"_xsrf": getCookie("_xsrf")
 		};
 

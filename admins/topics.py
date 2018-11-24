@@ -40,9 +40,9 @@ class AdminTopicsHandler(BaseHandler):
         topic_brief = self.get_argument("topic_brief")
         topic_date = self.get_argument("topic_date")
         topic_id = self.get_argument("issues_id")
-
+        issues_type = self.get_argument("issues_type", "designate")
         if operation == "add":
-            ret = self.__add_topics(topic_user, topic_name, topic_brief, topic_date)
+            ret = self.__add_topics(topic_user, topic_name, topic_brief, topic_date, issues_type)
             if ret is True:
                 response["status"] = True
                 response["message"] = "新增成功！"
@@ -96,7 +96,7 @@ class AdminTopicsHandler(BaseHandler):
             tmp = {
                 "issues_id": issues.id, "keynote_user_name": issues.user_name, "issues_image": issues.issues_image,
                 "issues_title": issues.issues_title, "keynote_chinese_name": issues.chinese_name,
-                "current": issues.current, "finish": issues.finish,  "date_time": issues.date_time,
+                "current": issues.current, "finish": issues.finish,  "date_time": issues.expect_date_time,
                 "issues_brief": issues.issues_brief, "issues_score": issues.issues_score,
                 "issues_meeting_room": issues.issues_meeting_room,
                 "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply
@@ -105,27 +105,35 @@ class AdminTopicsHandler(BaseHandler):
 
         return issues_tables
 
-    def __add_topics(self, topic_user, topic_name, topic_brief, topic_date):
+    def __add_topics(self, topic_user, topic_name, topic_brief, topic_date, issues_type):
         issues = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.issues_title == topic_name).first()
         if issues is not None:
             logging.error("current issues is exit")
             return False
 
         topic_module = IssuesInfoModule()
-        topic_module.user_name = topic_user
-        topic_module.chinese_name = "unknown"
         topic_module.issues_title = topic_name
         topic_module.issues_brief = topic_brief
-        topic_module.date_time = topic_date
+        topic_module.expect_date_time = topic_date
         topic_module.current = True
         topic_module.finish = False
         topic_module.issues_image = "null"
         topic_module.voluntary_apply = False
-        user_info = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == topic_user).first()
-        if user_info is not None:
-            topic_module.is_system_user = True
+
+        if issues_type == "designate":
+            user_info = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == topic_user).first()
+            if user_info is not None:
+                topic_module.is_system_user = True
+                topic_module.chinese_name = user_info.chinese_name
+                topic_module.user_name = topic_user
+            else:
+                topic_module.is_system_user = False
+
         else:
             topic_module.is_system_user = False
+            topic_module.chinese_name = topic_user
+            topic_module.user_name = "invitee"
+
         self.db.add(topic_module)
         self.db.commit()
         return True
@@ -144,7 +152,7 @@ class AdminTopicsHandler(BaseHandler):
                 IssuesInfoModule.user_name: topic_user,
                 IssuesInfoModule.issues_title: topic_name,
                 IssuesInfoModule.issues_brief: topic_brief,
-                IssuesInfoModule.date_time: topic_date,
+                IssuesInfoModule.expect_date_time: topic_date,
                 IssuesInfoModule.is_system_user: is_system_user,
             })
 

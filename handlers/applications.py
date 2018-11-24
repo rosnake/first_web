@@ -8,7 +8,7 @@ import json
 from methods.debug import *
 from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
-from orm.operation_history import OperationHistoryModule
+from orm.users_info import UsersInfoModule
 
 
 #继承 base.py 中的类 BaseHandler
@@ -80,9 +80,9 @@ class ApplicationsHandler(BaseHandler):
             tmp = {
                 "issues_id": issues.id, "keynote_user_name": issues.user_name, "issues_image": issues.issues_image,
                 "issues_title": issues.issues_title, "keynote_chinese_name": issues.chinese_name,
-                "current": issues.current, "finish": issues.finish,  "date_time": issues.date_time,
+                "current": issues.current, "finish": issues.finish,  "date_time": issues.expect_date_time,
                 "issues_brief": issues.issues_brief, "issues_score": issues.issues_score,
-                "issues_meeting_room": issues.issues_meeting_room,
+                "issues_meeting_room": issues.issues_meeting_room, "actual_date_time": issues.actual_date_time,
                 "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply
                    }
             issues_tables.append(tmp)
@@ -97,15 +97,18 @@ class ApplicationsHandler(BaseHandler):
 
         topic_module = IssuesInfoModule()
         topic_module.user_name = topic_user
-        topic_module.chinese_name = "unknown"
         topic_module.issues_title = topic_name
         topic_module.issues_brief = topic_brief
-        topic_module.date_time = topic_date
+        topic_module.expect_date_time = topic_date
         topic_module.current = False
         topic_module.finish = False
         topic_module.issues_image = "null"
         topic_module.voluntary_apply = True
         topic_module.is_system_user = True
+
+        user_info = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == topic_user).first()
+        if user_info is not None:
+            topic_module.chinese_name = user_info.chinese_name
 
         self.db.add(topic_module)
         self.db.commit()

@@ -7,11 +7,16 @@
     <script src="{{static_url("js/issues.js")}}"></script>
     <script src="{{static_url("js/popup.js")}}"></script>
     <link rel="stylesheet" href="{{ static_url("css/popup.css") }}" type="text/css">
+    <link rel="stylesheet" href="{{ static_url("css/admin.css") }}" type="text/css">
 </head>
 <body>
 <div class="applications">
     <div class="applications_item_user">
+        {% if issues_type == "designate"%}
         <label class="applications_label">主 讲 人:</label>
+        {% else %}
+        <label class="applications_label">受 邀 人:</label>
+        {% end %}
         <input type="text" id="id_input_topic_user">
     </div>
     <div class="applications_item_name">
@@ -45,5 +50,14 @@
     <input class="class_admin_popup_layer_button" type="BUTTON" value="取消" id="id_admin_add_issues_cancel" />
 </div>
 
+    <!-- 弹窗内容开始 -->
+    <div class="class_admin_popup_background" id="id_admin_meeting_edit_popup_background">
+        <p id="id_admin_issues_type" >{{ issues_type }}</p>
+        {% for user in user_info %}
+                <p id={{ user }}>{{ user }}</p>
+        {% end %}
+
+    </div>
+    <!-- 弹窗内容结束 -->
 </body>
 </html>

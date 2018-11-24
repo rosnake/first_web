@@ -17,11 +17,12 @@ class AdminIssuesHandler(BaseHandler):
     def get(self):
         user_name = self.get_current_user()
         user_info = self.__get_all_user_info()
-
+        issues_type = self.get_argument("type", "designate")
         if user_name is not None:
             self.render("admin/issues.html", controller=self.render_controller,
                         language_mapping=self.language_mapping,
                         user_info=user_info,
+                        issues_type=issues_type,
                         )
 
     @admin_post_auth(False)

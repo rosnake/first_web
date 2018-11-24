@@ -141,6 +141,7 @@ class HomeHandler(BaseHandler):
                 logging.info("current meeting id:%d, issues_title:%s" % (x.id, x.issues_title))
                 tmp = {"meeting_id": x.id, "issues_title": x.issues_title, "keynote_user_name": x.keynote_user_name,
                        "meeting_room": x.meeting_room, "meeting_date": x.meeting_date,
+                       "keynote_chinese_name": x.keynote_chinese_name
                        }
                 meeting_info.append(tmp)
             current_meeting_flags = True

@@ -68,7 +68,7 @@ $(document).ready(function () {
 			return false;
 		}
 
-		if (contrastTime(topic_date) === true){
+		if (contrastTime(topic_date) == true){
 			$("#id_select_topic_date").focus();
 			layer.msg("时间不能早于当前时间");
 			return false;
@@ -105,14 +105,14 @@ $(document).ready(function () {
 		});
 
 		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-		setTimeout(function () {
-			parent.layer.close(index);
-		}, 800);
-		setTimeout(function () {
-			window.parent.location.reload();
-		}, 1000);
+		setTimeout(function () {parent.layer.close(index);	}, 800);
+		setTimeout(function () {window.parent.location.reload();}, 1000);
 	});
 
+	$('#id_applications_cancel').on('click', function () {
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		parent.layer.close(index);
+	});
 
     $('#id_user_issues_evaluation').on('click', function () {
 		var issues_object = $('input[name="select_id"]:checked ');

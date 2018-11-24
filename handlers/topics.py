@@ -45,7 +45,7 @@ class TopicsHandler(BaseHandler):
                      % (operation, issues_id, prepare_score, novel_score, report_score))
 
         if operation == "evaluate":
-            ret = self.__evaluate_by_issues_id(issues_id, prepare_score, novel_score, report_score)
+            ret, message = self.__evaluate_by_issues_id(issues_id, prepare_score, novel_score, report_score)
             if ret is True:
                 response["status"] = True
                 response["message"] = "评价成功！"
@@ -54,7 +54,7 @@ class TopicsHandler(BaseHandler):
                 return
             else:
                 response["status"] = False
-                response["message"] = "积分兑换失败"
+                response["message"] = message
                 response["data"] = date_kits.get_now_day_str()
                 self.write(json.dumps(response))
                 return
@@ -69,9 +69,9 @@ class TopicsHandler(BaseHandler):
             tmp = {
                 "issues_id": issues.id, "keynote_user_name": issues.user_name, "issues_image": issues.issues_image,
                 "issues_title": issues.issues_title, "keynote_chinese_name": issues.chinese_name,
-                "current": issues.current, "finish": issues.finish,  "date_time": issues.date_time,
+                "current": issues.current, "finish": issues.finish,  "date_time": issues.expect_date_time,
                 "issues_brief": issues.issues_brief, "issues_score": issues.issues_score,
-                "issues_meeting_room": issues.issues_meeting_room,
+                "issues_meeting_room": issues.issues_meeting_room, "actual_date_time": issues.actual_date_time,
                 "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply
                    }
             issues_tables.append(tmp)
@@ -82,12 +82,18 @@ class TopicsHandler(BaseHandler):
         issues_module = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).first()
 
         if issues_module is None:
-            return False
+            return False, "没有待评价议题"
 
         user_name = self.get_current_user()
 
         if user_name is None:
-            return False
+            return False, "获取用户失败"
+
+        evaluation = self.db.query(EvaluationInfoModule).filter(EvaluationInfoModule.issues_id == issues_id).\
+            filter(EvaluationInfoModule.evaluate_user_name == user_name).first()
+        if evaluation:
+            logging.info("already evaluate")
+            return False, "您已评价该议题"
 
         date_kits = DateToolKits()
         evaluation_module = EvaluationInfoModule()
@@ -104,6 +110,11 @@ class TopicsHandler(BaseHandler):
         evaluation_module.evaluate_finish = False  # 是否结束评价
 
         self.db.add(evaluation_module)
+        self.db.commit()
+
+        self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
+            IssuesInfoModule.issues_evaluate_count: issues_module.issues_evaluate_count + 1,
+        })
         self.db.commit()
 
         return True
