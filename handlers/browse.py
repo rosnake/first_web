@@ -24,7 +24,7 @@ class IssuesBrowseHandler(BaseHandler):
         if user_name is not None:
             issues_table = self.__get_issues_info_by_id(issues_id)
             if issues_table is not None:
-                self.render("issues_browse.html",
+                self.render("handlers/issues_browse.html",
                             controller=self.render_controller,
                             issues_table=issues_table,
                             language_mapping=self.language_mapping,

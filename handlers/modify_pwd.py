@@ -17,7 +17,7 @@ class ModifyPassWordHandler(BaseHandler):  # 继承 base.py 中的类 BaseHandle
 
         # 先判断是否完善其他信息，如果没有完善，跳转到信息完善页面
         if user_name is not None:
-            self.render("modify_password.html", controller=self.render_controller,
+            self.render("handlers/modify_password.html", controller=self.render_controller,
                         language_mapping=self.language_mapping,
                         )
 

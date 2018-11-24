@@ -204,7 +204,7 @@ class AdminExchangeHandler(BaseHandler):
             for exchange in exchange_modules:
                 tmp = {"exchange_id": exchange.id, "user_name": exchange.user_name,
                        "user_points": exchange.current_scores, "exchange_item": exchange.exchange_item,
-                       "apply_date": exchange.expect_date_time, "exchanged": exchange.exchange_accept}
+                       "apply_date": exchange.date_time, "exchanged": exchange.exchange_accept}
                 exchange_table.append(tmp)
 
         return exchange_table

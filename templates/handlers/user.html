@@ -1,5 +1,8 @@
-{% extends "base.html" %}
-
+{% extends "../base/base.html" %}
+<!--自动转义-->
+{% block external_lib %}
+<script src="{{static_url("layer/layer.js")}}"></script>
+{% end %}
 {% block header %}
     <h2>{{ user_name }}请完善个人信息</h2>
 {% end %}

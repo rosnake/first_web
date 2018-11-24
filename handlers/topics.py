@@ -22,7 +22,7 @@ class TopicsHandler(BaseHandler):
 
         if user_name is not None:
             user_topic_tables = self.__get_all_issues_info()
-            self.render("topics.html",
+            self.render("handlers/topics.html",
                         controller=self.render_controller,
                         user_name=user_name,
                         topics_table=user_topic_tables,

@@ -274,7 +274,7 @@ $(document).ready(function () {
 
 		if (email == "") {
 			$("#id_user_other_info_email").focus();
-			debugMessage("Email不能为空.");
+			layer.msg("Email不能为空.");
 			return false;
 		} else {
 			//debugMessage("用户名:"+user);
@@ -282,13 +282,13 @@ $(document).ready(function () {
 
 		if (chinese_name == "") {
 			$("#id_user_other_info_chinese_name").focus();
-			debugMessage("姓名不能为空");
+			layer.msg("姓名不能为空");
 			return false;
 		}
 
 		if (department == "") {
 			$("#id_user_other_info_department").focus();
-			debugMessage("部门不能为空");
+			layer.msg("部门不能为空");
 			return false;
 		}
 
@@ -311,10 +311,10 @@ $(document).ready(function () {
 				var obj = JSON.parse(arg);
 				if (obj.status) {
 					//注册成功---跳转（已登录状态--session实现）
-					alert("提交成功")
+					layer.msg("提交成功")
 					window.location.href = nextname + "?user=" + user;
 				} else {
-					alert(obj.error);
+					layer.msg(obj.error);
 				}
 			}
 		});

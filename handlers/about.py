@@ -15,7 +15,7 @@ class AboutHandler(BaseHandler):
         user_name = self.get_current_user()
 
         if user_name is not None:
-            self.render("about.html",
+            self.render("handlers/about.html",
                         controller=self.render_controller,
                         user_name=user_name,
                         language_mapping=self.language_mapping,

@@ -26,7 +26,7 @@ class LoginHandler(BaseHandler):
         render_controller["authorized"] = False
 
         logging.info("get login page")
-        self.render("login.html", controller=render_controller, nextname=next_name,
+        self.render("handlers/login.html", controller=render_controller, nextname=next_name,
                     language_mapping=self.language_mapping,
                     )
 

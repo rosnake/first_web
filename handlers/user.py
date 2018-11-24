@@ -29,7 +29,7 @@ class UserHandler(BaseHandler):
 
         if user_name is not None:
 
-            self.render("user.html", controller=self.render_controller, user_name=user_name,
+            self.render("handlers/user.html", controller=self.render_controller, user_name=user_name,
                         next=next_name,
                         language_mapping=self.language_mapping,
                         )

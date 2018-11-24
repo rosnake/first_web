@@ -24,7 +24,7 @@ class RegisterHandler(BaseHandler):
         render_controller["admin"] = False
         render_controller["organizer"] = False
 
-        self.render("register.html", controller=render_controller,
+        self.render("handlers/register.html", controller=render_controller,
                     language_mapping=self.language_mapping,
                     )
         

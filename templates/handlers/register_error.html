@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "../base/base.html" %}
 
 {% block header %}
-    <h2>登录错误</h2>
-    <p>用用户名为：{{user}}登录</p> 
+    <h2>注册失败错误</h2>
+    <p>用户名为：{{user}}已存在</p> 
 {% end %}
 {% block body %}
     <form method="POST">

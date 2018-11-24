@@ -22,7 +22,7 @@ class ApplicationsHandler(BaseHandler):
         # 先判断是否完善其他信息，如果没有完善，跳转到信息完善页面
         if user_name is not None:
             user_topic = self.__get_all_current_user_topics(user_name)
-            self.render("applications.html",
+            self.render("handlers/applications.html",
                         controller=self.render_controller,
                         user_name=user_name,
                         user_topic=user_topic,

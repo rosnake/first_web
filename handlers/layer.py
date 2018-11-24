@@ -30,14 +30,14 @@ class LayerHandler(BaseHandler):
         if operation == "detail_browse":
             history_table = self.__get_point_history_by_user_name(user_name)
             point_stat = self.__get_point_stat_by_user_name(user_name)
-            self.render("detail_browse.html", history_table=history_table, point_stat=point_stat)
+            self.render("/handlers/detail_browse.html", history_table=history_table, point_stat=point_stat)
 
             return
 
         if operation == "absent_apply":
             if self.session["user_name"] == user_name:
                 leave_reason = self.__get_all_leave_reason()
-                self.render("absent_apply.html", user_name=user_name, leave_reason=leave_reason)
+                self.render("handlers/absent_apply.html", user_name=user_name, leave_reason=leave_reason)
 
     @handles_post_auth
     def post(self):

@@ -38,7 +38,7 @@ class HomeHandler(BaseHandler):
 
         points_table = self.__get_all_point_tables()
         current_meeting_flags, meeting_info = self.__get_current_meeting_info()
-        self.render("home.html", points_table=points_table, controller=self.render_controller,
+        self.render("handlers/home.html", points_table=points_table, controller=self.render_controller,
                     user_name=user_name,
                     language_mapping=self.language_mapping,
                     current_meeting_flags=current_meeting_flags,

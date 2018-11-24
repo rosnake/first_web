@@ -23,7 +23,7 @@ class FeedBackHandler(BaseHandler):
 
         if user_name is not None:
             opinions_tables = self.__get_opinions_tables_by_current_user()
-            self.render("feedback.html",
+            self.render("handlers/feedback.html",
                         controller=self.render_controller,
                         user_name=user_name,
                         language_mapping=self.language_mapping,

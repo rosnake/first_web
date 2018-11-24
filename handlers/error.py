@@ -20,6 +20,6 @@ class ErrorHandler(BaseHandler):
         render_controller["login"] = False
         render_controller["admin"] = self.session["admin"]
         render_controller["organizer"] = self.session["organizer"]
-        self.render("error.html", controller=render_controller,
+        self.render("handlers/error.html", controller=render_controller,
                     language_mapping=self.language_mapping,
                     )

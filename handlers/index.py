@@ -31,7 +31,7 @@ class IndexHandler(BaseHandler):
         user_name = self.get_current_user()
         topics_table = self.__get_all_topic_tables()
         current_meeting = self.__get_current_meeting_info()
-        self.render("index.html",
+        self.render("handlers/index.html",
                     topics_table=topics_table,
                     controller=render_controller,
                     current_meeting=current_meeting,
