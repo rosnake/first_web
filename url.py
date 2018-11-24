@@ -42,6 +42,7 @@ from admins.evaluation import AdminEvaluatingHandler
 from admins.history import AdminHistoryHandler
 from admins.opinions import AdminOpinionsHandler
 from admins.opinions_popup import AdminOpinionsPopupHandler
+from handlers.browse import IssuesBrowseHandler
 importlib.reload(sys)
 
 # 一个URL列表
@@ -64,6 +65,7 @@ url = [
     (r'/admin', AdminHandler),
     (r'/about', AboutHandler),
     (r'/feedback', FeedBackHandler),
+    (r'/browse', IssuesBrowseHandler),
     (r'/admin/topics', AdminTopicsHandler),
     (r'/admin/credits', AdminCreditsHandler),
     (r'/admin/organizer', AdminOrganizerHandler),

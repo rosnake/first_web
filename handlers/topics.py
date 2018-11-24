@@ -72,7 +72,8 @@ class TopicsHandler(BaseHandler):
                 "current": issues.current, "finish": issues.finish,  "date_time": issues.expect_date_time,
                 "issues_brief": issues.issues_brief, "issues_score": issues.issues_score,
                 "issues_meeting_room": issues.issues_meeting_room, "actual_date_time": issues.actual_date_time,
-                "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply
+                "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply,
+                "issues_evaluate_count": issues.issues_evaluate_count,
                    }
             issues_tables.append(tmp)
 
@@ -92,6 +93,10 @@ class TopicsHandler(BaseHandler):
         evaluation = self.db.query(EvaluationInfoModule).filter(EvaluationInfoModule.issues_id == issues_id).\
             filter(EvaluationInfoModule.evaluate_user_name == user_name).first()
         if evaluation:
+            self.db.query(EvaluationInfoModule).filter(EvaluationInfoModule.issues_id == issues_id).update({
+                EvaluationInfoModule.evaluate_finish: False
+            })
+            self.db.commit()
             logging.info("already evaluate")
             return False, "您已评价该议题"
 
@@ -112,6 +117,7 @@ class TopicsHandler(BaseHandler):
         self.db.add(evaluation_module)
         self.db.commit()
 
+        logging.info("issues_evaluate_count:%d" % issues_module.issues_evaluate_count)
         self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
             IssuesInfoModule.issues_evaluate_count: issues_module.issues_evaluate_count + 1,
         })

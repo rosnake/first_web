@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="{{static_url("js_lib/jquery.min.js")}}"></script>
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/issues.js")}}"></script>
+    <script src="{{static_url("js/popup.js")}}"></script>
+    <link rel="stylesheet" href="{{ static_url("css/popup.css") }}" type="text/css">
+</head>
+<body>
+    <div class="class_issues_info">
+        {% if issues_table %}
+        <p id="id_issues_info"><span id="id_issues_title">议题:</span>{{ issues_table["issues_title"]}}</p>
+        <div class="class_issues_details">
+            <p><span>议题主讲人:</span>{{ issues_table["keynote_chinese_name"] }} [ {{ issues_table["keynote_user_name"] }} ]</p>
+            <p><span>议题简介:</span>{% raw issues_table["issues_brief"] %}</p>
+            <p><span>议题时间:</span>{% raw issues_table["date_time"] %}</p>
+            <p><span>实际时间:</span>{% raw issues_table["actual_date_time"] %}</p>
+            <p><span>议题得分:</span>{% raw issues_table["issues_score"] %}</p>
+            <p><span>参与打分人数:</span>{% raw issues_table["issues_evaluate_count"] %}</p>
+
+        </div>
+        {% else %}
+        <h3>无该议题详细信息</h3>
+        {% end %}
+    </div>
+
+</body>
+</html>

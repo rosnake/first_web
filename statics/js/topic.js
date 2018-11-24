@@ -182,4 +182,25 @@ $(document).ready(function () {
 		$('#id_issues_evaluation_id').val("");
 
     });
+
+    $('.class_handle_context_table_tr').on('click', function () {
+        var td = $(this).find("td");// 找到td元素
+        var issues_id = td[0].innerHTML;// 指定需要获取元素的下标即可
+
+		console.log("issues_id: "+issues_id);
+		if (issues_id == "") {
+			layer.msg('用户名不能为空');
+		} else {
+			var index = layer.open({
+					type: 2, //iframe 层
+					title: '查看议题信息',
+					maxmin: true,
+					shadeClose: true, //点击遮罩关闭层
+					area: ['800px', '400px'],
+					content: '/browse?issues_id=' + issues_id
+				});
+		}
+    });
+
+
 });

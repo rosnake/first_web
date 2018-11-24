@@ -308,3 +308,50 @@
     border: 2px solid #1dbbdb;
     border-radius: 5px;
 }
+
+.class_issues_info span
+{
+    display:block;
+    width: 110px;
+    float: left;
+    align-content: left;
+    //position: relative;
+    left: 110px;
+    font-family: "Arial", sans-serif;
+    font-weight: bolder;
+}
+#id_issues_title
+{
+    font-size: 20px;
+    font-family: "Arial", sans-serif;
+    font-weight: bolder;
+}
+
+.class_issues_info
+{
+    background-color: #f4f2ea;
+    margin: 20px;
+    border: 2px solid #1dbbdb;
+    border-radius: 5px;
+}
+
+.class_issues_details
+{
+    margin: 5px;
+    //border: 2px solid #26db7f;
+    border-radius: 5px;
+}
+
+#id_issues_info
+{
+    margin: 10px;
+    padding:5px;
+    background-color: khaki;
+}
+
+.class_issues_details p
+{
+    margin: 5px;
+    padding:5px;
+    background-color: #d7eedf;
+}

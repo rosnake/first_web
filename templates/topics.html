@@ -86,29 +86,30 @@
 
 <div>
     <h3> 历史议题信息：</h3>
-    {% for topics in  topics_table %}
+    <form class="class_handle_context_form" id="id_handle_member_form" name="member_form">
+        <table class="class_handle_context_table" id="id_handle__member_table">
+        <thead class="class_handle_context_table_head" id="id_handle__member_table_head">
+            <tr>
+                <th>议题编号</th>
+                <th>主讲人</th>
+                <th>议题</th>
+                <th>完成时间</th>
+            </tr>
+        </thead>
+         <tbody class="class_handle_context_table_body" id="id_handle_meeting_table_body">
+        {% for topics in  topics_table %}
         {% if topics["finish"] == True and topics["issues_evaluate_finish"] == True %}
-        <div class="topics_history">
-            <div class="topics">
-                {% if topics["keynote_user_name"] != "" %}
-                <h5 class="user_name">议题主讲人：{{ topics["keynote_chinese_name"] }} [ {{ topics["keynote_user_name"] }} ]</h5>
-                <div class="topic_details">
-                    <h4>议题:</h4>
-                    <div class="topic_title">{{ topics["issues_title"]}}</div>
-                    <h4>议题简介:</h4>
-                    <div class="topic_description">{% raw topics["issues_brief"] %}</div>
-                    <h4>议题时间:</h4>
-                    <div class="topic_time">{% raw topics["date_time"] %}</div>
-                    <h4>实际结束时间:</h4>
-                    <div class="actual_date_time">{% raw topics["actual_date_time"] %}</div>
-                    <h4>议题得分:</h4>
-                    <div class="topic_time">{% raw topics["issues_score"] %}</div>
-                </div>
-                {% end %}
-            </div>
-        </div>
+        <tr class="class_handle_context_table_tr">
+            <td class="class_handle_context_table_td" id="id_issues_id">{{ topics["issues_id"] }}</td>
+            <td class="class_handle_context_table_td" id="id_issues_keynote_chinese_name">{{ topics["keynote_chinese_name"] }}</td>
+            <td class="class_handle_context_table_td" id="id_issues_issues_title">{{ topics["issues_brief"] }}</td>
+            <td class="class_handle_context_table_td" id="id_issues_finish_date">{{ topics["actual_date_time"] }}</td>
+        </tr>
         {% end %}
-    {% end %}
+        {% end %}
+        </tbody>
+    </table>
+    </form>
 </div>
 
     <div class="class_evaluate_popup_background" id="id_issues_evaluation_popup_background">
