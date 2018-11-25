@@ -1,0 +1,13 @@
+{% extends "../base/base.html" %}
+{% block external_lib %}
+    <link rel="stylesheet" href="{{ static_url("css/admin.css") }}" type="text/css">
+{% end %}
+{% block header %}
+    <h2>文件名错误</h2>
+{% end %}
+{% block body %}
+    <div class="admin_file_error_context">
+        <h3>您输入的文件名不存在</h3>
+        <a href="/admin/explorer" class="admin_file_error_page">点击返回</a>
+    </div>
+{% end %}

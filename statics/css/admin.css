@@ -379,3 +379,9 @@
 {
     margin-bottom: 20px;
 }
+
+.admin_file_error_context
+{
+    text-align: center;
+    border: 1px solid #8effe4;
+}
