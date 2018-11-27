@@ -2,6 +2,7 @@
 #coding:utf-8
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import random
+from methods.debug import *
 
 
 class VerifyImage:
@@ -47,5 +48,5 @@ class VerifyImage:
             draw.text((self.height * t + 10, 10), char, font=font, fill=self.__rndColor2())
         # 模糊:
         self.image = image.filter(ImageFilter.BLUR)
-        print(self.image_string)
+        logging.info("current verify code:%s" % self.image_string)
 

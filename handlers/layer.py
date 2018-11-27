@@ -30,7 +30,7 @@ class LayerHandler(BaseHandler):
         if operation == "detail_browse":
             history_table = self.__get_point_history_by_user_name(user_name)
             point_stat = self.__get_point_stat_by_user_name(user_name)
-            self.render("/handlers/detail_browse.html", history_table=history_table, point_stat=point_stat)
+            self.render("handlers/detail_browse.html", history_table=history_table, point_stat=point_stat)
 
             return
 

@@ -57,7 +57,8 @@ $(document).ready(function () {
 		});
 	});
 
-	$('#id_admin_point_mod').on('click', function () {
+
+	$('#id_admin_point_vid_recharge').on('click', function () {
 		var user_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
 		if ((typeof user_id) === 'undefined') {
 			layer.msg("当前未选择任何项目");
@@ -96,55 +97,166 @@ $(document).ready(function () {
 			}
 		});
 
-		user_point = prompt("请输入【" + user_name + "】新的积分,当前积分【" + user_point + "】");
-		if (user_point === "" || user_point === null) {
-			layer.msg("您未输入有效的积分，已为您取消操作。", {
-				icon: 2
-			});
+        layer.prompt({
+          formType: 2,
+          value: user_point,
+          title: "请输入【" + user_name + "】充值的积分.",
+          area: ['200px', '20px'] //自定义文本域宽高
+        }, function(user_point, index, elem){
+            if (user_point === "" || user_point === null) {
+                layer.msg("您未输入有效的积分，已为您取消操作。", {
+                    icon: 2
+                });
+                return;
+            }
+
+            if (isDigitNumber(user_point) === false) {
+                layer.msg("只能输入数字，不能输入其他字符！", {
+                    icon: 2
+                });
+                return;
+            }
+            console.log("user_id: " + user_id);
+            console.log("user_name: " + user_name);
+            console.log("user_point: " + user_point);
+            layer.confirm("是否充值【" + user_name + "】的积分到【" + user_point + "】?", {
+                btn: ['确定', '取消']//按钮
+            }, function () {
+                var post_date = {
+                    "user_id": user_id,
+                    "user_name": user_name,
+                    "user_point": user_point,
+                    "purchase_points":"true",
+                    "_xsrf": getCookie("_xsrf"),
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/credits",
+                    data: post_date,
+                    success: function (arg) {
+                        console.log(arg);
+                        var obj = JSON.parse(arg);
+                        if (obj.status) {
+                            layer.msg(obj.message, {
+                                icon: 0
+                            });
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 500);
+                        } else {
+                            layer.msg(obj.message, {
+                                icon: 2
+                            });
+                        }
+                    }
+                });
+
+            });
+
+            layer.close(index);
+        });
+	});
+
+	$('#id_admin_point_mod').on('click', function () {
+	    var user_id = $('#admin_member_table_body input[name="select_id"]:checked ').val();
+		if ((typeof user_id) === 'undefined') {
+			layer.msg("当前未选择任何项目");
+			console.log("current not select any id");
 			return;
 		}
-		if (isDigitNumber(user_point) === false) {
-			layer.msg("只能输入数字，不能输入其他字符！", {
-				icon: 2
-			});
+		//获取每一个<编辑>按钮的 下标（从0开始 所以需要+1 = 按钮在表格的所在行数）
+		var ttr = $("input:checked").parents('tr');
+		//console.log(ttr);
 
-			return;
-		}
-		console.log("user_id: " + user_id);
-		console.log("user_name: " + user_name);
-		console.log("user_point: " + user_point);
+		/*当前行使用find方法找到每一个td列
+		each方法为每一个td设置function
+		 */
+		var user_id = "";
+		var user_name = "";
+		var user_point = "";
+		ttr.find("td").each(function () {
+			/*过滤 td中的元素
+			checkbox 、 button、text 不需要执行append
+			注意 return 为 跳出当前 each
+			return false 为 跳出整个 each
+			 */
+			if ($(this).attr('id') === "user_id") {
+				user_id = $(this).text();
+				console.log("user_id:" + user_id);
+			}
 
-		var ret = confirm("是否修改【" + user_name + "】的积分到【" + user_point + "】?");
-		if (ret === true) {
-			var post_date = {
-				"user_id": user_id,
-				"user_name": user_name,
-				"user_point": user_point,
-				"_xsrf": getCookie("_xsrf"),
-			};
-			$.ajax({
-				type: "POST",
-				url: "/admin/credits",
-				data: post_date,
-				success: function (arg) {
-					console.log(arg);
-					var obj = JSON.parse(arg);
-					if (obj.status) {
-						layer.msg(obj.message, {
-							icon: 0
-						});
+			if ($(this).attr('id') === "user_name") {
+				user_name = $(this).text();
+				console.log("user_name:" + user_name);
+			}
 
-						setTimeout(function () {
-							window.location.reload();
-						}, 500);
-					} else {
-						layer.msg(obj.message, {
-							icon: 2
-						});
-					}
-				}
-			});
-		}
+			if ($(this).attr('id') === "user_point") {
+				user_point = $(this).text();
+				console.log("user_point:" + user_point);
+			}
+		});
+
+        layer.prompt({
+          formType: 2,
+          value: user_point,
+          title: "请输入【" + user_name + "】新的积分.",
+          area: ['200px', '20px'] //自定义文本域宽高
+        }, function(user_point, index, elem){
+            if (user_point === "" || user_point === null) {
+                layer.msg("您未输入有效的积分，已为您取消操作。", {
+                    icon: 2
+                });
+                return;
+            }
+
+            if (isDigitNumber(user_point) === false) {
+                layer.msg("只能输入数字，不能输入其他字符！", {
+                    icon: 2
+                });
+                return;
+            }
+            console.log("user_id: " + user_id);
+            console.log("user_name: " + user_name);
+            console.log("user_point: " + user_point);
+            layer.confirm("是否修改【" + user_name + "】的积分到【" + user_point + "】?", {
+                btn: ['确定', '取消']//按钮
+            }, function () {
+                var post_date = {
+                    "user_id": user_id,
+                    "user_name": user_name,
+                    "user_point": user_point,
+                    "purchase_points":"false",
+                    "_xsrf": getCookie("_xsrf"),
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/credits",
+                    data: post_date,
+                    success: function (arg) {
+                        console.log(arg);
+                        var obj = JSON.parse(arg);
+                        if (obj.status) {
+                            layer.msg(obj.message, {
+                                icon: 0
+                            });
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 500);
+                        } else {
+                            layer.msg(obj.message, {
+                                icon: 2
+                            });
+                        }
+                    }
+                });
+
+            });
+
+
+            layer.close(index);
+        });
 	});
 
 	$('#id_admin_popup_close').on('click', function () {

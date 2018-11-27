@@ -19,6 +19,7 @@ class ScoreInfoModule(DataBase):
     chinese_name = Column(String(64), nullable=False, index=True)  # 用户名，中文名
     current_scores = Column(Float, default=0.0, nullable=False, index=False)  # 当前积分
     last_scores = Column(Float, default=0.0, nullable=False, index=False)   # 上周积分
+    purchase_points = Column(Boolean, default=False, nullable=False)  # 是否是购买积分
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.user_name)

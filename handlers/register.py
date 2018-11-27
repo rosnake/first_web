@@ -9,6 +9,7 @@ from orm.score_info import ScoreInfoModule
 from methods.controller import PageController
 from orm.attendance import AttendanceModule
 from orm.operation_history import OperationHistoryModule
+from config.default_config import DefaultScoreConfig
 
 
 #  继承 base.py 中的类 BaseHandler
@@ -56,9 +57,11 @@ class RegisterHandler(BaseHandler):
             # 更新积分表格
             scores_module = ScoreInfoModule()
             scores_module.user_name = user_name
-            scores_module.current_scores = 10
-            scores_module.last_scores = 10
+            scores_module.current_scores = DefaultScoreConfig.current_scores
+            scores_module.last_scores = DefaultScoreConfig.last_scores
             scores_module.chinese_name = user_module.chinese_name
+            scores_module.purchase_points = False
+
             self.db.add(scores_module)
             self.db.commit()
             succeed = True

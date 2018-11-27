@@ -13,6 +13,7 @@ from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
 from methods.debug import *
 from orm.exchanged_history import ExchangedHistoryModule
+from config.default_config import DefaultScoreConfig
 # 继承 base.py 中的类 BaseHandler
 
 
@@ -88,9 +89,13 @@ class StatHandler(BaseHandler):
                         logging.info("---->exchanged score:%d" % __exchanged_score)
 
             __exchange_score = __current_scores - __exchanged_score
-            current_scores = {"current": __current_scores, "exchange": __exchange_score}
+            recharge = False
+            if __current.purchase_points is True:
+                recharge = True
+                __exchange_score = DefaultScoreConfig.current_scores
+            current_scores = {"current": __current_scores, "exchange": __exchange_score, "recharge": recharge}
         else:
-            current_scores = {"current": 0, "exchange": 0}
+            current_scores = {"current": 0, "exchange": 0, "recharge": False}
 
         logging.info("current total score:%d, exchanged score:%d,current exchange available score:%d"
                      % (__current_scores, __exchanged_score, __exchange_score))

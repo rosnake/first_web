@@ -16,7 +16,7 @@ class AdminProhibitHandler(BaseHandler):
         page_controller = PageController()
         render_controller = page_controller.get_render_controller()
 
-        print(self.session["authorized"])
+        # print(self.session["authorized"])
         render_controller["index"] = False
         render_controller["authorized"] = self.session["authorized"]
         render_controller["login"] = False

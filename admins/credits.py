@@ -38,9 +38,11 @@ class AdminCreditsHandler(BaseHandler):
         user_id = self.get_argument("user_id")
         user_name = self.get_argument("user_name")
         user_point = self.get_argument("user_point")
+        purchase_points = self.get_argument("purchase_points", "false")
 
         logging.info("user post info")
-        logging.info("user_id:" + user_id+"user_name:" + user_name+"user_point:" + user_point)
+        logging.info("user_id:" + user_id+"user_name:" + user_name+"user_point:" + user_point+
+                     " purchase_points:"+purchase_points)
         logging.info(nowTime)
         if user_point.isdigit() is False:
             response["status"] = False
@@ -49,7 +51,12 @@ class AdminCreditsHandler(BaseHandler):
             self.write(json.dumps(response))
             return
 
-        ret = self.__update_user_point_by_user_name(user_id, user_point)
+        vip_rechange = False
+
+        if purchase_points == "true":
+            vip_rechange = True
+
+        ret = self.__update_user_point_by_user_name(user_id, user_point, vip_rechange)
         if ret is True:
             response["status"] = True
             response["message"] = "修改成功！"
@@ -83,18 +90,22 @@ class AdminCreditsHandler(BaseHandler):
             return None
 
         for point in point_module:
-            tmp = {"user_id": point.user_name, "user_name": point.chinese_name, "user_point": point.current_scores}
+            if point.user_name == "admin":
+                continue
+            tmp = {"user_id": point.user_name, "user_name": point.chinese_name, "user_point": point.current_scores,
+                   "purchase_points": point.purchase_points}
             points_tables.append(tmp)
 
         return points_tables
 
-    def __update_user_point_by_user_name(self, user_name, point):
+    def __update_user_point_by_user_name(self, user_name, point, vip_rechange):
         user_point = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
 
         if user_point:
             self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
                 ScoreInfoModule.last_scores: user_point.current_scores,
                 ScoreInfoModule.current_scores: point,
+                ScoreInfoModule.purchase_points: vip_rechange,
             })
             self.db.commit()
             return True

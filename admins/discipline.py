@@ -45,8 +45,6 @@ class AdminDisciplineHandler(BaseHandler):
         if str_subtraction == "false":
             subtraction = False
 
-        print(type(deduct_points))
-
         if operation == "add":
             ret = self.__add_deduct(deduct_name, deduct_points, subtraction)
             if ret is True:

@@ -24,6 +24,9 @@
 
 <div class="class_stat_info">
 {% if controller["authorized"] == True %}
+    {% if current_scores["recharge"] == True %}
+        <h3> 您当前申请过积分充值，无法参与积分兑换 </h3>
+    {% end %}
     <h3> 您当前积分为：{{ current_scores["current"] }},可以兑换礼品的积分为：{{ current_scores["exchange"] }} </h3>
     <div id="id_stat_detail">
          <h3>当前分数明细如下：</h3>

@@ -13,6 +13,7 @@ from admins.decorator import admin_post_auth
 from orm.meeting_info import MeetingInfoModule
 from orm.score_history import ScoringHistoryModule
 from orm.organizer_info import OrganizerInfoModule
+from config.default_config import DefaultScoreConfig
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -199,10 +200,20 @@ class AdminAttendanceHandler(BaseHandler):
             score_criteria = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == absent_id).first()
             #  1.更新积分表
             user_point = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
+
+            score = user_point.current_scores + score_criteria.score_value
+            recharge = False
+
+            if user_point.purchase_points is True:
+                if score > DefaultScoreConfig.current_scores:
+                    recharge = True
+
             if user_point and score_criteria:
                 self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
                     ScoreInfoModule.last_scores: user_point.current_scores,
-                    ScoreInfoModule.current_scores: user_point.current_scores + score_criteria.score_value,
+                    ScoreInfoModule.current_scores: score,
+                    ScoreInfoModule.purchase_points: recharge,
+
                 })
                 self.db.commit()
             else:
@@ -293,10 +304,19 @@ class AdminAttendanceHandler(BaseHandler):
             score_criteria = self.db.query(ScoringCriteriaModule).filter(ScoringCriteriaModule.id == attendance.absence_id).first()
             # 1. 更新积分表
             user_score = self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).first()
+
+            score = user_score.current_scores + score_criteria.score_value
+            recharge = False
+
+            if user_score.purchase_points is True:
+                if score > DefaultScoreConfig.current_scores:
+                    recharge = True
+
             if user_score and score_criteria:
                 self.db.query(ScoreInfoModule).filter(ScoreInfoModule.user_name == user_name).update({
                     ScoreInfoModule.last_scores: user_score.current_scores,
-                    ScoreInfoModule.current_scores: user_score.current_scores + score_criteria.score_value,
+                    ScoreInfoModule.current_scores: score,
+                    ScoreInfoModule.purchase_points: recharge,
                 })
                 self.db.commit()
             else:

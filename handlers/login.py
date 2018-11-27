@@ -78,7 +78,6 @@ class LoginHandler(BaseHandler):
 
         user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).filter(
             UsersInfoModule.pass_word == pass_word).first()
-        print(user)
 
         if user is not None:
             logging.info("login ok,user name:" + user_name)

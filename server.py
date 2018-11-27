@@ -12,6 +12,7 @@ from dba.table import drop_db_table
 define("port", default=8888, help="run on the given port", type=int)
 define("create_tables", default=False, group="application", help="create tables", type=bool)
 define("drop_tables", default=False, group="application", help="drop all tables", type=bool)
+define("sync_data", default=False, group="application", help="drop all tables", type=bool)
 
 
 def main():
@@ -24,13 +25,15 @@ def main():
     if options.drop_tables:
         drop_db_table()
 
-    consistency = DataConsistency()
+    if options.sync_data:
+        consistency = DataConsistency()
+        consistency.run()
 
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(options.port)
     print("Development server is running at http://127.0.0.1:%s" % options.port)
     print("Quit the server with Control-C")
-    tornado.ioloop.PeriodicCallback(consistency.run, 60000).start()  # start scheduler
+    #  tornado.ioloop.PeriodicCallback(consistency.run, 60000).start()  # start scheduler
     tornado.ioloop.IOLoop.instance().start()
 
 

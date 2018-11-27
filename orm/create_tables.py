@@ -5,7 +5,7 @@ from orm.db_base import dbSession
 from orm.db_base import engine
 from orm.db_base import DataBase
 from orm.users_info import UsersInfoModule
-from config.default_user import DefaultAdminUser
+from config.default_config import DefaultAdminUser
 from orm.score_info import ScoreInfoModule
 from orm.exchange_apply import ExchangeApplyModule
 from orm.organizer_info import OrganizerInfoModule

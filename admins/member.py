@@ -12,7 +12,7 @@ import random
 import string
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
-from orm.operation_history import OperationHistoryModule
+from config.default_config import DefaultScoreConfig
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -278,9 +278,10 @@ class AdminMemberHandler(BaseHandler):
         # 添加积分表格
         point_module = ScoreInfoModule()
         point_module.user_name = user_name
-        point_module.current_scores = 10
-        point_module.last_scores = 10
+        point_module.current_scores = DefaultScoreConfig.current_scores
+        point_module.last_scores = DefaultScoreConfig.last_scores
         point_module.chinese_name = user_module.chinese_name
+        point_module.purchase_points = False
         self.db.add(point_module)
         self.db.commit()
 

@@ -30,7 +30,7 @@ class HomeHandler(BaseHandler):
         if user_name is not None:
             user = self.db.query(UsersInfoModule).filter(UsersInfoModule.user_name == user_name).first()
             if user is not None:
-                print(user.user_name)
+                logging.info("current user is :%s" % user.user_name)
                 if user.email == "unknown":
                     self.redirect("/user?next=/home")
                     self.finish()

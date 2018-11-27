@@ -13,3 +13,9 @@ class DefaultAdminUser:
     department = "DBA"  # 部门
     user_role = "root"  # 角色
     address = "Mar"  # 地址，备用
+
+
+class DefaultScoreConfig:
+    last_scores = 10
+    current_scores = 10
+

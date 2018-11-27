@@ -6,6 +6,8 @@ from methods.debug import *
 from orm.db_base import dbSession
 from orm.attendance import AttendanceModule
 from orm.users_info import UsersInfoModule
+from orm.score_info import ScoreInfoModule
+from config.default_config import DefaultScoreConfig
 import os
 
 
@@ -20,6 +22,7 @@ class DataConsistency:
         logging.info("start data consistency processing")
 
         self.__process_attendance_table()
+        self.__process_score_table()
         logging.info("finish data consistency processing")
 
     def run(self):
@@ -45,4 +48,18 @@ class DataConsistency:
                 self.db.add(attendance)
                 self.db.commit()
 
-
+    def __process_score_table(self):
+        score_modules = ScoreInfoModule.get_all_score_info()
+        user_modules = UsersInfoModule.get_all_users_info()
+        if score_modules:
+            pass
+        else:
+            for x in user_modules:
+                point_module = ScoreInfoModule()
+                point_module.user_name = x.user_name
+                point_module.current_scores = DefaultScoreConfig.current_scores
+                point_module.last_scores = DefaultScoreConfig.last_scores
+                point_module.chinese_name = x.chinese_name
+                point_module.purchase_points = False
+                self.db.add(point_module)
+                self.db.commit()
