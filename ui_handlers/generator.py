@@ -33,4 +33,11 @@ class HeaderModule(tornado.web.UIModule):
         return "css/header.css"
 
 
+# 话题自目录
+class SubtitleModule(tornado.web.UIModule):
+    def render(self, user_name, language_mapping):
+        return self.render_string("modules/topic_subtitle.html", user_name=user_name, language_mapping=language_mapping)
+
+    def css_files(self):
+        return "css/subtitle.css"
 

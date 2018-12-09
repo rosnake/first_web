@@ -19,6 +19,7 @@ from orm.evaluation_info import EvaluationInfoModule
 from orm.operation_history import OperationHistoryModule
 from orm.feedback import FeedBackModule
 from orm.exchanged_history import ExchangedHistoryModule
+from orm.assessment import AssessmentInfoModule
 
 # 将创建好的数据表类，映射到数据库的表中
 

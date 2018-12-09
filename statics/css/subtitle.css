@@ -1,0 +1,49 @@
+
+.class_topics_frame_work
+{
+    border: 2px solid#1E9FFF;
+}
+
+.topic_subtitle
+{
+    margin: 5px;
+    background-color: #98985a;
+    width: 985px;
+    height: 40px;
+}
+
+#topic_menu
+{
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+#topic_menu a
+{
+    display:block;
+    width:245px;
+    line-height:40px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
+    text-align:center; /* 居中对齐文字 */
+    background: #8f8d42; /* 设置背景色 */
+    color:#fff; /* 设置文字颜色 */
+    text-decoration:none; /* 去掉下划线 */
+    border-right:1px solid #000; /* 在左侧加上分隔线 */
+    font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
+}
+
+#topic_menu li
+{
+    float:left;
+
+}
+
+#topic_menu li a:hover
+{
+    background: #9c4331; /* 变换背景色 */
+    color: #ffffff; /* 变换文字颜色 */
+}
+
+#topic_menu li a.last
+{
+    border-right:0; /* 去掉左侧边框 */
+}

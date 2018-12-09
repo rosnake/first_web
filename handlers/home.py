@@ -124,11 +124,12 @@ class HomeHandler(BaseHandler):
             return points_tables
 
         for point in point_module:
-            tmp = {
-                "user_name": point.user_name, "chinese_name": point.chinese_name,
-                "current_scores": point.current_scores, "last_scores": point.last_scores
-            }
-            points_tables.append(tmp)
+            if point.user_name != "admin":
+                tmp = {
+                    "user_name": point.user_name, "chinese_name": point.chinese_name,
+                    "current_scores": point.current_scores, "last_scores": point.last_scores
+                }
+                points_tables.append(tmp)
 
         return points_tables
 

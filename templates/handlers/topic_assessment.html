@@ -21,7 +21,7 @@
 
 <div class="class_topics_frame_work">
     <style type="text/css">
-        #id_topic_subtitle_current a{
+        #id_topic_subtitle_assessment a{
             background: #1e4371; /* 设置背景色 */
         }
         #id_nav_topics a{
@@ -55,6 +55,11 @@
                     <h4>议题时间:</h4>
                     <div class="topic_time">{% raw topics["date_time"] %}</div>
                 </div>
+                <div class="class_user_feedback_regression_button_layout">
+                    <input type="button" class="class_user_feedback_regression_button" id={{ topics["issues_id"] }} value="感兴趣"/>
+                    <input type="button" class="class_user_feedback_regression_button" id={{ topics["issues_id"] }} value="不感兴趣"/>
+                </div>
+
             </div>
             {% end %}
         {% end %}

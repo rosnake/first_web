@@ -12,7 +12,7 @@ import json
 
 
 # 继承 base.py 中的类 BaseHandler
-class TopicsHandler(BaseHandler):
+class TopicsHistoryHandler(BaseHandler):
     """
     用户议题显示处理
     """
@@ -22,7 +22,7 @@ class TopicsHandler(BaseHandler):
 
         if user_name is not None:
             user_topic_tables = self.__get_all_issues_info()
-            self.render("handlers/topics.html",
+            self.render("handlers/topic_history.html",
                         controller=self.render_controller,
                         user_name=user_name,
                         topics_table=user_topic_tables,
@@ -52,5 +52,3 @@ class TopicsHandler(BaseHandler):
             issues_tables.append(tmp)
 
         return issues_tables
-
-

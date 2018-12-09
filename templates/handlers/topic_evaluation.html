@@ -1,0 +1,109 @@
+{% extends "../base/base.html" %}
+<!--自动转义-->
+{% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/topic.js")}}"></script>
+    <link rel="stylesheet" href="{{ static_url("css/subtitle.css") }}" type="text/css">
+
+{% end %}
+
+{% autoescape None %}
+{% block header %}
+{{ modules.Header(user_name, language_mapping) }}
+{% end %}
+
+{% block body %}
+    <style type="text/css">
+        #id_nav_topics a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
+
+<div class="class_topics_frame_work">
+    <style type="text/css">
+        #id_topic_subtitle_evaluation a{
+            background: #1e4371; /* 设置背景色 */
+        }
+        #id_nav_topics a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
+
+ {{ modules.Subtitle(controller, language_mapping) }}
+    <div>
+        <div class="class_wait_for_evaluate_issues">
+        {% set wait_evaluate_issues = False %}
+        {% for topics in  topics_table %}
+            {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
+                {% set wait_evaluate_issues = True %}
+            {% end %}
+        {% end %}
+        {% if wait_evaluate_issues is False %}
+            <p> 当前无待评价议题</p>
+        {% end %}
+        {% for topics in  topics_table %}
+            {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
+            <div class="class_issues_info">
+                <div class="class_context_topic_id">
+                    <input type="radio" name="select_id" id="id_issues" value={{ topics["issues_id"] }}>
+                    <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
+                </div>
+                <h5 class="user_name">议题主讲人：{{ topics["keynote_chinese_name"] }} [ {{ topics["keynote_user_name"] }} ]</h5>
+                <div class="topic_details">
+                    <h4>议题:</h4>
+                    <div class="topic_title">{{ topics["issues_title"]}}</div>
+                    <h4>议题简介:</h4>
+                    <div class="topic_description">{% raw topics["issues_brief"] %}</div>
+                    <h4>议题时间:</h4>
+                    <div class="topic_time">{% raw topics["actual_date_time"] %}</div>
+                </div>
+            </div>
+            {% end %}
+        {% end %}
+            {% if wait_evaluate_issues is True %}
+            <input type="button" class="class_evaluate_context_button" id="id_user_issues_evaluation" value="我要打分" />
+            {% end %}
+        </div>
+    </div>
+</div>
+
+    <div class="class_evaluate_popup_background" id="id_issues_evaluation_popup_background">
+        <div class="class_evaluate_popup_content" id="id_issues_evaluation_popup_frontend" >
+            <div class="class_evaluate_popup_title" id="id_issues_evaluation_popup_close">
+                <h2 id="id_issues_evaluation_sub_title">评分</h2>
+            </div>
+            <div class="class_evaluate_popup_body" id="id_issues_evaluation_popup_body">
+                <p id="id_issues_evaluation_operation"></p>
+                <p id="id_issues_evaluation_id"></p>
+                <p><span>准备是否充分:</span>
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="5">5分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="4">4分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="3" checked>3分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="2">2分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="1">1分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_prepare_score" value="0">0分
+                </p>
+                <p><span>议题是否新颖:</span>
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="5">5分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="4">4分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="3" checked>3分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="2">2分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="1">1分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_novel" value="0">0分
+                </p>
+                <p><span>议题是否精彩:</span>
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="5">5分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="4">4分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="3" checked>3分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="2">2分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="1">1分
+                    <input class="class_evaluate_popup_radio" type="radio" name="issues_report_score" value="0">0分
+                </p>
+                <input type="button" class="class_evaluate_context_button" id="id_issues_evaluation_submit" value="提交" />
+                <input type="button" class="class_evaluate_context_button" id="id_issues_evaluation_cancel" value="取消" />
+            </div>
+
+        </div>
+    </div>
+
+{% end %}

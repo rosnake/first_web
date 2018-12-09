@@ -1,0 +1,62 @@
+{% extends "../base/base.html" %}
+<!--自动转义-->
+{% block external_lib %}
+    <script src="{{static_url("layer/layer.js")}}"></script>
+    <script src="{{static_url("js/topic.js")}}"></script>
+    <link rel="stylesheet" href="{{ static_url("css/subtitle.css") }}" type="text/css">
+
+{% end %}
+
+{% autoescape None %}
+{% block header %}
+{{ modules.Header(user_name, language_mapping) }}
+{% end %}
+
+{% block body %}
+    <style type="text/css">
+        #id_nav_topics a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
+
+<div class="class_topics_frame_work">
+    <style type="text/css">
+        #id_topic_subtitle_history a{
+            background: #1e4371; /* 设置背景色 */
+        }
+        #id_nav_topics a{
+             background: #ffc94e; /* 设置背景色 */
+        }
+    </style>
+
+ {{ modules.Subtitle(controller, language_mapping) }}
+
+    <div>
+        <form class="class_handle_context_form" id="id_handle_member_form" name="member_form">
+            <table class="class_handle_context_table" id="id_handle__member_table">
+            <thead class="class_handle_context_table_head" id="id_handle__member_table_head">
+                <tr>
+                    <th>议题编号</th>
+                    <th>主讲人</th>
+                    <th>议题</th>
+                    <th>完成时间</th>
+                </tr>
+            </thead>
+             <tbody class="class_handle_context_table_body" id="id_handle_meeting_table_body">
+            {% for topics in  topics_table %}
+            {% if topics["finish"] == True and topics["issues_evaluate_finish"] == True %}
+            <tr class="class_handle_context_table_tr">
+                <td class="class_handle_context_table_td" id="id_issues_id">{{ topics["issues_id"] }}</td>
+                <td class="class_handle_context_table_td" id="id_issues_keynote_chinese_name">{{ topics["keynote_chinese_name"] }}</td>
+                <td class="class_handle_context_table_td" id="id_issues_issues_title">{{ topics["issues_brief"] }}</td>
+                <td class="class_handle_context_table_td" id="id_issues_finish_date">{{ topics["actual_date_time"] }}</td>
+            </tr>
+            {% end %}
+            {% end %}
+            </tbody>
+        </table>
+        </form>
+    </div>
+</div>
+
+{% end %}

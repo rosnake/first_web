@@ -43,6 +43,9 @@ from admins.history import AdminHistoryHandler
 from admins.opinions import AdminOpinionsHandler
 from admins.opinions_popup import AdminOpinionsPopupHandler
 from handlers.browse import IssuesBrowseHandler
+from handlers.topic_assessment import TopicsAssessmentHandler
+from handlers.topic_evaluation import TopicsEvaluationHandler
+from handlers.topic_history import TopicsHistoryHandler
 importlib.reload(sys)
 
 # 一个URL列表
@@ -58,6 +61,9 @@ url = [
     (r'/layer', LayerHandler),
     (r'/statistics', StatHandler),
     (r'/topics', TopicsHandler),
+    (r'/topics/history', TopicsHistoryHandler),
+    (r'/topics/evaluation', TopicsEvaluationHandler),
+    (r'/topics/assessment', TopicsAssessmentHandler),
     (r'/applications', ApplicationsHandler),
     (r'/issues', IssuesHandler),
     (r'/verify_code', VerifyHandler),

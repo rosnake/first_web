@@ -19,7 +19,7 @@ from orm.operation_history import OperationHistoryModule
 from orm.users_info import UsersInfoModule
 from orm.exchanged_history import ExchangedHistoryModule
 from config.debug import DebugConfig
-
+from orm.assessment import AssessmentInfoModule
 def drop_db_table():
     port = int(DbSetting.listen_port)
     connect = pymysql.connect(  # 连接数据库服务器
@@ -72,8 +72,11 @@ def drop_db_table():
     logging.info("execute: "+sql)
     conn_cursor.execute(sql)  # 如果表存在则删除
 
-
     sql = "drop table if exists " + ExchangedHistoryModule.__tablename__
+    logging.info("execute: "+sql)
+    conn_cursor.execute(sql)  # 如果表存在则删除
+
+    sql = "drop table if exists " + AssessmentInfoModule.__tablename__
     logging.info("execute: "+sql)
     conn_cursor.execute(sql)  # 如果表存在则删除
 

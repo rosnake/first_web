@@ -22,7 +22,7 @@ class IssuesInfoModule(DataBase):
     issues_image = Column(String(64), nullable=True, index=False)  # 议题图片路径
     issues_score = Column(Float, default=0.0, nullable=False, index=False)  # 议题得分
     issues_meeting_room = Column(String(64), nullable=True, index=False)  # 议题会议室
-    expect_date_time = Column(DateTime, default=datetime.now()) # 期望日期
+    expect_date_time = Column(DateTime, default=datetime.now())  # 期望日期
     finish = Column(Boolean, default=False, nullable=False)  # 议题是否结束
     actual_date_time = Column(DateTime, default=datetime.now())
     current = Column(Boolean, default=False, nullable=False)  # 是否是本周议题
@@ -30,6 +30,9 @@ class IssuesInfoModule(DataBase):
     issues_evaluate_finish = Column(Boolean, default=False, nullable=False)  # 议题评价是否结束
     voluntary_apply = Column(Boolean, default=False, nullable=False)  # 是否是主动申请
     issues_evaluate_count = Column(Integer, default=0, nullable=False, index=False)  # 评价人数
+
+    uninterested_count = Column(Integer, default=0, nullable=False, index=False)  # 不感兴趣人数统计
+    interested_count = Column(Integer, default=0, nullable=False, index=False)  # 感兴趣人数统计
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.user_name)

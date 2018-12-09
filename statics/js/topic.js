@@ -146,7 +146,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "post",
-            url: "/topics",
+            url: "/topics/evaluation",
             data: submit_data,
             cache: false,
             success: function (arg) {
