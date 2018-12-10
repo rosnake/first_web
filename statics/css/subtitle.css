@@ -47,3 +47,23 @@
 {
     border-right:0; /* 去掉左侧边框 */
 }
+
+.class_topic_assessment_button_layout{
+    text-align: center;
+    margin-top: 20px;
+    //border: 1px solid #db5341;
+}
+
+.class_topic_assessment_button
+{
+    //right: 200px;
+    width: 180px;
+    height: 30px;
+    font-family: "Arial Unicode MS",sans-serif;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top: 15px;
+    margin-right: 40px;
+    margin-bottom: 30px;
+    border: 1px solid #009f95;
+}

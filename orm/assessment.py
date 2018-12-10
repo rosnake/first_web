@@ -19,7 +19,6 @@ class AssessmentInfoModule(DataBase):
     assessment_time = Column(DateTime, default=datetime.now())  # 评估时间
 
     assessment_finish = Column(Boolean, default=False, nullable=False)  # 是否结束评估
-    uninterested = Column(Boolean, default=False, nullable=False)  # 不感兴趣
     interested = Column(Boolean, default=False, nullable=False)  # 感兴趣
 
     def __repr__(self):

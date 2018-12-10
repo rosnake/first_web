@@ -7,6 +7,7 @@ from orm.evaluation_info import EvaluationInfoModule
 from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
 from methods.toolkits import DateToolKits
+from orm.assessment import AssessmentInfoModule
 from methods.debug import *
 import json
 
@@ -37,27 +38,36 @@ class TopicsAssessmentHandler(BaseHandler):
 
         operation = self.get_argument("operation")
         issues_id = self.get_argument("issues_id")
-        prepare_score = self.get_argument("prepare_score")
-        novel_score = self.get_argument("novel_score")
-        report_score = self.get_argument("report_score")
 
-        logging.info("operation:%s, issues_id:%s,prepare_score:%s,novel_score:%s,report_score:%s"
-                     % (operation, issues_id, prepare_score, novel_score, report_score))
+        logging.info("operation:%s, issues_id:%s"
+                     % (operation, issues_id))
 
-        if operation == "evaluate":
-            ret, message = self.__evaluate_by_issues_id(issues_id, prepare_score, novel_score, report_score)
-            if ret is True:
-                response["status"] = True
-                response["message"] = "评价成功！"
-                response["data"] = date_kits.get_now_day_str()
-                self.write(json.dumps(response))
-                return
-            else:
-                response["status"] = False
-                response["message"] = message
-                response["data"] = date_kits.get_now_day_str()
-                self.write(json.dumps(response))
-                return
+        interested = False
+        if operation == "interested":
+            interested = True
+        elif operation == "uninterested":
+            interested = False
+        else:
+            response["status"] = False
+            response["message"] = "异常失败！"
+            response["data"] = date_kits.get_now_day_str()
+            self.write(json.dumps(response))
+            return
+
+        user_name = self.get_current_user()
+        ret, message = self.__mark_interested_by_issues_id(issues_id, interested, user_name)
+        if ret is True:
+            response["status"] = True
+            response["message"] = "反馈成功！"
+            response["data"] = date_kits.get_now_day_str()
+            self.write(json.dumps(response))
+            return
+        else:
+            response["status"] = False
+            response["message"] = message
+            response["data"] = date_kits.get_now_day_str()
+            self.write(json.dumps(response))
+            return
 
     def __get_all_issues_info(self):
         issues_module = IssuesInfoModule.get_all_issues_info()
@@ -79,48 +89,67 @@ class TopicsAssessmentHandler(BaseHandler):
 
         return issues_tables
 
-    def __evaluate_by_issues_id(self, issues_id, prepare_score, novel_score, report_score):
+    def __mark_interested_by_issues_id(self, issues_id, interested, user_name):
+
         issues_module = self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).first()
 
-        if issues_module is None:
-            return False, "没有待评价议题"
+        if issues_module:
+            assessment_module = self.db.query(AssessmentInfoModule).filter(AssessmentInfoModule.issues_id == issues_id).\
+                filter(AssessmentInfoModule.assessment_user_name == user_name).first()
 
-        user_name = self.get_current_user()
+            interested_count = issues_module.interested_count
+            uninterested_count = issues_module.uninterested_count
+            date_kits = DateToolKits()
+            #  已存在
+            if assessment_module:
+                if interested is True:
+                    if assessment_module.interested is True:
+                        return True, "评估议题成功"
+                    else:
+                        interested_count = interested_count + 1
+                        uninterested_count = uninterested_count - 1
+                else:
+                    if assessment_module.interested is False:
+                        return True, "评估议题成功"
+                    else:
+                        interested_count = interested_count - 1
+                        uninterested_count = uninterested_count + 1
 
-        if user_name is None:
-            return False, "获取用户失败"
+                self.db.query(AssessmentInfoModule).filter(AssessmentInfoModule.issues_id == issues_id).update({
+                    AssessmentInfoModule.interested: interested,
+                })
+                self.db.commit()
 
-        evaluation = self.db.query(EvaluationInfoModule).filter(EvaluationInfoModule.issues_id == issues_id).\
-            filter(EvaluationInfoModule.evaluate_user_name == user_name).first()
-        if evaluation:
-            self.db.query(EvaluationInfoModule).filter(EvaluationInfoModule.issues_id == issues_id).update({
-                EvaluationInfoModule.evaluate_finish: False
-            })
-            self.db.commit()
-            logging.info("already evaluate")
-            return False, "您已评价该议题"
+                self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
+                    IssuesInfoModule.interested_count: interested_count,
+                    IssuesInfoModule.uninterested_count: uninterested_count,
+                })
+                self.db.commit()
 
-        date_kits = DateToolKits()
-        evaluation_module = EvaluationInfoModule()
-        evaluation_module.issues_id = issues_module.id  # 议题ID
-        evaluation_module.issues_title = issues_module.issues_title  # 议题名称
-        evaluation_module.keynote_user_name = issues_module.user_name  # 主讲人用户名
-        evaluation_module.evaluate_user_name = user_name  # 评价者用户名
-        evaluation_module.evaluate_time = date_kits.get_now_time()  # 评价时间
+                return True, "评估议题成功"
+            else:  # 不存在
+                assessments = AssessmentInfoModule()
+                assessments.issues_id = issues_id  # 议题ID
+                assessments.assessment_user_name = user_name  # 评估者
+                assessments.assessment_time = date_kits.get_now_time()  # 评估时间
+                assessments.assessment_finish = False
+                if interested is True:
+                    assessments.interested = True
+                    interested_count = interested_count + 1
+                else:
+                    assessments.interested = False
+                    uninterested_count = uninterested_count + 1
 
-        evaluation_module.issues_prepare_score = prepare_score  # 议题准备情况得分
-        evaluation_module.issues_content_score = novel_score  # 议题内容得分
-        evaluation_module.issues_lecture_score = report_score  # 演讲情况得分
-        evaluation_module.issues_reserved_score = 0  # 保留备用
-        evaluation_module.evaluate_finish = False  # 是否结束评价
+                self.db.add(assessments)
+                self.db.commit()
 
-        self.db.add(evaluation_module)
-        self.db.commit()
+                self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
+                    IssuesInfoModule.interested_count: interested_count,
+                    IssuesInfoModule.uninterested_count: uninterested_count,
+                })
+                self.db.commit()
+                return True, "评估议题成功"
 
-        logging.info("issues_evaluate_count:%d" % issues_module.issues_evaluate_count)
-        self.db.query(IssuesInfoModule).filter(IssuesInfoModule.id == issues_id).update({
-            IssuesInfoModule.issues_evaluate_count: issues_module.issues_evaluate_count + 1,
-        })
-        self.db.commit()
+        else:
+            return False, "没有待评估议题"
 
-        return True, "评价议题成功"

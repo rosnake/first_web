@@ -2,7 +2,7 @@
 <!--自动转义-->
 {% block external_lib %}
     <script src="{{static_url("layer/layer.js")}}"></script>
-    <script src="{{static_url("js/topic.js")}}"></script>
+    <script src="{{static_url("js/assessment.js")}}"></script>
     <link rel="stylesheet" href="{{ static_url("css/subtitle.css") }}" type="text/css">
 
 {% end %}
@@ -55,9 +55,9 @@
                     <h4>议题时间:</h4>
                     <div class="topic_time">{% raw topics["date_time"] %}</div>
                 </div>
-                <div class="class_user_feedback_regression_button_layout">
-                    <input type="button" class="class_user_feedback_regression_button" id={{ topics["issues_id"] }} value="感兴趣"/>
-                    <input type="button" class="class_user_feedback_regression_button" id={{ topics["issues_id"] }} value="不感兴趣"/>
+                <div class="class_topic_assessment_button_layout">
+                    <input type="button" class="class_topic_assessment_button" id={{ topics["issues_id"] }} value="感兴趣"/>
+                    <input type="button" class="class_topic_assessment_button" id={{ topics["issues_id"] }} value="不感兴趣"/>
                 </div>
 
             </div>
