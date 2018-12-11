@@ -14,7 +14,7 @@ class IssuesInfoModule(DataBase):
     """
     __tablename__ = 'issues_info'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(String(64), primary_key=True)
     user_name = Column(String(64), nullable=False, index=True)  # 用户名，工号
     chinese_name = Column(String(64), nullable=False, index=False)  # 中文名
     issues_title = Column(String(64), nullable=False)  # 议题名称

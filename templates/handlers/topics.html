@@ -33,15 +33,12 @@
     <div>
         {% set current_issues = False %}
         {% for topics in  topics_table %}
-            {% if topics["current"] == True %}
                 {% set current_issues = True %}
-            {% end %}
         {% end %}
         {% if current_issues is False %}
             <p> 当前无议题</p>
         {% end %}
         {% for topics in  topics_table %}
-            {% if topics["current"] == True %}
             <div class="class_issues_info">
                 <div class="class_context_topic_id">
                     <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
@@ -54,9 +51,10 @@
                     <div class="topic_description">{% raw topics["issues_brief"] %}</div>
                     <h4>议题时间:</h4>
                     <div class="topic_time">{% raw topics["date_time"] %}</div>
+                    <h6>感兴趣:【{{ topics["interested_count"] }}】人，不感兴趣:【{{ topics["uninterested_count"] }}】人</h6>
+
                 </div>
             </div>
-            {% end %}
         {% end %}
     </div>
 </div>

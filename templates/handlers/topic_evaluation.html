@@ -33,16 +33,15 @@
     <div>
         <div class="class_wait_for_evaluate_issues">
         {% set wait_evaluate_issues = False %}
+
         {% for topics in  topics_table %}
-            {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
-                {% set wait_evaluate_issues = True %}
-            {% end %}
+            {% set wait_evaluate_issues = True %}
         {% end %}
+
         {% if wait_evaluate_issues is False %}
             <p> 当前无待评价议题</p>
-        {% end %}
+        {% else %}
         {% for topics in  topics_table %}
-            {% if topics["finish"] == True and topics["issues_evaluate_finish"] == False %}
             <div class="class_issues_info">
                 <div class="class_context_topic_id">
                     <input type="radio" name="select_id" id="id_issues" value={{ topics["issues_id"] }}>
@@ -58,11 +57,9 @@
                     <div class="topic_time">{% raw topics["actual_date_time"] %}</div>
                 </div>
             </div>
-            {% end %}
-        {% end %}
-            {% if wait_evaluate_issues is True %}
             <input type="button" class="class_evaluate_context_button" id="id_user_issues_evaluation" value="我要打分" />
-            {% end %}
+        {% end %}
+        {% end %}
         </div>
     </div>
 </div>

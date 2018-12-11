@@ -30,7 +30,15 @@
     </style>
 
  {{ modules.Subtitle(controller, language_mapping) }}
+    {% set history_issues = False %}
 
+    {% for topics in  topics_table %}
+        {% set history_issues = True %}
+    {% end %}
+
+    {% if history_issues is False %}
+        <p> 当前无历史议题</p>
+    {% else %}
     <div>
         <form class="class_handle_context_form" id="id_handle_member_form" name="member_form">
             <table class="class_handle_context_table" id="id_handle__member_table">
@@ -40,23 +48,24 @@
                     <th>主讲人</th>
                     <th>议题</th>
                     <th>完成时间</th>
+                    <th>议题得分</th>
                 </tr>
             </thead>
              <tbody class="class_handle_context_table_body" id="id_handle_meeting_table_body">
             {% for topics in  topics_table %}
-            {% if topics["finish"] == True and topics["issues_evaluate_finish"] == True %}
             <tr class="class_handle_context_table_tr">
                 <td class="class_handle_context_table_td" id="id_issues_id">{{ topics["issues_id"] }}</td>
                 <td class="class_handle_context_table_td" id="id_issues_keynote_chinese_name">{{ topics["keynote_chinese_name"] }}</td>
                 <td class="class_handle_context_table_td" id="id_issues_issues_title">{{ topics["issues_brief"] }}</td>
                 <td class="class_handle_context_table_td" id="id_issues_finish_date">{{ topics["actual_date_time"] }}</td>
+                <td class="class_handle_context_table_td" id="id_issues_finish_score">{{ topics["issues_score"] }}</td>
             </tr>
-            {% end %}
             {% end %}
             </tbody>
         </table>
         </form>
     </div>
+    {% end %}
 </div>
 
 {% end %}

@@ -9,6 +9,7 @@ from methods.debug import *
 from handlers.decorator import handles_get_auth
 from handlers.decorator import handles_post_auth
 from orm.users_info import UsersInfoModule
+from methods.toolkits import SerialNumberToolKits
 
 
 #继承 base.py 中的类 BaseHandler
@@ -95,7 +96,10 @@ class ApplicationsHandler(BaseHandler):
             logging.error("current topics is exit")
             return False
 
+        serial_number = SerialNumberToolKits()
+
         topic_module = IssuesInfoModule()
+        topic_module.id = serial_number.get_serial_number_by_string(4)
         topic_module.user_name = topic_user
         topic_module.issues_title = topic_name
         topic_module.issues_brief = topic_brief

@@ -61,6 +61,10 @@
                         <label class="class_admin_context_details_label">议题时间: </label>
                         <p class="class_admin_context_details_paragraph">{% raw topics["date_time"]%}</p>
                     </div>
+                    <div>
+                        <label class="class_admin_context_details_label">议题热度: </label>
+                        <p class="class_admin_context_details_paragraph">感兴趣：【{{ topics["interested_count"] }}】人 不感兴趣：【{{ topics["uninterested_count"] }}】</p>
+                    </div>
                 </div>
                 {% end %}
             </div>

@@ -31,17 +31,15 @@
 
  {{ modules.Subtitle(controller, language_mapping) }}
     <div>
-        {% set current_issues = False %}
+        {% set issues_exist = False %}
         {% for topics in  topics_table %}
-            {% if topics["current"] == True %}
-                {% set current_issues = True %}
-            {% end %}
+                {% set issues_exist = True %}
         {% end %}
-        {% if current_issues is False %}
+
+        {% if issues_exist is False %}
             <p> 当前无议题</p>
         {% end %}
         {% for topics in  topics_table %}
-            {% if topics["current"] == True %}
             <div class="class_issues_info">
                 <div class="class_context_topic_id">
                     <label class="class_context_topic_details_id">议题编号:{% raw topics["issues_id"] %}</label>
@@ -55,13 +53,13 @@
                     <h4>议题时间:</h4>
                     <div class="topic_time">{% raw topics["date_time"] %}</div>
                 </div>
+                 <h6>感兴趣:【{{ topics["interested_count"] }}】人，不感兴趣:【{{ topics["uninterested_count"] }}】人</h6>
                 <div class="class_topic_assessment_button_layout">
                     <input type="button" class="class_topic_assessment_button" id={{ topics["issues_id"] }} value="感兴趣"/>
                     <input type="button" class="class_topic_assessment_button" id={{ topics["issues_id"] }} value="不感兴趣"/>
                 </div>
 
             </div>
-            {% end %}
         {% end %}
     </div>
 </div>

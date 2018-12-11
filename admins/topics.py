@@ -9,6 +9,7 @@ from methods.debug import *
 from admins.decorator import admin_get_auth
 from admins.decorator import admin_post_auth
 from orm.users_info import UsersInfoModule
+from methods.toolkits import SerialNumberToolKits
 
 
 # 继承 base.py 中的类 BaseHandler
@@ -98,9 +99,10 @@ class AdminTopicsHandler(BaseHandler):
                 "issues_title": issues.issues_title, "keynote_chinese_name": issues.chinese_name,
                 "current": issues.current, "finish": issues.finish,  "date_time": issues.expect_date_time,
                 "issues_brief": issues.issues_brief, "issues_score": issues.issues_score,
-                "issues_meeting_room": issues.issues_meeting_room,
-                "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply
-                   }
+                "issues_meeting_room": issues.issues_meeting_room, "interested_count": issues.interested_count,
+                "issues_evaluate_finish": issues.issues_evaluate_finish, "voluntary_apply": issues.voluntary_apply,
+                "uninterested_count": issues.uninterested_count
+            }
             issues_tables.append(tmp)
 
         return issues_tables
@@ -111,7 +113,9 @@ class AdminTopicsHandler(BaseHandler):
             logging.error("current issues is exit")
             return False
 
+        serial_number = SerialNumberToolKits()
         topic_module = IssuesInfoModule()
+        topic_module.id = serial_number.get_serial_number_by_string(4)
         topic_module.issues_title = topic_name
         topic_module.issues_brief = topic_brief
         topic_module.expect_date_time = topic_date

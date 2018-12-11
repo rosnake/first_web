@@ -14,7 +14,7 @@ class AssessmentInfoModule(DataBase):
     __tablename__ = 'assessment_info'
 
     id = Column(Integer, primary_key=True)
-    issues_id = Column(Integer, nullable=False, index=True)   # 议题ID
+    issues_id = Column(String(64), nullable=False, index=True)   # 议题ID
     assessment_user_name = Column(String(64), nullable=False, index=True)  # 评估者用户名
     assessment_time = Column(DateTime, default=datetime.now())  # 评估时间
 

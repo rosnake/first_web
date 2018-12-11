@@ -4,6 +4,9 @@
 import datetime
 import time
 from methods.debug import *
+import random
+import string
+
 
 class DateToolKits:
     def __init__(self):
@@ -69,3 +72,24 @@ class DateToolKits:
             return True
         else:
             return False
+
+class SerialNumberToolKits:
+
+    def get_serial_number_by_string(self, random_num):
+        now_time = datetime.datetime.now()
+        now_second_str = now_time.strftime('%Y%m%d%H%M%S')  # 现在
+        random_str = ''.join(random.sample(string.digits, random_num))
+        serial_number = now_second_str + random_str
+        logging.info("serial_number:" + serial_number)
+        return serial_number
+
+    def get_serial_number_by_digits(self, random_num):
+        now_time = datetime.datetime.now()
+        now_second_str = now_time.strftime('%Y%m%d%H%M%S')  # 现在
+        random_str = ''.join(random.sample(string.digits, random_num))
+        serial_number = now_second_str + random_str
+        logging.info("serial_number:" + serial_number)
+
+        digits_num = int(serial_number)
+
+        return digits_num

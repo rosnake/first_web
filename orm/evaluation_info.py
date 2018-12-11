@@ -14,7 +14,7 @@ class EvaluationInfoModule(DataBase):
     __tablename__ = 'evaluation_info'
 
     id = Column(Integer, primary_key=True)
-    issues_id = Column(Integer, nullable=False, index=True)   # 议题ID
+    issues_id = Column(String(64), nullable=False, index=True)   # 议题ID
     issues_title = Column(String(64), nullable=False, index=False)  # 议题名称
     keynote_user_name = Column(String(64), nullable=False, index=True)  # 主讲人用户名
     evaluate_user_name = Column(String(64), nullable=False, index=True)  # 评价者用户名
